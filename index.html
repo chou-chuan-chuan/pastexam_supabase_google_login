@@ -12,11 +12,16 @@
     <div class="header-inner">
       <a class="brand" href="./">
         <span class="brand-mark">PE</span>
-        <span><strong>Past Exam Library</strong><small>Search, preview, and submit exams</small></span>
+        <span>
+          <strong>Past Exam Library</strong>
+          <small>Search, preview, and submit exams</small>
+        </span>
       </a>
+
       <div class="account-area">
         <span id="userLabel" class="user-label">Browsing as guest</span>
-        <button id="googleSignInButton" class="button google-button">
+
+        <button id="googleSignInButton" class="button google-button" type="button">
           <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19">
             <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z"/>
             <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.38l-3.24-2.53c-.9.6-2.05.96-3.38.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z"/>
@@ -25,9 +30,10 @@
           </svg>
           <span>Sign in with Google</span>
         </button>
+
         <a id="adminPageLink" class="button secondary hidden" href="./admin.html">Admin</a>
-        <button id="signOutButton" class="button secondary hidden">Sign out</button>
-        <button id="openUploadButton" class="button primary" disabled>Upload exam</button>
+        <button id="signOutButton" class="button secondary hidden" type="button">Sign out</button>
+        <button id="openUploadButton" class="button primary" type="button" disabled>Upload exam</button>
       </div>
     </div>
   </header>
@@ -36,55 +42,71 @@
     <section id="setupNotice" class="notice warning hidden">
       <strong>Setup incomplete.</strong> Edit <code>config.js</code> and paste your Supabase publishable key.
     </section>
+
     <section id="messageBox" class="notice hidden" role="status" aria-live="polite"></section>
 
     <section class="hero">
       <div>
         <p class="eyebrow">Shared study archive</p>
-        <h2>Find the exam you need.</h2>
+        <h1>Find the exam you need.</h1>
         <p>Approved exams are public. Sign in with Google to upload a PDF for review.</p>
       </div>
-      <div class="hero-stat"><strong id="totalCount">0</strong><span>visible exams</span></div>
+      <div class="hero-stat">
+        <strong id="totalCount">0</strong>
+        <span>visible exams</span>
+      </div>
     </section>
 
     <section class="toolbar">
       <input id="searchInput" type="search" placeholder="Search course, teacher, notes, or year…" aria-label="Search exams">
       <select id="typeFilter" aria-label="Filter by exam type">
-        <option value="">All exam types</option><option>Midterm</option><option>Final</option>
-        <option>Quiz</option><option>Homework</option><option>Solution</option><option>Other</option>
+        <option value="">All exam types</option>
+        <option>Midterm</option>
+        <option>Final</option>
+        <option>Quiz</option>
+        <option>Homework</option>
+        <option>Solution</option>
+        <option>Other</option>
       </select>
-      <select id="yearFilter" aria-label="Filter by year"><option value="">All years</option></select>
-      <button id="clearFiltersButton" class="button secondary">Clear</button>
+      <select id="yearFilter" aria-label="Filter by year">
+        <option value="">All years</option>
+      </select>
+      <button id="clearFiltersButton" class="button secondary" type="button">Clear</button>
     </section>
 
     <section class="list-heading">
-      <div><h2>Exam archive</h2><p id="listDescription">Showing approved exams.</p></div>
-      <button id="refreshButton" class="text-button">Refresh</button>
+      <div>
+        <h2>Exam archive</h2>
+        <p id="listDescription">Showing approved exams.</p>
+      </div>
+      <button id="refreshButton" class="text-button" type="button">Refresh</button>
     </section>
 
-    <section id="loadingState" class="state-panel"><div class="spinner"></div><p>Loading exams…</p></section>
+    <section id="loadingState" class="state-panel">
+      <div class="spinner"></div>
+      <p>Loading exams…</p>
+    </section>
+
     <section id="examGrid" class="exam-grid hidden" aria-live="polite"></section>
-    <section id="emptyState" class="state-panel hidden"><h2>No exams found</h2><p>Change the filters or upload the first exam.</p></section>
+
+    <section id="emptyState" class="state-panel hidden">
+      <h2>No exams found</h2>
+      <p>Change the filters or upload the first exam.</p>
+    </section>
   </main>
 
-
-  <dialog id="previewDialog" class="dialog preview-dialog" aria-labelledby="previewTitle">
-    <div class="preview-dialog-body">
+  <dialog id="previewDialog" class="dialog preview-dialog">
+    <div class="dialog-body preview-dialog-body">
       <div class="dialog-heading preview-heading">
         <div class="preview-title-group">
           <p class="eyebrow">PDF preview</p>
           <h2 id="previewTitle">Past exam</h2>
         </div>
-        <button id="closePreviewButton" type="button" class="icon-button" aria-label="Close PDF preview">×</button>
+        <button id="closePreviewButton" type="button" class="icon-button" aria-label="Close">×</button>
       </div>
 
       <div class="pdf-preview-container">
-        <iframe
-          id="pdfPreviewFrame"
-          class="pdf-preview-frame"
-          title="Past exam PDF preview"
-          allow="fullscreen"
-        ></iframe>
+        <iframe id="pdfPreviewFrame" class="pdf-preview-frame" title="Past exam PDF preview"></iframe>
       </div>
 
       <div class="preview-actions">
@@ -98,20 +120,69 @@
   <dialog id="uploadDialog" class="dialog">
     <form id="uploadForm" class="dialog-body">
       <div class="dialog-heading">
-        <div><p class="eyebrow">New submission</p><h2>Upload a past exam</h2></div>
+        <div>
+          <p class="eyebrow">New submission</p>
+          <h2>Upload a past exam</h2>
+        </div>
         <button type="button" class="icon-button" data-close="uploadDialog" aria-label="Close">×</button>
       </div>
+
       <p class="muted">Uploads remain <strong>pending</strong> until an administrator approves them.</p>
-      <label class="field"><span>Course name *</span><input id="courseInput" required maxlength="120"></label>
-      <label class="field"><span>Teacher</span><input id="teacherInput" maxlength="120"></label>
+
+      <label class="field">
+        <span>Course name *</span>
+        <input id="courseInput" required maxlength="120">
+      </label>
+
+      <label class="field">
+        <span>Teacher</span>
+        <input id="teacherInput" maxlength="120">
+      </label>
+
       <div class="field-row">
-        <label class="field"><span>Year *</span><input id="yearInput" type="number" min="1900" max="2100" required></label>
-        <label class="field"><span>Semester</span><select id="semesterInput"><option>Spring</option><option>Fall</option><option>Summer</option><option>Winter</option></select></label>
+        <label class="field">
+          <span>Year *</span>
+          <input id="yearInput" type="number" min="1900" max="2100" required>
+        </label>
+
+        <label class="field">
+          <span>Semester</span>
+          <select id="semesterInput">
+            <option>Spring</option>
+            <option>Fall</option>
+            <option>Summer</option>
+            <option>Winter</option>
+          </select>
+        </label>
       </div>
-      <label class="field"><span>Exam type</span><select id="examTypeInput"><option>Midterm</option><option>Final</option><option>Quiz</option><option>Homework</option><option>Solution</option><option>Other</option></select></label>
-      <label class="field"><span>Notes</span><textarea id="notesInput" rows="3" maxlength="1000"></textarea></label>
-      <label class="field"><span>PDF file * <small>(maximum 20 MB)</small></span><input id="pdfInput" type="file" accept="application/pdf,.pdf" required></label>
-      <div id="uploadProgress" class="upload-progress hidden"><div class="spinner"></div><span>Uploading and saving…</span></div>
+
+      <label class="field">
+        <span>Exam type</span>
+        <select id="examTypeInput">
+          <option>Midterm</option>
+          <option>Final</option>
+          <option>Quiz</option>
+          <option>Homework</option>
+          <option>Solution</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Notes</span>
+        <textarea id="notesInput" rows="3" maxlength="1000"></textarea>
+      </label>
+
+      <label class="field">
+        <span>PDF file * <small>(maximum <span id="maxFileSizeLabel">20 MB</span>)</small></span>
+        <input id="pdfInput" type="file" accept="application/pdf,.pdf" required>
+      </label>
+
+      <div id="uploadProgress" class="upload-progress hidden">
+        <div class="spinner"></div>
+        <span>Uploading and saving…</span>
+      </div>
+
       <div class="dialog-actions">
         <button type="button" class="button secondary" data-close="uploadDialog">Cancel</button>
         <button id="submitUploadButton" type="submit" class="button primary">Submit exam</button>
@@ -119,7 +190,80 @@
     </form>
   </dialog>
 
-  <footer class="site-footer">Google handles sign-in. PDFs are stored in Supabase Storage and exam details in Supabase Database.</footer>
+  <dialog id="editDialog" class="dialog">
+    <form id="editForm" class="dialog-body">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Pending submission</p>
+          <h2>Edit exam information</h2>
+        </div>
+        <button type="button" class="icon-button" data-close="editDialog" aria-label="Close">×</button>
+      </div>
+
+      <p class="muted">
+        You can edit this information while the submission is pending. The uploaded PDF will not be changed.
+      </p>
+
+      <label class="field">
+        <span>Course name *</span>
+        <input id="editCourseInput" required maxlength="120">
+      </label>
+
+      <label class="field">
+        <span>Teacher</span>
+        <input id="editTeacherInput" maxlength="120">
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span>Year *</span>
+          <input id="editYearInput" type="number" min="1900" max="2100" required>
+        </label>
+
+        <label class="field">
+          <span>Semester</span>
+          <select id="editSemesterInput">
+            <option>Spring</option>
+            <option>Fall</option>
+            <option>Summer</option>
+            <option>Winter</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Exam type</span>
+        <select id="editExamTypeInput">
+          <option>Midterm</option>
+          <option>Final</option>
+          <option>Quiz</option>
+          <option>Homework</option>
+          <option>Solution</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Notes</span>
+        <textarea id="editNotesInput" rows="3" maxlength="1000"></textarea>
+      </label>
+
+      <div id="editProgress" class="upload-progress hidden">
+        <div class="spinner"></div>
+        <span>Saving changes…</span>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="button secondary" data-close="editDialog">Cancel</button>
+        <button id="saveEditButton" type="submit" class="button primary">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="site-footer">
+    Google handles sign-in. PDFs are stored in Supabase Storage and exam details in Supabase Database.
+  </footer>
+
   <script type="module" src="./assets/app.js"></script>
 </body>
 </html>
