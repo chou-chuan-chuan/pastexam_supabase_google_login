@@ -15,3 +15,23 @@
 .google-button{gap:9px;border:1px solid #cdd5df;color:#25324a;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.06)}
 .google-button:hover:not(:disabled){background:#f8fafc;border-color:#b8c2cf}
 .google-button svg{flex:0 0 auto}
+
+/* Same-page PDF preview */
+.preview-dialog{width:min(1120px,calc(100% - 24px));height:min(900px,calc(100vh - 24px));max-height:calc(100vh - 24px)}
+.preview-dialog-body{display:flex;flex-direction:column;height:100%;min-height:0;padding:22px}
+.preview-heading{flex:0 0 auto;margin-bottom:14px}
+.preview-title-group{min-width:0}
+.preview-title-group h2{overflow:hidden;max-width:75vw;text-overflow:ellipsis;white-space:nowrap}
+.pdf-preview-container{flex:1;min-height:0;overflow:hidden;border:1px solid var(--border);border-radius:13px;background:#eef2f7}
+.pdf-preview-frame{display:block;width:100%;height:100%;min-height:520px;border:0;background:#eef2f7}
+.preview-actions{display:flex;flex:0 0 auto;justify-content:flex-end;gap:10px;margin-top:14px}
+
+@media(max-width:620px){
+  .preview-dialog{width:calc(100% - 10px);height:calc(100vh - 10px);max-height:calc(100vh - 10px);border-radius:14px}
+  .preview-dialog-body{padding:13px}
+  .preview-title-group h2{max-width:68vw;font-size:1.1rem}
+  .pdf-preview-frame{min-height:300px}
+  .preview-actions{display:grid;grid-template-columns:1fr 1fr}
+  .preview-actions .button{width:100%}
+  #closePreviewFooterButton{grid-column:1/-1;grid-row:2}
+}

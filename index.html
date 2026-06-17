@@ -66,6 +66,34 @@
     <section id="emptyState" class="state-panel hidden"><h2>No exams found</h2><p>Change the filters or upload the first exam.</p></section>
   </main>
 
+
+  <dialog id="previewDialog" class="dialog preview-dialog" aria-labelledby="previewTitle">
+    <div class="preview-dialog-body">
+      <div class="dialog-heading preview-heading">
+        <div class="preview-title-group">
+          <p class="eyebrow">PDF preview</p>
+          <h2 id="previewTitle">Past exam</h2>
+        </div>
+        <button id="closePreviewButton" type="button" class="icon-button" aria-label="Close PDF preview">×</button>
+      </div>
+
+      <div class="pdf-preview-container">
+        <iframe
+          id="pdfPreviewFrame"
+          class="pdf-preview-frame"
+          title="Past exam PDF preview"
+          allow="fullscreen"
+        ></iframe>
+      </div>
+
+      <div class="preview-actions">
+        <button id="closePreviewFooterButton" type="button" class="button secondary">Close</button>
+        <a id="openPdfButton" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+        <a id="downloadPdfButton" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="uploadDialog" class="dialog">
     <form id="uploadForm" class="dialog-body">
       <div class="dialog-heading">

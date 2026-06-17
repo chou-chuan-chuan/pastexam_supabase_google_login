@@ -15,7 +15,11 @@ const el = {
   search: $("#searchInput"), typeFilter: $("#typeFilter"), yearFilter: $("#yearFilter"),
   clearFilters: $("#clearFiltersButton"), refresh: $("#refreshButton"), total: $("#totalCount"),
   listDescription: $("#listDescription"), loading: $("#loadingState"), grid: $("#examGrid"),
-  empty: $("#emptyState")
+  empty: $("#emptyState"),
+  previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"),
+  previewFrame: $("#pdfPreviewFrame"), closePreview: $("#closePreviewButton"),
+  closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"),
+  downloadPdf: $("#downloadPdfButton")
 };
 
 let currentUser = null;
@@ -91,6 +95,28 @@ function node(tag, className, text) {
   return item;
 }
 
+function openPdfPreview(exam) {
+  const url = fileUrl(exam.file_path);
+  const title = exam.course || exam.original_filename || "Past exam";
+
+  el.previewTitle.textContent = title;
+  el.previewFrame.src = `${url}#view=FitH&toolbar=1&navpanes=0`;
+  el.openPdf.href = url;
+  el.downloadPdf.href = url;
+  el.downloadPdf.setAttribute("download", exam.original_filename || "exam.pdf");
+  el.previewDialog.showModal();
+}
+
+function closePdfPreview() {
+  if (el.previewDialog.open) el.previewDialog.close();
+}
+
+function clearPdfPreview() {
+  el.previewFrame.removeAttribute("src");
+  el.openPdf.href = "#";
+  el.downloadPdf.href = "#";
+}
+
 function examCard(exam) {
   const card = node("article", "exam-card");
   const top = node("div", "card-top");
@@ -108,8 +134,9 @@ function examCard(exam) {
 
   const actions = node("div", "card-actions");
   const url = fileUrl(exam.file_path);
-  const preview = node("a", "button primary", "Preview");
-  preview.href = url; preview.target = "_blank"; preview.rel = "noopener noreferrer";
+  const preview = node("button", "button primary", "Preview");
+  preview.type = "button";
+  preview.addEventListener("click", () => openPdfPreview(exam));
   const download = node("a", "button secondary", "Download");
   download.href = url; download.target = "_blank"; download.rel = "noopener noreferrer";
   actions.append(preview, download);
@@ -261,6 +288,12 @@ function bind() {
   el.signOut.addEventListener("click", signOut);
   el.uploadForm.addEventListener("submit", uploadExam);
   el.refresh.addEventListener("click", loadExams);
+  el.closePreview.addEventListener("click", closePdfPreview);
+  el.closePreviewFooter.addEventListener("click", closePdfPreview);
+  el.previewDialog.addEventListener("close", clearPdfPreview);
+  el.previewDialog.addEventListener("click", (event) => {
+    if (event.target === el.previewDialog) closePdfPreview();
+  });
   document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.close).close()));
   [el.search, el.typeFilter, el.yearFilter].forEach((control) => { control.addEventListener("input", render); control.addEventListener("change", render); });
   el.clearFilters.addEventListener("click", () => { el.search.value = ""; el.typeFilter.value = ""; el.yearFilter.value = ""; render(); });
