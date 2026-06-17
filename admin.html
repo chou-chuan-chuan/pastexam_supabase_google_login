@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Administrator review interface for the Past Exam Library">
+  <title>Review Exams · Past Exam Library</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body class="admin-page-body">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./">
+        <span class="brand-mark">PE</span>
+        <span><strong>Past Exam Library</strong><small>Administrator review</small></span>
+      </a>
+      <div class="account-area">
+        <span id="adminUserLabel" class="user-label">Not signed in</span>
+        <a class="button secondary" href="./">Public archive</a>
+        <button id="adminGoogleSignInButton" class="button google-button">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19">
+            <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z"/>
+            <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.38l-3.24-2.53c-.9.6-2.05.96-3.38.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z"/>
+            <path fill="#FBBC05" d="M6.39 13.92A6.02 6.02 0 0 1 6.08 12c0-.67.11-1.32.31-1.92V7.47H3.04A10 10 0 0 0 2 12c0 1.61.38 3.14 1.04 4.53l3.35-2.61Z"/>
+            <path fill="#EA4335" d="M12 5.95c1.47 0 2.79.51 3.83 1.5l2.87-2.87A9.63 9.63 0 0 0 12 2a10 10 0 0 0-8.96 5.47l3.35 2.61C7.18 7.71 9.39 5.95 12 5.95Z"/>
+          </svg>
+          <span>Sign in with Google</span>
+        </button>
+        <button id="adminSignOutButton" class="button secondary hidden">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page admin-page">
+    <section id="adminSetupNotice" class="notice warning hidden">
+      <strong>Setup incomplete.</strong> Keep your existing <code>config.js</code> beside this page and run <code>supabase/admin_setup.sql</code> in Supabase.
+    </section>
+    <section id="adminMessageBox" class="notice hidden" role="status" aria-live="polite"></section>
+
+    <section id="adminSignedOutState" class="admin-access-panel">
+      <p class="eyebrow">Restricted area</p>
+      <h1>Review submitted exams</h1>
+      <p>Sign in using the administrator Google account. Database policies will verify the account before any submissions are shown.</p>
+      <button id="adminPanelSignInButton" class="button primary">Sign in as administrator</button>
+    </section>
+
+    <section id="adminDeniedState" class="admin-access-panel hidden">
+      <p class="eyebrow">Access denied</p>
+      <h1>This account is not an administrator</h1>
+      <p id="adminDeniedDescription">Sign out and use the designated administrator account.</p>
+      <button id="adminDeniedSignOutButton" class="button secondary">Sign out</button>
+    </section>
+
+    <div id="adminDashboard" class="hidden">
+      <section class="admin-hero">
+        <div>
+          <p class="eyebrow">Review dashboard</p>
+          <h2>Examine, approve, or reject submissions.</h2>
+          <p>Preview each PDF on this page before changing its public status.</p>
+        </div>
+        <div class="admin-stat-grid" aria-label="Submission counts">
+          <div class="admin-stat"><strong id="pendingCount">0</strong><span>Pending</span></div>
+          <div class="admin-stat"><strong id="approvedCount">0</strong><span>Approved</span></div>
+          <div class="admin-stat"><strong id="rejectedCount">0</strong><span>Rejected</span></div>
+        </div>
+      </section>
+
+      <section class="admin-toolbar">
+        <input id="adminSearchInput" type="search" placeholder="Search course, teacher, filename, or uploader ID…" aria-label="Search submissions">
+        <select id="adminStatusFilter" aria-label="Filter by review status">
+          <option value="pending">Pending first</option>
+          <option value="">All statuses</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <button id="adminRefreshButton" class="button secondary">Refresh</button>
+      </section>
+
+      <section class="list-heading">
+        <div>
+          <h2>Submissions</h2>
+          <p id="adminListDescription">Showing pending submissions.</p>
+        </div>
+      </section>
+
+      <section id="adminLoadingState" class="state-panel hidden"><div class="spinner"></div><p>Loading submissions…</p></section>
+      <section id="adminExamGrid" class="admin-exam-grid" aria-live="polite"></section>
+      <section id="adminEmptyState" class="state-panel hidden"><h2>No submissions found</h2><p>Try another status or search phrase.</p></section>
+    </div>
+  </main>
+
+  <dialog id="adminPreviewDialog" class="dialog preview-dialog" aria-labelledby="adminPreviewTitle">
+    <div class="preview-dialog-body">
+      <div class="dialog-heading preview-heading">
+        <div class="preview-title-group">
+          <p class="eyebrow">PDF review</p>
+          <h2 id="adminPreviewTitle">Past exam</h2>
+        </div>
+        <button id="adminClosePreviewButton" type="button" class="icon-button" aria-label="Close PDF preview">×</button>
+      </div>
+      <div class="pdf-preview-container">
+        <iframe id="adminPdfPreviewFrame" class="pdf-preview-frame" title="Submitted exam PDF preview" allow="fullscreen"></iframe>
+      </div>
+      <div class="preview-actions">
+        <button id="adminClosePreviewFooterButton" type="button" class="button secondary">Close</button>
+        <a id="adminOpenPdfButton" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+        <a id="adminDownloadPdfButton" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Download</a>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">Administrator actions are authorized by Supabase Row Level Security.</footer>
+  <script type="module" src="./assets/admin.js"></script>
+</body>
+</html>
