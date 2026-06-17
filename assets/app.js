@@ -8,6 +8,7 @@ const $ = (selector) => document.querySelector(selector);
 const el = {
   setupNotice: $("#setupNotice"), messageBox: $("#messageBox"), userLabel: $("#userLabel"),
   googleSignIn: $("#googleSignInButton"), signOut: $("#signOutButton"), openUpload: $("#openUploadButton"),
+  adminPage: $("#adminPageLink"),
   uploadDialog: $("#uploadDialog"), uploadForm: $("#uploadForm"), course: $("#courseInput"),
   teacher: $("#teacherInput"), year: $("#yearInput"), semester: $("#semesterInput"),
   examType: $("#examTypeInput"), notes: $("#notesInput"), pdf: $("#pdfInput"),
@@ -23,6 +24,7 @@ const el = {
 };
 
 let currentUser = null;
+let isAdmin = false;
 let exams = [];
 let messageTimer;
 
@@ -53,6 +55,7 @@ function accountUI() {
   el.googleSignIn.classList.toggle("hidden", signedIn);
   el.signOut.classList.toggle("hidden", !signedIn);
   el.openUpload.disabled = !signedIn || !configured;
+  el.adminPage.classList.toggle("hidden", !signedIn || !isAdmin);
   el.listDescription.textContent = signedIn
     ? "Showing approved exams and your own pending submissions."
     : "Showing approved exams. Sign in with Google to upload.";
@@ -187,7 +190,15 @@ async function getSession() {
   const { data, error } = await supabase.auth.getSession();
   if (error) showMessage(errorMessage(error, "Could not read the session."), "error");
   currentUser = data?.session?.user || null;
-  accountUI();
+}
+
+async function refreshAdminAccess() {
+  isAdmin = false;
+  if (!currentUser || !configured) return;
+
+  const { data, error } = await supabase.rpc("is_admin");
+  if (!error) isAdmin = data === true;
+  // Keep the public archive working even before the optional admin SQL is installed.
 }
 
 function appRedirectUrl() {
@@ -305,11 +316,18 @@ async function init() {
   el.year.value = new Date().getFullYear();
   if (!configured) { el.setupNotice.classList.remove("hidden"); accountUI(); return loadExams(); }
   await getSession();
+  await refreshAdminAccess();
+  accountUI();
   await loadExams();
   supabase.auth.onAuthStateChange((_event, session) => {
     currentUser = session?.user || null;
+    isAdmin = false;
     accountUI();
-    setTimeout(loadExams, 0);
+    setTimeout(async () => {
+      await refreshAdminAccess();
+      accountUI();
+      await loadExams();
+    }, 0);
   });
 }
 
