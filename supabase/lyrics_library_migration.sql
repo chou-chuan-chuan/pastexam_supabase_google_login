@@ -1,4 +1,5 @@
--- Lyrics PDF Library: complete setup for a new Supabase project.
+-- Lyrics PDF Library: idempotent, non-destructive migration for an existing project.
+-- It creates the new schema alongside legacy public.exams and past-exams objects.
 -- Run in Supabase Dashboard -> SQL Editor, then run admin_setup.sql.
 
 begin;
