@@ -14,6 +14,10 @@
 - 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
 - 31 個 Node 內建 test runner 測試；沒有 build step 或大型 framework。
 
+## 標題字體
+
+中文主標題、區段標題與重要卡片標題會優先使用本機安裝的「辰宇落雁體」，並依序 fallback 到 `Yuji Syuku`、`Noto Serif TC`、系統宋體與通用 serif；內文維持較易閱讀的 sans-serif。Repository 目前沒有內附 webfont，也不會向未知來源下載字體，因此未安裝「辰宇落雁體」的裝置仍可正常顯示。若要讓所有訪客固定看到該字體，需另行取得可合法用於網站的字體檔，再以 `@font-face` 接入。
+
 ## Supabase project 現況
 
 `config.js` 目前仍指向：
