@@ -25,7 +25,7 @@
 
 ## 品牌圖像
 
-三個頁面的 header 與 browser tab favicon 均使用 `assets/branding/logo-retro.png` 復古唱片／歌詞圖像。PNG 保持原始透明背景，CSS 只以等比例縮放和裁切透明留白來適應桌機與手機頁首，不會加上白底或實色底塊；舊的 `LY` 漸層方塊已移除。
+三個頁面的 header 使用 `assets/branding/logo-retro.png` 復古唱片／歌詞圖像；browser tab 則使用同圖案的 256×256 緊密裁切版 `assets/branding/favicon.png`，讓小尺寸圖示更清楚。兩個 PNG 均保持透明背景，header CSS 只以等比例縮放和裁切透明留白來適應桌機與手機頁首，不會加上白底或實色底塊；舊的 `LY` 漸層方塊已移除。
 
 ## Supabase project 現況
 
