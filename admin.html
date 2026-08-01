@@ -1,115 +1,84 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Administrator review interface for the Past Exam Library">
-  <title>Review Exams · Past Exam Library</title>
+  <meta name="description" content="歌曲歌詞 PDF 資料庫管理員審核與同步歌詞編輯">
+  <title>歌詞管理後台｜歌曲歌詞 PDF 資料庫</title>
   <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body class="admin-page-body">
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="./">
-        <span class="brand-mark">PHYS</span>
-        <span><strong>Past Exam Library</strong><small>Administrator review</small></span>
-      </a>
-      <div class="account-area">
-        <span id="adminUserLabel" class="user-label">Not signed in</span>
-        <a class="button secondary" href="./">Public archive</a>
-        <button id="adminGoogleSignInButton" class="button google-button">
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19">
-            <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z"/>
-            <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.38l-3.24-2.53c-.9.6-2.05.96-3.38.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z"/>
-            <path fill="#FBBC05" d="M6.39 13.92A6.02 6.02 0 0 1 6.08 12c0-.67.11-1.32.31-1.92V7.47H3.04A10 10 0 0 0 2 12c0 1.61.38 3.14 1.04 4.53l3.35-2.61Z"/>
-            <path fill="#EA4335" d="M12 5.95c1.47 0 2.79.51 3.83 1.5l2.87-2.87A9.63 9.63 0 0 0 12 2a10 10 0 0 0-8.96 5.47l3.35 2.61C7.18 7.71 9.39 5.95 12 5.95Z"/>
-          </svg>
-          <span>Sign in with Google</span>
-        </button>
-        <button id="adminSignOutButton" class="button secondary hidden">Sign out</button>
-      </div>
-    </div>
-  </header>
-
+  <header class="site-header"><div class="header-inner"><a class="brand" href="./"><span class="brand-mark">LY</span><span><strong>歌曲歌詞 PDF 資料庫</strong><small>管理員審核與同步編輯</small></span></a><div class="account-area"><span id="adminUserLabel" class="user-label">尚未登入</span><a class="button secondary" href="./">公開資料庫</a><button id="adminGoogleSignInButton" class="button google-button" type="button">使用 Google 登入</button><button id="adminSignOutButton" class="button secondary hidden" type="button">登出</button></div></div></header>
   <main class="page admin-page">
-    <section id="adminSetupNotice" class="notice warning hidden">
-      <strong>Setup incomplete.</strong> Keep your existing <code>config.js</code> beside this page and run <code>supabase/admin_setup.sql</code> in Supabase.
-    </section>
+    <section id="adminSetupNotice" class="notice warning hidden"><strong>尚未完成設定。</strong>請設定有效的 Supabase project，並執行 lyrics schema 與管理員 SQL。</section>
     <section id="adminMessageBox" class="notice hidden" role="status" aria-live="polite"></section>
-
-    <section id="adminSignedOutState" class="admin-access-panel">
-      <p class="eyebrow">Restricted area</p>
-      <h1>Review submitted exams</h1>
-      <p>Sign in using the administrator Google account. Database policies will verify the account before any submissions are shown.</p>
-      <button id="adminPanelSignInButton" class="button primary">Sign in as administrator</button>
-    </section>
-
-    <section id="adminDeniedState" class="admin-access-panel hidden">
-      <p class="eyebrow">Access denied</p>
-      <h1>This account is not an administrator</h1>
-      <p id="adminDeniedDescription">Sign out and use the designated administrator account.</p>
-      <button id="adminDeniedSignOutButton" class="button secondary">Sign out</button>
-    </section>
+    <section id="adminSignedOutState" class="admin-access-panel"><p class="eyebrow">Restricted area</p><h1>歌詞審核與同步工作台</h1><p>登入後由資料庫的 <code>is_admin()</code> 與 RLS 驗證權限。</p><button id="adminPanelSignInButton" class="button primary" type="button">以管理員身分登入</button></section>
+    <section id="adminDeniedState" class="admin-access-panel hidden"><p class="eyebrow">Access denied</p><h1>此帳號不是管理員</h1><p id="adminDeniedDescription">Google 登入已成功，但帳號不在 public.admin_users。</p><button id="adminDeniedSignOutButton" class="button secondary" type="button">登出</button></section>
 
     <div id="adminDashboard" class="hidden">
-      <section class="admin-hero">
-        <div>
-          <p class="eyebrow">Review dashboard</p>
-          <h2>Examine, approve, or reject submissions.</h2>
-          <p>Preview each PDF on this page before changing its public status.</p>
-        </div>
-        <div class="admin-stat-grid" aria-label="Submission counts">
-          <div class="admin-stat"><strong id="pendingCount">0</strong><span>Pending</span></div>
-          <div class="admin-stat"><strong id="approvedCount">0</strong><span>Approved</span></div>
-          <div class="admin-stat"><strong id="rejectedCount">0</strong><span>Rejected</span></div>
-        </div>
-      </section>
+      <section class="admin-hero"><div><p class="eyebrow">Lyrics review desk</p><h1>審核歌曲、校準每一句。</h1><p>管理 PDF、YouTube metadata、同步歌詞與標籤。所有權限仍由 Supabase RLS 執行。</p></div><div class="admin-stat-grid"><div class="admin-stat"><strong id="pendingCount">0</strong><span>待審核</span></div><div class="admin-stat"><strong id="approvedCount">0</strong><span>已通過</span></div><div class="admin-stat"><strong id="rejectedCount">0</strong><span>已退回</span></div></div></section>
 
-      <section class="admin-toolbar">
-        <input id="adminSearchInput" type="search" placeholder="Search course, teacher, filename, or uploader ID…" aria-label="Search submissions">
-        <select id="adminStatusFilter" aria-label="Filter by review status">
-          <option value="pending">Pending first</option>
-          <option value="">All statuses</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
-        </select>
-        <button id="adminRefreshButton" class="button secondary">Refresh</button>
-      </section>
+      <section class="admin-toolbar"><input id="adminSearchInput" type="search" placeholder="搜尋歌曲、歌手、專輯、標籤或上傳者…" aria-label="搜尋歌曲"><select id="adminStatusFilter" aria-label="依狀態篩選"><option value="pending">待審核優先</option><option value="">所有狀態</option><option value="approved">已通過</option><option value="rejected">已退回</option></select><button id="adminRefreshButton" class="button secondary" type="button">重新整理</button></section>
+      <section class="list-heading"><div><h2>歌曲 submissions</h2><p id="adminListDescription">顯示待審核歌曲。</p></div></section>
+      <section id="adminLoadingState" class="state-panel hidden"><div class="spinner"></div><p>載入管理資料…</p></section>
+      <section id="adminSongGrid" class="admin-song-grid" aria-live="polite"></section>
+      <section id="adminEmptyState" class="state-panel hidden"><h2>沒有符合的歌曲</h2><p>請調整狀態或搜尋條件。</p></section>
 
-      <section class="list-heading">
-        <div>
-          <h2>Submissions</h2>
-          <p id="adminListDescription">Showing pending submissions.</p>
-        </div>
+      <section class="tag-admin-panel" aria-labelledby="tagAdminTitle">
+        <div class="panel-heading"><div><p class="eyebrow">Taxonomy</p><h2 id="tagAdminTitle">標籤管理</h2></div><input id="tagSearchInput" class="compact-search" type="search" placeholder="搜尋標籤" aria-label="搜尋標籤"></div>
+        <form id="createTagForm" class="tag-create-form"><label><span>名稱</span><input id="newTagName" required maxlength="80"></label><label><span>Slug</span><input id="newTagSlug" required maxlength="80" pattern="[^\s]+"></label><button id="createTagButton" class="button primary" type="submit">建立標籤</button></form>
+        <p class="muted">名稱輸入時會自動建議 slug；可手動調整。刪除已使用標籤前會顯示影響歌曲數。</p>
+        <div id="tagAdminList" class="tag-admin-list"></div>
       </section>
-
-      <section id="adminLoadingState" class="state-panel hidden"><div class="spinner"></div><p>Loading submissions…</p></section>
-      <section id="adminExamGrid" class="admin-exam-grid" aria-live="polite"></section>
-      <section id="adminEmptyState" class="state-panel hidden"><h2>No submissions found</h2><p>Try another status or search phrase.</p></section>
     </div>
   </main>
 
-  <dialog id="adminPreviewDialog" class="dialog preview-dialog" aria-labelledby="adminPreviewTitle">
-    <div class="preview-dialog-body">
-      <div class="dialog-heading preview-heading">
-        <div class="preview-title-group">
-          <p class="eyebrow">PDF review</p>
-          <h2 id="adminPreviewTitle">Past exam</h2>
-        </div>
-        <button id="adminClosePreviewButton" type="button" class="icon-button" aria-label="Close PDF preview">×</button>
-      </div>
-      <div class="pdf-preview-container">
-        <iframe id="adminPdfPreviewFrame" class="pdf-preview-frame" title="Submitted exam PDF preview" allow="fullscreen"></iframe>
-      </div>
-      <div class="preview-actions">
-        <button id="adminClosePreviewFooterButton" type="button" class="button secondary">Close</button>
-        <a id="adminOpenPdfButton" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
-        <a id="adminDownloadPdfButton" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Download</a>
+  <dialog id="adminPreviewDialog" class="dialog preview-dialog" aria-labelledby="adminPreviewTitle"><div class="dialog-body preview-dialog-body"><div class="dialog-heading preview-heading"><div><p class="eyebrow">PDF review</p><h2 id="adminPreviewTitle">歌詞 PDF</h2></div><button id="adminClosePreviewButton" class="icon-button" type="button" aria-label="關閉 PDF 預覽">×</button></div><div class="pdf-preview-container"><iframe id="adminPdfPreviewFrame" class="pdf-preview-frame" title="待審歌詞 PDF"></iframe></div><div class="preview-actions"><button id="adminClosePreviewFooterButton" class="button secondary" type="button">關閉</button><a id="adminOpenPdfButton" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">另開 PDF</a><a id="adminDownloadPdfButton" class="button primary" href="#" target="_blank" rel="noopener noreferrer">下載 PDF</a></div></div></dialog>
+
+  <dialog id="songEditorDialog" class="dialog editor-dialog" aria-labelledby="songEditorTitle">
+    <div class="dialog-body editor-dialog-body">
+      <div class="dialog-heading"><div><p class="eyebrow">Song editor</p><h2 id="songEditorTitle">歌曲與同步歌詞</h2></div><button id="closeSongEditorButton" class="icon-button" type="button" aria-label="關閉編輯器">×</button></div>
+      <div class="editor-layout">
+        <section class="editor-metadata-panel">
+          <h3>歌曲資料</h3>
+          <form id="songMetadataForm">
+            <div class="field-row"><label class="field"><span>歌曲名稱 *</span><input id="editorTitle" required maxlength="160"></label><label class="field"><span>歌手 *</span><input id="editorArtist" required maxlength="160"></label></div>
+            <div class="field-row"><label class="field"><span>專輯</span><input id="editorAlbum" maxlength="160"></label><label class="field"><span>年份</span><input id="editorYear" type="number" min="1800" max="2100"></label></div>
+            <div class="field-row"><label class="field"><span>語言</span><input id="editorLanguage" maxlength="80"></label><label class="field"><span>曲風</span><input id="editorGenre" maxlength="80"></label></div>
+            <label class="field"><span>YouTube URL *</span><input id="editorYoutube" type="url" required><small id="editorYoutubeStatus"></small></label>
+            <fieldset class="field tag-choice-fieldset"><legend>標籤</legend><div id="editorTagChoices" class="tag-choice-list"></div></fieldset>
+            <label class="field"><span>備註</span><textarea id="editorNotes" rows="3" maxlength="1200"></textarea></label>
+            <button id="saveMetadataButton" class="button primary" type="submit">儲存歌曲資料與標籤</button>
+          </form>
+          <h3>同步用播放器</h3>
+          <div class="youtube-player-shell admin-player-shell"><div id="adminEditorPlayer" aria-label="管理員同步用 YouTube 播放器"></div></div>
+          <div class="sync-toolbar"><strong id="editorCurrentTime">00:00.000</strong><span id="editorPlayerStatus" class="muted">尚未載入</span></div>
+          <a id="editorYoutubeFallback" class="text-button" href="#" target="_blank" rel="noopener noreferrer">前往 YouTube</a>
+        </section>
+
+        <section class="cue-editor-panel">
+          <h3>LRC 匯入</h3>
+          <label class="field"><span>選擇 .lrc 檔案</span><input id="lrcFileInput" type="file" accept=".lrc,text/plain"></label>
+          <label class="field"><span>或貼上 LRC</span><textarea id="lrcTextInput" rows="7" placeholder="[00:12.50]第一句歌詞"></textarea></label>
+          <div class="compact-actions"><button id="previewLrcButton" class="button secondary" type="button">解析並預覽</button><span id="lrcSummary" class="muted"></span></div>
+          <ul id="lrcErrorList" class="validation-list"></ul>
+
+          <h3>手動建立</h3>
+          <label class="field"><span>貼上逐行歌詞</span><textarea id="plainLyricsInput" rows="5" placeholder="每行一句"></textarea></label>
+          <button id="createCueLinesButton" class="button secondary" type="button">建立未標記行</button>
+
+          <div class="cue-editor-heading"><div><h3>時間軸</h3><p class="muted">點選行後播放影片，按「標記目前時間」。</p></div><div class="compact-actions"><button id="addCueButton" class="button secondary" type="button">新增行</button><button id="markCueButton" class="button primary" type="button">標記目前時間</button></div></div>
+          <div class="cue-order-actions"><button id="moveCueUpButton" class="button secondary" type="button">上移</button><button id="moveCueDownButton" class="button secondary" type="button">下移</button><button id="deleteCueButton" class="button danger" type="button">刪除行</button></div>
+          <div id="cueRows" class="cue-rows"></div>
+          <ul id="cueValidationList" class="validation-list"></ul>
+          <p class="shortcut-help">非輸入欄位聚焦時：Enter 標記目前行、↑/↓ 切換行、Ctrl/Cmd+S 儲存。</p>
+          <div class="dialog-actions"><button id="saveCuesButton" class="button primary" type="button">原子替換全部同步歌詞</button></div>
+        </section>
       </div>
     </div>
   </dialog>
 
-  <footer class="site-footer">Administrator actions are authorized by Supabase Row Level Security.</footer>
+  <footer class="site-footer">管理操作由 Supabase RLS 與 <code>is_admin()</code> 授權。本網站不下載 YouTube 內容。</footer>
   <script type="module" src="./assets/admin.js"></script>
 </body>
 </html>

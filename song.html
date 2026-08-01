@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="播放歌曲並閱讀時間同步歌詞與歌詞 PDF">
+  <title>播放與閱讀｜歌曲歌詞 PDF 資料庫</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="./"><span class="brand-mark">LY</span><span><strong>歌曲歌詞 PDF 資料庫</strong><small>播放與閱讀</small></span></a><a class="button secondary" href="./">返回歌曲列表</a></div></header>
+  <main class="page song-detail-page">
+    <section id="songMessage" class="notice hidden" role="status" aria-live="polite"></section>
+    <section id="songLoading" class="state-panel"><div class="spinner"></div><p>載入歌曲、歌詞與 PDF…</p></section>
+    <section id="songContent" class="hidden">
+      <header class="song-detail-header">
+        <div><p class="eyebrow">Now reading</p><h1 id="songTitle">歌曲</h1><p id="songArtist" class="detail-artist"></p><p id="songMeta" class="muted"></p><div id="songTags" class="tag-row"></div></div>
+        <a id="youtubeFallbackLink" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">前往 YouTube</a>
+      </header>
+
+      <div class="reader-layout">
+        <section class="reader-column">
+          <div class="panel-heading"><div><p class="eyebrow">YouTube</p><h2>歌曲播放器</h2></div><span id="playerStatus" class="muted" aria-live="polite">準備播放器…</span></div>
+          <div class="youtube-player-shell"><div id="youtubePlayer" aria-label="YouTube 歌曲播放器"></div></div>
+          <div id="playerError" class="notice error hidden">此影片無法在網站內播放，請前往 YouTube 觀看。</div>
+
+          <div class="lyrics-panel">
+            <div class="panel-heading"><div><p class="eyebrow">Synchronized lyrics</p><h2>同步歌詞</h2></div><span id="currentTimeLabel" class="time-readout">00:00.000</span></div>
+            <div class="sync-controls">
+              <label class="switch-label"><input id="autoScrollToggle" type="checkbox" checked> 自動捲動</label>
+              <label for="offsetInput">顯示校正 <output id="offsetOutput" for="offsetInput">+0.0 秒</output></label>
+              <input id="offsetInput" type="range" min="-5000" max="5000" step="100" value="0">
+            </div>
+            <div id="lyricsEmpty" class="lyrics-empty hidden">此歌曲尚未建立同步歌詞</div>
+            <ol id="lyricsList" class="lyrics-list" aria-live="polite"></ol>
+          </div>
+        </section>
+
+        <section class="pdf-reader-column">
+          <div class="panel-heading"><div><p class="eyebrow">Lyrics PDF</p><h2>歌詞 PDF</h2><p id="pdfFilename" class="muted"></p></div><div class="compact-actions"><a id="openSongPdf" class="button secondary" href="#" target="_blank" rel="noopener noreferrer">另開</a><a id="downloadSongPdf" class="button primary" href="#" target="_blank" rel="noopener noreferrer">下載</a></div></div>
+          <div class="pdf-preview-container detail-pdf"><iframe id="songPdfFrame" class="pdf-preview-frame" title="歌詞 PDF"></iframe></div>
+        </section>
+      </div>
+      <section class="copyright-notice detail-copyright">僅閱讀與分享你擁有權利、取得授權，或依法可使用的歌詞內容。本網站不下載或擷取 YouTube 影片、音訊、字幕或 captions。</section>
+    </section>
+  </main>
+  <script type="module" src="./assets/song.js"></script>
+</body>
+</html>
