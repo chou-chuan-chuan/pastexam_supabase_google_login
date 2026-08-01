@@ -1,8 +1,17 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET } from "../config.js";
+import {
+  SUPABASE_CLIENT_OPTIONS,
+  cleanOAuthCallbackFromBrowser,
+  oauthRedirectUrl,
+  parseOAuthResponse,
+  verifyGoogleAuthConfiguration
+} from "./auth.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
-const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
+const supabase = configured
+  ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS)
+  : null;
 const $ = (selector) => document.querySelector(selector);
 
 const el = {
@@ -40,6 +49,8 @@ let currentUser = null;
 let isAdmin = false;
 let exams = [];
 let messageTimer;
+let authQueue = Promise.resolve();
+let appliedAuthUserId;
 
 function showMessage(text, kind = "info", timeout = 7000) {
   clearTimeout(messageTimer);
@@ -285,13 +296,6 @@ async function deleteExam(exam) {
   await loadExams();
 }
 
-function redirectUrl() {
-  const url = new URL(window.location.href);
-  url.search = "";
-  url.hash = "";
-  return url.href;
-}
-
 async function signInWithGoogle() {
   if (!configured) {
     showMessage("Keep your configured config.js in the project root.", "error", 0);
@@ -300,26 +304,35 @@ async function signInWithGoogle() {
 
   el.headerSignIn.disabled = true;
   el.panelSignIn.disabled = true;
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: redirectUrl() }
-  });
-  el.headerSignIn.disabled = false;
-  el.panelSignIn.disabled = false;
-  if (error) showMessage(errorMessage(error, "Could not start Google sign-in."), "error", 0);
+
+  try {
+    await verifyGoogleAuthConfiguration(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: oauthRedirectUrl(window.location.href, "admin")
+      }
+    });
+
+    if (error) throw error;
+  } catch (error) {
+    showMessage(errorMessage(error, "Could not start Google sign-in."), "error", 0);
+  } finally {
+    el.headerSignIn.disabled = false;
+    el.panelSignIn.disabled = false;
+  }
 }
 
 async function signOut() {
   if (!configured) return;
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut({ scope: "local" });
   if (error) return showMessage(errorMessage(error, "Could not sign out."), "error");
+  await queueAuthSession(null, "SIGNED_OUT");
   showMessage("Signed out.", "success");
-}
-
-function showOAuthErrorFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  const error = params.get("error_description") || params.get("error");
-  if (error) showMessage(error, "error", 0);
 }
 
 async function applySession(session) {
@@ -327,7 +340,34 @@ async function applySession(session) {
   isAdmin = false;
   if (currentUser) await checkAdminAccess();
   updateAccessUI();
-  if (isAdmin) await loadExams();
+  if (isAdmin) {
+    await loadExams();
+  } else {
+    exams = [];
+    updateCounts();
+    render();
+  }
+}
+
+function queueAuthSession(session, event) {
+  authQueue = authQueue
+    .catch((error) => {
+      console.error(error);
+    })
+    .then(async () => {
+      const userId = session?.user?.id || null;
+
+      if (userId === appliedAuthUserId && event !== "USER_UPDATED") {
+        currentUser = session?.user || null;
+        updateAccessUI();
+        return;
+      }
+
+      await applySession(session);
+      appliedAuthUserId = userId;
+    });
+
+  return authQueue;
 }
 
 function bind() {
@@ -348,20 +388,27 @@ function bind() {
 
 async function init() {
   bind();
-  showOAuthErrorFromUrl();
   if (!configured) {
     el.setupNotice.classList.remove("hidden");
     updateAccessUI();
     return;
   }
 
-  const { data, error } = await supabase.auth.getSession();
-  if (error) showMessage(errorMessage(error, "Could not read the session."), "error", 0);
-  await applySession(data?.session || null);
-
-  supabase.auth.onAuthStateChange((_event, session) => {
-    setTimeout(() => applySession(session), 0);
+  const oauthResponse = parseOAuthResponse(window.location.href);
+  supabase.auth.onAuthStateChange((event, session) => {
+    setTimeout(() => void queueAuthSession(session, event), 0);
   });
+
+  const { data, error } = await supabase.auth.getSession();
+  await queueAuthSession(data?.session || null, "GET_SESSION");
+
+  cleanOAuthCallbackFromBrowser();
+
+  if (oauthResponse.error) {
+    showMessage(oauthResponse.error, "error", 0);
+  } else if (error) {
+    showMessage(errorMessage(error, "Could not read the session."), "error", 0);
+  }
 }
 
 init();

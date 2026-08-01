@@ -5,13 +5,24 @@ import {
   STORAGE_BUCKET,
   MAX_FILE_SIZE_BYTES
 } from "../config.js";
+import {
+  SUPABASE_CLIENT_OPTIONS,
+  cleanOAuthCallbackFromBrowser,
+  oauthRedirectUrl,
+  parseOAuthResponse,
+  verifyGoogleAuthConfiguration
+} from "./auth.js";
 
 const configured =
   SUPABASE_URL.startsWith("https://") &&
   !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 
 const supabase = configured
-  ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  ? createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      SUPABASE_CLIENT_OPTIONS
+    )
   : null;
 
 const $ = (selector) => document.querySelector(selector);
@@ -74,6 +85,8 @@ let isAdmin = false;
 let exams = [];
 let editingExamId = null;
 let messageTimer;
+let authQueue = Promise.resolve();
+let appliedAuthUserId;
 
 function showMessage(text, kind = "info", timeout = 7000) {
   clearTimeout(messageTimer);
@@ -350,21 +363,6 @@ async function loadExams() {
   render();
 }
 
-async function getSession() {
-  if (!configured) return;
-
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error) {
-    showMessage(
-      errorMessage(error, "Could not read the session."),
-      "error"
-    );
-  }
-
-  currentUser = data?.session?.user || null;
-}
-
 async function refreshAdminAccess() {
   isAdmin = false;
 
@@ -378,11 +376,6 @@ async function refreshAdminAccess() {
   }
 }
 
-function appRedirectUrl() {
-  // Preserves a GitHub Pages repository path such as /pastexam/.
-  return new URL(".", window.location.href).href;
-}
-
 async function signInWithGoogle() {
   if (!configured) {
     showMessage(
@@ -394,27 +387,34 @@ async function signInWithGoogle() {
 
   el.googleSignIn.disabled = true;
 
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: appRedirectUrl()
-    }
-  });
+  try {
+    await verifyGoogleAuthConfiguration(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-  // Successful OAuth redirects the browser, so this normally runs on error.
-  el.googleSignIn.disabled = false;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: oauthRedirectUrl(window.location.href, "home")
+      }
+    });
 
-  if (error) {
+    if (error) throw error;
+  } catch (error) {
     showMessage(
       errorMessage(error, "Could not start Google sign-in."),
       "error",
       0
     );
+  } finally {
+    // The page navigates away after success; failures leave the button usable.
+    el.googleSignIn.disabled = false;
   }
 }
 
 async function signOut() {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut({ scope: "local" });
 
   if (error) {
     showMessage(
@@ -424,6 +424,7 @@ async function signOut() {
     return;
   }
 
+  await queueAuthSession(null, "SIGNED_OUT");
   showMessage("Signed out.", "success");
 }
 
@@ -651,14 +652,33 @@ async function deletePending(exam) {
   await loadExams();
 }
 
-function showOAuthErrorFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  const error =
-    params.get("error_description") || params.get("error");
+async function applyAuthSession(session) {
+  currentUser = session?.user || null;
+  isAdmin = false;
+  await refreshAdminAccess();
+  accountUI();
+  await loadExams();
+}
 
-  if (error) {
-    showMessage(error, "error", 0);
-  }
+function queueAuthSession(session, event) {
+  authQueue = authQueue
+    .catch((error) => {
+      console.error(error);
+    })
+    .then(async () => {
+      const userId = session?.user?.id || null;
+
+      if (userId === appliedAuthUserId && event !== "USER_UPDATED") {
+        currentUser = session?.user || null;
+        accountUI();
+        return;
+      }
+
+      await applyAuthSession(session);
+      appliedAuthUserId = userId;
+    });
+
+  return authQueue;
 }
 
 function bind() {
@@ -714,7 +734,6 @@ function bind() {
 
 async function init() {
   bind();
-  showOAuthErrorFromUrl();
 
   el.year.value = new Date().getFullYear();
   el.maxFileSizeLabel.textContent = maximumFileSizeText();
@@ -726,22 +745,23 @@ async function init() {
     return;
   }
 
-  await getSession();
-  await refreshAdminAccess();
-  accountUI();
-  await loadExams();
-
-  supabase.auth.onAuthStateChange((_event, session) => {
-    currentUser = session?.user || null;
-    isAdmin = false;
-    accountUI();
-
-    setTimeout(async () => {
-      await refreshAdminAccess();
-      accountUI();
-      await loadExams();
-    }, 0);
+  const oauthResponse = parseOAuthResponse(window.location.href);
+  supabase.auth.onAuthStateChange((event, session) => {
+    // Keep Supabase calls outside the synchronous auth callback.
+    setTimeout(() => void queueAuthSession(session, event), 0);
   });
+
+  const { data, error } = await supabase.auth.getSession();
+  await queueAuthSession(data?.session || null, "GET_SESSION");
+
+  // Supabase has now had the opportunity to exchange a PKCE code exactly once.
+  cleanOAuthCallbackFromBrowser();
+
+  if (oauthResponse.error) {
+    showMessage(oauthResponse.error, "error", 0);
+  } else if (error) {
+    showMessage(errorMessage(error, "Could not read the session."), "error", 0);
+  }
 }
 
 init();
