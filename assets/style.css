@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "ChenYuluoyan Web";
+  src: url("./fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --ink: #172033;
   --muted: #687386;
@@ -11,7 +19,7 @@
   --danger: #b42318;
   --warning: #9a6700;
   --shadow: 0 18px 55px rgba(31, 24, 58, .12);
-  --font-display: "辰宇落雁體", "Yuji Syuku", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-display: "ChenYuluoyan Web", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
   --heading-hero-size: clamp(1.8rem, 4.2vw, 3.65rem);
   --heading-page-size: clamp(1.75rem, 3.6vw, 3rem);
   --heading-section-size: clamp(1.25rem, 1.8vw, 1.55rem);
@@ -23,7 +31,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { min-width: 320px; margin: 0; background: radial-gradient(circle at 0 0, #f4ebff 0, transparent 30rem), var(--canvas); }
-h1, h2, h3 { font-family: var(--font-display); line-height: 1.24; letter-spacing: .015em; overflow-wrap: anywhere; text-wrap: balance; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.24; letter-spacing: .015em; overflow-wrap: anywhere; text-wrap: balance; }
 button, input, select, textarea { font: inherit; }
 button, .button { cursor: pointer; }
 .hidden { display: none !important; }

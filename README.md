@@ -16,7 +16,12 @@
 
 ## 標題字體
 
-中文主標題、區段標題與重要卡片標題會優先使用本機安裝的「辰宇落雁體」，並依序 fallback 到 `Yuji Syuku`、`Noto Serif TC`、系統宋體與通用 serif；內文維持較易閱讀的 sans-serif。Repository 目前沒有內附 webfont，也不會向未知來源下載字體，因此未安裝「辰宇落雁體」的裝置仍可正常顯示。若要讓所有訪客固定看到該字體，需另行取得可合法用於網站的字體檔，再以 `@font-face` 接入。
+展示標題使用「辰宇落雁體」不等寬 2.0 細體，原始檔取自[官方 `Chenyu-otf/chenyuluoyan_thin` repository](https://github.com/Chenyu-otf/chenyuluoyan_thin)，依 SIL Open Font License 1.1 隨網站散布。未修改的字體與官方授權檔位於：
+
+- `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
+- `assets/fonts/chenyuluoyan/license.txt`
+
+`assets/style.css` 以 `@font-face` 將它註冊為 `ChenYuluoyan Web`，只套用於 hero、頁面／區段／dialog 標題及重要歌曲標題，並使用原生細體 `font-weight: 400`。內文、表單、按鈕與小字維持較易閱讀的 sans-serif；若字體因網路或瀏覽器限制無法載入，才會依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
 ## Supabase project 現況
 
