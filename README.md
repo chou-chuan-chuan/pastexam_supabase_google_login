@@ -1,144 +1,130 @@
-# Past Exam Library — Google Login + GitHub Pages + Supabase
+# 歌曲歌詞 PDF 資料庫
 
-This static GitHub Pages site uses Google OAuth through Supabase Authentication.
-The public archive is `index.html`; the administrator interface is `admin.html`.
+這個專案已從「考古題 PDF 檔案庫」完整改造成 GitHub Pages 相容的歌曲歌詞資料庫。使用者可以上傳有權使用的歌詞 PDF、搜尋歌曲、播放 YouTube 官方嵌入影片，並在獨立閱讀頁依播放時間查看同步歌詞；管理員負責審核、同步歌詞與標籤。
 
-## Current configuration status
+## 功能
 
-`config.js` currently names this Supabase project URL:
+- Google OAuth PKCE、session persistence、安全 callback 清理與首頁／管理頁 redirect。
+- `pending`、`approved`、`rejected` 審核流程與 RLS 權限邊界。
+- 私有 `lyrics-pdfs` bucket、短效 signed URL PDF 預覽與下載。
+- 歌曲名稱、歌手、專輯、年份、語言、曲風、備註與多標籤搜尋／篩選。
+- YouTube watch、`youtu.be`、embed、shorts URL 正規化，只儲存 11 字元 video ID。
+- YouTube IFrame Player API；不自動播放、不下載影音、不使用 Data API key。
+- 同步歌詞高亮、seek、自動捲動及 -5 到 +5 秒顯示 offset。
+- 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
+- 31 個 Node 內建 test runner 測試；沒有 build step 或大型 framework。
+
+## Supabase project 現況
+
+`config.js` 目前仍指向：
 
 ```text
 https://hxzbuupsbawfeosnboie.supabase.co
 ```
 
-During the 2026-08-01 login repair, that hostname returned DNS `NXDOMAIN` while
-GitHub resolved normally. Until that Supabase project is restored or `config.js`
-is updated with the URL and matching publishable key from an active project,
-database, storage, and Google login requests cannot reach Supabase. Do not guess
-or mix the URL and key from different projects.
+這個 hostname 先前曾回覆 DNS `NXDOMAIN`，因此不應在未驗證時自行替換 project。2026-08-02 重新檢查的結果是：DNS 已可解析、`/auth/v1/settings` 使用目前的 publishable key 回覆 HTTP 200，且 Google Provider 為 enabled。舊 `exams` REST endpoint 回覆 200，但新 `songs` endpoint 回覆 404，表示這個 project 目前可連線、但尚未套用 lyrics migration。
 
-Only a browser-safe publishable/anon key belongs in `config.js`. Never commit a
-Google Client Secret, `sb_secret_...` key, or Supabase `service_role` key.
+因此現階段仍不能宣稱真實歌曲資料、PDF Storage、lyrics RLS 或完整 Google 登入已驗收。請先依下方「既有 project」步驟執行 `supabase/lyrics_library_migration.sql`，再完成真實帳號登入、上傳、審核與公開讀取測試。不要混用不同 project 的 URL 與 key。
 
-## Authentication behavior
+瀏覽器端只可使用 `sb_publishable_...` 或 legacy anon key。不要把 Database password、`service_role`、`sb_secret_...` 或 Google Client Secret 放進 repository 或對話。
 
-Both pages use the shared `assets/auth.js` helper and Supabase JS v2 PKCE:
+## 資料庫 schema
 
-- the public page redirects back to the repository root;
-- the administrator page redirects back to `admin.html`;
-- only the fixed `home` and `admin` destinations are accepted (no arbitrary
-  return-to URL or open redirect);
-- `detectSessionInUrl`, session persistence, and automatic refresh are enabled;
-- Supabase exchanges the PKCE authorization code; application code never parses
-  or stores OAuth tokens;
-- callback query/hash values are removed only after `getSession()` has completed;
-- query and hash OAuth errors are shown to the user;
-- auth events are serialized and duplicate initial-session work is ignored;
-- login performs a public `/auth/v1/settings` preflight, so an unreachable
-  project or disabled Google provider produces an on-page error and re-enables
-  the login button.
+### `songs`
 
-## 1. Supabase database and storage
+儲存 `title`、`artist`、`album`、`release_year`、`language`、`genre`、`notes`、正規化後的 `youtube_video_id`、`pdf_path`、原始檔名、上傳者、審核狀態及建立／更新／審核時間。video ID 有格式 constraint，status 只有三種值，`updated_at` 由 trigger 維護。
 
-In Supabase Dashboard, open **SQL Editor → New query** and run:
+### `lyric_cues`
 
-1. `supabase/setup.sql`
-2. `supabase/admin_setup.sql` (for the administrator interface)
+每句歌詞一列，包含 `song_id`、`line_index`、`start_ms`、可選 `end_ms` 與純文字 `text`。歌曲刪除時 cascade；同一首歌的 line index 唯一，時間有非負與 end-after-start constraints。
 
-The Google account designated near the bottom of `admin_setup.sql` must sign in
-once before its `auth.users` row can be inserted into `public.admin_users`.
+### `tags` / `song_tags`
 
-## 2. Restore or verify the Supabase project
+Tags 有唯一名稱與 slug；`song_tags` 使用 composite primary key。管理員可 CRUD，使用中的 tag 必須在確認影響歌曲數後透過 `delete_tag` RPC 原子移除關聯。
 
-Open the intended Supabase project and copy both values from its API settings:
+### Functions 與 RLS
 
-- Project URL
-- browser-safe publishable key (or legacy anon key)
+- `is_admin()`：security-definer 管理員檢查，不向前端暴露名單。
+- `set_song_tags()`：上傳者只能設定自己 pending song 的既有 tags；管理員可管理全部。
+- `replace_song_lyric_cues()`：僅管理員可用；在單一 transaction 中 delete + insert，失敗時整批回滾，避免半套同步資料。
+- `delete_tag()`：僅管理員可用；使用中的 tag 需要 `p_confirm_used=true`。
+- 公開訪客只能讀 approved songs 及其 cues/tags/PDF。
+- 登入者另可讀自己的 pending／rejected songs；只能新增自己的 pending song、修改／刪除自己的 pending song 與其 tag relations。
+- 同步歌詞預設只由管理員維護；前端隱藏按鈕不是權限邊界。
+- 管理員可管理所有 songs、cues、tags 與審核狀態。
 
-Put that matching pair in `config.js`. If the existing project reference
-`hxzbuupsbawfeosnboie` is still the intended project, first resolve why its
-hostname does not exist. A paused project normally must be restored from the
-Supabase Dashboard; a deleted project requires a replacement project and rerun
-of the SQL files above.
+## Storage
 
-After updating `config.js`, this URL must return JSON instead of a DNS error:
+新 bucket：
 
 ```text
-https://hxzbuupsbawfeosnboie.supabase.co/auth/v1/settings
+lyrics-pdfs
 ```
 
-If a replacement project is used, test the same `/auth/v1/settings` path on its
-new Project URL and use that new project reference in the Google callback below.
+Bucket 是 private，限制 `application/pdf` 與 50 MB（必須和 `MAX_FILE_SIZE_BYTES` 一致）。檔案路徑是：
 
-### New project cutover checklist
+```text
+user-id/unique-file-name.pdf
+```
 
-Do these steps in order when moving the site to a replacement Supabase project:
+公開 approved PDF 透過 RLS 授權後建立短效 signed URL。使用者只能清理自己 pending song 的 PDF 或尚未建立 row 的 orphan upload；管理員可刪除全部。網站不會把 YouTube 音訊上傳到 Supabase。
 
-1. Run `supabase/setup.sql` in the new project.
-2. After the intended administrator has signed in once, run
-   `supabase/admin_setup.sql`.
-3. Enable and configure the Google provider in Supabase Authentication.
-4. Set the production Site URL shown below.
-5. Add all four exact Redirect URLs shown below.
-6. Update `config.js` with the new Project URL and its matching browser-safe
-   publishable/anon key.
-7. Run the automated tests and the real local OAuth tests on both `/` and
-   `/admin.html`.
-8. Merge the OAuth repair branch into `main` only after those real OAuth tests
-   succeed. Deploy GitHub Pages only after the tested configuration is merged.
+## 新 Supabase project 安裝
 
-## 3. Google Cloud Console
+1. 在 SQL Editor 執行 `supabase/setup.sql`。
+2. 設定 Google Provider，並讓預定管理員先登入一次，使帳號出現在 `auth.users`。
+3. 如需更換管理員 email，先編輯 `supabase/admin_setup.sql` 最後的 email，再執行該檔案。
+4. 確認 SQL 最後查詢回傳管理員 email。
+5. 更新 `config.js` 的 Project URL 與匹配的 browser-safe publishable/anon key。
+6. 執行本機測試與真實 OAuth／上傳／審核驗收後才 merge 或部署。
 
-In **Google Auth Platform**:
+`setup.sql` 會建立完整 lyrics schema、indexes、functions、policies、triggers 與 `lyrics-pdfs` bucket。
 
-1. Configure **Branding** with an application name, support email, and required
-   contact information.
-2. Under **Audience**, choose the intended Internal/External audience. If an
-   External app is in Testing, add every Google account that will test login as
-   a test user. Publish the app when appropriate.
-3. Under **Data Access**, request only `openid`, email, and profile for ordinary
-   sign-in.
-4. Under **Clients**, create or edit a **Web application** OAuth client.
+## 既有舊 project migration
 
-Authorized JavaScript origins (origin only; no repository path and no trailing
-page name):
+在已經有 `public.exams` 與 `past-exams` bucket 的 project，執行：
+
+1. `supabase/lyrics_library_migration.sql`
+2. `supabase/admin_setup.sql`
+
+Migration 是可重複執行且自包含的版本，會在舊 schema 旁新增 lyrics schema。它不會 drop `exams`、刪除 `past-exams`，也不搬移舊 PDF。新版前端只使用 `songs` 與 `lyrics-pdfs`。
+
+確認新版資料與備份無誤後，可日後由 project owner 在維護時段人工評估是否移除舊 table/bucket；repository 不提供自動永久刪除舊資料的 migration。
+
+## Google OAuth 設定
+
+Google Cloud Console 的 Web application OAuth client：
+
+Authorized JavaScript origins（只能是 origin）：
 
 ```text
 http://localhost:8000
 https://chou-chuan-chuan.github.io
 ```
 
-Authorized redirect URI (Supabase callback, not a GitHub Pages URL):
-
-```text
-https://hxzbuupsbawfeosnboie.supabase.co/auth/v1/callback
-```
-
-If `config.js` is moved to a replacement Supabase project, replace the project
-reference in that callback with the new one. Its required form is:
+Authorized redirect URI 必須是實際 Supabase callback，不是 GitHub Pages：
 
 ```text
 https://ACTUAL_PROJECT_REFERENCE.supabase.co/auth/v1/callback
 ```
 
-Paste the Google Client ID and Client Secret only into Supabase Dashboard →
-Authentication → Providers → Google. The secret must not be placed in this
-repository. Never use a GitHub Pages URL as the Google Authorized redirect URI.
+若原 project 恢復，預期 callback 是：
 
-## 4. Supabase Authentication settings
+```text
+https://hxzbuupsbawfeosnboie.supabase.co/auth/v1/callback
+```
 
-Open **Authentication → Providers → Google**, enable Google, and save the Google
-Client ID and Client Secret.
+Google Client Secret 只貼到 Supabase Dashboard → Authentication → Providers → Google。External consent screen 若在 Testing，必須加入測試帳號。
 
-Then open **Authentication → URL Configuration**.
+## Supabase URL Configuration
 
-Site URL:
+Site URL：
 
 ```text
 https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/
 ```
 
-Redirect URLs — add all four exact values:
+Redirect URLs：
 
 ```text
 http://localhost:8000/
@@ -147,92 +133,87 @@ https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/
 https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/admin.html
 ```
 
-`admin.html` is required because the administrator page passes that exact URL as
-`redirectTo`. Supabase must allow the exact URLs sent by the application. Exact
-production URLs are preferred over wildcards.
+首頁與管理頁分別傳入固定、同 origin 的 return destination；任意外部 return-to 會被拒絕。
 
-## 5. Local test
+## 上傳歌曲
 
-From the repository root:
+登入後選擇「上傳歌詞」，填入歌曲名稱、歌手、專輯、年份、語言、曲風、YouTube URL、既有標籤、備註與 PDF。YouTube 欄位會即時顯示解析出的 video ID 與安全 thumbnail；不接受 iframe HTML、`javascript:` 或非 YouTube domain。
+
+一般使用者不能建立 tags，也不能送出 `approved` status。上傳永遠建立 pending song。Storage 成功但 row/tag 建立失敗時，前端會嘗試回復 row 與 PDF；若清理失敗會顯示明確訊息。
+
+## 播放與同步閱讀
+
+`song.html?id=SONG_ID` 只為該歌曲建立一個官方 YouTube player。IFrame API 提供事件、目前播放時間與 `seekTo()`；同步輪詢每 250 ms 使用二分搜尋找出 active cue。點擊歌詞可跳到該時間，offset 只改變顯示計算、不寫回 cues。
+
+沒有 cues 時播放器與 PDF 仍正常，歌詞區顯示「此歌曲尚未建立同步歌詞」。若影片是私人、刪除或禁止嵌入，顯示錯誤並保留安全的 YouTube 新分頁連結。
+
+## LRC 匯入
+
+管理員在「編輯與同步」可上傳 `.lrc` 或貼上文字。Parser 支援：
+
+```text
+[mm:ss]
+[mm:ss.xx]
+[mm:ss.xxx]
+[offset:500]
+[ar:Artist]
+[ti:Title]
+[al:Album]
+```
+
+一行多 timestamp 會展開成多筆 cue；metadata 與空行不會成為歌詞；錯誤行會列出，不會讓編輯器崩潰。系統不會從網路抓 LRC、歌詞或 YouTube captions。
+
+## 手動同步歌詞
+
+1. 貼上逐行歌詞並建立未標記行，或逐行新增。
+2. 播放 YouTube，點選一行後按「標記目前時間」。
+3. 可直接修改秒數／文字、上移、下移、刪除或按「試聽」seek。
+4. 非輸入欄位聚焦時可用 Enter 標記、↑/↓ 選行、Ctrl/Cmd+S 儲存。
+5. 修正空文字／負時間；重複時間允許並穩定排序，逆序會提醒並在儲存時排序。
+6. 「原子替換全部同步歌詞」呼叫 transaction RPC；任何 constraint 或權限錯誤會整批回滾。
+
+## Tags 管理
+
+管理員可建立、搜尋、改名、修改 slug 及刪除 tags。名稱會產生 Unicode-safe slug 建議；database 以唯一 name、case-insensitive name index 與唯一 slug 防重複。每列顯示使用歌曲數，刪除使用中的 tag 會先要求確認影響數量。
+
+## 本機測試
 
 ```bash
 python -m http.server 8000
 ```
 
-Open and test both pages:
+開啟：
 
 ```text
 http://localhost:8000/
+http://localhost:8000/song.html?id=VALID_SONG_UUID
 http://localhost:8000/admin.html
 ```
 
-For each page:
-
-1. Click **Sign in with Google**.
-2. Confirm the browser reaches Google through the Supabase authorize endpoint.
-3. Finish Google login in the same browser/device where it started (PKCE stores
-   its verifier locally).
-4. Confirm the final page is respectively `/` or `/admin.html`, with no OAuth
-   `code`, token, or error left in the address bar.
-5. Refresh and confirm the session remains signed in.
-6. Sign out and confirm the signed-out UI appears.
-
-On `admin.html`, an authenticated account absent from `public.admin_users` must
-see **This account is not an administrator**. That is a successful login followed
-by an authorization denial, not an OAuth failure.
-
-## 6. Automated tests
-
-No dependency installation is needed. Run either:
+自動化與語法檢查：
 
 ```bash
 npm test
+node --check assets/auth.js
+node --check assets/app.js
+node --check assets/admin.js
+node --check assets/song.js
+node --check assets/youtube.js
+node --check assets/youtube-player.js
+node --check assets/lyrics-sync.js
+node --check assets/lrc.js
+node --check assets/catalog.js
+git diff --check
 ```
 
-or, if PowerShell blocks `npm.ps1`:
+PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 
-```powershell
-npm.cmd test
-```
+## GitHub Pages 部署
 
-The tests verify local and production redirect calculations, repository path
-preservation, callback cleanup, OAuth error parsing, PKCE client options,
-provider preflight behavior, and return-to safety.
+在有效 Supabase project 完成真實首頁／管理頁 OAuth、上傳、signed PDF、審核、RLS、YouTube 播放與同步測試後，才將 feature branch merge。然後在 GitHub Settings → Pages 選擇 `main` 與 `/(root)`。不要從未驗證的 feature branch 部署。
 
-## 7. GitHub Pages deployment and production check
+## 版權與內容限制
 
-Enable **Settings → Pages → Deploy from a branch → main → /(root)**, then open:
+> 僅上傳你擁有權利、取得授權，或依法可使用的歌詞 PDF 與同步歌詞內容。
 
-```text
-https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/
-https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/admin.html
-```
-
-Repeat the local test on both URLs. Confirm the repository path
-`/pastexam_supabase_google_login/` remains present throughout the return to the
-application.
-
-## Common OAuth failures
-
-- **`Cannot reach Supabase Authentication` / `Failed to fetch` / DNS error**:
-  the Project URL is wrong, deleted, inactive, or unreachable. Verify the
-  Project URL and its matching publishable key in `config.js`.
-- **`redirect_uri_mismatch` from Google**: Google Authorized redirect URI must
-  be the Supabase `/auth/v1/callback` URL, exactly; it is not the Pages URL.
-- **Returns to Site URL or the wrong page**: the exact application `redirectTo`
-  is missing from Supabase Redirect URLs. Check all four entries above,
-  especially both `admin.html` values.
-- **Google says access is blocked or denied**: for an External app in Testing,
-  add the account under OAuth consent screen test users; also verify consent
-  screen configuration.
-- **Signed in but administrator access is denied**: login succeeded, but the
-  user is not in `public.admin_users`. Run/check `supabase/admin_setup.sql`.
-- **PKCE code exchange fails or a code is already used**: restart sign-in in the
-  same browser/device and do not copy the callback URL between browsers. A PKCE
-  authorization code is single-use.
-
-## Approving uploads
-
-Use `admin.html` after running `supabase/admin_setup.sql`, or update the status in
-Supabase Table Editor. Database RLS remains the authority for uploads and
-administrator actions.
+本網站不下載 YouTube 影片／音訊、不抓取 captions、不爬第三方歌詞網站、不規避地區／廣告／嵌入限制、不接受任意 iframe HTML，也不宣稱 YouTube 內容由本站託管。
