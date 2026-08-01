@@ -21,7 +21,11 @@
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-`assets/style.css` 以 `@font-face` 將它註冊為 `ChenYuluoyan Web`，只套用於 hero、頁面／區段／dialog 標題及重要歌曲標題，並使用原生細體 `font-weight: 400`。內文、表單、按鈕與小字維持較易閱讀的 sans-serif；若字體因網路或瀏覽器限制無法載入，才會依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 以 `@font-face` 將它註冊為 `ChenYuluoyan Web`，並透過 `--font-ui` 套用到全站文字，包括 header、內文、標題、卡片、表單、按鈕、dialog、管理頁、歌曲頁與 footer。網站統一使用原生細體 `font-weight: 400` 並停用瀏覽器人工粗體；若字體因網路或瀏覽器限制無法載入，才會依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+
+## 品牌圖像
+
+三個頁面的 header 均使用 `assets/branding/logo-retro.png` 復古唱片／歌詞圖像。PNG 保持原始內容與透明背景，CSS 只以等比例縮放和裁切透明留白來適應桌機與手機頁首；舊的 `LY` 漸層方塊已移除。
 
 ## Supabase project 現況
 
