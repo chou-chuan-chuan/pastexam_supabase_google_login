@@ -46,7 +46,7 @@ button, .button { cursor: pointer; }
 .site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(220, 226, 234, .9); background: rgba(255, 255, 255, .92); backdrop-filter: blur(16px); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; width: min(1240px, calc(100% - 32px)); margin: auto; padding: 14px 0; gap: 22px; }
 .brand { display: flex; min-width: 0; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
-.brand-logo { position: relative; display: block; overflow: hidden; width: 60px; height: 60px; flex: 0 0 60px; border: 1px solid rgba(109,53,197,.14); border-radius: 18px; background: radial-gradient(circle, #fffaf2, #f8e9ef); box-shadow: 0 8px 22px rgba(56,31,74,.14); }
+.brand-logo { position: relative; display: block; overflow: hidden; width: 60px; height: 60px; flex: 0 0 60px; background: transparent; }
 .brand-logo img { position: absolute; top: 50%; left: 50%; width: 136px; max-width: none; height: auto; transform: translate(-50%, -50%); }
 .brand strong, .brand small { display: block; }
 .brand strong { line-height: 1.25; }
@@ -157,8 +157,7 @@ button.tag-chip:hover { background: #e6daf7; }
 .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; gap: 16px; }
 .youtube-player-shell { position: relative; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border-radius: 15px; background: #121018; }
 .youtube-player-shell iframe { width: 100%; height: 100%; }
-.sync-controls { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px 14px; margin-bottom: 13px; border-radius: 12px; padding: 11px; background: #f6f2fb; }
-.sync-controls input[type="range"] { grid-column: 1 / -1; padding: 0; accent-color: var(--primary); }
+.sync-controls { display: flex; align-items: center; margin-bottom: 13px; border-radius: 12px; padding: 11px; background: #f6f2fb; }
 .switch-label { display: flex; align-items: center; gap: 7px; }
 .switch-label input { width: auto; }
 .time-readout { color: var(--primary); font-variant-numeric: tabular-nums; font-weight: 400; }
@@ -238,7 +237,7 @@ button.tag-chip:hover { background: #e6daf7; }
   :root { --heading-hero-size: 1.8rem; --heading-page-size: 1.75rem; --heading-section-size: 1.25rem; }
   .page, .header-inner, .site-footer { width: min(100% - 22px, 1240px); }
   .brand small { display: none; }
-  .brand-logo { width: 54px; height: 54px; flex-basis: 54px; border-radius: 16px; }
+  .brand-logo { width: 54px; height: 54px; flex-basis: 54px; }
   .brand-logo img { width: 122px; }
   .account-area .button { flex: 1; }
   .hero, .admin-hero { min-height: 0; border-radius: 20px; padding: 28px 23px; }

@@ -20,14 +20,13 @@ test("finds active cues at boundaries, between lines, and after the last line", 
   assert.equal(findActiveCue(cues, 20_000)?.text, "C");
 });
 
-test("handles empty cues, duplicate timestamps, offset, and seek recalculation", () => {
+test("handles empty cues, duplicate timestamps, and seek recalculation", () => {
   assert.equal(findActiveCue([], 2_000), null);
   const duplicates = [
     { start_ms: 1_000, end_ms: null, text: "first" },
     { start_ms: 1_000, end_ms: null, text: "second" }
   ];
   assert.equal(findActiveCue(duplicates, 1_000)?.text, "second");
-  assert.equal(findActiveCue(cues, 500, 500)?.text, "A");
   assert.equal(findActiveCue(cues, 3_900)?.text, "B");
   assert.equal(findActiveCue(cues, 4_000)?.text, "C");
 });

@@ -1,13 +1,12 @@
-export function findActiveCue(cues, currentTimeMs, offsetMs = 0) {
+export function findActiveCue(cues, currentTimeMs) {
   if (!Array.isArray(cues) || !cues.length || !Number.isFinite(currentTimeMs)) return null;
-  const effectiveTime = currentTimeMs + (Number.isFinite(offsetMs) ? offsetMs : 0);
   let low = 0;
   let high = cues.length - 1;
   let match = -1;
 
   while (low <= high) {
     const middle = Math.floor((low + high) / 2);
-    if (cues[middle].start_ms <= effectiveTime) {
+    if (cues[middle].start_ms <= currentTimeMs) {
       match = middle;
       low = middle + 1;
     } else {
@@ -17,7 +16,7 @@ export function findActiveCue(cues, currentTimeMs, offsetMs = 0) {
 
   if (match < 0) return null;
   const cue = cues[match];
-  if (cue.end_ms != null && effectiveTime >= cue.end_ms) return null;
+  if (cue.end_ms != null && currentTimeMs >= cue.end_ms) return null;
   return cue;
 }
 

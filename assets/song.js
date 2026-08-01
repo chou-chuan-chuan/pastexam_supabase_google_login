@@ -11,7 +11,7 @@ const $ = (selector) => document.querySelector(selector);
 const el = {
   message: $("#songMessage"), loading: $("#songLoading"), content: $("#songContent"), title: $("#songTitle"), artist: $("#songArtist"), meta: $("#songMeta"), tags: $("#songTags"),
   fallback: $("#youtubeFallbackLink"), playerHost: $("#youtubePlayer"), playerStatus: $("#playerStatus"), playerError: $("#playerError"), time: $("#currentTimeLabel"),
-  autoScroll: $("#autoScrollToggle"), offset: $("#offsetInput"), offsetOutput: $("#offsetOutput"), lyricsEmpty: $("#lyricsEmpty"), lyrics: $("#lyricsList"),
+  autoScroll: $("#autoScrollToggle"), lyricsEmpty: $("#lyricsEmpty"), lyrics: $("#lyricsList"),
   filename: $("#pdfFilename"), pdfFrame: $("#songPdfFrame"), openPdf: $("#openSongPdf"), downloadPdf: $("#downloadSongPdf")
 };
 
@@ -77,7 +77,7 @@ function renderLyrics() {
 function updateSync(forcedTime = null) {
   const current = forcedTime ?? player?.getCurrentTimeMs() ?? 0;
   el.time.textContent = formatCueTime(current);
-  const active = findActiveCue(cues, current, Number(el.offset.value));
+  const active = findActiveCue(cues, current);
   const nextId = active?.id ?? null;
   if (nextId === activeCueId) return;
   activeCueId = nextId;
@@ -131,11 +131,6 @@ async function load() {
   await setupPlayer();
 }
 
-el.offset.addEventListener("input", () => {
-  const seconds = Number(el.offset.value) / 1_000;
-  el.offsetOutput.textContent = `${seconds >= 0 ? "+" : ""}${seconds.toFixed(1)} 秒`;
-  activeCueId = null; updateSync();
-});
 window.addEventListener("beforeunload", () => { clearInterval(syncTimer); player?.destroy(); });
 
 load();

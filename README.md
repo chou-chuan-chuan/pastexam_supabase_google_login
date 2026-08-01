@@ -10,7 +10,7 @@
 - 歌曲名稱、歌手、專輯、年份、語言、曲風、備註與多標籤搜尋／篩選。
 - YouTube watch、`youtu.be`、embed、shorts URL 正規化，只儲存 11 字元 video ID。
 - YouTube IFrame Player API；不自動播放、不下載影音、不使用 Data API key。
-- 同步歌詞高亮、seek、自動捲動及 -5 到 +5 秒顯示 offset。
+- 同步歌詞依 cue 原始時間高亮，支援 seek 與自動捲動。
 - 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
 - 31 個 Node 內建 test runner 測試；沒有 build step 或大型 framework。
 
@@ -25,7 +25,7 @@
 
 ## 品牌圖像
 
-三個頁面的 header 均使用 `assets/branding/logo-retro.png` 復古唱片／歌詞圖像。PNG 保持原始內容與透明背景，CSS 只以等比例縮放和裁切透明留白來適應桌機與手機頁首；舊的 `LY` 漸層方塊已移除。
+三個頁面的 header 與 browser tab favicon 均使用 `assets/branding/logo-retro.png` 復古唱片／歌詞圖像。PNG 保持原始透明背景，CSS 只以等比例縮放和裁切透明留白來適應桌機與手機頁首，不會加上白底或實色底塊；舊的 `LY` 漸層方塊已移除。
 
 ## Supabase project 現況
 
@@ -156,7 +156,7 @@ https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/admin.html
 
 ## 播放與同步閱讀
 
-`song.html?id=SONG_ID` 只為該歌曲建立一個官方 YouTube player。IFrame API 提供事件、目前播放時間與 `seekTo()`；同步輪詢每 250 ms 使用二分搜尋找出 active cue。點擊歌詞可跳到該時間，offset 只改變顯示計算、不寫回 cues。
+`song.html?id=SONG_ID` 只為該歌曲建立一個官方 YouTube player。IFrame API 提供事件、目前播放時間與 `seekTo()`；同步輪詢每 250 ms 使用二分搜尋，以 cue 原始時間找出 active cue。點擊歌詞可跳到該時間，並可選擇是否自動捲動。
 
 沒有 cues 時播放器與 PDF 仍正常，歌詞區顯示「此歌曲尚未建立同步歌詞」。若影片是私人、刪除或禁止嵌入，顯示錯誤並保留安全的 YouTube 新分頁連結。
 
@@ -183,7 +183,7 @@ https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/admin.html
 3. 可直接修改秒數／文字、上移、下移、刪除或按「試聽」seek。
 4. 非輸入欄位聚焦時可用 Enter 標記、↑/↓ 選行、Ctrl/Cmd+S 儲存。
 5. 修正空文字／負時間；重複時間允許並穩定排序，逆序會提醒並在儲存時排序。
-6. 「原子替換全部同步歌詞」呼叫 transaction RPC；任何 constraint 或權限錯誤會整批回滾。
+6. 按「儲存」會呼叫原子替換 transaction RPC；任何 constraint 或權限錯誤會整批回滾。
 
 ## Tags 管理
 

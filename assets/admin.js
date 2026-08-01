@@ -221,7 +221,7 @@ async function saveCues() {
   if (validation.errors.length) return showMessage("請先修正同步歌詞錯誤。", "error", 0);
   const payload = prepareCuesForSave(cueRows); el.saveCues.disabled = true; el.saveCues.textContent = "儲存中…";
   const { data, error } = await supabase.rpc("replace_song_lyric_cues", { p_song_id: currentSong.id, p_cues: payload });
-  el.saveCues.disabled = false; el.saveCues.textContent = "原子替換全部同步歌詞";
+  el.saveCues.disabled = false; el.saveCues.textContent = "儲存";
   if (error) return showMessage(errorMessage(error, "同步歌詞儲存失敗；原 transaction 已回滾。"), "error", 0);
   cueRows = payload.map((cue) => ({ start_ms: cue.start_ms, text: cue.text })); renderCueRows(); showMessage(`已原子替換 ${data} 行同步歌詞。`, "success");
 }
