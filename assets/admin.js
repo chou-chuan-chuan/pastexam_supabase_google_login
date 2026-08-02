@@ -81,7 +81,7 @@ function adminSongCard(song) {
   content.append(top, node("h3", "", song.title), details, tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "filename", song.original_filename));
   const actions = node("div", "admin-card-actions");
   const button = (label, className, handler) => { const item = node("button", `button ${className}`, label); item.type = "button"; item.addEventListener("click", handler); return item; };
-  const read = node("a", "button secondary", "播放與閱讀"); read.href = `./song.html?id=${encodeURIComponent(song.id)}`; read.target = "_self";
+  const read = node("a", "button secondary", "播放與閱讀"); read.href = `./song.html?id=${encodeURIComponent(song.id)}`;
   actions.append(read, button("預覽 PDF", "secondary", () => openPdf(song)), button("編輯與同步", "primary", () => openEditor(song)));
   if (song.status !== "approved") actions.append(button("通過", "success", () => changeStatus(song, "approved")));
   if (song.status !== "rejected") actions.append(button("退回", "warning", () => changeStatus(song, "rejected")));
