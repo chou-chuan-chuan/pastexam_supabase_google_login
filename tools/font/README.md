@@ -26,14 +26,20 @@ python tools/font/render_proof.py
 - `references/U+00C7-Ccedilla.png`：`Ç` 身分參考圖。
 - `build_supplement_font.py`：建立 TTF、WOFF2、OFL 與修改紀錄。
 - `verify_supplement_font.py`：驗證 cmap、glyph、metadata、授權與來源保存。
-- `render_proof.py`：以輸出 TTF 產生不使用 fallback 的 proof PNG。
+- `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
 - `browser-proof.html`：本機瀏覽器 Rendered Fonts 驗收頁。
 
 ## 字形建構
 
-- `questiondown`：從原字型 `question` 輪廓，以 advance width 與可視 bounds 中心旋轉 180°。
-- `cedilla`：原字型沒有 U+00B8 或 U+00E7，因此由原字型 `comma` 的手寫輪廓向下定位建立。
-- `Ccedilla`：以未改形的原始 `C` 加上水平置中的 `cedilla` component 組成。
+- `questiondown`：第一版是將原字型 `question` 機械式旋轉 180°。本次仍以該輪廓為唯一來源，但旋轉後平移 +3 x／-12 y font units，並將圓點再下移 8 units；這讓上端落在 cap height 內、底部接近其他句首符號，並把點與主筆間距由機械鏡射調成 60 units。原始 `question` 未修改，advance width 仍為 312。
+- `cedilla`：第一版只是將原始 `comma` 向下移，外觀偏小且容易像黏在 C 下方的逗號。原字型沒有 U+00B8 或 U+00E7；精修版改用原始 `semicolon` 的下方尾筆輪廓，水平縮放 116%、垂直縮短為 82%，再旋轉 -7°。`comma`、`J`、`j`、`g`、`y` 用於比較同字型的尾筆、曲率與下伸深度，沒有從其他字型複製輪廓。
+- `Ccedilla`：以完全未改形的原始 `C` 加上精修 `cedilla` component 組成。Cedilla 置於 C 的光學中心（不是單純 bounds 中心）且保留 26 units 的正間距；advance 與 side bearings 與原始 C 相同。
+
+`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç` 的原始 C identity component、cedilla 尺寸、光學中心、碰撞、descender 與 advance。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
+
+- `proofs/quanfangwei-glyph-analysis.png` 與對應 JSON 度量紀錄
+- `proofs/quanfangwei-optical-proof.png`（含 baseline、ascender、descender、advance box）
+- `proofs/quanfangwei-natural-proof.png`（無輔助線自然文字）
 
 ## 新增下一個缺字
 

@@ -13,7 +13,7 @@
       "unicode_name": "INVERTED QUESTION MARK",
       "glyph_name": "questiondown",
       "reference_image": "references/U+00BF-questiondown.png",
-      "construction_method": "rotate_existing_question_mark",
+      "construction_method": "rotate_existing_question_mark_with_optical_correction",
       "source_glyphs": [
         {
           "character": "?",
@@ -21,7 +21,7 @@
           "glyph_name": "question"
         }
       ],
-      "notes": "Rotate the original handwritten question mark 180 degrees around its advance-width and visible-bounds center; preserve the original advance width and vertical extent."
+      "notes": "Rotate the original handwritten question mark 180 degrees around the advance center, translate it +3 x / -12 y font units, then move the dot another -8 y units. This preserves the source outline and advance while improving cap-line position and dot-to-stroke spacing."
     },
     {
       "character": "Ç",
@@ -41,15 +41,15 @@
           "codepoint": "U+00B8",
           "glyph_name": "cedilla",
           "availability": "missing_in_source",
-          "construction_method": "derive_from_existing_comma",
+          "construction_method": "derive_from_semicolon_lower_tail_with_optical_transform",
           "fallback_source": {
-            "character": ",",
-            "codepoint": "U+002C",
-            "glyph_name": "comma"
+            "character": ";",
+            "codepoint": "U+003B",
+            "glyph_name": "semicolon"
           }
         }
       ],
-      "notes": "Keep the original C unchanged. Create a handwritten cedilla from the source comma because U+00B8 and U+00E7 are absent, then center it below C with a small collision-free gap."
+      "notes": "Keep the original C unchanged. The source lacks U+00B8 and U+00E7, so use only the lower handwritten tail of the source semicolon, scale it 116% horizontally and 82% vertically, rotate it -7 degrees, and place it at an optical center below C with a 26-unit gap. The source comma, J, j, g, and y are retained as style references."
     }
   ]
 }
