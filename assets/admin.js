@@ -33,45 +33,6 @@ let authQueue = Promise.resolve();
 let appliedAuthUserId;
 let messageTimer;
 
-function normalizeNfc(value) {
-  return typeof value === "string"
-    ? value.normalize("NFC")
-    : value;
-}
-
-function normalizeEditableFields(root = document) {
-  root
-    .querySelectorAll(
-      'input[type="text"], input[type="search"], input:not([type]), textarea'
-    )
-    .forEach((element) => {
-      element.value = normalizeNfc(element.value);
-    });
-}
-
-document.addEventListener(
-  "blur",
-  (event) => {
-    const element = event.target;
-
-    if (
-      element instanceof HTMLInputElement ||
-      element instanceof HTMLTextAreaElement
-    ) {
-      element.value = normalizeNfc(element.value);
-    }
-  },
-  true
-);
-
-document.addEventListener(
-  "submit",
-  () => {
-    normalizeEditableFields();
-  },
-  true
-);
-
 function node(tag, className, text) { const item = document.createElement(tag); if (className) item.className = className; if (text !== undefined) item.textContent = text; return item; }
 function showMessage(text, kind = "info", timeout = 7000) { clearTimeout(messageTimer); el.message.textContent = text; el.message.className = `notice ${kind}`; if (timeout) messageTimer = setTimeout(() => el.message.classList.add("hidden"), timeout); }
 function errorMessage(error, fallback) { console.error(error); return error?.message || fallback; }
