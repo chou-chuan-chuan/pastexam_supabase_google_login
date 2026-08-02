@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sys
 import traceback
 import unicodedata
@@ -15,6 +16,7 @@ from PIL import Image
 from fontTools import version as fonttools_version
 from fontTools.misc.transform import Transform
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.recordingPen import RecordingPen, replayRecording
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
@@ -93,6 +95,29 @@ def transformed_simple_glyph(font: TTFont, source_name: str, transform: Transfor
     return pen.glyph()
 
 
+def transformed_contours(font: TTFont, source_name: str, contour_indices: set[int], transform: Transform):
+    """Copy selected source contours through an affine transform."""
+    recording = RecordingPen()
+    font.getGlyphSet()[source_name].draw(recording)
+    contours: list[list[tuple[str, tuple]]] = []
+    current: list[tuple[str, tuple]] = []
+    for operation in recording.value:
+        current.append(operation)
+        if operation[0] in {"closePath", "endPath"}:
+            contours.append(current)
+            current = []
+    if current:
+        contours.append(current)
+    if not contour_indices or max(contour_indices) >= len(contours):
+        fail(f"Glyph {source_name!r} does not contain requested contours {sorted(contour_indices)}")
+    pen = TTGlyphPen(None)
+    transformed_pen = TransformPen(pen, transform)
+    for index, contour in enumerate(contours):
+        if index in contour_indices:
+            replayRecording(contour, transformed_pen)
+    return pen.glyph()
+
+
 def add_unicode_mapping(font: TTFont, codepoint: int, glyph_name: str) -> None:
     mapped = 0
     for subtable in font["cmap"].tables:
@@ -110,9 +135,21 @@ def build_questiondown(font: TTFont) -> None:
         fail("Source font is missing U+003F QUESTION MARK")
     x_min, y_min, x_max, y_max = glyph_bounds(font, source_name)
     advance, _ = font["hmtx"].metrics[source_name]
-    transform = Transform(-1, 0, 0, -1, advance, y_min + y_max)
+    # Begin with the source question's exact 180-degree rotation. Then apply a
+    # small optical translation: the inverted mark sits closer to the capital
+    # line and its top dot is tightened toward the main stroke. These values are
+    # deliberately expressed in font units so the build remains deterministic.
+    transform = Transform(-1, 0, 0, -1, advance + 3, y_min + y_max - 12)
     glyph = transformed_simple_glyph(font, source_name, transform)
-    install_glyph(font, "questiondown", glyph, advance, advance - x_max, source_name)
+    if len(glyph.endPtsOfContours) < 2:
+        fail("Source question must contain separate main-stroke and dot contours")
+    dot_start = glyph.endPtsOfContours[0] + 1
+    dot_end = glyph.endPtsOfContours[1]
+    for point_index in range(dot_start, dot_end + 1):
+        x, y = glyph.coordinates[point_index]
+        glyph.coordinates[point_index] = (x, y - 8)
+    glyph.recalcBounds(font["glyf"])
+    install_glyph(font, "questiondown", glyph, advance, glyph.xMin, source_name)
     add_unicode_mapping(font, 0x00BF, "questiondown")
 
 
@@ -120,25 +157,48 @@ def build_cedilla_and_ccedilla(font: TTFont) -> None:
     cmap = font.getBestCmap()
     c_name = cmap.get(0x0043)
     comma_name = cmap.get(0x002C)
+    semicolon_name = cmap.get(0x003B)
     if c_name is None:
         fail("Source font is missing U+0043 LATIN CAPITAL LETTER C")
     if comma_name is None:
         fail("Source font is missing U+002C COMMA, required to derive the cedilla")
+    if semicolon_name is None:
+        fail("Source font is missing U+003B SEMICOLON, required to derive the cedilla")
 
     c_bounds = glyph_bounds(font, c_name)
-    comma_bounds = glyph_bounds(font, comma_name)
-    comma_advance, comma_lsb = font["hmtx"].metrics[comma_name]
-    upm = font["head"].unitsPerEm
-    gap = max(12, round(upm * 0.012))
-    target_top = c_bounds[1] - gap
-    cedilla_dy = target_top - comma_bounds[3]
-    cedilla_glyph = transformed_simple_glyph(font, comma_name, Transform(1, 0, 0, 1, 0, cedilla_dy))
-    install_glyph(font, "cedilla", cedilla_glyph, comma_advance, comma_lsb, comma_name)
+    # Use the semicolon's lower handwritten tail (itself a source-native stroke)
+    # rather than a mechanically translated comma. Widen it slightly, shorten
+    # it vertically, and add a restrained counter-clockwise rotation. This
+    # produces a distinct cedilla hook while preserving the original curve and
+    # point language.
+    angle = math.radians(-7)
+    scale_x = 1.16
+    scale_y = 0.82
+    base_transform = Transform(
+        math.cos(angle) * scale_x,
+        math.sin(angle) * scale_x,
+        -math.sin(angle) * scale_y,
+        math.cos(angle) * scale_y,
+        0,
+        0,
+    )
+    cedilla_glyph = transformed_contours(font, semicolon_name, {0}, base_transform)
+    cedilla_glyph.recalcBounds(font["glyf"])
+    standalone_advance = 190
+    target_center = standalone_advance / 2
+    target_top = c_bounds[1] - 26
+    current_center = (cedilla_glyph.xMin + cedilla_glyph.xMax) / 2
+    correction = Transform(1, 0, 0, 1, round(target_center - current_center), target_top - cedilla_glyph.yMax)
+    cedilla_glyph = transformed_contours(font, semicolon_name, {0}, correction.transform(base_transform))
+    cedilla_glyph.recalcBounds(font["glyf"])
+    install_glyph(font, "cedilla", cedilla_glyph, standalone_advance, cedilla_glyph.xMin, semicolon_name)
     add_unicode_mapping(font, 0x00B8, "cedilla")
 
     cedilla_bounds = glyph_bounds(font, "cedilla")
     c_advance, c_lsb = font["hmtx"].metrics[c_name]
-    c_center = (c_bounds[0] + c_bounds[2]) / 2
+    # The open C carries more ink on the left. Place the cedilla at a restrained
+    # optical center between its ink-heavy left side and mathematical center.
+    c_center = (c_bounds[0] + c_bounds[2]) / 2 - (c_bounds[2] - c_bounds[0]) * 0.035
     cedilla_center = (cedilla_bounds[0] + cedilla_bounds[2]) / 2
     cedilla_dx = round(c_center - cedilla_center)
     composite_pen = TTGlyphPen(font.getGlyphSet())
@@ -222,9 +282,12 @@ def write_modifications() -> None:
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
 - 新增字元：U+00BF `questiondown`、U+00C7 `Ccedilla`
-- U+00BF 建構：將原始 U+003F `question` 以 advance width 與可視高度中心旋轉 180°，不修改來源 glyph
+- U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
+- U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
-- Cedilla 來源：原字型沒有 U+00B8 與 U+00E7；新增 cedilla 由原始 U+002C `comma` 的手寫輪廓向下定位而成
+- Cedilla 第一版建構：原字型沒有 U+00B8 與 U+00E7，因此直接將 U+002C `comma` 向下定位
+- Cedilla 光學修正：改用原始 U+003B `semicolon` 的下方手寫尾筆，水平 116%、垂直 82%、旋轉 -7°，再置於 C 的光學中心下方並保留 26 units 間距；comma、J、j、g、y 僅作同字型風格比較
+- 美學限制：自動檢查只能驗證 bounds、留白、中心、碰撞與裁切；筆勢是否自然仍以多尺寸 proof 與瀏覽器人工目視為準
 - Hinting：移除原始 TrueType hint bytecode；原始檔的 function definitions 超過 FreeType/Pillow 限制，輪廓、cmap、glyph 順序與 metrics 均保留
 - FontForge：目前建置環境未安裝，未使用 FontForge GUI 或 scripting API
 - fontTools：{fonttools_version}

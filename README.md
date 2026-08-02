@@ -25,8 +25,10 @@
 
 衍生版 Version 1.000 新增：
 
-- `¿` U+00BF INVERTED QUESTION MARK：由原始 U+003F `question` 旋轉 180°。
-- `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，因此以原始 U+002C `comma` 的手寫輪廓衍生。
+- `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
+- `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
+
+第一版的 `¿` 是未做視覺校正的機械旋轉，第一版 cedilla 則只是將逗號向下移，因此分別有句首高度偏高、點距僵硬，以及 cedilla 偏小、像黏上的逗號等問題。現在的建置腳本把 optical correction 寫成固定 font-unit 參數，可從官方原始 TTF 重現；自動測試會檢查留白、中心、間距、碰撞與裁切，但筆勢是否自然仍需配合多尺寸 proof 人工判斷。
 
 輸出與授權紀錄：
 
@@ -42,6 +44,10 @@
 - `tools/font/render_proof.py`
 - `tools/font/glyph_manifest.json`
 - `tools/font/proofs/quanfangwei-supplement-proof.png`
+- `tools/font/proofs/quanfangwei-glyph-analysis.png`
+- `tools/font/proofs/quanfangwei-glyph-analysis.json`
+- `tools/font/proofs/quanfangwei-optical-proof.png`
+- `tools/font/proofs/quanfangwei-natural-proof.png`
 - `tools/font/README.md`
 
 Windows 建置命令：
@@ -53,7 +59,7 @@ python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
 ```
 
-目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds 及 advance。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
+目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
 `assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 

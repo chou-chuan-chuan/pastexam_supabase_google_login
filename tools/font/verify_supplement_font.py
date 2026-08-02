@@ -61,6 +61,22 @@ def drawing(font: TTFont, glyph_name: str):
     return pen.value
 
 
+def contour_bounds(font: TTFont, glyph_name: str) -> list[tuple[int, int, int, int]]:
+    glyph = font["glyf"][glyph_name]
+    if glyph.isComposite():
+        return []
+    coordinates, end_points, _ = glyph.getCoordinates(font["glyf"])
+    result = []
+    start = 0
+    for end in end_points:
+        contour = coordinates[start : end + 1]
+        xs = [point[0] for point in contour]
+        ys = [point[1] for point in contour]
+        result.append((min(xs), min(ys), max(xs), max(ys)))
+        start = end + 1
+    return result
+
+
 def verify() -> list[str]:
     errors: list[str] = []
 
@@ -121,16 +137,56 @@ def verify() -> list[str]:
     if source_question:
         source_question_bounds = bounds(source, source_question)
         inverted_bounds = bounds(ttf, "questiondown")
-        require((source_question_bounds[1], source_question_bounds[3]) == (inverted_bounds[1], inverted_bounds[3]), "questiondown vertical extent is unexpected")
-        require(ttf["hmtx"].metrics["questiondown"][0] == source["hmtx"].metrics[source_question][0], "questiondown advance differs from question")
+        question_advance = source["hmtx"].metrics[source_question][0]
+        inverted_advance, inverted_lsb = ttf["hmtx"].metrics["questiondown"]
+        inverted_rsb = inverted_advance - inverted_bounds[2]
+        source_center = (source_question_bounds[0] + source_question_bounds[2]) / 2
+        inverted_center = (inverted_bounds[0] + inverted_bounds[2]) / 2
+        require(abs(inverted_advance - question_advance) <= max(16, question_advance * 0.05), "questiondown advance differs excessively from question")
+        require(inverted_lsb >= 0 and inverted_rsb >= 0, f"questiondown has a negative side bearing: lsb={inverted_lsb}, rsb={inverted_rsb}")
+        require(abs(inverted_lsb - inverted_rsb) <= 20, f"questiondown side bearings are optically unbalanced: lsb={inverted_lsb}, rsb={inverted_rsb}")
+        require(abs(source_center - inverted_center) <= 12, f"questiondown visual-bounds center moved too far: source={source_center}, derived={inverted_center}")
+        require(ttf["hhea"].descent < inverted_bounds[1] < inverted_bounds[3] < ttf["hhea"].ascent, f"questiondown is clipped by vertical metrics: {inverted_bounds}")
+        question_contours = sorted(contour_bounds(ttf, "questiondown"), key=lambda item: (item[2] - item[0]) * (item[3] - item[1]), reverse=True)
+        require(len(question_contours) == 2, f"questiondown should retain two source contours, found {len(question_contours)}")
+        if len(question_contours) == 2:
+            main, dot = question_contours
+            dot_gap = dot[1] - main[3]
+            require(35 <= dot_gap <= 100, f"questiondown dot-to-stroke gap is unreasonable: {dot_gap}")
+            require(dot[1] > main[3], "questiondown dot collides with the main stroke")
     if source_c:
-        require(ttf["hmtx"].metrics["Ccedilla"][0] == source["hmtx"].metrics[source_c][0], "Ccedilla advance differs from C")
+        c_bounds = bounds(source, source_c)
+        c_advance, c_lsb = source["hmtx"].metrics[source_c]
+        ccedilla_advance, ccedilla_lsb = ttf["hmtx"].metrics["Ccedilla"]
+        cedilla_bounds = bounds(ttf, "cedilla")
+        require(ccedilla_advance == c_advance, "Ccedilla advance differs from C")
+        require(ccedilla_lsb == c_lsb, "Ccedilla left side bearing differs from C")
+        require(ttf["hhea"].descent < bounds(ttf, "Ccedilla")[1], "Ccedilla extends beyond the safe descender")
+        require(80 <= cedilla_bounds[2] - cedilla_bounds[0] <= 120, f"cedilla width is outside the optical range: {cedilla_bounds}")
+        require(110 <= cedilla_bounds[3] - cedilla_bounds[1] <= 160, f"cedilla height is outside the optical range: {cedilla_bounds}")
+        cedilla_advance, cedilla_lsb = ttf["hmtx"].metrics["cedilla"]
+        require(cedilla_lsb >= 0 and cedilla_advance - cedilla_bounds[2] >= 0, "cedilla has a negative side bearing")
+        if "Ccedilla" in ttf["glyf"].glyphs and ttf["glyf"]["Ccedilla"].isComposite():
+            ccedilla = ttf["glyf"]["Ccedilla"]
+            component_info = [component.getComponentInfo() for component in ccedilla.components]
+            require(component_info[0] == ("C", (1, 0, 0, 1, 0, 0)), f"Ccedilla does not use the original C unchanged: {component_info[0]}")
+            _, cedilla_transform = component_info[1]
+            require(cedilla_transform[:4] == (1, 0, 0, 1), f"Ccedilla scales or distorts its cedilla component: {cedilla_transform}")
+            placed_center = (cedilla_bounds[0] + cedilla_bounds[2]) / 2 + cedilla_transform[4]
+            optical_c_center = (c_bounds[0] + c_bounds[2]) / 2 - (c_bounds[2] - c_bounds[0]) * 0.035
+            require(abs(placed_center - optical_c_center) <= 10, f"cedilla is not aligned to C's optical center: {placed_center} vs {optical_c_center}")
+            placed_top = cedilla_bounds[3] + cedilla_transform[5]
+            gap = c_bounds[1] - placed_top
+            require(16 <= gap <= 40, f"cedilla-to-C gap is outside the collision-safe range: {gap}")
     require(not any(tag in ttf for tag in ("fpgm", "prep", "cvt ")), "Derived TTF still contains incompatible hint program tables")
 
     require(set(source_cmap).issubset(ttf_cmap), "One or more original cmap codepoints were removed")
     for codepoint, glyph_name in source_cmap.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"Original cmap mapping changed at U+{codepoint:04X}")
     require(ttf_cmap == woff2_cmap, "WOFF2 decoded cmap differs from TTF cmap")
+    for glyph_name in ("questiondown", "cedilla", "Ccedilla"):
+        require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 bounds differ from TTF for {glyph_name}")
+        require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name], f"WOFF2 metrics differ from TTF for {glyph_name}")
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
@@ -180,6 +236,7 @@ def main() -> int:
     print("PASS: U+00BF -> questiondown and U+00C7 -> Ccedilla in both cmaps")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
+    print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")
     return 0
 
 

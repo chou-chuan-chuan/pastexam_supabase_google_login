@@ -1,0 +1,297 @@
+{
+  "font_metrics": {
+    "units_per_em": 1024,
+    "ascender": 967,
+    "descender": -362,
+    "cap_height": 584,
+    "x_height": 440
+  },
+  "glyphs": {
+    "U+003F": {
+      "character": "?",
+      "codepoint": "U+003F",
+      "glyph_name": "question",
+      "bounds": [
+        51,
+        133,
+        255,
+        590
+      ],
+      "advance_width": 312,
+      "left_side_bearing": 51,
+      "right_side_bearing": 57,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        153.0,
+        361.5
+      ],
+      "top_overshoot_from_cap_height": 6,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 133,
+      "safe_space_to_ascender": 377,
+      "safe_space_to_descender": 495
+    },
+    "U+00BF": {
+      "character": "¿",
+      "codepoint": "U+00BF",
+      "glyph_name": "questiondown",
+      "bounds": [
+        60,
+        121,
+        264,
+        570
+      ],
+      "advance_width": 312,
+      "left_side_bearing": 60,
+      "right_side_bearing": 48,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        162.0,
+        345.5
+      ],
+      "top_overshoot_from_cap_height": -14,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 121,
+      "safe_space_to_ascender": 397,
+      "safe_space_to_descender": 483
+    },
+    "U+0043": {
+      "character": "C",
+      "codepoint": "U+0043",
+      "glyph_name": "C",
+      "bounds": [
+        34,
+        117,
+        435,
+        522
+      ],
+      "advance_width": 471,
+      "left_side_bearing": 34,
+      "right_side_bearing": 36,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        234.5,
+        319.5
+      ],
+      "top_overshoot_from_cap_height": -62,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 117,
+      "safe_space_to_ascender": 445,
+      "safe_space_to_descender": 479
+    },
+    "U+002C": {
+      "character": ",",
+      "codepoint": "U+002C",
+      "glyph_name": "comma",
+      "bounds": [
+        77,
+        66,
+        142,
+        223
+      ],
+      "advance_width": 174,
+      "left_side_bearing": 77,
+      "right_side_bearing": 32,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        109.5,
+        144.5
+      ],
+      "top_overshoot_from_cap_height": -361,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 66,
+      "safe_space_to_ascender": 744,
+      "safe_space_to_descender": 428
+    },
+    "U+003B": {
+      "character": ";",
+      "codepoint": "U+003B",
+      "glyph_name": "semicolon",
+      "bounds": [
+        92,
+        106,
+        173,
+        411
+      ],
+      "advance_width": 266,
+      "left_side_bearing": 92,
+      "right_side_bearing": 93,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        132.5,
+        258.5
+      ],
+      "top_overshoot_from_cap_height": -173,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 106,
+      "safe_space_to_ascender": 556,
+      "safe_space_to_descender": 468
+    },
+    "U+004A": {
+      "character": "J",
+      "codepoint": "U+004A",
+      "glyph_name": "J",
+      "bounds": [
+        34,
+        54,
+        393,
+        646
+      ],
+      "advance_width": 425,
+      "left_side_bearing": 34,
+      "right_side_bearing": 32,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        213.5,
+        350.0
+      ],
+      "top_overshoot_from_cap_height": 62,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 54,
+      "safe_space_to_ascender": 321,
+      "safe_space_to_descender": 416
+    },
+    "U+006A": {
+      "character": "j",
+      "codepoint": "U+006A",
+      "glyph_name": "j",
+      "bounds": [
+        32,
+        -18,
+        181,
+        566.06
+      ],
+      "advance_width": 256,
+      "left_side_bearing": 32,
+      "right_side_bearing": 75,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        106.5,
+        274.03
+      ],
+      "top_overshoot_from_cap_height": -17.94,
+      "bottom_overshoot_below_baseline": 18,
+      "distance_from_baseline": -18,
+      "safe_space_to_ascender": 400.94,
+      "safe_space_to_descender": 344
+    },
+    "U+0067": {
+      "character": "g",
+      "codepoint": "U+0067",
+      "glyph_name": "g",
+      "bounds": [
+        -68,
+        -159,
+        250,
+        433
+      ],
+      "advance_width": 279,
+      "left_side_bearing": -68,
+      "right_side_bearing": 29,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        91.0,
+        137.0
+      ],
+      "top_overshoot_from_cap_height": -151,
+      "bottom_overshoot_below_baseline": 159,
+      "distance_from_baseline": -159,
+      "safe_space_to_ascender": 534,
+      "safe_space_to_descender": 203
+    },
+    "U+0079": {
+      "character": "y",
+      "codepoint": "U+0079",
+      "glyph_name": "y",
+      "bounds": [
+        31,
+        -120,
+        305,
+        450
+      ],
+      "advance_width": 336,
+      "left_side_bearing": 31,
+      "right_side_bearing": 31,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        168.0,
+        165.0
+      ],
+      "top_overshoot_from_cap_height": -134,
+      "bottom_overshoot_below_baseline": 120,
+      "distance_from_baseline": -120,
+      "safe_space_to_ascender": 517,
+      "safe_space_to_descender": 242
+    },
+    "U+00B8": {
+      "character": "¸",
+      "codepoint": "U+00B8",
+      "glyph_name": "cedilla",
+      "bounds": [
+        48.93,
+        -39.11,
+        140.36,
+        91
+      ],
+      "advance_width": 190,
+      "left_side_bearing": 48,
+      "right_side_bearing": 49.64,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        94.65,
+        25.95
+      ],
+      "top_overshoot_from_cap_height": -493,
+      "bottom_overshoot_below_baseline": 39.11,
+      "distance_from_baseline": -39.11,
+      "safe_space_to_ascender": 876,
+      "safe_space_to_descender": 322.89
+    },
+    "U+00C7": {
+      "character": "Ç",
+      "codepoint": "U+00C7",
+      "glyph_name": "Ccedilla",
+      "bounds": [
+        34,
+        -39.11,
+        435,
+        522
+      ],
+      "advance_width": 471,
+      "left_side_bearing": 34,
+      "right_side_bearing": 36,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "C",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "cedilla",
+          "x": 126,
+          "y": 0
+        }
+      ],
+      "visual_bounds_center": [
+        234.5,
+        241.44
+      ],
+      "top_overshoot_from_cap_height": -62,
+      "bottom_overshoot_below_baseline": 39.11,
+      "distance_from_baseline": -39.11,
+      "safe_space_to_ascender": 445,
+      "safe_space_to_descender": 322.89
+    }
+  }
+}
