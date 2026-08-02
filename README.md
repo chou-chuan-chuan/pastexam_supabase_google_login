@@ -12,16 +12,52 @@
 - YouTube IFrame Player API；不自動播放、不下載影音、不使用 Data API key。
 - 同步歌詞依 cue 原始時間高亮，支援 seek 與自動捲動。
 - 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
-- 31 個 Node 內建 test runner 測試；沒有 build step 或大型 framework。
+- 33 個 Node 內建 test runner 測試；沒有網站 build step 或大型 framework。
 
-## 標題字體
+## 荃方位補寫體
 
-展示標題使用「辰宇落雁體」不等寬 2.0 細體，原始檔取自[官方 `Chenyu-otf/chenyuluoyan_thin` repository](https://github.com/Chenyu-otf/chenyuluoyan_thin)，依 SIL Open Font License 1.1 隨網站散布。未修改的字體與官方授權檔位於：
+網站目前全站使用「荃方位補寫體」（英文 Family Name：`QuanFangwei Supplement Script`），並在 CSS 註冊為 `QuanFangwei Supplement Web`。它是基於[官方辰宇落雁體 repository](https://github.com/Chenyu-otf/chenyuluoyan_thin)，依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，不是原作者官方更新或發布版本，也不代表原作者背書。
+
+原字型的 Reserved Font Name「辰宇落雁」與「Chenyuluoyan」沒有用作衍生字型的 Family、Full、PostScript 或 Typographic Family Name。原作者 copyright、官方來源、credit 與完整 OFL 文件均保留。原始官方檔案未修改，仍位於：
 
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-`assets/style.css` 以 `@font-face` 將它註冊為 `ChenYuluoyan Web`，並透過 `--font-ui` 套用到全站文字，包括 header、內文、標題、卡片、表單、按鈕、dialog、管理頁、歌曲頁與 footer。網站統一使用原生細體 `font-weight: 400` 並停用瀏覽器人工粗體；若字體因網路或瀏覽器限制無法載入，才會依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+衍生版 Version 1.000 新增：
+
+- `¿` U+00BF INVERTED QUESTION MARK：由原始 U+003F `question` 旋轉 180°。
+- `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，因此以原始 U+002C `comma` 的手寫輪廓衍生。
+
+輸出與授權紀錄：
+
+- `assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf`
+- `assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2`
+- `assets/fonts/quanfangwei-supplement/OFL.txt`
+- `assets/fonts/quanfangwei-supplement/MODIFICATIONS.md`
+
+可重複建置與驗證檔案：
+
+- `tools/font/build_supplement_font.py`
+- `tools/font/verify_supplement_font.py`
+- `tools/font/render_proof.py`
+- `tools/font/glyph_manifest.json`
+- `tools/font/proofs/quanfangwei-supplement-proof.png`
+- `tools/font/README.md`
+
+Windows 建置命令：
+
+```powershell
+python -m pip install -r tools/font/requirements.txt
+python tools/font/build_supplement_font.py
+python tools/font/verify_supplement_font.py
+python tools/font/render_proof.py
+```
+
+目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds 及 advance。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
+
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 WOFF2 200，並在 DevTools Rendered Fonts 檢查 `¿`、`Ç` 與中文文字均使用 `QuanFangwei Supplement Web`。若要加入下一個缺字，請依 `tools/font/README.md`：先確認 Unicode 與授權、更新 manifest、優先重用原字型 glyph、擴充 build／verify、重建兩種格式、產生 proof、檢查 Rendered Fonts，最後更新修改紀錄。
 
 ## 品牌圖像
 
