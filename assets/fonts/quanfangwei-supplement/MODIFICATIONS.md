@@ -1,0 +1,23 @@
+# MODIFICATIONS
+
+- 衍生字型名稱：荃方位補寫體
+- 英文名稱：QuanFangwei Supplement Script
+- 原始字型名稱：辰宇落雁體 2.0 Thin / ChenYuluoyan 2.0 Thin
+- 原始字型官方來源：https://github.com/Chenyu-otf/chenyuluoyan_thin
+- 原始授權：SIL Open Font License 1.1
+- Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
+- 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
+- 修改日期：2026-08-02
+- 版本：Version 1.000
+- 新增字元：U+00BF `questiondown`、U+00C7 `Ccedilla`
+- U+00BF 建構：將原始 U+003F `question` 以 advance width 與可視高度中心旋轉 180°，不修改來源 glyph
+- U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
+- Cedilla 來源：原字型沒有 U+00B8 與 U+00E7；新增 cedilla 由原始 U+002C `comma` 的手寫輪廓向下定位而成
+- Hinting：移除原始 TrueType hint bytecode；原始檔的 function definitions 超過 FreeType/Pillow 限制，輪廓、cmap、glyph 順序與 metrics 均保留
+- FontForge：目前建置環境未安裝，未使用 FontForge GUI 或 scripting API
+- fontTools：4.25.0
+- 建置指令：`python tools/font/build_supplement_font.py`
+- 驗證指令：`python tools/font/verify_supplement_font.py`
+- Proof 指令：`python tools/font/render_proof.py`
+
+荃方位補寫體是基於辰宇落雁體，依 SIL Open Font License 1.1 製作的缺字補寫版本。本修改版由專案維護者獨立製作，不是原作者官方版本，也不代表原作者背書。

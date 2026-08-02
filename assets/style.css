@@ -1,6 +1,8 @@
 @font-face {
-  font-family: "ChenYuluoyan Web";
-  src: url("./fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf") format("truetype");
+  font-family: "QuanFangwei Supplement Web";
+  src:
+    url("./fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2") format("woff2"),
+    url("./fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -19,7 +21,7 @@
   --danger: #b42318;
   --warning: #9a6700;
   --shadow: 0 18px 55px rgba(31, 24, 58, .12);
-  --font-ui: "ChenYuluoyan Web", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-ui: "QuanFangwei Supplement Web", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
   --font-display: var(--font-ui);
   --heading-hero-size: clamp(1.8rem, 4.2vw, 3.65rem);
   --heading-page-size: clamp(1.75rem, 3.6vw, 3rem);

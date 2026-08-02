@@ -1,0 +1,55 @@
+{
+  "derived_font": {
+    "family_zh_hant": "荃方位補寫體",
+    "family_en": "QuanFangwei Supplement Script",
+    "subfamily": "Regular",
+    "postscript_name": "QuanFangweiSupplementScript-Regular",
+    "version": "1.000"
+  },
+  "glyphs": [
+    {
+      "character": "¿",
+      "codepoint": "U+00BF",
+      "unicode_name": "INVERTED QUESTION MARK",
+      "glyph_name": "questiondown",
+      "reference_image": "references/U+00BF-questiondown.png",
+      "construction_method": "rotate_existing_question_mark",
+      "source_glyphs": [
+        {
+          "character": "?",
+          "codepoint": "U+003F",
+          "glyph_name": "question"
+        }
+      ],
+      "notes": "Rotate the original handwritten question mark 180 degrees around its advance-width and visible-bounds center; preserve the original advance width and vertical extent."
+    },
+    {
+      "character": "Ç",
+      "codepoint": "U+00C7",
+      "unicode_name": "LATIN CAPITAL LETTER C WITH CEDILLA",
+      "glyph_name": "Ccedilla",
+      "reference_image": "references/U+00C7-Ccedilla.png",
+      "construction_method": "compose_existing_C_and_generated_cedilla",
+      "source_glyphs": [
+        {
+          "character": "C",
+          "codepoint": "U+0043",
+          "glyph_name": "C"
+        },
+        {
+          "character": "¸",
+          "codepoint": "U+00B8",
+          "glyph_name": "cedilla",
+          "availability": "missing_in_source",
+          "construction_method": "derive_from_existing_comma",
+          "fallback_source": {
+            "character": ",",
+            "codepoint": "U+002C",
+            "glyph_name": "comma"
+          }
+        }
+      ],
+      "notes": "Keep the original C unchanged. Create a handwritten cedilla from the source comma because U+00B8 and U+00E7 are absent, then center it below C with a small collision-free gap."
+    }
+  ]
+}

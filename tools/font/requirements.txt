@@ -1,0 +1,3 @@
+fonttools==4.25.0
+brotli==1.0.9
+Pillow==10.2.0
