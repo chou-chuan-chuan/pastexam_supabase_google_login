@@ -215,6 +215,9 @@ button.tag-chip:hover { background: #e6daf7; }
 .validation-list { margin: 10px 0; padding-left: 22px; color: var(--warning); font-size: .85rem; }
 .shortcut-help { color: var(--muted); font-size: .82rem; }
 
+.brand-logo { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; flex: 0 0 56px; }
+.brand-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
 @media (max-width: 1000px) {
   .reader-layout, .editor-layout { grid-template-columns: 1fr; }
   .detail-pdf { height: 720px; }
