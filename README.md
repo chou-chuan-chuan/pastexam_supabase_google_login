@@ -23,10 +23,11 @@
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.000 新增：
+衍生版 Version 1.001 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
+- `◌̧` U+0327 COMBINING CEDILLA（glyph name：`uni0327`）：identity component 共享 U+00B8 `cedilla` 的精修輪廓，advance width 為 0。保留原始 GPOS/GDEF，並在既有 `mark` feature 附加 MarkBasePos lookup；C base anchor `<221 91>` 與 mark anchor `<95 91>` 重現 U+00C7 的 `+126 x / 0 y` cedilla 位移與 26-unit gap。因此字型同時原生支援預組合 `Ç`（U+00C7）及分解 `Ç`（U+0043 U+0327），不需全域 NFC normalization。
 
 第一版的 `¿` 是未做視覺校正的機械旋轉，第一版 cedilla 則只是將逗號向下移，因此分別有句首高度偏高、點距僵硬，以及 cedilla 偏小、像黏上的逗號等問題。現在的建置腳本把 optical correction 寫成固定 font-unit 參數，可從官方原始 TTF 重現；自動測試會檢查留白、中心、間距、碰撞與裁切，但筆勢是否自然仍需配合多尺寸 proof 人工判斷。
 
@@ -42,12 +43,15 @@
 - `tools/font/build_supplement_font.py`
 - `tools/font/verify_supplement_font.py`
 - `tools/font/render_proof.py`
+- `tools/font/analyze_glyphs.py`
 - `tools/font/glyph_manifest.json`
 - `tools/font/proofs/quanfangwei-supplement-proof.png`
 - `tools/font/proofs/quanfangwei-glyph-analysis.png`
 - `tools/font/proofs/quanfangwei-glyph-analysis.json`
 - `tools/font/proofs/quanfangwei-optical-proof.png`
 - `tools/font/proofs/quanfangwei-natural-proof.png`
+- `tools/font/proofs/quanfangwei-cedilla-proof.png`
+- `tools/font/proofs/quanfangwei-cedilla-proof.txt`
 - `tools/font/README.md`
 
 Windows 建置命令：
@@ -57,13 +61,14 @@ python -m pip install -r tools/font/requirements.txt
 python tools/font/build_supplement_font.py
 python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
+python tools/font/analyze_glyphs.py
 ```
 
-目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
+目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance、GDEF mark class、GPOS anchors，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping；也會確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走分解序列，驗證 mark 最終 origin 為 `+126 x / 0 y`。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.001 一致的穩定 `?v=1.001` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 WOFF2 200，並在 DevTools Rendered Fonts 檢查 `¿`、`Ç` 與中文文字均使用 `QuanFangwei Supplement Web`。若要加入下一個缺字，請依 `tools/font/README.md`：先確認 Unicode 與授權、更新 manifest、優先重用原字型 glyph、擴充 build／verify、重建兩種格式、產生 proof、檢查 Rendered Fonts，最後更新修改紀錄。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.001` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `¿`、預組合 `Ç`、分解 `Ç` 與 U+0327 mark 均由 `QuanFangwei Supplement Web` 覆蓋。fixture 會直接顯示兩種序列的 code points。若要加入下一個缺字，請依 `tools/font/README.md`：先確認 Unicode 與授權、更新 manifest、優先重用原字型 glyph、擴充 build／verify、重建兩種格式、產生 proof、檢查 Rendered Fonts，最後更新修改紀錄。
 
 ## 品牌圖像
 

@@ -292,6 +292,37 @@
       "distance_from_baseline": -39.11,
       "safe_space_to_ascender": 445,
       "safe_space_to_descender": 322.89
+    },
+    "U+0327": {
+      "character": "̧",
+      "codepoint": "U+0327",
+      "glyph_name": "uni0327",
+      "bounds": [
+        48.93,
+        -39.11,
+        140.36,
+        91
+      ],
+      "advance_width": 0,
+      "left_side_bearing": 48,
+      "right_side_bearing": -140.36,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "cedilla",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "visual_bounds_center": [
+        94.65,
+        25.95
+      ],
+      "top_overshoot_from_cap_height": -493,
+      "bottom_overshoot_below_baseline": 39.11,
+      "distance_from_baseline": -39.11,
+      "safe_space_to_ascender": 876,
+      "safe_space_to_descender": 322.89
     }
   }
 }

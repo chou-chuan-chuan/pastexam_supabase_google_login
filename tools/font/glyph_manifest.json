@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.000"
+    "version": "1.001"
   },
   "glyphs": [
     {
@@ -50,6 +50,28 @@
         }
       ],
       "notes": "Keep the original C unchanged. The source lacks U+00B8 and U+00E7, so use only the lower handwritten tail of the source semicolon, scale it 116% horizontally and 82% vertically, rotate it -7 degrees, and place it at an optical center below C with a 26-unit gap. The source comma, J, j, g, and y are retained as style references."
+    },
+    {
+      "character": "\u0327",
+      "codepoint": "U+0327",
+      "unicode_name": "COMBINING CEDILLA",
+      "glyph_name": "uni0327",
+      "reference_image": "references/U+00C7-Ccedilla.png",
+      "construction_method": "identity_component_of_generated_cedilla_with_zero_advance_and_gpos",
+      "source_glyphs": [
+        {
+          "character": "¸",
+          "codepoint": "U+00B8",
+          "glyph_name": "cedilla",
+          "construction_method": "derive_from_semicolon_lower_tail_with_optical_transform",
+          "fallback_source": {
+            "character": ";",
+            "codepoint": "U+003B",
+            "glyph_name": "semicolon"
+          }
+        }
+      ],
+      "notes": "Share the reviewed U+00B8 cedilla outline by identity component reference, set advance width to zero, classify the glyph as a GDEF mark, and attach it to C through the existing GPOS mark feature. The <221 91> base anchor and <95 91> mark anchor reproduce Ccedilla's +126 x / 0 y component placement and 26-unit gap."
     }
   ]
 }

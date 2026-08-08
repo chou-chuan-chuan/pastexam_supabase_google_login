@@ -18,17 +18,20 @@ test("keeps the official source font unchanged and ships valid font signatures",
   assert.equal(woff2.subarray(0, 4).toString("ascii"), "wOF2");
 });
 
-test("loads the supplemental webfont first and manifests the two requested characters", async () => {
+test("loads the versioned supplemental webfont first and manifests precomposed and combining cedilla", async () => {
   const [css, manifestText] = await Promise.all([
     readFile(new URL("../assets/style.css", import.meta.url), "utf8"),
     readFile(new URL("../tools/font/glyph_manifest.json", import.meta.url), "utf8")
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.001/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.001/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
     { character: "¿", codepoint: "U+00BF", glyph_name: "questiondown" },
-    { character: "Ç", codepoint: "U+00C7", glyph_name: "Ccedilla" }
+    { character: "Ç", codepoint: "U+00C7", glyph_name: "Ccedilla" },
+    { character: "̧", codepoint: "U+0327", glyph_name: "uni0327" }
   ]);
 });
