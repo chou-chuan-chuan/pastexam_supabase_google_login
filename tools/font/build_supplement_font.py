@@ -51,7 +51,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.003"
+VERSION = "1.004"
 BUILD_DATE = "2026-08-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260809"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -155,10 +155,49 @@ def rectangle_path(x_min: float, y_min: float, x_max: float, y_max: float) -> pa
     return polygon_path([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])
 
 
+def transition_stroke_path(
+    start: tuple[float, float],
+    control_1: tuple[float, float],
+    control_2: tuple[float, float],
+    end: tuple[float, float],
+    width: float,
+) -> pathops.Path:
+    """Create a round-ended handwritten transition stroke for a junction."""
+    path = pathops.Path()
+    path.moveTo(*start)
+    path.cubicTo(*control_1, *control_2, *end)
+    path.stroke(width, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
+    path.convertConicsToQuads(0.25)
+    return path
+
+
 def path_to_glyph(path: pathops.Path):
     """Convert the boolean-result path back to valid quadratic TrueType curves."""
     pen = TTGlyphPen(None)
     path.draw(Cu2QuPen(pen, max_err=1.0))
+    return pen.glyph()
+
+
+def remove_tiny_boolean_contours(font: TTFont, glyph, minimum_bbox_area: float = 100):
+    """Drop sub-pixel boolean slivers while preserving real counters."""
+    recording = RecordingPen()
+    glyph.draw(recording, font["glyf"])
+    contours: list[list[tuple[str, tuple]]] = []
+    current: list[tuple[str, tuple]] = []
+    for operation in recording.value:
+        current.append(operation)
+        if operation[0] in {"closePath", "endPath"}:
+            contours.append(current)
+            current = []
+    pen = TTGlyphPen(None)
+    for contour in contours:
+        bounds_pen = BoundsPen(None)
+        replayRecording(contour, bounds_pen)
+        if bounds_pen.bounds is None:
+            continue
+        x_min, y_min, x_max, y_max = bounds_pen.bounds
+        if (x_max - x_min) * (y_max - y_min) >= minimum_bbox_area:
+            replayRecording(contour, pen)
     return pen.glyph()
 
 
@@ -291,22 +330,29 @@ def build_german_additions(font: TTFont) -> None:
     f_path = source_path(font, cmap[0x0066], Transform(0.52, 0, 0, 0.65, 15, 135))
     f_path = pathops.op(f_path, rectangle_path(0, 70, 205, 650), pathops.PathOp.INTERSECTION)
     s_path = source_path(font, cmap[0x0073], Transform(0.95, 0, 0, 0.95, 115, 10))
-    germandbls_path = pathops.simplify(pathops.op(f_path, s_path, pathops.PathOp.UNION))
+    lower_transition = transition_stroke_path((185, 395), (205, 400), (225, 413), (255, 425), 34)
+    germandbls_path = pathops.op(f_path, s_path, pathops.PathOp.UNION)
+    germandbls_path = pathops.simplify(pathops.op(germandbls_path, lower_transition, pathops.PathOp.UNION))
     germandbls = path_to_glyph(germandbls_path)
     germandbls.recalcBounds(font["glyf"])
     install_glyph(font, "germandbls", germandbls, 390, germandbls.xMin, cmap[0x0073])
     add_unicode_mapping(font, 0x00DF, "germandbls")
 
     # Capital sharp S: merge the source P's cap-height stem and upper bowl with
-    # the lower stroke of source S, then cut a restrained diagonal opening. The
-    # opening is characteristic of ẞ and keeps it distinct from ordinary B.
+    # the lower stroke of source S. A diagonal transition joins the two source
+    # strokes, while a shallow open notch keeps ẞ distinct from ordinary B.
     p_path = source_path(font, cmap[0x0050], Transform(0.95, 0, 0, 0.86, 20, 45))
     cap_s_path = source_path(font, cmap[0x0053], Transform(0.96, 0, 0, 0.86, 115, 30))
     cap_s_path = pathops.op(cap_s_path, rectangle_path(95, 60, 500, 385), pathops.PathOp.INTERSECTION)
-    capital_path = pathops.simplify(pathops.op(p_path, cap_s_path, pathops.PathOp.UNION))
-    diagonal_opening = polygon_path([(255, 380), (450, 380), (265, 255)])
-    capital_path = pathops.simplify(pathops.op(capital_path, diagonal_opening, pathops.PathOp.DIFFERENCE))
+    capital_transition = transition_stroke_path((175, 350), (220, 350), (300, 315), (365, 300), 36)
+    capital_shoulder = transition_stroke_path((205, 385), (230, 380), (260, 360), (290, 350), 30)
+    capital_path = pathops.op(p_path, cap_s_path, pathops.PathOp.UNION)
+    capital_path = pathops.simplify(pathops.op(capital_path, capital_transition, pathops.PathOp.UNION))
+    capital_path = pathops.simplify(pathops.op(capital_path, capital_shoulder, pathops.PathOp.UNION))
+    capital_opening = polygon_path([(265, 390), (500, 390), (500, 355), (300, 350)])
+    capital_path = pathops.simplify(pathops.op(capital_path, capital_opening, pathops.PathOp.DIFFERENCE))
     capital = path_to_glyph(capital_path)
+    capital = remove_tiny_boolean_contours(font, capital)
     capital.recalcBounds(font["glyf"])
     install_glyph(font, "uni1E9E", capital, 475, capital.xMin, cmap[0x0053])
     add_unicode_mapping(font, 0x1E9E, "uni1E9E")
@@ -438,8 +484,8 @@ def write_modifications() -> None:
 - U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
 - U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>
 - Ä Ö Ü／ä ö ü：保留原字型既有 composite glyph；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+88、+27/-13、+8/-57、+35/-62
-- U+00DF `germandbls`：只使用原始 `f` 與 `s`；裁切 f 的上行筆勢與莖部、縮放並接合 s 的終筆，經輪廓 UNION 與 junction 清理成單一完整 glyph，advance 390
-- U+1E9E `uni1E9E`：只使用原始 `P` 與 `S`；保留 P 的大寫莖與上 bowl、接合 S 下筆，並裁出斜向 counter opening，使其可辨識為 capital sharp S 而非 B，advance 475
+- U+00DF `germandbls`：只使用原始 `f` 與 `s`；裁切 f 的上行筆勢與莖部、縮放並接合 s 的終筆，以 round-ended transition stroke 和輪廓 UNION 清除原本分離的 junction，輸出單一連續外輪廓，advance 390
+- U+1E9E `uni1E9E`：只使用原始 `P` 與 `S`；保留 P 的大寫莖與上 bowl、以斜向 transition／shoulder strokes 接合 S 下筆，保留淺開口使其可辨識為 capital sharp S，並移除 boolean 運算產生的微小 sliver contours，advance 475
 - ß／ẞ 未使用 Greek beta，亦未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓；布林裁切只處理官方辰宇落雁體既有筆畫
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
@@ -489,7 +535,7 @@ def main() -> int:
         build_german_additions(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.003
+        font["head"].fontRevision = 1.004
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

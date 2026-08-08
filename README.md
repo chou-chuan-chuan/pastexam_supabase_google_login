@@ -70,11 +70,11 @@ python tools/font/analyze_glyphs.py
 
 目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance、GDEF mark class、GPOS anchors，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping；也會確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走分解序列，驗證 mark 最終 origin 為 `+126 x / 0 y`。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
-German coverage（Version 1.003）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`，並只用原始 `f`／`s` 與 `P`／`S` 筆畫重新設計 ß／ẞ，沒有複製外部字型輪廓。預組合與分解序列（例如 `Ä` 與 `Ä`）均由字型原生支援，不使用全域 NFC normalization。
+German coverage（Version 1.004）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`，並只用原始 `f`／`s` 與 `P`／`S` 筆畫重新設計 ß／ẞ。Version 1.004 以圓端過渡筆及斜向肩筆接合 ß／ẞ，消除分離及微小 sliver contours；沒有複製外部字型輪廓。預組合與分解序列（例如 `Ä` 與 `Ä`）均由字型原生支援，不使用全域 NFC normalization。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.003 一致的穩定 `?v=1.003` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.004 一致的穩定 `?v=1.004` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.003` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `¿`、cedilla、`ÄÖÜ äöü`、分解 Umlaut、`ßẞ` 與兩種 mark 均由 `QuanFangwei Supplement Web` 覆蓋。fixture 會直接顯示各序列的 code points 與德中混排歌詞。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.004` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `¿`、cedilla、`ÄÖÜ äöü`、分解 Umlaut、`ßẞ` 與兩種 mark 均由 `QuanFangwei Supplement Web` 覆蓋。fixture 會直接顯示各序列的 code points 與德中混排歌詞。
 
 ## 品牌圖像
 

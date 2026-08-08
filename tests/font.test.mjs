@@ -25,8 +25,8 @@ test("loads the versioned supplemental webfont first and manifests cedilla and G
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.003/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.003/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.004/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.004/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [

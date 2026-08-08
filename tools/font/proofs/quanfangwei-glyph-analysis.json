@@ -470,7 +470,7 @@
       "advance_width": 390,
       "left_side_bearing": 32,
       "right_side_bearing": 34,
-      "contour_count": 2,
+      "contour_count": 1,
       "components": [],
       "visual_bounds_center": [
         194.0,
@@ -695,7 +695,7 @@
       "advance_width": 475,
       "left_side_bearing": 51,
       "right_side_bearing": 55,
-      "contour_count": 3,
+      "contour_count": 2,
       "components": [],
       "visual_bounds_center": [
         235.5,

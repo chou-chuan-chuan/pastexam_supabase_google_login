@@ -28,8 +28,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.003"
-UNIQUE_ID = "1.003;QFW;QuanFangweiSupplementScript-Regular;20260809"
+VERSION = "1.004"
+UNIQUE_ID = "1.004;QFW;QuanFangweiSupplementScript-Regular;20260809"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -267,9 +267,11 @@ def verify() -> list[str]:
         expected_hb = [(base_name, base_advance, 0, 0, 0), ("uni0308", 0, 0, delta[0] - base_advance, delta[1])]
         require(hb_positions == expected_hb, f"HarfBuzz {base_name}+uni0308 shaping differs from {glyph_name}: {hb_positions}")
 
+    expected_contours = {"germandbls": 1, "uni1E9E": 2}
     for glyph_name, minimum_height in (("germandbls", 300), ("uni1E9E", 430)):
         glyph = ttf["glyf"][glyph_name]
         require(not glyph.isComposite() and glyph.numberOfContours > 0, f"{glyph_name} must be a non-empty joined outline")
+        require(glyph.numberOfContours == expected_contours[glyph_name], f"{glyph_name} has disconnected or sliver contours: {glyph.numberOfContours}")
         glyph_bounds = bounds(ttf, glyph_name)
         advance, lsb = ttf["hmtx"].metrics[glyph_name]
         require(glyph_bounds[3] - glyph_bounds[1] >= minimum_height, f"{glyph_name} is too short: {glyph_bounds}")
@@ -473,7 +475,7 @@ def main() -> int:
     print("PASS: HarfBuzz shapes forced C/c + U+0327 at the matching +126/0 and +81/+10 mark origins")
     print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
     print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
-    print("PASS: germandbls and uni1E9E are non-empty joined source-derived outlines with safe metrics")
+    print("PASS: germandbls/uni1E9E have continuous source-derived outlines without disconnected or sliver contours")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")
