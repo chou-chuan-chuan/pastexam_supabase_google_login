@@ -13,10 +13,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from PIL import Image
+import pathops
 from fontTools import version as fonttools_version
 from fontTools.misc.transform import Transform
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.pens.recordingPen import RecordingPen, replayRecording
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -49,7 +51,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.002"
+VERSION = "1.003"
 BUILD_DATE = "2026-08-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260809"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -61,6 +63,11 @@ BUILD_TIMESTAMP = int((datetime(2026, 8, 9, tzinfo=timezone.utc) - MAC_EPOCH).to
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
 C_LOWER_CEDILLA_BASE_ANCHOR = (176, 101)
+
+# The source font already supplies U+0308 and the six precomposed Umlauts.
+# These are the source GPOS anchors/component transforms that must remain
+# unchanged.  U+00A8 reuses the same two handwritten dots as a spacing mark.
+DIAERESIS_ADVANCE = 300
 
 
 def fail(message: str) -> None:
@@ -124,6 +131,34 @@ def transformed_contours(font: TTFont, source_name: str, contour_indices: set[in
     for index, contour in enumerate(contours):
         if index in contour_indices:
             replayRecording(contour, transformed_pen)
+    return pen.glyph()
+
+
+def source_path(font: TTFont, source_name: str, transform: Transform) -> pathops.Path:
+    """Return a transformed source glyph as a Skia path."""
+    path = pathops.Path()
+    font.getGlyphSet()[source_name].draw(TransformPen(path.getPen(), transform))
+    return path
+
+
+def polygon_path(points: list[tuple[float, float]]) -> pathops.Path:
+    path = pathops.Path()
+    pen = path.getPen()
+    pen.moveTo(points[0])
+    for point in points[1:]:
+        pen.lineTo(point)
+    pen.closePath()
+    return path
+
+
+def rectangle_path(x_min: float, y_min: float, x_max: float, y_max: float) -> pathops.Path:
+    return polygon_path([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])
+
+
+def path_to_glyph(path: pathops.Path):
+    """Convert the boolean-result path back to valid quadratic TrueType curves."""
+    pen = TTGlyphPen(None)
+    path.draw(Cu2QuPen(pen, max_err=1.0))
     return pen.glyph()
 
 
@@ -236,6 +271,47 @@ def build_cedilla_and_ccedilla(font: TTFont) -> None:
     add_unicode_mapping(font, 0x0327, "uni0327")
 
 
+def build_german_additions(font: TTFont) -> None:
+    """Add only the German glyphs missing from the official source font."""
+    cmap = font.getBestCmap()
+    for codepoint, label in ((0x0308, "COMBINING DIAERESIS"), (0x0066, "f"), (0x0073, "s"), (0x0050, "P"), (0x0053, "S")):
+        if codepoint not in cmap:
+            fail(f"Source font is missing required {label} (U+{codepoint:04X})")
+
+    # U+00A8 is an identity composite of the source-native U+0308 pair. Its
+    # 300-unit advance gives the 60..240 ink bounds balanced 60/60 bearings.
+    spacing_pen = TTGlyphPen(font.getGlyphSet())
+    spacing_pen.addComponent(cmap[0x0308], (1, 0, 0, 1, 0, 0))
+    install_glyph(font, "dieresis", spacing_pen.glyph(), DIAERESIS_ADVANCE, 60, cmap[0x0308])
+    add_unicode_mapping(font, 0x00A8, "dieresis")
+
+    # Lowercase sharp s: retain the source f's ascending entry/stem and merge
+    # it with the source s terminal. Cropping before UNION removes mechanical
+    # overlap and produces a single continuous handwritten outline.
+    f_path = source_path(font, cmap[0x0066], Transform(0.52, 0, 0, 0.65, 15, 135))
+    f_path = pathops.op(f_path, rectangle_path(0, 70, 205, 650), pathops.PathOp.INTERSECTION)
+    s_path = source_path(font, cmap[0x0073], Transform(0.95, 0, 0, 0.95, 115, 10))
+    germandbls_path = pathops.simplify(pathops.op(f_path, s_path, pathops.PathOp.UNION))
+    germandbls = path_to_glyph(germandbls_path)
+    germandbls.recalcBounds(font["glyf"])
+    install_glyph(font, "germandbls", germandbls, 390, germandbls.xMin, cmap[0x0073])
+    add_unicode_mapping(font, 0x00DF, "germandbls")
+
+    # Capital sharp S: merge the source P's cap-height stem and upper bowl with
+    # the lower stroke of source S, then cut a restrained diagonal opening. The
+    # opening is characteristic of ẞ and keeps it distinct from ordinary B.
+    p_path = source_path(font, cmap[0x0050], Transform(0.95, 0, 0, 0.86, 20, 45))
+    cap_s_path = source_path(font, cmap[0x0053], Transform(0.96, 0, 0, 0.86, 115, 30))
+    cap_s_path = pathops.op(cap_s_path, rectangle_path(95, 60, 500, 385), pathops.PathOp.INTERSECTION)
+    capital_path = pathops.simplify(pathops.op(p_path, cap_s_path, pathops.PathOp.UNION))
+    diagonal_opening = polygon_path([(255, 380), (450, 380), (265, 255)])
+    capital_path = pathops.simplify(pathops.op(capital_path, diagonal_opening, pathops.PathOp.DIFFERENCE))
+    capital = path_to_glyph(capital_path)
+    capital.recalcBounds(font["glyf"])
+    install_glyph(font, "uni1E9E", capital, 475, capital.xMin, cmap[0x0053])
+    add_unicode_mapping(font, 0x1E9E, "uni1E9E")
+
+
 def add_cedilla_mark_positioning(font: TTFont) -> None:
     """Append a minimal mark-to-base lookup without replacing source GPOS."""
     if "GPOS" not in font or "GDEF" not in font:
@@ -295,8 +371,8 @@ def set_name_records(font: TTFont) -> None:
         5: (f"Version {VERSION}", f"Version {VERSION}"),
         6: (POSTSCRIPT_NAME, POSTSCRIPT_NAME),
         10: (
-            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It adds U+00BF, U+00C7, U+00E7, and U+0327 and is not an official release by the original authors.",
-            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，新增 U+00BF、U+00C7、U+00E7 與 U+0327；本修改版不是原作者官方發布版本。",
+            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It preserves the source Umlauts and combining diaeresis, and adds punctuation, cedilla support, spacing diaeresis, sharp s, and capital sharp s. It is not an official release by the original authors.",
+            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的缺字補寫版本；保留原始 Umlaut 與 combining diaeresis，並補入標點、cedilla、spacing diaeresis、ß 與 ẞ。本修改版不是原作者官方發布版本。",
         ),
         16: (FAMILY_EN, FAMILY_ZH),
         17: (SUBFAMILY, SUBFAMILY),
@@ -335,11 +411,13 @@ def validate_inputs(manifest: dict) -> None:
         actual_name = unicodedata.name(character)
         if actual_name != item["unicode_name"]:
             fail(f"Unicode name mismatch for {item['codepoint']}: {actual_name}")
-        reference = TOOLS_DIR / item["reference_image"]
-        if not reference.is_file():
-            fail(f"Missing reference image: {reference}")
-        with Image.open(reference) as image:
-            image.verify()
+        reference_name = item.get("reference_image")
+        if reference_name:
+            reference = TOOLS_DIR / reference_name
+            if not reference.is_file():
+                fail(f"Missing reference image: {reference}")
+            with Image.open(reference) as image:
+                image.verify()
         print(f"{character} {item['codepoint']} {actual_name} expected_glyph={item['glyph_name']}")
 
 
@@ -355,7 +433,14 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
-- 新增字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`
+- 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`
+- German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，其 cmap、輪廓、components、metrics、GDEF 與 GPOS 錨點均原封不動保留
+- U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
+- U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>
+- Ä Ö Ü／ä ö ü：保留原字型既有 composite glyph；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+88、+27/-13、+8/-57、+35/-62
+- U+00DF `germandbls`：只使用原始 `f` 與 `s`；裁切 f 的上行筆勢與莖部、縮放並接合 s 的終筆，經輪廓 UNION 與 junction 清理成單一完整 glyph，advance 390
+- U+1E9E `uni1E9E`：只使用原始 `P` 與 `S`；保留 P 的大寫莖與上 bowl、接合 S 下筆，並裁出斜向 counter opening，使其可辨識為 capital sharp S 而非 B，advance 475
+- ß／ẞ 未使用 Greek beta，亦未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓；布林裁切只處理官方辰宇落雁體既有筆畫
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
@@ -394,16 +479,17 @@ def main() -> int:
         if "glyf" not in font or "hmtx" not in font:
             fail("This builder requires a TrueType glyf/hmtx source font")
         source_cmap = font.getBestCmap()
-        for codepoint in (0x00BF, 0x00C7, 0x00E7, 0x0327):
+        for codepoint in (0x00BF, 0x00C7, 0x00E7, 0x0327, 0x00A8, 0x00DF, 0x1E9E):
             if codepoint in source_cmap:
                 fail(f"Source unexpectedly already contains U+{codepoint:04X}; review the migration before rebuilding")
 
         build_questiondown(font)
         build_cedilla_and_ccedilla(font)
         add_cedilla_mark_positioning(font)
+        build_german_additions(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.002
+        font["head"].fontRevision = 1.003
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

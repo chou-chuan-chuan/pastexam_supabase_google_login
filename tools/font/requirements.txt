@@ -2,3 +2,4 @@ fonttools==4.55.3
 brotli==1.0.9
 Pillow==10.2.0
 uharfbuzz==0.40.1
+skia-pathops==0.8.0.post2

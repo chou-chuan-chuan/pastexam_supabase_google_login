@@ -39,12 +39,22 @@ python tools/font/analyze_glyphs.py
 - `ccedilla`：U+00E7 LATIN SMALL LETTER C WITH CEDILLA。以完全未改形的原始 `c` 加上同一精修 `cedilla` component 組成，位移 `+81 x / +10 y`，維持 26 units gap；advance 與 side bearings 與原始 c 相同。
 - `uni0327`：U+0327 COMBINING CEDILLA。以 identity component 共享精修 `cedilla` 輪廓，advance width 為 0，並在 GDEF 標記為 mark。建置保留原始 GPOS/GDEF，只在既有 `mark` feature 附加單一 MarkBasePos lookup；C/c base anchors `<221 91>`／`<176 101>` 與 mark anchor `<95 91>` 分別產生 `+126/0`／`+81/+10` 位移，與 `Ccedilla`／`ccedilla` components 完全一致。預組合及分解的大小寫形式都由字型原生支援，不透過 JavaScript 強制 NFC normalization。
 
+### German support（Version 1.003）
+
+- 原始字型已包含 `Adieresis`／`Odieresis`／`Udieresis`／`adieresis`／`odieresis`／`udieresis` 與 zero-advance `uni0308`，本版不重畫、不覆蓋。原始 mark anchor `<145 477>` 及 A/O/U/a/o/u base anchors `<272 622>`／`<235 564>`／`<174 565>`／`<172 464>`／`<153 420>`／`<180 415>` 均保留，所以 composed 與 decomposed Umlaut 使用同一筆畫與定位。
+- `dieresis`：U+00A8 spacing DIAERESIS。identity-reference 原始 `uni0308` 的兩個手寫點，advance 300、左右約 60 units；U+0308 自身仍為 advance 0。點不是幾何圓，也沒有取自其他字型。
+- `germandbls`：U+00DF ß。將原始 `f` 的上行筆勢／莖部與原始 `s` 的終筆做受控縮放、裁切、boolean union 與 junction 清理，輸出單一完整輪廓；不是 B、Greek β、`fs` 或兩個未處理字母。
+- `uni1E9E`：U+1E9E ẞ。由原始 `P` 的大寫莖與上 bowl 接合原始 `S` 下筆，加入斜向 counter opening，維持 cap-height 手寫語言並與普通 B 區分。
+- ß／ẞ 的所有輪廓都只來自 repository 內官方辰宇落雁體；未使用 Arial、Times、Noto、Google Fonts 或任何外部字型輪廓。
+
 `verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç`／`Ç`、`ç`／`ç` 的原始 base identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走大小寫分解序列，確認 mark origins 與預組合 components 完全相同。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
 
 - `proofs/quanfangwei-glyph-analysis.png` 與對應 JSON 度量紀錄
 - `proofs/quanfangwei-optical-proof.png`（含 baseline、ascender、descender、advance box）
 - `proofs/quanfangwei-natural-proof.png`（無輔助線自然文字）
 - `proofs/quanfangwei-cedilla-proof.png` 與 `.txt`（預組合／分解形式、code points、16／24／32／48／72／120 px 對照）
+- `proofs/quanfangwei-german-proof.png` 與 `.txt`（16／20／24／32／48／72／120 px Umlaut 及真實德文）
+- `proofs/quanfangwei-sharp-s-proof.png`（144 px ß／ẞ、baseline、x-height、cap-height、ascender、descender 與 advance box）
 
 ## 新增下一個缺字
 

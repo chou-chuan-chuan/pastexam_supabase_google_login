@@ -15,7 +15,11 @@ FONT_PATHS = [
     FONT_DIR / "QuanFangweiSupplementScript-Regular.ttf",
     FONT_DIR / "QuanFangweiSupplementScript-Regular.woff2",
 ]
-CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x0063, 0x00B8, 0x00C7, 0x00E7, 0x0327]
+CODEPOINTS = [
+    0x003F, 0x00A8, 0x00BF, 0x0041, 0x004F, 0x0055, 0x0061, 0x006F,
+    0x0075, 0x00B8, 0x00C4, 0x00C7, 0x00D6, 0x00DC, 0x00DF, 0x00E4,
+    0x00E7, 0x00F6, 0x00FC, 0x0308, 0x0327, 0x1E9E,
+]
 
 
 def bounds(font: TTFont, glyph_name: str):
@@ -24,14 +28,14 @@ def bounds(font: TTFont, glyph_name: str):
     return pen.bounds
 
 
-def mark_rule(font: TTFont, base_name: str):
+def mark_rule(font: TTFont, base_name: str, mark_name: str):
     for lookup_index, lookup in enumerate(font["GPOS"].table.LookupList.Lookup):
         if lookup.LookupType != 4:
             continue
         for subtable in lookup.SubTable:
-            if "uni0327" not in subtable.MarkCoverage.glyphs or base_name not in subtable.BaseCoverage.glyphs:
+            if mark_name not in subtable.MarkCoverage.glyphs or base_name not in subtable.BaseCoverage.glyphs:
                 continue
-            mark_index = subtable.MarkCoverage.glyphs.index("uni0327")
+            mark_index = subtable.MarkCoverage.glyphs.index(mark_name)
             base_index = subtable.BaseCoverage.glyphs.index(base_name)
             mark_record = subtable.MarkArray.MarkRecord[mark_index]
             mark_anchor = mark_record.MarkAnchor
@@ -58,8 +62,10 @@ def main() -> int:
                     f"  U+{codepoint:04X} -> {glyph_name}; advance={advance}; lsb={lsb}; "
                     f"bounds={bounds(font, glyph_name)}; components={components}"
                 )
-            print(f"  GPOS C/uni0327={mark_rule(font, 'C')}")
-            print(f"  GPOS c/uni0327={mark_rule(font, 'c')}")
+            print(f"  GPOS C/uni0327={mark_rule(font, 'C', 'uni0327')}")
+            print(f"  GPOS c/uni0327={mark_rule(font, 'c', 'uni0327')}")
+            for base_name in ("A", "O", "U", "a", "o", "u"):
+                print(f"  GPOS {base_name}/uni0308={mark_rule(font, base_name, 'uni0308')}")
         finally:
             font.close()
     return 0

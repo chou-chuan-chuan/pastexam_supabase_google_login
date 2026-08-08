@@ -257,6 +257,37 @@
       "safe_space_to_ascender": 517,
       "safe_space_to_descender": 242
     },
+    "U+00A8": {
+      "character": "¨",
+      "codepoint": "U+00A8",
+      "glyph_name": "dieresis",
+      "bounds": [
+        61.2,
+        489,
+        238.8,
+        572
+      ],
+      "advance_width": 300,
+      "left_side_bearing": 60,
+      "right_side_bearing": 61.2,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "uni0308",
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "visual_bounds_center": [
+        150.0,
+        530.5
+      ],
+      "top_overshoot_from_cap_height": -12,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 489,
+      "safe_space_to_ascender": 395,
+      "safe_space_to_descender": 851
+    },
     "U+00B8": {
       "character": "¸",
       "codepoint": "U+00B8",
@@ -281,6 +312,42 @@
       "distance_from_baseline": -39.11,
       "safe_space_to_ascender": 876,
       "safe_space_to_descender": 322.89
+    },
+    "U+00C4": {
+      "character": "Ä",
+      "codepoint": "U+00C4",
+      "glyph_name": "Adieresis",
+      "bounds": [
+        34,
+        85,
+        447,
+        717
+      ],
+      "advance_width": 483,
+      "left_side_bearing": 34,
+      "right_side_bearing": 36,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "A",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 127,
+          "y": 145
+        }
+      ],
+      "visual_bounds_center": [
+        240.5,
+        401.0
+      ],
+      "top_overshoot_from_cap_height": 133,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 85,
+      "safe_space_to_ascender": 250,
+      "safe_space_to_descender": 447
     },
     "U+00C7": {
       "character": "Ç",
@@ -318,6 +385,139 @@
       "safe_space_to_ascender": 445,
       "safe_space_to_descender": 322.89
     },
+    "U+00D6": {
+      "character": "Ö",
+      "codepoint": "U+00D6",
+      "glyph_name": "Odieresis",
+      "bounds": [
+        34,
+        123,
+        370,
+        659
+      ],
+      "advance_width": 402,
+      "left_side_bearing": 34,
+      "right_side_bearing": 32,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "O",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 90,
+          "y": 87
+        }
+      ],
+      "visual_bounds_center": [
+        202.0,
+        391.0
+      ],
+      "top_overshoot_from_cap_height": 75,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 123,
+      "safe_space_to_ascender": 308,
+      "safe_space_to_descender": 485
+    },
+    "U+00DC": {
+      "character": "Ü",
+      "codepoint": "U+00DC",
+      "glyph_name": "Udieresis",
+      "bounds": [
+        41,
+        98,
+        355,
+        660
+      ],
+      "advance_width": 388,
+      "left_side_bearing": 41,
+      "right_side_bearing": 33,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "U",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 29,
+          "y": 88
+        }
+      ],
+      "visual_bounds_center": [
+        198.0,
+        379.0
+      ],
+      "top_overshoot_from_cap_height": 76,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 98,
+      "safe_space_to_ascender": 307,
+      "safe_space_to_descender": 460
+    },
+    "U+00DF": {
+      "character": "ß",
+      "codepoint": "U+00DF",
+      "glyph_name": "germandbls",
+      "bounds": [
+        32,
+        90,
+        356,
+        620
+      ],
+      "advance_width": 390,
+      "left_side_bearing": 32,
+      "right_side_bearing": 34,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        194.0,
+        355.0
+      ],
+      "top_overshoot_from_cap_height": 36,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 90,
+      "safe_space_to_ascender": 347,
+      "safe_space_to_descender": 452
+    },
+    "U+00E4": {
+      "character": "ä",
+      "codepoint": "U+00E4",
+      "glyph_name": "adieresis",
+      "bounds": [
+        34,
+        104,
+        350,
+        559
+      ],
+      "advance_width": 387,
+      "left_side_bearing": 34,
+      "right_side_bearing": 37,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "a",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 27,
+          "y": -13
+        }
+      ],
+      "visual_bounds_center": [
+        192.0,
+        331.5
+      ],
+      "top_overshoot_from_cap_height": -25,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 104,
+      "safe_space_to_ascender": 408,
+      "safe_space_to_descender": 466
+    },
     "U+00E7": {
       "character": "ç",
       "codepoint": "U+00E7",
@@ -354,6 +554,103 @@
       "safe_space_to_ascender": 567,
       "safe_space_to_descender": 332.89
     },
+    "U+00F6": {
+      "character": "ö",
+      "codepoint": "U+00F6",
+      "glyph_name": "odieresis",
+      "bounds": [
+        35,
+        153,
+        271,
+        515
+      ],
+      "advance_width": 306,
+      "left_side_bearing": 35,
+      "right_side_bearing": 35,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "o",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 8,
+          "y": -57
+        }
+      ],
+      "visual_bounds_center": [
+        153.0,
+        334.0
+      ],
+      "top_overshoot_from_cap_height": -69,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 153,
+      "safe_space_to_ascender": 452,
+      "safe_space_to_descender": 515
+    },
+    "U+00FC": {
+      "character": "ü",
+      "codepoint": "U+00FC",
+      "glyph_name": "udieresis",
+      "bounds": [
+        51,
+        122,
+        311,
+        510
+      ],
+      "advance_width": 360,
+      "left_side_bearing": 51,
+      "right_side_bearing": 49,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "u",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "uni0308",
+          "x": 35,
+          "y": -62
+        }
+      ],
+      "visual_bounds_center": [
+        181.0,
+        316.0
+      ],
+      "top_overshoot_from_cap_height": -74,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 122,
+      "safe_space_to_ascender": 457,
+      "safe_space_to_descender": 484
+    },
+    "U+0308": {
+      "character": "̈",
+      "codepoint": "U+0308",
+      "glyph_name": "uni0308",
+      "bounds": [
+        61.2,
+        489,
+        238.8,
+        572
+      ],
+      "advance_width": 0,
+      "left_side_bearing": 60,
+      "right_side_bearing": -238.8,
+      "contour_count": 2,
+      "components": [],
+      "visual_bounds_center": [
+        150.0,
+        530.5
+      ],
+      "top_overshoot_from_cap_height": -12,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 489,
+      "safe_space_to_ascender": 395,
+      "safe_space_to_descender": 851
+    },
     "U+0327": {
       "character": "̧",
       "codepoint": "U+0327",
@@ -384,6 +681,31 @@
       "distance_from_baseline": -39.11,
       "safe_space_to_ascender": 876,
       "safe_space_to_descender": 322.89
+    },
+    "U+1E9E": {
+      "character": "ẞ",
+      "codepoint": "U+1E9E",
+      "glyph_name": "uni1E9E",
+      "bounds": [
+        51,
+        102,
+        420,
+        607
+      ],
+      "advance_width": 475,
+      "left_side_bearing": 51,
+      "right_side_bearing": 55,
+      "contour_count": 3,
+      "components": [],
+      "visual_bounds_center": [
+        235.5,
+        354.5
+      ],
+      "top_overshoot_from_cap_height": 23,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 102,
+      "safe_space_to_ascender": 360,
+      "safe_space_to_descender": 464
     }
   }
 }

@@ -28,12 +28,21 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.002"
-UNIQUE_ID = "1.002;QFW;QuanFangweiSupplementScript-Regular;20260809"
+VERSION = "1.003"
+UNIQUE_ID = "1.003;QFW;QuanFangweiSupplementScript-Regular;20260809"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
 C_LOWER_CEDILLA_BASE_ANCHOR = (176, 101)
+DIAERESIS_MARK_ANCHOR = (145, 477)
+UMLAUT_DATA = {
+    0x00C4: (0x0041, "Adieresis", "A", (127, 145), (272, 622)),
+    0x00D6: (0x004F, "Odieresis", "O", (90, 87), (235, 564)),
+    0x00DC: (0x0055, "Udieresis", "U", (29, 88), (174, 565)),
+    0x00E4: (0x0061, "adieresis", "a", (27, -13), (172, 464)),
+    0x00F6: (0x006F, "odieresis", "o", (8, -57), (153, 420)),
+    0x00FC: (0x0075, "udieresis", "u", (35, -62), (180, 415)),
+}
 
 
 def sha256(path: Path) -> str:
@@ -107,7 +116,7 @@ def mark_to_base_anchors(font: TTFont, mark_name: str, base_name: str):
     return None
 
 
-def harfbuzz_decomposed_positions(path: Path, base_codepoint: int, precomposed_codepoint: int):
+def harfbuzz_decomposed_positions(path: Path, base_codepoint: int, mark_codepoint: int, precomposed_codepoint: int):
     """Force the decomposed path and return HarfBuzz glyph positions.
 
     HarfBuzz normally recomposes a base + U+0327 when the precomposed glyph is
@@ -127,7 +136,7 @@ def harfbuzz_decomposed_positions(path: Path, base_codepoint: int, precomposed_c
         upm = font["head"].unitsPerEm
         hb_font.scale = (upm, upm)
         hb_buffer = hb.Buffer()
-        hb_buffer.add_codepoints([base_codepoint, 0x0327])
+        hb_buffer.add_codepoints([base_codepoint, mark_codepoint])
         hb_buffer.guess_segment_properties()
         hb.shape(hb_font, hb_buffer, {"ccmp": False, "mark": True})
         return [
@@ -172,7 +181,22 @@ def verify() -> list[str]:
     source_cmap = source.getBestCmap()
     ttf_cmap = ttf.getBestCmap()
     woff2_cmap = woff2.getBestCmap()
-    required = {0x00BF: "questiondown", 0x00C7: "Ccedilla", 0x00E7: "ccedilla", 0x0327: "uni0327"}
+    required = {
+        0x00A8: "dieresis",
+        0x00BF: "questiondown",
+        0x00C4: "Adieresis",
+        0x00C7: "Ccedilla",
+        0x00D6: "Odieresis",
+        0x00DC: "Udieresis",
+        0x00DF: "germandbls",
+        0x00E4: "adieresis",
+        0x00E7: "ccedilla",
+        0x00F6: "odieresis",
+        0x00FC: "udieresis",
+        0x0308: "uni0308",
+        0x0327: "uni0327",
+        0x1E9E: "uni1E9E",
+    }
     for codepoint, glyph_name in required.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"TTF U+{codepoint:04X} does not map to {glyph_name}")
         require(woff2_cmap.get(codepoint) == glyph_name, f"WOFF2 U+{codepoint:04X} does not map to {glyph_name}")
@@ -186,8 +210,8 @@ def verify() -> list[str]:
                 upm = ttf["head"].unitsPerEm
                 require(all(-2 * upm <= value <= 3 * upm for value in glyph_bounds), f"TTF glyph {glyph_name} has extreme bounds {glyph_bounds}")
             advance, _ = ttf["hmtx"].metrics[glyph_name]
-            if codepoint == 0x0327:
-                require(advance == 0, f"TTF combining cedilla advance must be zero, found {advance}")
+            if codepoint in (0x0308, 0x0327):
+                require(advance == 0, f"TTF combining mark U+{codepoint:04X} advance must be zero, found {advance}")
             else:
                 require(0 < advance < 2 * ttf["head"].unitsPerEm, f"TTF glyph {glyph_name} has unreasonable advance {advance}")
         else:
@@ -211,6 +235,52 @@ def verify() -> list[str]:
             f"uni0327 must share the cedilla outline by identity component: {component_info}",
         )
         require(ttf["GDEF"].table.GlyphClassDef.classDefs.get("uni0327") == 3, "uni0327 is not classified as a GDEF mark")
+
+    if "dieresis" in ttf["glyf"].glyphs:
+        spacing = ttf["glyf"]["dieresis"]
+        component_info = [component.getComponentInfo() for component in spacing.components] if spacing.isComposite() else []
+        require(component_info == [("uni0308", (1, 0, 0, 1, 0, 0))], f"dieresis must identity-reference uni0308: {component_info}")
+        require(ttf["hmtx"].metrics["dieresis"] == (300, 60), f"dieresis spacing metrics are incorrect: {ttf['hmtx'].metrics['dieresis']}")
+        require(bounds(ttf, "dieresis") == bounds(ttf, "uni0308"), "Spacing and combining diaeresis bounds differ despite identity component reuse")
+    require(ttf["GDEF"].table.GlyphClassDef.classDefs.get("uni0308") == 3, "uni0308 source mark class was lost")
+
+    # All six source Umlaut composites and their original base outlines remain
+    # byte-for-byte/drawing-equivalent. Existing source GPOS anchors must make
+    # the decomposed form land at the same component transform.
+    for precomposed, (base_cp, glyph_name, base_name, delta, base_anchor) in UMLAUT_DATA.items():
+        require(drawing(source, base_name) == drawing(ttf, base_name), f"Original {base_name} outline changed")
+        require(drawing(source, "uni0308") == drawing(ttf, "uni0308"), "Original uni0308 outline changed")
+        require(source["hmtx"].metrics[base_name] == ttf["hmtx"].metrics[base_name], f"Original {base_name} metrics changed")
+        glyph = ttf["glyf"][glyph_name]
+        components = [component.getComponentInfo() for component in glyph.components] if glyph.isComposite() else []
+        expected_components = [(base_name, (1, 0, 0, 1, 0, 0)), ("uni0308", (1, 0, 0, 1, delta[0], delta[1]))]
+        require(components == expected_components, f"{glyph_name} source composite changed: {components}")
+        anchor_info = mark_to_base_anchors(ttf, "uni0308", base_name)
+        require(anchor_info is not None, f"GPOS has no source rule for {base_name} + uni0308")
+        if anchor_info:
+            actual_base, actual_mark, _ = anchor_info
+            require(actual_base == base_anchor, f"{base_name} diaeresis base anchor changed: {actual_base}")
+            require(actual_mark == DIAERESIS_MARK_ANCHOR, f"uni0308 mark anchor changed for {base_name}: {actual_mark}")
+            require((actual_base[0] - actual_mark[0], actual_base[1] - actual_mark[1]) == delta, f"{base_name}+uni0308 delta differs from {glyph_name}")
+        hb_positions = harfbuzz_decomposed_positions(TTF_PATH, base_cp, 0x0308, precomposed)
+        base_advance = ttf["hmtx"].metrics[base_name][0]
+        expected_hb = [(base_name, base_advance, 0, 0, 0), ("uni0308", 0, 0, delta[0] - base_advance, delta[1])]
+        require(hb_positions == expected_hb, f"HarfBuzz {base_name}+uni0308 shaping differs from {glyph_name}: {hb_positions}")
+
+    for glyph_name, minimum_height in (("germandbls", 300), ("uni1E9E", 430)):
+        glyph = ttf["glyf"][glyph_name]
+        require(not glyph.isComposite() and glyph.numberOfContours > 0, f"{glyph_name} must be a non-empty joined outline")
+        glyph_bounds = bounds(ttf, glyph_name)
+        advance, lsb = ttf["hmtx"].metrics[glyph_name]
+        require(glyph_bounds[3] - glyph_bounds[1] >= minimum_height, f"{glyph_name} is too short: {glyph_bounds}")
+        require(0 <= lsb <= 80 and glyph_bounds[2] < advance + 30, f"{glyph_name} has unreasonable horizontal metrics: advance={advance}, lsb={lsb}, bounds={glyph_bounds}")
+        require(ttf["hhea"].descent < glyph_bounds[1] < glyph_bounds[3] < ttf["hhea"].ascent, f"{glyph_name} is vertically clipped: {glyph_bounds}")
+    require(drawing(ttf, "germandbls") != drawing(ttf, "B"), "germandbls incorrectly duplicates B")
+    require(drawing(ttf, "uni1E9E") != drawing(ttf, "B"), "uni1E9E incorrectly duplicates B")
+    if 0x03B2 in source_cmap:
+        beta_name = source_cmap[0x03B2]
+        require(drawing(ttf, "germandbls") != drawing(ttf, beta_name), "germandbls incorrectly duplicates Greek beta")
+        require(drawing(source, beta_name) == drawing(ttf, beta_name), "Original Greek beta changed")
 
     source_question = source_cmap.get(0x003F)
     source_c = source_cmap.get(0x0043)
@@ -322,15 +392,22 @@ def verify() -> list[str]:
     for codepoint, glyph_name in source_cmap.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"Original cmap mapping changed at U+{codepoint:04X}")
     require(ttf_cmap == woff2_cmap, "WOFF2 decoded cmap differs from TTF cmap")
-    for glyph_name in ("questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327"):
+    compared_glyphs = (
+        "questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327",
+        "dieresis", "uni0308", "Adieresis", "Odieresis", "Udieresis",
+        "adieresis", "odieresis", "udieresis", "germandbls", "uni1E9E",
+    )
+    for glyph_name in compared_glyphs:
         require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 bounds differ from TTF for {glyph_name}")
         require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name], f"WOFF2 metrics differ from TTF for {glyph_name}")
     require(mark_to_base_anchors(ttf, "uni0327", "C") == mark_to_base_anchors(woff2, "uni0327", "C"), "WOFF2 mark anchors differ from TTF")
     require(mark_to_base_anchors(ttf, "uni0327", "c") == mark_to_base_anchors(woff2, "uni0327", "c"), "WOFF2 lowercase mark anchors differ from TTF")
+    for _, (_, _, base_name, _, _) in UMLAUT_DATA.items():
+        require(mark_to_base_anchors(ttf, "uni0308", base_name) == mark_to_base_anchors(woff2, "uni0308", base_name), f"WOFF2 {base_name}/uni0308 anchors differ from TTF")
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 5, "Derived glyph count did not increase by exactly five")
+    require(len(ttf_order) == len(source_order) + 8, "Derived glyph count did not increase by exactly eight")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
@@ -340,12 +417,12 @@ def verify() -> list[str]:
         require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
     for glyph_name, glyph_class in source["GDEF"].table.GlyphClassDef.classDefs.items():
         require(ttf["GDEF"].table.GlyphClassDef.classDefs.get(glyph_name) == glyph_class, f"Original GDEF class changed for {glyph_name}")
-    hb_positions = harfbuzz_decomposed_positions(TTF_PATH, 0x0043, 0x00C7)
+    hb_positions = harfbuzz_decomposed_positions(TTF_PATH, 0x0043, 0x0327, 0x00C7)
     require(
         hb_positions == [("C", 471, 0, 0, 0), ("uni0327", 0, 0, -345, 0)],
         f"HarfBuzz decomposed shaping is incorrect: {hb_positions}",
     )
-    lower_hb_positions = harfbuzz_decomposed_positions(TTF_PATH, 0x0063, 0x00E7)
+    lower_hb_positions = harfbuzz_decomposed_positions(TTF_PATH, 0x0063, 0x0327, 0x00E7)
     require(
         lower_hb_positions == [("c", 345, 0, 0, 0), ("uni0327", 0, 0, -264, 10)],
         f"HarfBuzz lowercase decomposed shaping is incorrect: {lower_hb_positions}",
@@ -391,9 +468,12 @@ def main() -> int:
         print(f"Verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
     print("PASS: TTF and WOFF2 open successfully")
-    print("PASS: U+00BF, U+00C7, U+00E7, and U+0327 map correctly in both cmaps")
+    print("PASS: cedilla and complete German cmap coverage map correctly in TTF and WOFF2")
     print("PASS: uni0327 has zero advance, shared cedilla outline, GDEF mark class, and GPOS C/c anchors")
     print("PASS: HarfBuzz shapes forced C/c + U+0327 at the matching +126/0 and +81/+10 mark origins")
+    print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
+    print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
+    print("PASS: germandbls and uni1E9E are non-empty joined source-derived outlines with safe metrics")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")

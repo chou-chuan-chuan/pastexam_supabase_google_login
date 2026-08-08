@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.002"
+    "version": "1.003"
   },
   "glyphs": [
     {
@@ -93,6 +93,106 @@
         }
       ],
       "notes": "Share the reviewed U+00B8 cedilla outline by identity component reference, set advance width to zero, classify the glyph as a GDEF mark, and attach it to C through the existing GPOS mark feature. The <221 91> base anchor and <95 91> mark anchor reproduce Ccedilla's +126 x / 0 y component placement and 26-unit gap."
+    },
+    {
+      "character": "¨",
+      "codepoint": "U+00A8",
+      "unicode_name": "DIAERESIS",
+      "glyph_name": "dieresis",
+      "construction_method": "identity_component_of_source_combining_diaeresis_with_spacing_metrics",
+      "source_glyphs": [{"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Keep the source ink bounds at x=60..240 and use a 300-unit advance for balanced 60-unit side bearings.",
+      "notes": "The source-native two-dot contour is reused exactly; only spacing metrics distinguish U+00A8 from U+0308."
+    },
+    {
+      "character": "̈",
+      "codepoint": "U+0308",
+      "unicode_name": "COMBINING DIAERESIS",
+      "glyph_name": "uni0308",
+      "construction_method": "preserve_official_source_glyph_and_existing_gpos",
+      "source_glyphs": [{"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308", "availability": "present_in_source"}],
+      "optical_adjustments": "No modification. Preserve zero advance, mark anchor <145 477>, and the source GDEF mark class.",
+      "notes": "The official source already contains the handwritten two-dot mark and mark-to-base positioning for A/O/U/a/o/u."
+    },
+    {
+      "character": "Ä",
+      "codepoint": "U+00C4",
+      "unicode_name": "LATIN CAPITAL LETTER A WITH DIAERESIS",
+      "glyph_name": "Adieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "A", "codepoint": "U+0041", "glyph_name": "A"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +127 x / +145 y and base anchor <272 622>.",
+      "notes": "Original A outline and advance remain unchanged; decomposed A+U+0308 matches this source composite through source GPOS."
+    },
+    {
+      "character": "Ö",
+      "codepoint": "U+00D6",
+      "unicode_name": "LATIN CAPITAL LETTER O WITH DIAERESIS",
+      "glyph_name": "Odieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "O", "codepoint": "U+004F", "glyph_name": "O"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +90 x / +87 y and base anchor <235 564>.",
+      "notes": "Original O outline and advance remain unchanged; decomposed O+U+0308 matches through source GPOS."
+    },
+    {
+      "character": "Ü",
+      "codepoint": "U+00DC",
+      "unicode_name": "LATIN CAPITAL LETTER U WITH DIAERESIS",
+      "glyph_name": "Udieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "U", "codepoint": "U+0055", "glyph_name": "U"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +29 x / +88 y and base anchor <174 565>.",
+      "notes": "Original U outline and advance remain unchanged; decomposed U+U+0308 matches through source GPOS."
+    },
+    {
+      "character": "ä",
+      "codepoint": "U+00E4",
+      "unicode_name": "LATIN SMALL LETTER A WITH DIAERESIS",
+      "glyph_name": "adieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "a", "codepoint": "U+0061", "glyph_name": "a"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +27 x / -13 y and base anchor <172 464>.",
+      "notes": "Lowercase height is tuned independently in the source; decomposed a+U+0308 matches through source GPOS."
+    },
+    {
+      "character": "ö",
+      "codepoint": "U+00F6",
+      "unicode_name": "LATIN SMALL LETTER O WITH DIAERESIS",
+      "glyph_name": "odieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "o", "codepoint": "U+006F", "glyph_name": "o"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +8 x / -57 y and base anchor <153 420>.",
+      "notes": "Lowercase height is tuned independently in the source; decomposed o+U+0308 matches through source GPOS."
+    },
+    {
+      "character": "ü",
+      "codepoint": "U+00FC",
+      "unicode_name": "LATIN SMALL LETTER U WITH DIAERESIS",
+      "glyph_name": "udieresis",
+      "construction_method": "preserve_source_composite",
+      "source_glyphs": [{"character": "u", "codepoint": "U+0075", "glyph_name": "u"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "optical_adjustments": "Preserve source component delta +35 x / -62 y and base anchor <180 415>.",
+      "notes": "Lowercase height is tuned independently in the source; decomposed u+U+0308 matches through source GPOS."
+    },
+    {
+      "character": "ß",
+      "codepoint": "U+00DF",
+      "unicode_name": "LATIN SMALL LETTER SHARP S",
+      "glyph_name": "germandbls",
+      "construction_method": "crop_transform_and_boolean_union_source_f_and_s",
+      "source_glyphs": [{"character": "f", "codepoint": "U+0066", "glyph_name": "f"}, {"character": "s", "codepoint": "U+0073", "glyph_name": "s"}],
+      "optical_adjustments": "Scale f to 52% x / 65% y at +15/+135, crop to x=0..205 y=70..650; scale s to 95% at +115/+10; union and simplify; advance 390.",
+      "notes": "A single joined outline derived only from source handwriting; it is neither B, beta, fs, nor two untouched letters."
+    },
+    {
+      "character": "ẞ",
+      "codepoint": "U+1E9E",
+      "unicode_name": "LATIN CAPITAL LETTER SHARP S",
+      "glyph_name": "uni1E9E",
+      "construction_method": "crop_transform_boolean_union_and_counter_cut_source_P_and_S",
+      "source_glyphs": [{"character": "P", "codepoint": "U+0050", "glyph_name": "P"}, {"character": "S", "codepoint": "U+0053", "glyph_name": "S"}],
+      "optical_adjustments": "Scale P to 95% x / 86% y at +20/+45; scale S to 96% x / 86% y at +115/+30 and retain y=60..385; union, simplify, and cut a diagonal counter opening; advance 475.",
+      "notes": "The cap-height design is built only from source P/S strokes. The diagonal opening distinguishes capital sharp S from ordinary B."
     }
   ]
 }

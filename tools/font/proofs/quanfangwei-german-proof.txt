@@ -1,0 +1,65 @@
+QuanFangwei Supplement Script German proof
+spacing diaeresis: ¨ = U+00A8 (advance 300)
+combining diaeresis: ̈ = U+0308 (advance 0)
+mark anchor: <145 477>
+base anchors: A <272 622>, O <235 564>, U <174 565>, a <172 464>, o <153 420>, u <180 415>
+precomposed: Ä Ö Ü ä ö ü
+decomposed: Ä Ö Ü ä ö ü
+precomposed code points: U+00C4 U+00D6 U+00DC U+00E4 U+00F6 U+00FC
+decomposed code points: U+0041 U+0308 U+004F U+0308 U+0055 U+0308 U+0061 U+0308 U+006F U+0308 U+0075 U+0308
+
+Ä Ö Ü    Ä Ö Ü
+ä ö ü    ä ö ü
+A Ä A   O Ö O   U Ü U
+a ä a   o ö o   u ü u   Ç ç   ¿ ?   ß ẞ
+Füße   Straße   STRAẞE   Größe   größer   Mädchen
+schön   über   für   früh   grün   Köln
+München   Düsseldorf   Österreich
+Fußball   Fußgänger   Straßenbahn
+Ich weiß, dass du schön bist.
+Grüße aus München!
+Über den Wolken muss die Freiheit wohl grenzenlos sein.
+
+Raster metrics (proof-only anchor shaper; verifier uses HarfBuzz):
+16px U+00C4 bbox=(80, 169, 87, 179) advance=8.0; U+0041 U+0308 bbox=(80, 169, 87, 179) advance=8.0
+16px U+00D6 bbox=(80, 170, 86, 179) advance=6.0; U+004F U+0308 bbox=(80, 170, 86, 179) advance=6.0
+16px U+00DC bbox=(80, 170, 86, 179) advance=6.0; U+0055 U+0308 bbox=(80, 170, 86, 179) advance=6.0
+16px U+00E4 bbox=(80, 171, 86, 179) advance=6.0; U+0061 U+0308 bbox=(80, 171, 86, 179) advance=6.0
+16px U+00F6 bbox=(80, 172, 85, 178) advance=5.0; U+006F U+0308 bbox=(80, 172, 85, 178) advance=5.0
+16px U+00FC bbox=(80, 172, 85, 179) advance=6.0; U+0075 U+0308 bbox=(80, 172, 85, 179) advance=6.0
+20px U+00C4 bbox=(80, 165, 89, 179) advance=9.0; U+0041 U+0308 bbox=(80, 165, 89, 179) advance=9.0
+20px U+00D6 bbox=(80, 166, 88, 178) advance=8.0; U+004F U+0308 bbox=(80, 166, 88, 178) advance=8.0
+20px U+00DC bbox=(80, 166, 87, 179) advance=8.0; U+0055 U+0308 bbox=(80, 166, 87, 179) advance=8.0
+20px U+00E4 bbox=(80, 168, 87, 178) advance=8.0; U+0061 U+0308 bbox=(80, 168, 87, 178) advance=8.0
+20px U+00F6 bbox=(80, 169, 86, 177) advance=6.0; U+006F U+0308 bbox=(80, 169, 86, 177) advance=6.0
+20px U+00FC bbox=(81, 169, 87, 178) advance=7.0; U+0075 U+0308 bbox=(81, 169, 87, 178) advance=7.0
+24px U+00C4 bbox=(80, 163, 91, 178) advance=11.0; U+0041 U+0308 bbox=(80, 163, 91, 178) advance=11.0
+24px U+00D6 bbox=(80, 164, 89, 178) advance=9.0; U+004F U+0308 bbox=(80, 164, 89, 178) advance=9.0
+24px U+00DC bbox=(80, 164, 89, 178) advance=9.0; U+0055 U+0308 bbox=(80, 164, 89, 178) advance=9.0
+24px U+00E4 bbox=(80, 166, 89, 178) advance=9.0; U+0061 U+0308 bbox=(80, 166, 89, 178) advance=9.0
+24px U+00F6 bbox=(80, 167, 87, 177) advance=7.0; U+006F U+0308 bbox=(80, 167, 87, 177) advance=7.0
+24px U+00FC bbox=(81, 167, 88, 178) advance=8.0; U+0075 U+0308 bbox=(81, 167, 88, 178) advance=8.0
+32px U+00C4 bbox=(81, 157, 94, 178) advance=15.0; U+0041 U+0308 bbox=(81, 157, 94, 178) advance=15.0
+32px U+00D6 bbox=(81, 159, 92, 177) advance=13.0; U+004F U+0308 bbox=(81, 159, 92, 177) advance=13.0
+32px U+00DC bbox=(81, 159, 92, 177) advance=12.0; U+0055 U+0308 bbox=(81, 159, 92, 177) advance=12.0
+32px U+00E4 bbox=(81, 162, 91, 177) advance=12.0; U+0061 U+0308 bbox=(81, 162, 91, 177) advance=12.0
+32px U+00F6 bbox=(81, 164, 89, 176) advance=10.0; U+006F U+0308 bbox=(81, 164, 89, 176) advance=10.0
+32px U+00FC bbox=(81, 164, 90, 177) advance=11.0; U+0075 U+0308 bbox=(81, 164, 90, 177) advance=11.0
+48px U+00C4 bbox=(81, 146, 101, 176) advance=23.0; U+0041 U+0308 bbox=(81, 146, 101, 176) advance=23.0
+48px U+00D6 bbox=(81, 149, 98, 175) advance=19.0; U+004F U+0308 bbox=(81, 149, 98, 175) advance=19.0
+48px U+00DC bbox=(81, 149, 97, 176) advance=18.0; U+0055 U+0308 bbox=(81, 149, 97, 176) advance=18.0
+48px U+00E4 bbox=(81, 154, 97, 176) advance=18.0; U+0061 U+0308 bbox=(81, 154, 97, 176) advance=18.0
+48px U+00F6 bbox=(81, 156, 93, 173) advance=14.0; U+006F U+0308 bbox=(81, 156, 93, 173) advance=14.0
+48px U+00FC bbox=(82, 156, 95, 175) advance=17.0; U+0075 U+0308 bbox=(82, 156, 95, 175) advance=17.0
+72px U+00C4 bbox=(82, 129, 112, 174) advance=34.0; U+0041 U+0308 bbox=(82, 129, 112, 174) advance=34.0
+72px U+00D6 bbox=(82, 133, 107, 172) advance=28.0; U+004F U+0308 bbox=(82, 133, 107, 172) advance=28.0
+72px U+00DC bbox=(82, 133, 105, 174) advance=27.0; U+0055 U+0308 bbox=(82, 133, 105, 174) advance=27.0
+72px U+00E4 bbox=(82, 140, 105, 173) advance=27.0; U+0061 U+0308 bbox=(82, 140, 105, 173) advance=27.0
+72px U+00F6 bbox=(82, 143, 100, 170) advance=22.0; U+006F U+0308 bbox=(82, 143, 100, 170) advance=22.0
+72px U+00FC bbox=(83, 143, 102, 172) advance=25.0; U+0075 U+0308 bbox=(83, 143, 102, 172) advance=25.0
+120px U+00C4 bbox=(84, 155, 133, 231) advance=57.0; U+0041 U+0308 bbox=(84, 155, 133, 231) advance=57.0
+120px U+00D6 bbox=(83, 162, 124, 226) advance=47.0; U+004F U+0308 bbox=(83, 162, 124, 226) advance=47.0
+120px U+00DC bbox=(84, 162, 122, 229) advance=45.0; U+0055 U+0308 bbox=(84, 162, 122, 229) advance=45.0
+120px U+00E4 bbox=(84, 175, 121, 228) advance=45.0; U+0061 U+0308 bbox=(84, 174, 121, 228) advance=45.0
+120px U+00F6 bbox=(84, 179, 112, 223) advance=36.0; U+006F U+0308 bbox=(84, 179, 112, 223) advance=36.0
+120px U+00FC bbox=(86, 179, 117, 226) advance=42.0; U+0075 U+0308 bbox=(86, 179, 117, 226) advance=42.0

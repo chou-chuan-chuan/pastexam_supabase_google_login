@@ -29,12 +29,31 @@
     <p>ÇA C&#x0327;A FRANÇAIS FRANC&#x0327;AIS</p>
     <p>LEÇON LEC&#x0327;ON GARÇON GARC&#x0327;ON</p>
     <p>歌曲 ¿ Ç C&#x0327; PDF</p>
+    <h2>German coverage</h2>
+    <div class="comparison">
+      <section class="sample" id="umlaut-precomposed"><code>U+00C4 U+00D6 U+00DC / U+00E4 U+00F6 U+00FC</code><p>ÄÖÜ äöü</p></section>
+      <section class="sample" id="umlaut-decomposed"><code>A/O/U/a/o/u + U+0308</code><p>A&#x0308;O&#x0308;U&#x0308; a&#x0308;o&#x0308;u&#x0308;</p></section>
+      <section class="sample" id="sharp-s"><code>U+00DF U+1E9E</code><p>ß ẞ</p></section>
+      <section class="sample" id="spacing-mark"><code>U+00A8 / U+0308</code><p>¨ ◌&#x0308;</p></section>
+    </div>
+    <p>Füße · Straße · STRAẞE · Größe · Mädchen · schön · über · früh · grün</p>
+    <p>Köln · München · Düsseldorf · Österreich · Fußball · Fußgänger · Straßenbahn</p>
+    <p>Ich weiß, dass du schön bist. Grüße aus München!</p>
+    <p>Heute bin ich müde｜今天有點累</p>
+    <p>Über den Wolken｜在雲層之上</p>
+    <section aria-label="lyric UI fixture">
+      <p class="song-lyric-line active"><u>Ich will nicht gehen</u></p>
+      <p class="song-lyric-line">Über den Wolken</p>
+      <p class="song-lyric-line">Du bist wunderschön</p>
+      <p class="song-lyric-line">Grüße aus München</p>
+      <p class="song-lyric-line">Auf der Straße · Ich weiß es nicht · Meine Füße tun weh</p>
+    </section>
     <p>聽見歌曲，也讀見每一句。</p>
     <code id="code-points"></code>
   </main>
   <script>
     const describe = (value) => [...value].map((character) => `U+${character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`).join(" ");
-    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}`;
+    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}\n[…"ÄÖÜäöü"] = ${describe("ÄÖÜäöü")}\n[…"A\\u0308O\\u0308U\\u0308 a\\u0308o\\u0308u\\u0308"] = ${describe("A\u0308O\u0308U\u0308 a\u0308o\u0308u\u0308")}\n[…"ßẞ"] = ${describe("ßẞ")}\n[…"¨"] = ${describe("¨")}`;
   </script>
 </body>
 </html>

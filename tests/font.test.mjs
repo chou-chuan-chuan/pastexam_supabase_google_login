@@ -18,21 +18,31 @@ test("keeps the official source font unchanged and ships valid font signatures",
   assert.equal(woff2.subarray(0, 4).toString("ascii"), "wOF2");
 });
 
-test("loads the versioned supplemental webfont first and manifests precomposed and combining cedilla", async () => {
+test("loads the versioned supplemental webfont first and manifests cedilla and German coverage", async () => {
   const [css, manifestText] = await Promise.all([
     readFile(new URL("../assets/style.css", import.meta.url), "utf8"),
     readFile(new URL("../tools/font/glyph_manifest.json", import.meta.url), "utf8")
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.002/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.002/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.003/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.003/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
     { character: "¿", codepoint: "U+00BF", glyph_name: "questiondown" },
     { character: "Ç", codepoint: "U+00C7", glyph_name: "Ccedilla" },
     { character: "ç", codepoint: "U+00E7", glyph_name: "ccedilla" },
-    { character: "̧", codepoint: "U+0327", glyph_name: "uni0327" }
+    { character: "̧", codepoint: "U+0327", glyph_name: "uni0327" },
+    { character: "¨", codepoint: "U+00A8", glyph_name: "dieresis" },
+    { character: "̈", codepoint: "U+0308", glyph_name: "uni0308" },
+    { character: "Ä", codepoint: "U+00C4", glyph_name: "Adieresis" },
+    { character: "Ö", codepoint: "U+00D6", glyph_name: "Odieresis" },
+    { character: "Ü", codepoint: "U+00DC", glyph_name: "Udieresis" },
+    { character: "ä", codepoint: "U+00E4", glyph_name: "adieresis" },
+    { character: "ö", codepoint: "U+00F6", glyph_name: "odieresis" },
+    { character: "ü", codepoint: "U+00FC", glyph_name: "udieresis" },
+    { character: "ß", codepoint: "U+00DF", glyph_name: "germandbls" },
+    { character: "ẞ", codepoint: "U+1E9E", glyph_name: "uni1E9E" }
   ]);
 });
