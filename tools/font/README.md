@@ -36,9 +36,10 @@ python tools/font/analyze_glyphs.py
 - `questiondown`：第一版是將原字型 `question` 機械式旋轉 180°。本次仍以該輪廓為唯一來源，但旋轉後平移 +3 x／-12 y font units，並將圓點再下移 8 units；這讓上端落在 cap height 內、底部接近其他句首符號，並把點與主筆間距由機械鏡射調成 60 units。原始 `question` 未修改，advance width 仍為 312。
 - `cedilla`：第一版只是將原始 `comma` 向下移，外觀偏小且容易像黏在 C 下方的逗號。原字型沒有 U+00B8 或 U+00E7；精修版改用原始 `semicolon` 的下方尾筆輪廓，水平縮放 116%、垂直縮短為 82%，再旋轉 -7°。`comma`、`J`、`j`、`g`、`y` 用於比較同字型的尾筆、曲率與下伸深度，沒有從其他字型複製輪廓。
 - `Ccedilla`：以完全未改形的原始 `C` 加上精修 `cedilla` component 組成。Cedilla 置於 C 的光學中心（不是單純 bounds 中心）且保留 26 units 的正間距；advance 與 side bearings 與原始 C 相同。
-- `uni0327`：U+0327 COMBINING CEDILLA。以 identity component 共享精修 `cedilla` 輪廓，advance width 為 0，並在 GDEF 標記為 mark。建置保留原始 GPOS/GDEF，只在既有 `mark` feature 附加單一 MarkBasePos lookup；C base anchor `<221 91>` 與 mark anchor `<95 91>` 產生 `+126 x / 0 y` 位移，與 `Ccedilla` 的 cedilla component 完全一致。預組合 `Ç` 與分解 `Ç` 因而都由字型原生支援，不透過 JavaScript 強制 NFC normalization。
+- `ccedilla`：U+00E7 LATIN SMALL LETTER C WITH CEDILLA。以完全未改形的原始 `c` 加上同一精修 `cedilla` component 組成，位移 `+81 x / +10 y`，維持 26 units gap；advance 與 side bearings 與原始 c 相同。
+- `uni0327`：U+0327 COMBINING CEDILLA。以 identity component 共享精修 `cedilla` 輪廓，advance width 為 0，並在 GDEF 標記為 mark。建置保留原始 GPOS/GDEF，只在既有 `mark` feature 附加單一 MarkBasePos lookup；C/c base anchors `<221 91>`／`<176 101>` 與 mark anchor `<95 91>` 分別產生 `+126/0`／`+81/+10` 位移，與 `Ccedilla`／`ccedilla` components 完全一致。預組合及分解的大小寫形式都由字型原生支援，不透過 JavaScript 強制 NFC normalization。
 
-`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç`／`Ç` 的原始 C identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 在記憶體字型副本強制走 `C` + `uni0327`，確認 glyph advances／offsets 會把 mark 放到與預組合 component 相同的 `+126 x / 0 y`。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
+`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç`／`Ç`、`ç`／`ç` 的原始 base identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走大小寫分解序列，確認 mark origins 與預組合 components 完全相同。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
 
 - `proofs/quanfangwei-glyph-analysis.png` 與對應 JSON 度量紀錄
 - `proofs/quanfangwei-optical-proof.png`（含 baseline、ascender、descender、advance box）

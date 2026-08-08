@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.001"
+    "version": "1.002"
   },
   "glyphs": [
     {
@@ -50,6 +50,27 @@
         }
       ],
       "notes": "Keep the original C unchanged. The source lacks U+00B8 and U+00E7, so use only the lower handwritten tail of the source semicolon, scale it 116% horizontally and 82% vertically, rotate it -7 degrees, and place it at an optical center below C with a 26-unit gap. The source comma, J, j, g, and y are retained as style references."
+    },
+    {
+      "character": "ç",
+      "codepoint": "U+00E7",
+      "unicode_name": "LATIN SMALL LETTER C WITH CEDILLA",
+      "glyph_name": "ccedilla",
+      "reference_image": "references/U+00C7-Ccedilla.png",
+      "construction_method": "compose_existing_lowercase_c_and_generated_cedilla",
+      "source_glyphs": [
+        {
+          "character": "c",
+          "codepoint": "U+0063",
+          "glyph_name": "c"
+        },
+        {
+          "character": "¸",
+          "codepoint": "U+00B8",
+          "glyph_name": "cedilla"
+        }
+      ],
+      "notes": "Keep the original lowercase c unchanged. Place the shared reviewed cedilla at +81 x / +10 y, preserving c advance and side bearings while maintaining the same 26-unit optical gap used for capital C."
     },
     {
       "character": "\u0327",

@@ -82,6 +82,31 @@
       "safe_space_to_ascender": 445,
       "safe_space_to_descender": 479
     },
+    "U+0063": {
+      "character": "c",
+      "codepoint": "U+0063",
+      "glyph_name": "c",
+      "bounds": [
+        29,
+        127,
+        344,
+        400
+      ],
+      "advance_width": 345,
+      "left_side_bearing": 29,
+      "right_side_bearing": 1,
+      "contour_count": 1,
+      "components": [],
+      "visual_bounds_center": [
+        186.5,
+        263.5
+      ],
+      "top_overshoot_from_cap_height": -184,
+      "bottom_overshoot_below_baseline": 0,
+      "distance_from_baseline": 127,
+      "safe_space_to_ascender": 567,
+      "safe_space_to_descender": 489
+    },
     "U+002C": {
       "character": ",",
       "codepoint": "U+002C",
@@ -292,6 +317,42 @@
       "distance_from_baseline": -39.11,
       "safe_space_to_ascender": 445,
       "safe_space_to_descender": 322.89
+    },
+    "U+00E7": {
+      "character": "ç",
+      "codepoint": "U+00E7",
+      "glyph_name": "ccedilla",
+      "bounds": [
+        29,
+        -29.11,
+        344,
+        400
+      ],
+      "advance_width": 345,
+      "left_side_bearing": 29,
+      "right_side_bearing": 1,
+      "contour_count": 0,
+      "components": [
+        {
+          "glyph": "c",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "glyph": "cedilla",
+          "x": 81,
+          "y": 10
+        }
+      ],
+      "visual_bounds_center": [
+        186.5,
+        185.44
+      ],
+      "top_overshoot_from_cap_height": -184,
+      "bottom_overshoot_below_baseline": 29.11,
+      "distance_from_baseline": -29.11,
+      "safe_space_to_ascender": 567,
+      "safe_space_to_descender": 332.89
     },
     "U+0327": {
       "character": "̧",

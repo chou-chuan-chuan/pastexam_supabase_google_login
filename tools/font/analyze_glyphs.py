@@ -15,7 +15,7 @@ FONT_PATHS = [
     FONT_DIR / "QuanFangweiSupplementScript-Regular.ttf",
     FONT_DIR / "QuanFangweiSupplementScript-Regular.woff2",
 ]
-CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x00B8, 0x00C7, 0x0327]
+CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x0063, 0x00B8, 0x00C7, 0x00E7, 0x0327]
 
 
 def bounds(font: TTFont, glyph_name: str):
@@ -24,15 +24,15 @@ def bounds(font: TTFont, glyph_name: str):
     return pen.bounds
 
 
-def mark_rule(font: TTFont):
+def mark_rule(font: TTFont, base_name: str):
     for lookup_index, lookup in enumerate(font["GPOS"].table.LookupList.Lookup):
         if lookup.LookupType != 4:
             continue
         for subtable in lookup.SubTable:
-            if "uni0327" not in subtable.MarkCoverage.glyphs or "C" not in subtable.BaseCoverage.glyphs:
+            if "uni0327" not in subtable.MarkCoverage.glyphs or base_name not in subtable.BaseCoverage.glyphs:
                 continue
             mark_index = subtable.MarkCoverage.glyphs.index("uni0327")
-            base_index = subtable.BaseCoverage.glyphs.index("C")
+            base_index = subtable.BaseCoverage.glyphs.index(base_name)
             mark_record = subtable.MarkArray.MarkRecord[mark_index]
             mark_anchor = mark_record.MarkAnchor
             base_anchor = subtable.BaseArray.BaseRecord[base_index].BaseAnchor[mark_record.Class]
@@ -58,7 +58,8 @@ def main() -> int:
                     f"  U+{codepoint:04X} -> {glyph_name}; advance={advance}; lsb={lsb}; "
                     f"bounds={bounds(font, glyph_name)}; components={components}"
                 )
-            print(f"  GPOS C/uni0327={mark_rule(font)}")
+            print(f"  GPOS C/uni0327={mark_rule(font, 'C')}")
+            print(f"  GPOS c/uni0327={mark_rule(font, 'c')}")
         finally:
             font.close()
     return 0
