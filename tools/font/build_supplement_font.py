@@ -13,12 +13,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from PIL import Image
-import pathops
 from fontTools import version as fonttools_version
 from fontTools.misc.transform import Transform
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
 from fontTools.pens.boundsPen import BoundsPen
-from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.pens.recordingPen import RecordingPen, replayRecording
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -51,7 +49,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.004"
+VERSION = "1.005"
 BUILD_DATE = "2026-08-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260809"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -131,73 +129,6 @@ def transformed_contours(font: TTFont, source_name: str, contour_indices: set[in
     for index, contour in enumerate(contours):
         if index in contour_indices:
             replayRecording(contour, transformed_pen)
-    return pen.glyph()
-
-
-def source_path(font: TTFont, source_name: str, transform: Transform) -> pathops.Path:
-    """Return a transformed source glyph as a Skia path."""
-    path = pathops.Path()
-    font.getGlyphSet()[source_name].draw(TransformPen(path.getPen(), transform))
-    return path
-
-
-def polygon_path(points: list[tuple[float, float]]) -> pathops.Path:
-    path = pathops.Path()
-    pen = path.getPen()
-    pen.moveTo(points[0])
-    for point in points[1:]:
-        pen.lineTo(point)
-    pen.closePath()
-    return path
-
-
-def rectangle_path(x_min: float, y_min: float, x_max: float, y_max: float) -> pathops.Path:
-    return polygon_path([(x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max)])
-
-
-def transition_stroke_path(
-    start: tuple[float, float],
-    control_1: tuple[float, float],
-    control_2: tuple[float, float],
-    end: tuple[float, float],
-    width: float,
-) -> pathops.Path:
-    """Create a round-ended handwritten transition stroke for a junction."""
-    path = pathops.Path()
-    path.moveTo(*start)
-    path.cubicTo(*control_1, *control_2, *end)
-    path.stroke(width, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
-    path.convertConicsToQuads(0.25)
-    return path
-
-
-def path_to_glyph(path: pathops.Path):
-    """Convert the boolean-result path back to valid quadratic TrueType curves."""
-    pen = TTGlyphPen(None)
-    path.draw(Cu2QuPen(pen, max_err=1.0))
-    return pen.glyph()
-
-
-def remove_tiny_boolean_contours(font: TTFont, glyph, minimum_bbox_area: float = 100):
-    """Drop sub-pixel boolean slivers while preserving real counters."""
-    recording = RecordingPen()
-    glyph.draw(recording, font["glyf"])
-    contours: list[list[tuple[str, tuple]]] = []
-    current: list[tuple[str, tuple]] = []
-    for operation in recording.value:
-        current.append(operation)
-        if operation[0] in {"closePath", "endPath"}:
-            contours.append(current)
-            current = []
-    pen = TTGlyphPen(None)
-    for contour in contours:
-        bounds_pen = BoundsPen(None)
-        replayRecording(contour, bounds_pen)
-        if bounds_pen.bounds is None:
-            continue
-        x_min, y_min, x_max, y_max = bounds_pen.bounds
-        if (x_max - x_min) * (y_max - y_min) >= minimum_bbox_area:
-            replayRecording(contour, pen)
     return pen.glyph()
 
 
@@ -313,7 +244,7 @@ def build_cedilla_and_ccedilla(font: TTFont) -> None:
 def build_german_additions(font: TTFont) -> None:
     """Add only the German glyphs missing from the official source font."""
     cmap = font.getBestCmap()
-    for codepoint, label in ((0x0308, "COMBINING DIAERESIS"), (0x0066, "f"), (0x0073, "s"), (0x0050, "P"), (0x0053, "S")):
+    for codepoint, label in ((0x0308, "COMBINING DIAERESIS"), (0x03B2, "GREEK SMALL LETTER BETA")):
         if codepoint not in cmap:
             fail(f"Source font is missing required {label} (U+{codepoint:04X})")
 
@@ -324,37 +255,20 @@ def build_german_additions(font: TTFont) -> None:
     install_glyph(font, "dieresis", spacing_pen.glyph(), DIAERESIS_ADVANCE, 60, cmap[0x0308])
     add_unicode_mapping(font, 0x00A8, "dieresis")
 
-    # Lowercase sharp s: retain the source f's ascending entry/stem and merge
-    # it with the source s terminal. Cropping before UNION removes mechanical
-    # overlap and produces a single continuous handwritten outline.
-    f_path = source_path(font, cmap[0x0066], Transform(0.52, 0, 0, 0.65, 15, 135))
-    f_path = pathops.op(f_path, rectangle_path(0, 70, 205, 650), pathops.PathOp.INTERSECTION)
-    s_path = source_path(font, cmap[0x0073], Transform(0.95, 0, 0, 0.95, 115, 10))
-    lower_transition = transition_stroke_path((185, 395), (205, 400), (225, 413), (255, 425), 34)
-    germandbls_path = pathops.op(f_path, s_path, pathops.PathOp.UNION)
-    germandbls_path = pathops.simplify(pathops.op(germandbls_path, lower_transition, pathops.PathOp.UNION))
-    germandbls = path_to_glyph(germandbls_path)
+    # The visual reference explicitly calls for a beta-like sharp s. Reuse the
+    # source font's own single-contour beta handwriting under distinct Unicode
+    # and glyph names; this is not a cmap alias and does not modify U+03B2.
+    beta_name = cmap[0x03B2]
+    germandbls = transformed_simple_glyph(font, beta_name, Transform(1, 0, 0, 1, 0, 0))
     germandbls.recalcBounds(font["glyf"])
-    install_glyph(font, "germandbls", germandbls, 390, germandbls.xMin, cmap[0x0073])
+    install_glyph(font, "germandbls", germandbls, 391, germandbls.xMin, beta_name)
     add_unicode_mapping(font, 0x00DF, "germandbls")
 
-    # Capital sharp S: merge the source P's cap-height stem and upper bowl with
-    # the lower stroke of source S. A diagonal transition joins the two source
-    # strokes, while a shallow open notch keeps ẞ distinct from ordinary B.
-    p_path = source_path(font, cmap[0x0050], Transform(0.95, 0, 0, 0.86, 20, 45))
-    cap_s_path = source_path(font, cmap[0x0053], Transform(0.96, 0, 0, 0.86, 115, 30))
-    cap_s_path = pathops.op(cap_s_path, rectangle_path(95, 60, 500, 385), pathops.PathOp.INTERSECTION)
-    capital_transition = transition_stroke_path((175, 350), (220, 350), (300, 315), (365, 300), 36)
-    capital_shoulder = transition_stroke_path((205, 385), (230, 380), (260, 360), (290, 350), 30)
-    capital_path = pathops.op(p_path, cap_s_path, pathops.PathOp.UNION)
-    capital_path = pathops.simplify(pathops.op(capital_path, capital_transition, pathops.PathOp.UNION))
-    capital_path = pathops.simplify(pathops.op(capital_path, capital_shoulder, pathops.PathOp.UNION))
-    capital_opening = polygon_path([(265, 390), (500, 390), (500, 355), (300, 350)])
-    capital_path = pathops.simplify(pathops.op(capital_path, capital_opening, pathops.PathOp.DIFFERENCE))
-    capital = path_to_glyph(capital_path)
-    capital = remove_tiny_boolean_contours(font, capital)
+    # Capital sharp S keeps the same beta-like stroke language, but compresses
+    # the descender into the capital zone and widens the bowls optically.
+    capital = transformed_simple_glyph(font, beta_name, Transform(1.10, 0, 0, 0.74, 0, 204))
     capital.recalcBounds(font["glyf"])
-    install_glyph(font, "uni1E9E", capital, 475, capital.xMin, cmap[0x0053])
+    install_glyph(font, "uni1E9E", capital, 430, capital.xMin, beta_name)
     add_unicode_mapping(font, 0x1E9E, "uni1E9E")
 
 
@@ -484,9 +398,9 @@ def write_modifications() -> None:
 - U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
 - U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>
 - Ä Ö Ü／ä ö ü：保留原字型既有 composite glyph；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+88、+27/-13、+8/-57、+35/-62
-- U+00DF `germandbls`：只使用原始 `f` 與 `s`；裁切 f 的上行筆勢與莖部、縮放並接合 s 的終筆，以 round-ended transition stroke 和輪廓 UNION 清除原本分離的 junction，輸出單一連續外輪廓，advance 390
-- U+1E9E `uni1E9E`：只使用原始 `P` 與 `S`；保留 P 的大寫莖與上 bowl、以斜向 transition／shoulder strokes 接合 S 下筆，保留淺開口使其可辨識為 capital sharp S，並移除 boolean 運算產生的微小 sliver contours，advance 475
-- ß／ẞ 未使用 Greek beta，亦未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓；布林裁切只處理官方辰宇落雁體既有筆畫
+- U+00DF `germandbls`：依使用者提供的字母表參考，直接沿用原字型 U+03B2 `beta` 的單一連續手寫輪廓與原生比例；維持獨立 glyph name／Unicode mapping，advance 391
+- U+1E9E `uni1E9E`：使用同一原字型 `beta` 輪廓語言，水平 110%、垂直 74%、上移 204 units，使 descender 收入 capital zone，形成較寬的 beta-like 大寫版本，advance 430
+- ß／ẞ 的 beta-like 方向是依最新視覺參考採用；沒有將 U+00DF／U+1E9E cmap 指向 Greek beta，也沒有修改 U+03B2。未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
@@ -535,7 +449,7 @@ def main() -> int:
         build_german_additions(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.004
+        font["head"].fontRevision = 1.005
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

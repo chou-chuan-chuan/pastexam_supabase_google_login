@@ -442,15 +442,15 @@ def render_sharp_s(derived: TTFont) -> None:
     x_height = getattr(derived["OS/2"], "sxHeight", 450)
     size = 144
     scale = size / upm
-    lines = ["s ß s", "S ẞ S", "B ß B", "B ẞ S", "Straße", "STRAẞE"]
-    width, height = 2500, 1750
+    lines = ["β ß ẞ β", "s ß s", "S ẞ S", "b β ß b", "B β ẞ B", "Straße", "STRAẞE"]
+    width, height = 2500, 1980
     image = Image.new("RGB", (width, height), "#fffdf9")
     draw = ImageDraw.Draw(image)
     title_font = ImageFont.truetype(str(FONT_PATH), 42)
     label_font = ImageFont.truetype(str(FONT_PATH), 22)
     font = ImageFont.truetype(str(FONT_PATH), size)
     draw.text((60, 38), "荃方位補寫體 ß / ẞ enlarged proof", font=title_font, fill="#4f276c")
-    draw.text((60, 100), "source-only joined outlines: f+s / P+S · 144 px", font=label_font, fill="#5e5264")
+    draw.text((60, 100), "approved beta-like direction · source U+03B2 handwriting · 144 px", font=label_font, fill="#5e5264")
     baseline = 330
     for line in lines:
         start_x = 260

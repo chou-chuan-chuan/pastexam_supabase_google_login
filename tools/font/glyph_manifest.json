@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.004"
+    "version": "1.005"
   },
   "glyphs": [
     {
@@ -179,20 +179,20 @@
       "codepoint": "U+00DF",
       "unicode_name": "LATIN SMALL LETTER SHARP S",
       "glyph_name": "germandbls",
-      "construction_method": "crop_transform_and_boolean_union_source_f_and_s",
-      "source_glyphs": [{"character": "f", "codepoint": "U+0066", "glyph_name": "f"}, {"character": "s", "codepoint": "U+0073", "glyph_name": "s"}],
-      "optical_adjustments": "Scale f to 52% x / 65% y at +15/+135, crop to x=0..205 y=70..650; scale s to 95% at +115/+10; join them with a 34-unit round-ended transition stroke, union and simplify; advance 390.",
-      "notes": "A single continuous outer contour derived only from source handwriting; it is neither B, beta, fs, nor two untouched letters."
+      "construction_method": "copy_source_beta_outline_under_distinct_german_mapping",
+      "source_glyphs": [{"character": "β", "codepoint": "U+03B2", "glyph_name": "beta"}],
+      "optical_adjustments": "Preserve the source beta outline and native proportion with identity transform; use advance 391.",
+      "notes": "The latest user-supplied alphabet reference explicitly requests a beta-like lowercase sharp s. U+00DF retains its own germandbls cmap mapping; U+03B2 remains unchanged."
     },
     {
       "character": "ẞ",
       "codepoint": "U+1E9E",
       "unicode_name": "LATIN CAPITAL LETTER SHARP S",
       "glyph_name": "uni1E9E",
-      "construction_method": "crop_transform_boolean_union_and_counter_cut_source_P_and_S",
-      "source_glyphs": [{"character": "P", "codepoint": "U+0050", "glyph_name": "P"}, {"character": "S", "codepoint": "U+0053", "glyph_name": "S"}],
-      "optical_adjustments": "Scale P to 95% x / 86% y at +20/+45; scale S to 96% x / 86% y at +115/+30 and retain y=60..385; join them with diagonal transition and shoulder strokes, keep a shallow open notch, remove boolean slivers, and use advance 475.",
-      "notes": "The continuous cap-height design is built only from source P/S strokes. Its diagonal junction and shallow opening distinguish capital sharp S from ordinary B."
+      "construction_method": "optically_transform_source_beta_for_capital_zone",
+      "source_glyphs": [{"character": "β", "codepoint": "U+03B2", "glyph_name": "beta"}],
+      "optical_adjustments": "Scale source beta to 110% x / 74% y and translate +204 y; use advance 430 so the descender is shortened into the capital zone.",
+      "notes": "The latest reference requests a beta-like capital sharp s. U+1E9E retains its own uni1E9E cmap mapping and a capital-height optical transform; U+03B2 remains unchanged."
     }
   ]
 }

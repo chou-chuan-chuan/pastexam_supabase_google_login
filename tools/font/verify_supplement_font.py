@@ -28,8 +28,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.004"
-UNIQUE_ID = "1.004;QFW;QuanFangweiSupplementScript-Regular;20260809"
+VERSION = "1.005"
+UNIQUE_ID = "1.005;QFW;QuanFangweiSupplementScript-Regular;20260809"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -267,8 +267,8 @@ def verify() -> list[str]:
         expected_hb = [(base_name, base_advance, 0, 0, 0), ("uni0308", 0, 0, delta[0] - base_advance, delta[1])]
         require(hb_positions == expected_hb, f"HarfBuzz {base_name}+uni0308 shaping differs from {glyph_name}: {hb_positions}")
 
-    expected_contours = {"germandbls": 1, "uni1E9E": 2}
-    for glyph_name, minimum_height in (("germandbls", 300), ("uni1E9E", 430)):
+    expected_contours = {"germandbls": 1, "uni1E9E": 1}
+    for glyph_name, minimum_height in (("germandbls", 700), ("uni1E9E", 540)):
         glyph = ttf["glyf"][glyph_name]
         require(not glyph.isComposite() and glyph.numberOfContours > 0, f"{glyph_name} must be a non-empty joined outline")
         require(glyph.numberOfContours == expected_contours[glyph_name], f"{glyph_name} has disconnected or sliver contours: {glyph.numberOfContours}")
@@ -281,7 +281,12 @@ def verify() -> list[str]:
     require(drawing(ttf, "uni1E9E") != drawing(ttf, "B"), "uni1E9E incorrectly duplicates B")
     if 0x03B2 in source_cmap:
         beta_name = source_cmap[0x03B2]
-        require(drawing(ttf, "germandbls") != drawing(ttf, beta_name), "germandbls incorrectly duplicates Greek beta")
+        require(drawing(ttf, "germandbls") == drawing(source, beta_name), "germandbls no longer reproduces the approved source beta handwriting")
+        require(bounds(ttf, "germandbls") == bounds(source, beta_name), "germandbls bounds differ from the approved source beta")
+        require(ttf["hmtx"].metrics["germandbls"] == (391, 50), "germandbls beta-like metrics are incorrect")
+        require(bounds(ttf, "uni1E9E") == (55, 85, 375, 648), f"uni1E9E beta-like capital bounds are incorrect: {bounds(ttf, 'uni1E9E')}")
+        require(ttf["hmtx"].metrics["uni1E9E"] == (430, 55), "uni1E9E beta-like capital metrics are incorrect")
+        require(drawing(ttf, "uni1E9E") != drawing(ttf, beta_name), "uni1E9E must retain its capital optical transform")
         require(drawing(source, beta_name) == drawing(ttf, beta_name), "Original Greek beta changed")
 
     source_question = source_cmap.get(0x003F)
@@ -475,7 +480,7 @@ def main() -> int:
     print("PASS: HarfBuzz shapes forced C/c + U+0327 at the matching +126/0 and +81/+10 mark origins")
     print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
     print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
-    print("PASS: germandbls/uni1E9E have continuous source-derived outlines without disconnected or sliver contours")
+    print("PASS: germandbls/uni1E9E use continuous beta-like source outlines with distinct German cmaps")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")

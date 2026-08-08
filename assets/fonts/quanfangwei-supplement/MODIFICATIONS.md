@@ -8,15 +8,15 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-08-09
-- 版本：Version 1.004
+- 版本：Version 1.005
 - 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`
 - German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，其 cmap、輪廓、components、metrics、GDEF 與 GPOS 錨點均原封不動保留
 - U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
 - U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>
 - Ä Ö Ü／ä ö ü：保留原字型既有 composite glyph；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+88、+27/-13、+8/-57、+35/-62
-- U+00DF `germandbls`：只使用原始 `f` 與 `s`；裁切 f 的上行筆勢與莖部、縮放並接合 s 的終筆，以 round-ended transition stroke 和輪廓 UNION 清除原本分離的 junction，輸出單一連續外輪廓，advance 390
-- U+1E9E `uni1E9E`：只使用原始 `P` 與 `S`；保留 P 的大寫莖與上 bowl、以斜向 transition／shoulder strokes 接合 S 下筆，保留淺開口使其可辨識為 capital sharp S，並移除 boolean 運算產生的微小 sliver contours，advance 475
-- ß／ẞ 未使用 Greek beta，亦未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓；布林裁切只處理官方辰宇落雁體既有筆畫
+- U+00DF `germandbls`：依使用者提供的字母表參考，直接沿用原字型 U+03B2 `beta` 的單一連續手寫輪廓與原生比例；維持獨立 glyph name／Unicode mapping，advance 391
+- U+1E9E `uni1E9E`：使用同一原字型 `beta` 輪廓語言，水平 110%、垂直 74%、上移 204 units，使 descender 收入 capital zone，形成較寬的 beta-like 大寫版本，advance 430
+- ß／ẞ 的 beta-like 方向是依最新視覺參考採用；沒有將 U+00DF／U+1E9E cmap 指向 Greek beta，也沒有修改 U+03B2。未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph

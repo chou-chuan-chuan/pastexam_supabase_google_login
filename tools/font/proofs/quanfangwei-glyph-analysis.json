@@ -462,25 +462,25 @@
       "codepoint": "U+00DF",
       "glyph_name": "germandbls",
       "bounds": [
-        32,
-        90,
-        356,
-        620
+        50,
+        -161,
+        341,
+        600
       ],
-      "advance_width": 390,
-      "left_side_bearing": 32,
-      "right_side_bearing": 34,
+      "advance_width": 391,
+      "left_side_bearing": 50,
+      "right_side_bearing": 50,
       "contour_count": 1,
       "components": [],
       "visual_bounds_center": [
-        194.0,
-        355.0
+        195.5,
+        219.5
       ],
-      "top_overshoot_from_cap_height": 36,
-      "bottom_overshoot_below_baseline": 0,
-      "distance_from_baseline": 90,
-      "safe_space_to_ascender": 347,
-      "safe_space_to_descender": 452
+      "top_overshoot_from_cap_height": 16,
+      "bottom_overshoot_below_baseline": 161,
+      "distance_from_baseline": -161,
+      "safe_space_to_ascender": 367,
+      "safe_space_to_descender": 201
     },
     "U+00E4": {
       "character": "ä",
@@ -687,25 +687,25 @@
       "codepoint": "U+1E9E",
       "glyph_name": "uni1E9E",
       "bounds": [
-        51,
-        102,
-        420,
-        607
+        55,
+        85,
+        375,
+        648
       ],
-      "advance_width": 475,
-      "left_side_bearing": 51,
+      "advance_width": 430,
+      "left_side_bearing": 55,
       "right_side_bearing": 55,
-      "contour_count": 2,
+      "contour_count": 1,
       "components": [],
       "visual_bounds_center": [
-        235.5,
-        354.5
+        215.0,
+        366.5
       ],
-      "top_overshoot_from_cap_height": 23,
+      "top_overshoot_from_cap_height": 64,
       "bottom_overshoot_below_baseline": 0,
-      "distance_from_baseline": 102,
-      "safe_space_to_ascender": 360,
-      "safe_space_to_descender": 464
+      "distance_from_baseline": 85,
+      "safe_space_to_ascender": 319,
+      "safe_space_to_descender": 447
     }
   }
 }
