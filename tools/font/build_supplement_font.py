@@ -49,17 +49,18 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.001"
-BUILD_DATE = "2026-08-08"
-UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260808"
+VERSION = "1.002"
+BUILD_DATE = "2026-08-09"
+UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260809"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
-BUILD_TIMESTAMP = int((datetime(2026, 8, 8, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
+BUILD_TIMESTAMP = int((datetime(2026, 8, 9, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
 
 # These anchors reproduce the existing Ccedilla component transform exactly.
 # The cedilla top-center (95, 91) attaches to C at (221, 91), yielding the
 # optically reviewed +126 x / 0 y placement and the existing 26-unit gap.
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
+C_LOWER_CEDILLA_BASE_ANCHOR = (176, 101)
 
 
 def fail(message: str) -> None:
@@ -164,10 +165,13 @@ def build_questiondown(font: TTFont) -> None:
 def build_cedilla_and_ccedilla(font: TTFont) -> None:
     cmap = font.getBestCmap()
     c_name = cmap.get(0x0043)
+    lower_c_name = cmap.get(0x0063)
     comma_name = cmap.get(0x002C)
     semicolon_name = cmap.get(0x003B)
     if c_name is None:
         fail("Source font is missing U+0043 LATIN CAPITAL LETTER C")
+    if lower_c_name is None:
+        fail("Source font is missing U+0063 LATIN SMALL LETTER C")
     if comma_name is None:
         fail("Source font is missing U+002C COMMA, required to derive the cedilla")
     if semicolon_name is None:
@@ -215,9 +219,17 @@ def build_cedilla_and_ccedilla(font: TTFont) -> None:
     install_glyph(font, "Ccedilla", composite_pen.glyph(), c_advance, c_lsb, c_name)
     add_unicode_mapping(font, 0x00C7, "Ccedilla")
 
+    lower_c_advance, lower_c_lsb = font["hmtx"].metrics[lower_c_name]
+    lower_composite_pen = TTGlyphPen(font.getGlyphSet())
+    lower_composite_pen.addComponent(lower_c_name, (1, 0, 0, 1, 0, 0))
+    lower_composite_pen.addComponent("cedilla", (1, 0, 0, 1, 81, 10))
+    install_glyph(font, "ccedilla", lower_composite_pen.glyph(), lower_c_advance, lower_c_lsb, lower_c_name)
+    add_unicode_mapping(font, 0x00E7, "ccedilla")
+
     # U+0327 shares the reviewed U+00B8 outline by component reference, but is
     # a true combining mark with zero advance. Its GPOS anchors are installed
-    # separately below so C + U+0327 lands on the same pixels as Ccedilla.
+    # separately below so C/c + U+0327 land on the same pixels as the matching
+    # precomposed Ccedilla/ccedilla glyphs.
     combining_pen = TTGlyphPen(font.getGlyphSet())
     combining_pen.addComponent("cedilla", (1, 0, 0, 1, 0, 0))
     install_glyph(font, "uni0327", combining_pen.glyph(), 0, cedilla_glyph.xMin, semicolon_name)
@@ -235,7 +247,10 @@ def add_cedilla_mark_positioning(font: TTFont) -> None:
 
     subtable = buildMarkBasePosSubtable(
         {"uni0327": (0, buildAnchor(*CEDILLA_MARK_ANCHOR))},
-        {"C": {0: buildAnchor(*C_CEDILLA_BASE_ANCHOR)}},
+        {
+            "C": {0: buildAnchor(*C_CEDILLA_BASE_ANCHOR)},
+            "c": {0: buildAnchor(*C_LOWER_CEDILLA_BASE_ANCHOR)},
+        },
         font.getReverseGlyphMap(),
     )
     lookup = otTables.Lookup()
@@ -280,8 +295,8 @@ def set_name_records(font: TTFont) -> None:
         5: (f"Version {VERSION}", f"Version {VERSION}"),
         6: (POSTSCRIPT_NAME, POSTSCRIPT_NAME),
         10: (
-            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It adds U+00BF, U+00C7, and U+0327 and is not an official release by the original authors.",
-            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，新增 U+00BF、U+00C7 與 U+0327；本修改版不是原作者官方發布版本。",
+            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It adds U+00BF, U+00C7, U+00E7, and U+0327 and is not an official release by the original authors.",
+            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，新增 U+00BF、U+00C7、U+00E7 與 U+0327；本修改版不是原作者官方發布版本。",
         ),
         16: (FAMILY_EN, FAMILY_ZH),
         17: (SUBFAMILY, SUBFAMILY),
@@ -340,14 +355,15 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
-- 新增字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+0327 `uni0327`
+- 新增字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
+- U+00E7 建構：保留原始 U+0063 `c`，與同一 U+00B8 `cedilla` 組成 composite glyph；cedilla transform 為 +81 x／+10 y，advance 與 side bearings 保持原始 c
 - U+0327 建構：以 identity component 共享 U+00B8 `cedilla` 的同一精修輪廓來源；advance width 為 0，不作 spacing character
-- U+0327 定位：保留原始 GPOS/GDEF，在既有 `mark` feature 附加 MarkBasePos lookup；C base anchor 為 <221 91>，mark anchor 為 <95 91>，重現 U+00C7 的 +126 x／0 y cedilla 位移
-- HarfBuzz 驗證：在記憶體副本移除 U+00C7 cmap 以強制分解 shaping；C advance 471、`uni0327` advance 0、x offset -345，最終 mark origin 為 +126 x／0 y
-- Unicode 表示：U+00C7 使用預組合 `Ccedilla`；U+0043 + U+0327 保留分解 code points，經 GPOS 定位後得到相同 cedilla 造型、大小、光學中心與 26-unit gap
+- U+0327 定位：保留原始 GPOS/GDEF，在既有 `mark` feature 附加 MarkBasePos lookup；C base anchor 為 <221 91>、c base anchor 為 <176 101>、mark anchor 為 <95 91>，分別重現 U+00C7 的 +126 x／0 y 與 U+00E7 的 +81 x／+10 y cedilla 位移
+- HarfBuzz 驗證：在記憶體副本分別移除 U+00C7／U+00E7 cmap 以強制分解 shaping；C/c advances 471/345、`uni0327` advance 0、offsets -345/0 與 -264/+10，最終 mark origins 為 +126/0 與 +81/+10
+- Unicode 表示：U+00C7／U+00E7 使用預組合 `Ccedilla`／`ccedilla`；U+0043／U+0063 + U+0327 保留分解 code points，經 GPOS 定位後得到相同 cedilla 造型、大小、光學中心與 26-unit gap
 - Cedilla 第一版建構：原字型沒有 U+00B8 與 U+00E7，因此直接將 U+002C `comma` 向下定位
 - Cedilla 光學修正：改用原始 U+003B `semicolon` 的下方手寫尾筆，水平 116%、垂直 82%、旋轉 -7°，再置於 C 的光學中心下方並保留 26 units 間距；comma、J、j、g、y 僅作同字型風格比較
 - 美學限制：自動檢查只能驗證 bounds、留白、中心、碰撞與裁切；筆勢是否自然仍以多尺寸 proof 與瀏覽器人工目視為準
@@ -378,7 +394,7 @@ def main() -> int:
         if "glyf" not in font or "hmtx" not in font:
             fail("This builder requires a TrueType glyf/hmtx source font")
         source_cmap = font.getBestCmap()
-        for codepoint in (0x00BF, 0x00C7, 0x0327):
+        for codepoint in (0x00BF, 0x00C7, 0x00E7, 0x0327):
             if codepoint in source_cmap:
                 fail(f"Source unexpectedly already contains U+{codepoint:04X}; review the migration before rebuilding")
 
@@ -387,7 +403,7 @@ def main() -> int:
         add_cedilla_mark_positioning(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.001
+        font["head"].fontRevision = 1.002
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

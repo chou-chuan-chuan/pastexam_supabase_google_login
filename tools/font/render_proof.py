@@ -27,7 +27,9 @@ CEDILLA_PROOF_TEXT_PATH = PROOF_DIR / "quanfangwei-cedilla-proof.txt"
 SIZES = [16, 24, 32, 48, 72]
 PRECOMPOSED_C_CEDILLA = "\u00C7"
 DECOMPOSED_C_CEDILLA = "C\u0327"
-C_CEDILLA_COMPONENT_DX = 126
+PRECOMPOSED_LOWER_C_CEDILLA = "\u00E7"
+DECOMPOSED_LOWER_C_CEDILLA = "c\u0327"
+CEDILLA_COMPONENT_OFFSETS = {"C": (126, 0), "c": (81, 10)}
 PROOF_LINES = [
     "? ¿ ? ¿",
     "C Ç C Ç",
@@ -35,12 +37,15 @@ PROOF_LINES = [
     "ÇA VA   FRANÇAIS   LEÇON   GARÇON",
     "歌曲 ¿ Ç PDF   聽見歌曲，也讀見每一句。",
 ]
-ANALYSIS_CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x002C, 0x003B, 0x004A, 0x006A, 0x0067, 0x0079, 0x00B8, 0x00C7, 0x0327]
+ANALYSIS_CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x0063, 0x002C, 0x003B, 0x004A, 0x006A, 0x0067, 0x0079, 0x00B8, 0x00C7, 0x00E7, 0x0327]
 
 CEDILLA_PROOF_LINES = [
     f"C {PRECOMPOSED_C_CEDILLA} {DECOMPOSED_C_CEDILLA} C",
+    f"c {PRECOMPOSED_LOWER_C_CEDILLA} {DECOMPOSED_LOWER_C_CEDILLA} c",
     f"{PRECOMPOSED_C_CEDILLA}A    {DECOMPOSED_C_CEDILLA}A",
+    f"{PRECOMPOSED_LOWER_C_CEDILLA}a    {DECOMPOSED_LOWER_C_CEDILLA}a",
     f"FRAN{PRECOMPOSED_C_CEDILLA}AIS    FRANC\u0327AIS",
+    f"fran{PRECOMPOSED_LOWER_C_CEDILLA}ais    franc\u0327ais",
     f"LE{PRECOMPOSED_C_CEDILLA}ON    LEC\u0327ON",
     f"GAR{PRECOMPOSED_C_CEDILLA}ON    GARC\u0327ON",
     f"¿QUÉ?    歌曲 {PRECOMPOSED_C_CEDILLA} {DECOMPOSED_C_CEDILLA} PDF",
@@ -107,9 +112,10 @@ def draw_gpos_text(draw: ImageDraw.ImageDraw, position, text: str, font: ImageFo
     previous_character = ""
     scale = font.size / upm
     for character in text:
-        if character == "\u0327" and previous_character == "C":
+        if character == "\u0327" and previous_character in CEDILLA_COMPONENT_OFFSETS:
+            offset_x, offset_y = CEDILLA_COMPONENT_OFFSETS[previous_character]
             draw.text(
-                (previous_origin + C_CEDILLA_COMPONENT_DX * scale, baseline),
+                (previous_origin + offset_x * scale, baseline - offset_y * scale),
                 "\u00B8",
                 font=font,
                 fill=fill,
@@ -253,21 +259,23 @@ def render_cedilla(derived: TTFont) -> None:
     upm = derived["head"].unitsPerEm
     width = 2500
     block_heights = [max(300, 95 + len(CEDILLA_PROOF_LINES) * max(34, round(size * 1.42))) for size in SIZES]
-    zoom_height = 430
+    zoom_height = 750
     height = 180 + sum(block_heights) + zoom_height
     image = Image.new("RGB", (width, height), "#fffdf9")
     draw = ImageDraw.Draw(image)
     title_font = ImageFont.truetype(str(FONT_PATH), 42)
     label_font = ImageFont.truetype(str(FONT_PATH), 22)
-    draw.text((60, 42), "荃方位補寫體 Ç / C + COMBINING CEDILLA proof", font=title_font, fill="#4f276c")
-    draw.text((60, 105), "Ç = U+00C7    Ç = U+0043 U+0327    anchors: C <221 91>, mark <95 91>", font=label_font, fill="#5e5264")
+    draw.text((60, 42), "荃方位補寫體 Ç / ç + COMBINING CEDILLA proof", font=title_font, fill="#4f276c")
+    draw.text((60, 105), "C <221 91>    c <176 101>    mark <95 91>    advance 0", font=label_font, fill="#5e5264")
 
     y = 160
     text_report = [
         "QuanFangwei Supplement Script cedilla proof",
         "precomposed: Ç = U+00C7",
         "decomposed: Ç = U+0043 U+0327",
-        "base anchor: <221 91>",
+        "precomposed lowercase: ç = U+00E7",
+        "decomposed lowercase: ç = U+0063 U+0327",
+        "base anchors: C <221 91>, c <176 101>",
         "mark anchor: <95 91>",
         "mark advance: 0",
         "",
@@ -290,6 +298,12 @@ def render_cedilla(derived: TTFont) -> None:
             f"{size}px: U+00C7 bbox={pre_bbox} advance={pre_advance}; "
             f"U+0043+U+0327 bbox={dec_bbox} advance={dec_advance}"
         )
+        lower_pre_bbox, lower_pre_advance = raster_sequence_metrics(PRECOMPOSED_LOWER_C_CEDILLA, size, upm)
+        lower_dec_bbox, lower_dec_advance = raster_sequence_metrics(DECOMPOSED_LOWER_C_CEDILLA, size, upm)
+        text_report.append(
+            f"{size}px: U+00E7 bbox={lower_pre_bbox} advance={lower_pre_advance}; "
+            f"U+0063+U+0327 bbox={lower_dec_bbox} advance={lower_dec_advance}"
+        )
         y += block_height
 
     zoom_font = ImageFont.truetype(str(FONT_PATH), 120)
@@ -308,6 +322,20 @@ def render_cedilla(derived: TTFont) -> None:
     text_report.append(
         f"120px: U+00C7 bbox={pre_bbox} advance={pre_advance}; "
         f"U+0043+U+0327 bbox={dec_bbox} advance={dec_advance}"
+    )
+    lower_baseline = y + 575
+    draw.line((165, lower_baseline, width - 80, lower_baseline), fill="#df5d74", width=2)
+    draw.rectangle((165, y + 390, 900, y + 675), outline="#c7b5d4", width=2)
+    draw.rectangle((1040, y + 390, 1775, y + 675), outline="#c7b5d4", width=2)
+    draw.text((190, y + 403), "U+00E7", font=zoom_label, fill="#5e5264")
+    draw.text((1065, y + 403), "U+0063 U+0327", font=zoom_label, fill="#5e5264")
+    draw_gpos_text(draw, (430, lower_baseline), PRECOMPOSED_LOWER_C_CEDILLA, zoom_font, "#17121f", upm)
+    draw_gpos_text(draw, (1305, lower_baseline), DECOMPOSED_LOWER_C_CEDILLA, zoom_font, "#17121f", upm)
+    lower_pre_bbox, lower_pre_advance = raster_sequence_metrics(PRECOMPOSED_LOWER_C_CEDILLA, 120, upm)
+    lower_dec_bbox, lower_dec_advance = raster_sequence_metrics(DECOMPOSED_LOWER_C_CEDILLA, 120, upm)
+    text_report.append(
+        f"120px: U+00E7 bbox={lower_pre_bbox} advance={lower_pre_advance}; "
+        f"U+0063+U+0327 bbox={lower_dec_bbox} advance={lower_dec_advance}"
     )
 
     image.save(CEDILLA_PROOF_PATH, "PNG", optimize=True)
