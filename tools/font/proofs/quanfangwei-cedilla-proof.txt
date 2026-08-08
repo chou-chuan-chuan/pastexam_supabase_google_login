@@ -1,0 +1,21 @@
+QuanFangwei Supplement Script cedilla proof
+precomposed: Ç = U+00C7
+decomposed: Ç = U+0043 U+0327
+base anchor: <221 91>
+mark anchor: <95 91>
+mark advance: 0
+
+C Ç Ç C
+ÇA    ÇA
+FRANÇAIS    FRANÇAIS
+LEÇON    LEÇON
+GARÇON    GARÇON
+¿QUÉ?    歌曲 Ç Ç PDF
+
+Raster metrics (proof-only anchor shaper; verifier uses HarfBuzz):
+16px: U+00C7 bbox=(80, 171, 87, 181) advance=7.0; U+0043+U+0327 bbox=(80, 171, 87, 181) advance=7.0
+24px: U+00C7 bbox=(80, 167, 91, 181) advance=11.0; U+0043+U+0327 bbox=(80, 167, 91, 181) advance=11.0
+32px: U+00C7 bbox=(81, 163, 94, 182) advance=15.0; U+0043+U+0327 bbox=(81, 163, 94, 182) advance=15.0
+48px: U+00C7 bbox=(81, 155, 101, 182) advance=22.0; U+0043+U+0327 bbox=(81, 155, 101, 182) advance=22.0
+72px: U+00C7 bbox=(82, 143, 111, 183) advance=33.0; U+0043+U+0327 bbox=(82, 143, 111, 183) advance=33.0
+120px: U+00C7 bbox=(84, 178, 131, 245) advance=55.0; U+0043+U+0327 bbox=(84, 178, 131, 245) advance=55.0

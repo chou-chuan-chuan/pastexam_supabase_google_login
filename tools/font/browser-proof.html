@@ -8,16 +8,30 @@
   <style>
     .font-proof { width: min(100% - 32px, 1040px); margin: 40px auto; padding: 32px; border-radius: 24px; background: #fff; box-shadow: var(--shadow); }
     .font-proof p { margin: 14px 0; padding-inline-end: .5em; font-size: clamp(1.5rem, 5vw, 3.5rem); line-height: 1.45; overflow-wrap: anywhere; }
+    .font-proof code { display: block; margin: 8px 0; white-space: pre-wrap; font: 1rem/1.5 ui-monospace, monospace; }
+    .comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .sample { border: 1px solid #d8c6e6; border-radius: 16px; padding: 16px; }
+    .sample p { font-size: 72px; }
   </style>
 </head>
 <body>
   <main class="font-proof">
     <h1>荃方位補寫體 Browser Proof</h1>
     <p>¿ ? ¿Qué canción?</p>
-    <p>C Ç ÇA FRANÇAIS</p>
-    <p>LEÇON GARÇON</p>
-    <p>歌曲 ¿ Ç PDF</p>
+    <div class="comparison">
+      <section class="sample" id="precomposed"><code>U+00C7</code><p>Ç</p></section>
+      <section class="sample" id="decomposed"><code>U+0043 U+0327</code><p>C&#x0327;</p></section>
+    </div>
+    <p>C Ç C&#x0327; C</p>
+    <p>ÇA C&#x0327;A FRANÇAIS FRANC&#x0327;AIS</p>
+    <p>LEÇON LEC&#x0327;ON GARÇON GARC&#x0327;ON</p>
+    <p>歌曲 ¿ Ç C&#x0327; PDF</p>
     <p>聽見歌曲，也讀見每一句。</p>
+    <code id="code-points"></code>
   </main>
+  <script>
+    const describe = (value) => [...value].map((character) => `U+${character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`).join(" ");
+    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}`;
+  </script>
 </body>
 </html>

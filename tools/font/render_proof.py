@@ -21,8 +21,13 @@ NATURAL_PROOF_PATH = PROOF_DIR / "quanfangwei-natural-proof.png"
 LEGACY_PROOF_PATH = PROOF_DIR / "quanfangwei-supplement-proof.png"
 ANALYSIS_PROOF_PATH = PROOF_DIR / "quanfangwei-glyph-analysis.png"
 ANALYSIS_JSON_PATH = PROOF_DIR / "quanfangwei-glyph-analysis.json"
+CEDILLA_PROOF_PATH = PROOF_DIR / "quanfangwei-cedilla-proof.png"
+CEDILLA_PROOF_TEXT_PATH = PROOF_DIR / "quanfangwei-cedilla-proof.txt"
 
 SIZES = [16, 24, 32, 48, 72]
+PRECOMPOSED_C_CEDILLA = "\u00C7"
+DECOMPOSED_C_CEDILLA = "C\u0327"
+C_CEDILLA_COMPONENT_DX = 126
 PROOF_LINES = [
     "? ¿ ? ¿",
     "C Ç C Ç",
@@ -30,7 +35,16 @@ PROOF_LINES = [
     "ÇA VA   FRANÇAIS   LEÇON   GARÇON",
     "歌曲 ¿ Ç PDF   聽見歌曲，也讀見每一句。",
 ]
-ANALYSIS_CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x002C, 0x003B, 0x004A, 0x006A, 0x0067, 0x0079, 0x00B8, 0x00C7]
+ANALYSIS_CODEPOINTS = [0x003F, 0x00BF, 0x0043, 0x002C, 0x003B, 0x004A, 0x006A, 0x0067, 0x0079, 0x00B8, 0x00C7, 0x0327]
+
+CEDILLA_PROOF_LINES = [
+    f"C {PRECOMPOSED_C_CEDILLA} {DECOMPOSED_C_CEDILLA} C",
+    f"{PRECOMPOSED_C_CEDILLA}A    {DECOMPOSED_C_CEDILLA}A",
+    f"FRAN{PRECOMPOSED_C_CEDILLA}AIS    FRANC\u0327AIS",
+    f"LE{PRECOMPOSED_C_CEDILLA}ON    LEC\u0327ON",
+    f"GAR{PRECOMPOSED_C_CEDILLA}ON    GARC\u0327ON",
+    f"¿QUÉ?    歌曲 {PRECOMPOSED_C_CEDILLA} {DECOMPOSED_C_CEDILLA} PDF",
+]
 
 
 def glyph_bounds(font: TTFont, glyph_name: str) -> tuple[float, float, float, float]:
@@ -78,6 +92,49 @@ def glyph_metrics(font: TTFont, codepoint: int) -> dict:
         "safe_space_to_ascender": round(font["hhea"].ascent - bounds[3], 2),
         "safe_space_to_descender": round(bounds[1] - font["hhea"].descent, 2),
     }
+
+
+def draw_gpos_text(draw: ImageDraw.ImageDraw, position, text: str, font: ImageFont.FreeTypeFont, fill, upm: int) -> float:
+    """Draw text while applying the font's reviewed C/uni0327 anchor delta.
+
+    Pillow in the pinned proof environment has no RAQM/HarfBuzz support, so
+    this small proof-only shaper applies the same +126/0 mark placement encoded
+    in GPOS. The verifier separately exercises the real table with HarfBuzz;
+    the browser fixture remains available for Chromium Rendered Fonts checks.
+    """
+    cursor_x, baseline = position
+    previous_origin = cursor_x
+    previous_character = ""
+    scale = font.size / upm
+    for character in text:
+        if character == "\u0327" and previous_character == "C":
+            draw.text(
+                (previous_origin + C_CEDILLA_COMPONENT_DX * scale, baseline),
+                "\u00B8",
+                font=font,
+                fill=fill,
+                anchor="ls",
+            )
+            previous_character = character
+            continue
+        previous_origin = cursor_x
+        draw.text((cursor_x, baseline), character, font=font, fill=fill, anchor="ls")
+        cursor_x += font.getlength(character)
+        previous_character = character
+    return cursor_x
+
+
+def gpos_text_length(text: str, font: ImageFont.FreeTypeFont) -> float:
+    return sum(font.getlength(character) for character in text if character != "\u0327")
+
+
+def raster_sequence_metrics(text: str, size: int, upm: int) -> tuple[tuple[int, int, int, int] | None, float]:
+    image = Image.new("L", (max(500, size * 6), max(260, size * 3)), 0)
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(str(FONT_PATH), size)
+    baseline = max(180, size * 2)
+    draw_gpos_text(draw, (80, baseline), text, font, 255, upm)
+    return image.getbbox(), round(gpos_text_length(text, font), 3)
 
 
 def render_analysis(source: TTFont, derived: TTFont) -> None:
@@ -192,6 +249,71 @@ def render_natural() -> None:
     image.save(LEGACY_PROOF_PATH, "PNG", optimize=True)
 
 
+def render_cedilla(derived: TTFont) -> None:
+    upm = derived["head"].unitsPerEm
+    width = 2500
+    block_heights = [max(300, 95 + len(CEDILLA_PROOF_LINES) * max(34, round(size * 1.42))) for size in SIZES]
+    zoom_height = 430
+    height = 180 + sum(block_heights) + zoom_height
+    image = Image.new("RGB", (width, height), "#fffdf9")
+    draw = ImageDraw.Draw(image)
+    title_font = ImageFont.truetype(str(FONT_PATH), 42)
+    label_font = ImageFont.truetype(str(FONT_PATH), 22)
+    draw.text((60, 42), "荃方位補寫體 Ç / C + COMBINING CEDILLA proof", font=title_font, fill="#4f276c")
+    draw.text((60, 105), "Ç = U+00C7    Ç = U+0043 U+0327    anchors: C <221 91>, mark <95 91>", font=label_font, fill="#5e5264")
+
+    y = 160
+    text_report = [
+        "QuanFangwei Supplement Script cedilla proof",
+        "precomposed: Ç = U+00C7",
+        "decomposed: Ç = U+0043 U+0327",
+        "base anchor: <221 91>",
+        "mark anchor: <95 91>",
+        "mark advance: 0",
+        "",
+        *CEDILLA_PROOF_LINES,
+        "",
+        "Raster metrics (proof-only anchor shaper; verifier uses HarfBuzz):",
+    ]
+    for size, block_height in zip(SIZES, block_heights):
+        font = ImageFont.truetype(str(FONT_PATH), size)
+        line_step = max(34, round(size * 1.42))
+        draw.text((60, y + 5), f"{size} px", font=label_font, fill="#6d35c5")
+        baseline = y + 55 + size
+        for line in CEDILLA_PROOF_LINES:
+            draw.line((165, baseline + 2, width - 60, baseline + 2), fill="#e8a5b2", width=1)
+            draw_gpos_text(draw, (175, baseline), line, font, "#17121f", upm)
+            baseline += line_step
+        pre_bbox, pre_advance = raster_sequence_metrics(PRECOMPOSED_C_CEDILLA, size, upm)
+        dec_bbox, dec_advance = raster_sequence_metrics(DECOMPOSED_C_CEDILLA, size, upm)
+        text_report.append(
+            f"{size}px: U+00C7 bbox={pre_bbox} advance={pre_advance}; "
+            f"U+0043+U+0327 bbox={dec_bbox} advance={dec_advance}"
+        )
+        y += block_height
+
+    zoom_font = ImageFont.truetype(str(FONT_PATH), 120)
+    zoom_label = ImageFont.truetype(str(FONT_PATH), 28)
+    draw.text((60, y + 10), "120 px close-up", font=zoom_label, fill="#6d35c5")
+    baseline = y + 250
+    draw.line((165, baseline, width - 80, baseline), fill="#df5d74", width=2)
+    draw.rectangle((165, y + 65, 900, y + 350), outline="#c7b5d4", width=2)
+    draw.rectangle((1040, y + 65, 1775, y + 350), outline="#c7b5d4", width=2)
+    draw.text((190, y + 78), "U+00C7", font=zoom_label, fill="#5e5264")
+    draw.text((1065, y + 78), "U+0043 U+0327", font=zoom_label, fill="#5e5264")
+    draw_gpos_text(draw, (430, baseline), PRECOMPOSED_C_CEDILLA, zoom_font, "#17121f", upm)
+    draw_gpos_text(draw, (1305, baseline), DECOMPOSED_C_CEDILLA, zoom_font, "#17121f", upm)
+    pre_bbox, pre_advance = raster_sequence_metrics(PRECOMPOSED_C_CEDILLA, 120, upm)
+    dec_bbox, dec_advance = raster_sequence_metrics(DECOMPOSED_C_CEDILLA, 120, upm)
+    text_report.append(
+        f"120px: U+00C7 bbox={pre_bbox} advance={pre_advance}; "
+        f"U+0043+U+0327 bbox={dec_bbox} advance={dec_advance}"
+    )
+
+    image.save(CEDILLA_PROOF_PATH, "PNG", optimize=True)
+    CEDILLA_PROOF_TEXT_PATH.write_text("\n".join(text_report) + "\n", encoding="utf-8", newline="\n")
+
+
 def main() -> int:
     if not FONT_PATH.is_file():
         raise FileNotFoundError(f"Build the font first: {FONT_PATH}")
@@ -204,10 +326,19 @@ def main() -> int:
         render_analysis(source, derived)
         render_optical(derived)
         render_natural()
+        render_cedilla(derived)
     finally:
         source.close()
         derived.close()
-    for path in (ANALYSIS_PROOF_PATH, ANALYSIS_JSON_PATH, OPTICAL_PROOF_PATH, NATURAL_PROOF_PATH, LEGACY_PROOF_PATH):
+    for path in (
+        ANALYSIS_PROOF_PATH,
+        ANALYSIS_JSON_PATH,
+        OPTICAL_PROOF_PATH,
+        NATURAL_PROOF_PATH,
+        LEGACY_PROOF_PATH,
+        CEDILLA_PROOF_PATH,
+        CEDILLA_PROOF_TEXT_PATH,
+    ):
         print(f"Rendered {path.relative_to(REPO_ROOT)}")
     return 0
 

@@ -5,8 +5,11 @@ from __future__ import annotations
 
 import hashlib
 import sys
+from io import BytesIO
 from pathlib import Path
 
+import uharfbuzz as hb
+from fontTools.misc.testTools import getXML
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.recordingPen import RecordingPen
 from fontTools.ttLib import TTFont
@@ -25,8 +28,11 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-UNIQUE_ID = "1.000;QFW;QuanFangweiSupplementScript-Regular;20260802"
+VERSION = "1.001"
+UNIQUE_ID = "1.001;QFW;QuanFangweiSupplementScript-Regular;20260808"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
+CEDILLA_MARK_ANCHOR = (95, 91)
+C_CEDILLA_BASE_ANCHOR = (221, 91)
 
 
 def sha256(path: Path) -> str:
@@ -77,6 +83,66 @@ def contour_bounds(font: TTFont, glyph_name: str) -> list[tuple[int, int, int, i
     return result
 
 
+def mark_to_base_anchors(font: TTFont, mark_name: str, base_name: str):
+    """Return mark/base anchors and lookup index for one GPOS type-4 rule."""
+    if "GPOS" not in font:
+        return None
+    for lookup_index, lookup in enumerate(font["GPOS"].table.LookupList.Lookup):
+        if lookup.LookupType != 4:
+            continue
+        for subtable in lookup.SubTable:
+            if mark_name not in subtable.MarkCoverage.glyphs or base_name not in subtable.BaseCoverage.glyphs:
+                continue
+            mark_index = subtable.MarkCoverage.glyphs.index(mark_name)
+            base_index = subtable.BaseCoverage.glyphs.index(base_name)
+            mark_record = subtable.MarkArray.MarkRecord[mark_index]
+            base_anchor = subtable.BaseArray.BaseRecord[base_index].BaseAnchor[mark_record.Class]
+            mark_anchor = mark_record.MarkAnchor
+            return (
+                (base_anchor.XCoordinate, base_anchor.YCoordinate),
+                (mark_anchor.XCoordinate, mark_anchor.YCoordinate),
+                lookup_index,
+            )
+    return None
+
+
+def harfbuzz_decomposed_positions(path: Path):
+    """Force the decomposed path and return HarfBuzz glyph positions.
+
+    HarfBuzz normally recomposes C + U+0327 when U+00C7 is available. Removing
+    only that cmap entry from an in-memory copy forces the engine to exercise
+    this font's C/uni0327 MarkBasePos lookup without changing any output file.
+    """
+    font = TTFont(path, recalcTimestamp=False)
+    try:
+        for subtable in font["cmap"].tables:
+            if subtable.isUnicode() and hasattr(subtable, "cmap"):
+                subtable.cmap.pop(0x00C7, None)
+        buffer = BytesIO()
+        font.flavor = None
+        font.save(buffer, reorderTables=True)
+        face = hb.Face(buffer.getvalue())
+        hb_font = hb.Font(face)
+        upm = font["head"].unitsPerEm
+        hb_font.scale = (upm, upm)
+        hb_buffer = hb.Buffer()
+        hb_buffer.add_codepoints([0x0043, 0x0327])
+        hb_buffer.guess_segment_properties()
+        hb.shape(hb_font, hb_buffer, {"ccmp": False, "mark": True})
+        return [
+            (
+                font.getGlyphName(info.codepoint),
+                position.x_advance,
+                position.y_advance,
+                position.x_offset,
+                position.y_offset,
+            )
+            for info, position in zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions)
+        ]
+    finally:
+        font.close()
+
+
 def verify() -> list[str]:
     errors: list[str] = []
 
@@ -105,7 +171,7 @@ def verify() -> list[str]:
     source_cmap = source.getBestCmap()
     ttf_cmap = ttf.getBestCmap()
     woff2_cmap = woff2.getBestCmap()
-    required = {0x00BF: "questiondown", 0x00C7: "Ccedilla"}
+    required = {0x00BF: "questiondown", 0x00C7: "Ccedilla", 0x0327: "uni0327"}
     for codepoint, glyph_name in required.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"TTF U+{codepoint:04X} does not map to {glyph_name}")
         require(woff2_cmap.get(codepoint) == glyph_name, f"WOFF2 U+{codepoint:04X} does not map to {glyph_name}")
@@ -119,7 +185,10 @@ def verify() -> list[str]:
                 upm = ttf["head"].unitsPerEm
                 require(all(-2 * upm <= value <= 3 * upm for value in glyph_bounds), f"TTF glyph {glyph_name} has extreme bounds {glyph_bounds}")
             advance, _ = ttf["hmtx"].metrics[glyph_name]
-            require(0 < advance < 2 * ttf["head"].unitsPerEm, f"TTF glyph {glyph_name} has unreasonable advance {advance}")
+            if codepoint == 0x0327:
+                require(advance == 0, f"TTF combining cedilla advance must be zero, found {advance}")
+            else:
+                require(0 < advance < 2 * ttf["head"].unitsPerEm, f"TTF glyph {glyph_name} has unreasonable advance {advance}")
         else:
             errors.append(f"TTF glyf table is missing {glyph_name}")
 
@@ -129,6 +198,14 @@ def verify() -> list[str]:
         ccedilla = ttf["glyf"]["Ccedilla"]
         components = [component.glyphName for component in ccedilla.components] if ccedilla.isComposite() else []
         require(components == ["C", "cedilla"], f"Ccedilla components are incorrect: {components}")
+    if "uni0327" in ttf["glyf"].glyphs:
+        combining = ttf["glyf"]["uni0327"]
+        component_info = [component.getComponentInfo() for component in combining.components] if combining.isComposite() else []
+        require(
+            component_info == [("cedilla", (1, 0, 0, 1, 0, 0))],
+            f"uni0327 must share the cedilla outline by identity component: {component_info}",
+        )
+        require(ttf["GDEF"].table.GlyphClassDef.classDefs.get("uni0327") == 3, "uni0327 is not classified as a GDEF mark")
 
     source_question = source_cmap.get(0x003F)
     source_c = source_cmap.get(0x0043)
@@ -178,26 +255,59 @@ def verify() -> list[str]:
             placed_top = cedilla_bounds[3] + cedilla_transform[5]
             gap = c_bounds[1] - placed_top
             require(16 <= gap <= 40, f"cedilla-to-C gap is outside the collision-safe range: {gap}")
+            anchor_info = mark_to_base_anchors(ttf, "uni0327", source_c)
+            require(anchor_info is not None, "GPOS has no mark-to-base rule for C + uni0327")
+            if anchor_info:
+                base_anchor, mark_anchor, lookup_index = anchor_info
+                require(base_anchor == C_CEDILLA_BASE_ANCHOR, f"C base anchor is incorrect: {base_anchor}")
+                require(mark_anchor == CEDILLA_MARK_ANCHOR, f"uni0327 mark anchor is incorrect: {mark_anchor}")
+                mark_dx = base_anchor[0] - mark_anchor[0]
+                mark_dy = base_anchor[1] - mark_anchor[1]
+                require((mark_dx, mark_dy) == cedilla_transform[4:6], f"Decomposed positioning differs from Ccedilla: {(mark_dx, mark_dy)} vs {cedilla_transform[4:6]}")
+                combining_bounds = bounds(ttf, "uni0327")
+                decomposed_center = (combining_bounds[0] + combining_bounds[2]) / 2 + mark_dx
+                decomposed_top = combining_bounds[3] + mark_dy
+                decomposed_gap = c_bounds[1] - decomposed_top
+                require(abs(decomposed_center - placed_center) <= 1, f"Decomposed cedilla center differs from Ccedilla: {decomposed_center} vs {placed_center}")
+                require(abs(decomposed_gap - gap) <= 1, f"Decomposed cedilla gap differs from Ccedilla: {decomposed_gap} vs {gap}")
+                require(decomposed_top < c_bounds[1], f"Combining cedilla collides with C: top={decomposed_top}, C bottom={c_bounds[1]}")
+                require(ttf["hhea"].descent < combining_bounds[1] + mark_dy, f"Combining cedilla exceeds the safe descender: {combining_bounds}")
+                mark_features = [record.Feature.LookupListIndex for record in ttf["GPOS"].table.FeatureList.FeatureRecord if record.FeatureTag == "mark"]
+                require(any(lookup_index in indices for indices in mark_features), "Cedilla MarkBasePos lookup is not referenced by the mark feature")
     require(not any(tag in ttf for tag in ("fpgm", "prep", "cvt ")), "Derived TTF still contains incompatible hint program tables")
 
     require(set(source_cmap).issubset(ttf_cmap), "One or more original cmap codepoints were removed")
     for codepoint, glyph_name in source_cmap.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"Original cmap mapping changed at U+{codepoint:04X}")
     require(ttf_cmap == woff2_cmap, "WOFF2 decoded cmap differs from TTF cmap")
-    for glyph_name in ("questiondown", "cedilla", "Ccedilla"):
+    for glyph_name in ("questiondown", "cedilla", "Ccedilla", "uni0327"):
         require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 bounds differ from TTF for {glyph_name}")
         require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name], f"WOFF2 metrics differ from TTF for {glyph_name}")
+    require(mark_to_base_anchors(ttf, "uni0327", "C") == mark_to_base_anchors(woff2, "uni0327", "C"), "WOFF2 mark anchors differ from TTF")
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) >= len(source_order) + 3, "Derived glyph count did not increase as expected")
+    require(len(ttf_order) == len(source_order) + 4, "Derived glyph count did not increase by exactly four")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
+
+    source_lookups = source["GPOS"].table.LookupList.Lookup
+    derived_lookups = ttf["GPOS"].table.LookupList.Lookup
+    require(len(derived_lookups) == len(source_lookups) + 1, "Derived GPOS should append exactly one lookup")
+    for index, source_lookup in enumerate(source_lookups):
+        require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
+    for glyph_name, glyph_class in source["GDEF"].table.GlyphClassDef.classDefs.items():
+        require(ttf["GDEF"].table.GlyphClassDef.classDefs.get(glyph_name) == glyph_class, f"Original GDEF class changed for {glyph_name}")
+    hb_positions = harfbuzz_decomposed_positions(TTF_PATH)
+    require(
+        hb_positions == [("C", 471, 0, 0, 0), ("uni0327", 0, 0, -345, 0)],
+        f"HarfBuzz decomposed shaping is incorrect: {hb_positions}",
+    )
 
     require(FAMILY_EN in names(ttf, 1) and FAMILY_ZH in names(ttf, 1), "Family Name records are incomplete")
     require(FULL_EN in names(ttf, 4) and FULL_ZH in names(ttf, 4), "Full Name records are incomplete")
     require(names(ttf, 6) == {POSTSCRIPT_NAME}, "PostScript Name is incorrect")
     require(UNIQUE_ID in names(ttf, 3), "Unique ID is incorrect")
-    require("Version 1.000" in names(ttf, 5), "Version name record is incorrect")
+    require(f"Version {VERSION}" in names(ttf, 5), "Version name record is incorrect")
     require(FAMILY_EN in names(ttf, 16) and FAMILY_ZH in names(ttf, 16), "Typographic Family records are incomplete")
     require("Regular" in names(ttf, 17), "Typographic Subfamily record is missing")
     for name_id in (1, 4, 6, 16):
@@ -233,7 +343,9 @@ def main() -> int:
         print(f"Verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
     print("PASS: TTF and WOFF2 open successfully")
-    print("PASS: U+00BF -> questiondown and U+00C7 -> Ccedilla in both cmaps")
+    print("PASS: U+00BF -> questiondown, U+00C7 -> Ccedilla, and U+0327 -> uni0327 in both cmaps")
+    print("PASS: uni0327 has zero advance, shared cedilla outline, GDEF mark class, and GPOS C anchors")
+    print("PASS: HarfBuzz shapes forced C + U+0327 as C/uni0327 with mark origin at +126 x / 0 y")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")

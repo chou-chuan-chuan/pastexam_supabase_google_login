@@ -2,7 +2,7 @@
 
 這套流程從 repository 內未修改的官方 `ChenYuluoyan-2.0-Thin.ttf` 建立獨立命名的「荃方位補寫體 / QuanFangwei Supplement Script」。它依 SIL Open Font License 1.1 製作，並非原作者官方更新版。
 
-目前 Windows 驗證環境沒有 FontForge，因此實際可重複流程使用 fontTools 的 TrueType pen、composite glyph 與 WOFF2 writer，不依賴 FontForge GUI。輸出是可由 fontTools 與瀏覽器正常開啟的真實 TTF／WOFF2；若未來採用 FontForge，必須保持 manifest、名稱、輪廓建構與驗證條件一致。
+目前 Windows 驗證環境沒有 FontForge，因此實際可重複流程使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不依賴 FontForge GUI。輸出是可由 fontTools 與瀏覽器正常開啟的真實 TTF／WOFF2；若未來採用 FontForge，必須保持 manifest、名稱、輪廓建構與驗證條件一致。
 
 若需要另外安裝 FontForge，可從 [FontForge 官方 Windows 下載頁](https://fontforge.org/en-US/downloads/windows/)取得安裝程式，安裝後重新開啟 PowerShell 並執行 `fontforge --version`。目前這份建置腳本的受驗證路徑是下方的標準 Python/fontTools 命令；沒有假設或冒充 FontForge scripting API 已執行。
 
@@ -13,6 +13,7 @@ python -m pip install -r tools/font/requirements.txt
 python tools/font/build_supplement_font.py
 python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
+python tools/font/analyze_glyphs.py
 ```
 
 建置腳本會先輸出每個參考字元、Unicode code point、Unicode name 與預期 glyph name，並驗證兩張 reference PNG 可開啟。來源 TTF 的 SHA-256 也會被核對；不符合已審核的官方檔案時建置會失敗。所有暫存輸出先寫入衍生目錄，完成後才替換正式檔案，不會修改原始 TTF。
@@ -27,6 +28,7 @@ python tools/font/render_proof.py
 - `build_supplement_font.py`：建立 TTF、WOFF2、OFL 與修改紀錄。
 - `verify_supplement_font.py`：驗證 cmap、glyph、metadata、授權與來源保存。
 - `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
+- `analyze_glyphs.py`：列出 TTF／WOFF2 指定 cmap、advance、bounds、components、glyph count 與 cedilla anchors。
 - `browser-proof.html`：本機瀏覽器 Rendered Fonts 驗收頁。
 
 ## 字形建構
@@ -34,12 +36,14 @@ python tools/font/render_proof.py
 - `questiondown`：第一版是將原字型 `question` 機械式旋轉 180°。本次仍以該輪廓為唯一來源，但旋轉後平移 +3 x／-12 y font units，並將圓點再下移 8 units；這讓上端落在 cap height 內、底部接近其他句首符號，並把點與主筆間距由機械鏡射調成 60 units。原始 `question` 未修改，advance width 仍為 312。
 - `cedilla`：第一版只是將原始 `comma` 向下移，外觀偏小且容易像黏在 C 下方的逗號。原字型沒有 U+00B8 或 U+00E7；精修版改用原始 `semicolon` 的下方尾筆輪廓，水平縮放 116%、垂直縮短為 82%，再旋轉 -7°。`comma`、`J`、`j`、`g`、`y` 用於比較同字型的尾筆、曲率與下伸深度，沒有從其他字型複製輪廓。
 - `Ccedilla`：以完全未改形的原始 `C` 加上精修 `cedilla` component 組成。Cedilla 置於 C 的光學中心（不是單純 bounds 中心）且保留 26 units 的正間距；advance 與 side bearings 與原始 C 相同。
+- `uni0327`：U+0327 COMBINING CEDILLA。以 identity component 共享精修 `cedilla` 輪廓，advance width 為 0，並在 GDEF 標記為 mark。建置保留原始 GPOS/GDEF，只在既有 `mark` feature 附加單一 MarkBasePos lookup；C base anchor `<221 91>` 與 mark anchor `<95 91>` 產生 `+126 x / 0 y` 位移，與 `Ccedilla` 的 cedilla component 完全一致。預組合 `Ç` 與分解 `Ç` 因而都由字型原生支援，不透過 JavaScript 強制 NFC normalization。
 
-`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç` 的原始 C identity component、cedilla 尺寸、光學中心、碰撞、descender 與 advance。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
+`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç`／`Ç` 的原始 C identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 在記憶體字型副本強制走 `C` + `uni0327`，確認 glyph advances／offsets 會把 mark 放到與預組合 component 相同的 `+126 x / 0 y`。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
 
 - `proofs/quanfangwei-glyph-analysis.png` 與對應 JSON 度量紀錄
 - `proofs/quanfangwei-optical-proof.png`（含 baseline、ascender、descender、advance box）
 - `proofs/quanfangwei-natural-proof.png`（無輔助線自然文字）
+- `proofs/quanfangwei-cedilla-proof.png` 與 `.txt`（預組合／分解形式、code points、16／24／32／48／72／120 px 對照）
 
 ## 新增下一個缺字
 
