@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.006"
+    "version": "1.007"
   },
   "glyphs": [
     {
@@ -198,7 +198,7 @@
   "groups": {
     "hiragana": {
       "characters": "ぁあぃいぅうぇえぉおかがきぎくぐけげこござじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
-      "source_file": "kana_sources/full_data.py",
+      "source_file": "kana_sources/full_data.py + kana_sources/legibility_overrides.py",
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
@@ -209,7 +209,7 @@
     },
     "katakana": {
       "characters": "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶヷヸヹヺ",
-      "source_file": "kana_sources/full_data.py",
+      "source_file": "kana_sources/full_data.py + kana_sources/legibility_overrides.py",
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "katakana",

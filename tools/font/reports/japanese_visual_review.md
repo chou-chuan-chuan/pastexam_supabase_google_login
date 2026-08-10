@@ -1,13 +1,17 @@
-# Japanese Phase 1 visual review
+# Japanese kana legibility visual review
 
 Review date: 2026-08-10
 
-## Gate result
+## Version 1.006 finding
 
-- Master proof: passed before full expansion. The requested master hiragana, katakana, and small kana remain legible from 16 px through 120 px and use the same thin, pressure-varying handwritten language as the source references.
+The first Phase 1 proof was technically valid but did not pass a stricter reader-recognition gate. In lyric lines, `の` could read as `0`, counters in several looping hiragana were ambiguous, and the directional contrast in `シ／ツ` and `ソ／ン` was too subtle. Code-point coverage alone was therefore not accepted as visual completion.
+
+## Version 1.007 gate result
+
+- Master proof: reviewed from 16 px through 120 px after canonical-structure corrections; stroke weight remains compatible with the source references.
 - Full hiragana proof: passed at 16, 20, 24, 32, 48, and 72 px. No visible clipping, contour seam, or mark collision was found.
 - Full katakana proof: passed at 16, 20, 24, 32, 48, and 72 px. Angular strokes retain slight terminal and pressure irregularity rather than a geometric sans construction.
-- Japanese lyric proof: passed at 16, 20, 24, 32, 48, and 72 px. Shared-code-point kanji and new kana keep a compatible baseline and line rhythm.
+- Japanese lyric proof: `の` now uses an open spiral instead of a closed zero-like loop; the revised looping hiragana keep visible counters at 16, 20, 24, 32, 48, and 72 px.
 - Dakuten proof: passed at 16, 20, 24, 32, 48, 72, and 120 px. Composed and decomposed pairs use the same mark contour, optical origin, and 960-unit total advance.
 - Duplicate-outline audit: only `へ` / `ヘ`, the expected shared hiragana/katakana form, are identical among the Phase 1 kana.
 
