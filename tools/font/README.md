@@ -14,6 +14,8 @@ python tools/font/build_supplement_font.py
 python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
 python tools/font/analyze_glyphs.py
+python tools/font/audit_japanese_coverage.py
+python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 ```
 
 建置腳本會先輸出每個參考字元、Unicode code point、Unicode name 與預期 glyph name，並驗證兩張 reference PNG 可開啟。來源 TTF 的 SHA-256 也會被核對；不符合已審核的官方檔案時建置會失敗。所有暫存輸出先寫入衍生目錄，完成後才替換正式檔案，不會修改原始 TTF。
@@ -30,6 +32,23 @@ python tools/font/analyze_glyphs.py
 - `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
 - `analyze_glyphs.py`：列出 TTF／WOFF2 指定 cmap、advance、bounds、components、glyph count 與 cedilla anchors。
 - `browser-proof.html`：本機瀏覽器 Rendered Fonts 驗收頁。
+- `kana_sources/master_data.py`／`full_data.py`：可版本控制、可重建的原創假名 center-line source。
+- `japanese/`：stroke renderer、假名／mark／標點 build 模組與 metrics／GPOS orchestration。
+- `audit_japanese_coverage.py`：掃描 Hiragana、Katakana、CJK Symbols and Punctuation 與 Katakana Phonetic Extensions。
+- `audit_japanese_kanji.py`：只分析本機 TXT／LRC／JSON；不抓取網路歌詞。
+- `reports/kana_style_analysis.md`：官方來源筆畫粗細、端點、曲線、傾斜、重心、baseline 與字框分析。
+
+### Japanese Phase 1 Support（Version 1.006）
+
+- 基本平假名、片假名、small kana、濁音、半濁音、iteration marks、`・`、`ー` 與指定常用日文標點完整進入同一 Family。
+- 新假名使用一致的 `uniXXXX` glyph naming；官方來源已存在且正常的標點保持原 glyph mapping、輪廓、metrics 與 glyph order。
+- U+3099 `uni3099` 與 U+309A `uni309A` advance 0，屬 GDEF mark class；U+309B／U+309C 是 advance 300 的 spacing forms。
+- 預組合與分解形式共用同一 mark contour，GPOS MarkBasePos delta 亦與 composite component delta 完全相同。
+- 假名以 960-unit advance 對齊原字型 CJK 約 944-unit median advance，同時保持原 1024 UPM、ascent/descent 與繁中 glyph 不變。
+- 所有新輪廓都由本 repository 的 original center-line data 產生；沒有載入或 trace 任何外部日本字型輪廓。
+- Japanese kanji 目前沿用 shared Unicode code point 的既有辰宇落雁 glyph；不建立大規模 `locl JAN`。
+
+Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical writing、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體。Phase 2 會以實際 TXT／LRC／JSON 歌詞缺字頻率與 regional-variant review 為基礎。
 
 ## 字形建構
 

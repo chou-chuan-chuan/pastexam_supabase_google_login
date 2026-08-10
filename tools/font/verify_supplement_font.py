@@ -28,8 +28,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.005"
-UNIQUE_ID = "1.005;QFW;QuanFangweiSupplementScript-Regular;20260809"
+VERSION = "1.006"
+UNIQUE_ID = "1.006;QFW;QuanFangweiSupplementScript-Regular;20260810"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -43,6 +43,14 @@ UMLAUT_DATA = {
     0x00F6: (0x006F, "odieresis", "o", (8, -57), (153, 420)),
     0x00FC: (0x0075, "udieresis", "u", (35, -62), (180, 415)),
 }
+HIRAGANA_REQUIRED = set(range(0x3041, 0x3097)) | {0x3099, 0x309A, 0x309B, 0x309C, 0x309D, 0x309E}
+KATAKANA_REQUIRED = set(range(0x30A1, 0x30FB)) | {0x30FB, 0x30FC, 0x30FD, 0x30FE}
+JAPANESE_PUNCTUATION_REQUIRED = {
+    0x3000, 0x3001, 0x3002, 0x3005, 0x3006, 0x3007,
+    *range(0x3008, 0x3012), 0x3014, 0x3015, 0x301C,
+}
+JAPANESE_REQUIRED = HIRAGANA_REQUIRED | KATAKANA_REQUIRED | JAPANESE_PUNCTUATION_REQUIRED
+KANA_ADVANCE = 960
 
 
 def sha256(path: Path) -> str:
@@ -196,6 +204,7 @@ def verify() -> list[str]:
         0x0308: "uni0308",
         0x0327: "uni0327",
         0x1E9E: "uni1E9E",
+        **{codepoint: f"uni{codepoint:04X}" for codepoint in JAPANESE_REQUIRED if codepoint not in source_cmap},
     }
     for codepoint, glyph_name in required.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"TTF U+{codepoint:04X} does not map to {glyph_name}")
@@ -210,7 +219,7 @@ def verify() -> list[str]:
                 upm = ttf["head"].unitsPerEm
                 require(all(-2 * upm <= value <= 3 * upm for value in glyph_bounds), f"TTF glyph {glyph_name} has extreme bounds {glyph_bounds}")
             advance, _ = ttf["hmtx"].metrics[glyph_name]
-            if codepoint in (0x0308, 0x0327):
+            if codepoint in (0x0308, 0x0327, 0x3099, 0x309A):
                 require(advance == 0, f"TTF combining mark U+{codepoint:04X} advance must be zero, found {advance}")
             else:
                 require(0 < advance < 2 * ttf["head"].unitsPerEm, f"TTF glyph {glyph_name} has unreasonable advance {advance}")
@@ -243,6 +252,62 @@ def verify() -> list[str]:
         require(ttf["hmtx"].metrics["dieresis"] == (300, 60), f"dieresis spacing metrics are incorrect: {ttf['hmtx'].metrics['dieresis']}")
         require(bounds(ttf, "dieresis") == bounds(ttf, "uni0308"), "Spacing and combining diaeresis bounds differ despite identity component reuse")
     require(ttf["GDEF"].table.GlyphClassDef.classDefs.get("uni0308") == 3, "uni0308 source mark class was lost")
+    for mark_name in ("uni3099", "uni309A"):
+        require(ttf["hmtx"].metrics[mark_name][0] == 0, f"{mark_name} advance is not zero")
+        require(ttf["GDEF"].table.GlyphClassDef.classDefs.get(mark_name) == 3, f"{mark_name} is not a GDEF mark")
+    for spacing_name in ("uni309B", "uni309C"):
+        require(ttf["hmtx"].metrics[spacing_name][0] > 0, f"{spacing_name} spacing advance must be positive")
+
+    for codepoint in sorted(HIRAGANA_REQUIRED | KATAKANA_REQUIRED):
+        glyph_name = ttf_cmap.get(codepoint)
+        require(glyph_name is not None, f"Required Japanese code point U+{codepoint:04X} is missing")
+        if glyph_name is None:
+            continue
+        glyph_bounds = bounds(ttf, glyph_name)
+        require(glyph_bounds is not None, f"Japanese glyph {glyph_name} has no bounds")
+        if glyph_bounds:
+            require(ttf["hhea"].descent < glyph_bounds[1] < glyph_bounds[3] < ttf["hhea"].ascent,
+                    f"Japanese glyph {glyph_name} clips vertical metrics: {glyph_bounds}")
+            require(-80 <= glyph_bounds[0] and glyph_bounds[2] <= 1040,
+                    f"Japanese glyph {glyph_name} has extreme horizontal bounds: {glyph_bounds}")
+        advance = ttf["hmtx"].metrics[glyph_name][0]
+        if codepoint in (0x3099, 0x309A):
+            require(advance == 0, f"Combining Japanese mark U+{codepoint:04X} must have zero advance")
+        elif codepoint in (0x309B, 0x309C):
+            require(advance == 300, f"Spacing Japanese mark U+{codepoint:04X} must have 300 advance")
+        else:
+            require(advance == KANA_ADVANCE, f"Japanese glyph U+{codepoint:04X} has unexpected advance {advance}")
+        require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name],
+                f"WOFF2 Japanese metrics differ for {glyph_name}")
+        require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 Japanese bounds differ for {glyph_name}")
+
+    for base_cp, mark_cp, precomposed_cp in (
+        (0x304B, 0x3099, 0x304C), (0x306F, 0x309A, 0x3071),
+        (0x30AB, 0x3099, 0x30AC), (0x30CF, 0x309A, 0x30D1),
+    ):
+        base_name = ttf_cmap[base_cp]
+        mark_name = ttf_cmap[mark_cp]
+        precomposed_name = ttf_cmap[precomposed_cp]
+        anchor_info = mark_to_base_anchors(ttf, mark_name, base_name)
+        require(anchor_info is not None, f"GPOS has no rule for U+{base_cp:04X} + U+{mark_cp:04X}")
+        glyph = ttf["glyf"][precomposed_name]
+        components = [component.getComponentInfo() for component in glyph.components] if glyph.isComposite() else []
+        require(len(components) == 2 and components[0][0] == base_name and components[1][0] == mark_name,
+                f"{precomposed_name} does not share the reviewed base and mark components: {components}")
+        if anchor_info and len(components) == 2:
+            base_anchor, mark_anchor, _ = anchor_info
+            delta = (base_anchor[0] - mark_anchor[0], base_anchor[1] - mark_anchor[1])
+            require(components[1][1][4:6] == delta,
+                    f"{precomposed_name} component delta differs from GPOS: {components[1][1][4:6]} vs {delta}")
+            hb_positions = harfbuzz_decomposed_positions(TTF_PATH, base_cp, mark_cp, precomposed_cp)
+            require(len(hb_positions) == 2 and hb_positions[0][0] == base_name and hb_positions[1][0] == mark_name,
+                    f"HarfBuzz did not keep decomposed Japanese sequence: {hb_positions}")
+            if len(hb_positions) == 2:
+                mark_origin = hb_positions[0][1] + hb_positions[1][3]
+                require((mark_origin, hb_positions[1][4]) == delta,
+                        f"HarfBuzz mark origin differs from precomposed delta: {(mark_origin, hb_positions[1][4])} vs {delta}")
+                require(sum(position[1] for position in hb_positions) == KANA_ADVANCE,
+                        f"Decomposed Japanese advance differs from precomposed: {hb_positions}")
 
     # All six source Umlaut composites and their original base outlines remain
     # byte-for-byte/drawing-equivalent. Existing source GPOS anchors must make
@@ -414,12 +479,12 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 8, "Derived glyph count did not increase by exactly eight")
+    require(len(ttf_order) == len(source_order) + 196, "Derived glyph count did not increase by exactly 196")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
     derived_lookups = ttf["GPOS"].table.LookupList.Lookup
-    require(len(derived_lookups) == len(source_lookups) + 1, "Derived GPOS should append exactly one lookup")
+    require(len(derived_lookups) == len(source_lookups) + 2, "Derived GPOS should append exactly two lookups")
     for index, source_lookup in enumerate(source_lookups):
         require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
     for glyph_name, glyph_class in source["GDEF"].table.GlyphClassDef.classDefs.items():
@@ -481,6 +546,8 @@ def main() -> int:
     print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
     print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
     print("PASS: germandbls/uni1E9E use continuous beta-like source outlines with distinct German cmaps")
+    print("PASS: complete Phase 1 Hiragana, Katakana, Japanese punctuation, and iteration marks are mapped")
+    print("PASS: uni3099/uni309A have zero advance, GDEF mark class, and GPOS anchors matching precomposed kana")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")

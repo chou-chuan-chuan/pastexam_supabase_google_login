@@ -23,7 +23,7 @@
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.002 支援：
+衍生版 Version 1.006 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
@@ -56,6 +56,13 @@
 - `tools/font/proofs/quanfangwei-german-proof.png`
 - `tools/font/proofs/quanfangwei-german-proof.txt`
 - `tools/font/proofs/quanfangwei-sharp-s-proof.png`
+- `tools/font/proofs/quanfangwei-kana-master-proof.png`
+- `tools/font/proofs/quanfangwei-hiragana-proof.png`
+- `tools/font/proofs/quanfangwei-katakana-proof.png`
+- `tools/font/proofs/quanfangwei-dakuten-proof.png`
+- `tools/font/proofs/quanfangwei-japanese-lyrics-proof.png`
+- `tools/font/reports/japanese_coverage.json`／`.md`
+- `tools/font/reports/japanese_kanji_missing.json`／`.md`
 - `tools/font/README.md`
 
 Windows 建置命令：
@@ -66,15 +73,27 @@ python tools/font/build_supplement_font.py
 python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
 python tools/font/analyze_glyphs.py
+python tools/font/audit_japanese_coverage.py
+python tools/font/audit_japanese_kanji.py
 ```
 
 目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance、GDEF mark class、GPOS anchors，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping；也會確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走分解序列，驗證 mark 最終 origin 為 `+126 x / 0 y`。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.005 一致的穩定 `?v=1.005` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+### Japanese Phase 1 Support（Version 1.006）
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.005` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `¿`、cedilla、`ÄÖÜ äöü`、分解 Umlaut、`ßẞ` 與兩種 mark 均由 `QuanFangwei Supplement Web` 覆蓋。fixture 會直接顯示各序列的 code points 與德中混排歌詞。
+同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
+
+假名輪廓是 repository 內原創、可版本控制的 center-line source，使用與辰宇落雁體約 51 font-unit 筆畫相符的 variable-width renderer 重建；端點、曲率、傾斜、重心與小假名 optical scale 均逐字調整。濁點參考原字型的 quotation-like short strokes、apostrophe、semicolon 與中文點筆；半濁點參考原字型 `。`、`口`、`日` 等手寫圈／框形筆勢。沒有載入、trace、skew 或複製 Noto、Yu Gothic、Meiryo、Hiragino 或任何其他外部日本字型輪廓。
+
+日文漢字目前以 Unicode shared code point 沿用既有辰宇落雁中文字形；Phase 1 不新增大規模 `locl JAN`，以免破壞繁體中文。Japanese-specific glyph variants 是 future work。
+
+Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體、vertical Japanese typesetting、ruby annotation typography、complete Ainu katakana extensions、historical kana、half-width katakana 或每一種 Japanese punctuation variant；但一般現代日文歌曲的假名部分應完整顯示。Phase 2 將依本機 TXT／LRC／JSON 歌詞 audit 的頻率補足實際缺少漢字，並評估 regional variants。
+
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.006 一致的穩定 `?v=1.006` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.006` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。
 
 ## 品牌圖像
 

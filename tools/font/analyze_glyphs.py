@@ -19,6 +19,9 @@ CODEPOINTS = [
     0x003F, 0x00A8, 0x00BF, 0x0041, 0x004F, 0x0055, 0x0061, 0x006F,
     0x0075, 0x00B8, 0x00C4, 0x00C7, 0x00D6, 0x00DC, 0x00DF, 0x00E4,
     0x00E7, 0x00F6, 0x00FC, 0x0308, 0x0327, 0x1E9E,
+    0x3005, 0x3006, 0x3042, 0x304B, 0x304C, 0x306F, 0x3071,
+    0x3099, 0x309A, 0x309B, 0x309C, 0x309D, 0x309E,
+    0x30A2, 0x30AB, 0x30AC, 0x30CF, 0x30D1, 0x30FB, 0x30FC, 0x30FD, 0x30FE,
 ]
 
 
@@ -66,6 +69,9 @@ def main() -> int:
             print(f"  GPOS c/uni0327={mark_rule(font, 'c', 'uni0327')}")
             for base_name in ("A", "O", "U", "a", "o", "u"):
                 print(f"  GPOS {base_name}/uni0308={mark_rule(font, base_name, 'uni0308')}")
+            for base_name in ("uni304B", "uni306F", "uni30AB", "uni30CF"):
+                for mark_name in ("uni3099", "uni309A"):
+                    print(f"  GPOS {base_name}/{mark_name}={mark_rule(font, base_name, mark_name)}")
         finally:
             font.close()
     return 0
