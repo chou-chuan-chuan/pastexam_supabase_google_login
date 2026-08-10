@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.007"
+    "version": "1.008"
   },
   "glyphs": [
     {
@@ -204,7 +204,7 @@
       "category": "hiragana",
       "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite",
       "source_style_references": ["一", "丨", "丿", "丶", "乙", "了", "口", "日", "心", "女", "子", "之", "也", "乃", "川", "久", "九", "千", "小", "大"],
-      "optical_adjustments": "Per-glyph curves, joins, terminal pressure, center, and 960-unit advance; small kana use reviewed 72% optical scale with stroke-width correction.",
+      "optical_adjustments": "Per-glyph curves, joins, terminal pressure, center, and 960-unit advance; small kana use reviewed 72% optical scale with stroke-width correction. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
       "status": "verified"
     },
     "katakana": {
@@ -215,7 +215,7 @@
       "category": "katakana",
       "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite",
       "source_style_references": ["一", "丨", "丿", "丶", "乙", "了", "口", "川", "久", "九", "千", "小", "大"],
-      "optical_adjustments": "Per-glyph terminal angle and spacing; small kana use reviewed 72% optical scale with stroke-width correction.",
+      "optical_adjustments": "Per-glyph terminal angle and spacing; small kana use reviewed 72% optical scale with stroke-width correction. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
       "status": "verified"
     },
     "japanese_marks": {
@@ -226,7 +226,7 @@
       "category": "japanese_marks_and_punctuation",
       "construction_method": "original_handwritten_strokes; spacing marks share combining contours; voiced iteration marks share the same dakuten component",
       "source_style_references": ["apostrophe", "quotesingle", "comma", "period", "colon", "semicolon", "i", "j", "丶", "口", "日"],
-      "optical_adjustments": "U+3099/U+309A have zero advance and GPOS anchors; U+309B/U+309C have 300-unit spacing advances; full-width marks use 960 units.",
+      "optical_adjustments": "U+3099/U+309A have zero advance and GPOS anchors; base-anchor y is 690 after kana alignment. U+309B/U+309C have 300-unit spacing advances; center marks shift -120 and full-width marks use 960 units.",
       "status": "verified"
     }
   }

@@ -8,9 +8,10 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-08-10
-- 版本：Version 1.007
+- 版本：Version 1.008
 - Japanese Phase 1：完整現代平假名、片假名、小假名、預組合濁音／半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、iteration marks、middle dot、長音與常用標點
 - Kana legibility revision：重畫容易誤認的現代假名骨架，尤其讓 U+306E `の` 保持清楚開口，並強化 `お`／`ぬ`／`め`／`る` 及 `シ`／`ツ`／`ソ`／`ン` 的識別差異；仍未載入或複製外部字型輪廓
+- Kana template/alignment revision：以使用者提供的標準手寫五十音表作字形結構與比例參考（不 trace 輪廓）；所有平假名／片假名中心線在建置時下移 145 units，`・`／`ー` 等中央符號下移 120 units，並同步將日文 GPOS base anchor y 從 835 調為 690，使中文字與日文字的 median optical center 對齊
 - 假名輪廓：以 repository 內可重建的原創 center-line data，透過 variable-width handwriting stroke renderer 產生；平均筆畫以原字型約 51 font units 為基準，逐字調整曲線、端點、重心與留白
 - 濁點：兩個不等寬、略有壓力與角度差的短筆，視覺參考原字型 apostrophe、quotation-like strokes、semicolon 與中文點筆；未複製其他日本字型
 - 半濁點：以不完全幾何、寬度與曲率略變的封閉手寫小圈重畫，視覺參考原字型 U+3002、口、日等圓／框形筆勢；未複製其他日本字型

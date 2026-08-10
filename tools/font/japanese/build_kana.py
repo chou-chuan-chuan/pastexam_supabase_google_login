@@ -8,7 +8,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables import otTables
 
-from japanese.stroke_engine import build_stroke_glyph
+from japanese.stroke_engine import build_stroke_glyph, translate_strokes
 from kana_sources.full_data import (
     COMPOSITES,
     DAKUTEN_STROKES,
@@ -21,8 +21,11 @@ from kana_sources.full_data import (
 
 KANA_ADVANCE = 960
 SPACING_MARK_ADVANCE = 300
+KANA_VERTICAL_SHIFT = -145
+JAPANESE_MARK_VERTICAL_SHIFT = -120
 DAKUTEN_ANCHOR = (92, 815)
 HANDAKUTEN_ANCHOR = (92, 815)
+KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
 
 
 def glyph_name(character: str) -> str:
@@ -62,7 +65,7 @@ def bounds(font: TTFont, name: str) -> tuple[int, int, int, int]:
 
 def base_anchor(font: TTFont, name: str) -> tuple[int, int]:
     x_min, _, x_max, _ = bounds(font, name)
-    return (min(835, max(710, x_max + 48)), 835)
+    return (min(835, max(710, x_max + 48)), KANA_BASE_ANCHOR_Y)
 
 
 def composite(font: TTFont, base_name: str, mark_name: str, dx: int, dy: int):
@@ -116,7 +119,8 @@ def build_japanese_phase1(font: TTFont) -> dict:
         if ord(character) in font.getBestCmap():
             continue
         name = glyph_name(character)
-        install(font, name, build_stroke_glyph(strokes), KANA_ADVANCE, vertical_source)
+        positioned_strokes = translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT)
+        install(font, name, build_stroke_glyph(positioned_strokes), KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
 
@@ -124,7 +128,9 @@ def build_japanese_phase1(font: TTFont) -> dict:
         if ord(character) in font.getBestCmap():
             continue
         name = glyph_name(character)
-        install(font, name, build_stroke_glyph(strokes), KANA_ADVANCE, vertical_source)
+        vertical_shift = KANA_VERTICAL_SHIFT if character in ITERATION_STROKES else JAPANESE_MARK_VERTICAL_SHIFT
+        positioned_strokes = translate_strokes(strokes, dy=vertical_shift)
+        install(font, name, build_stroke_glyph(positioned_strokes), KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
 
@@ -141,7 +147,7 @@ def build_japanese_phase1(font: TTFont) -> dict:
     for codepoint, mark_name in ((0x309B, "uni3099"), (0x309C, "uni309A")):
         name = glyph_name(chr(codepoint))
         pen = TTGlyphPen(font.getGlyphSet())
-        pen.addComponent(mark_name, (1, 0, 0, 1, 65, -20))
+        pen.addComponent(mark_name, (1, 0, 0, 1, 65, -20 + KANA_VERTICAL_SHIFT))
         install(font, name, pen.glyph(), SPACING_MARK_ADVANCE, vertical_source)
         add_mapping(font, codepoint, name)
         added.append(chr(codepoint))

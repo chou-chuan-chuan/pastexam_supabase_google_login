@@ -30,6 +30,7 @@ HIRAGANA_PROOF_PATH = PROOF_DIR / "quanfangwei-hiragana-proof.png"
 KATAKANA_PROOF_PATH = PROOF_DIR / "quanfangwei-katakana-proof.png"
 JAPANESE_LYRICS_PROOF_PATH = PROOF_DIR / "quanfangwei-japanese-lyrics-proof.png"
 DAKUTEN_PROOF_PATH = PROOF_DIR / "quanfangwei-dakuten-proof.png"
+CJK_ALIGNMENT_PROOF_PATH = PROOF_DIR / "quanfangwei-cjk-kana-alignment-proof.png"
 
 SIZES = [16, 24, 32, 48, 72]
 PRECOMPOSED_C_CEDILLA = "\u00C7"
@@ -563,6 +564,37 @@ def render_japanese_proofs() -> None:
     render_japanese_sheet(JAPANESE_LYRICS_PROOF_PATH, "QuanFangwei — Japanese lyric rendering proof", JAPANESE_LYRIC_LINES, 2600)
 
 
+def render_cjk_alignment_proof() -> None:
+    """Show Chinese/kana mixed on the exact same baselines at lyric sizes."""
+    sizes = [16, 20, 24, 32, 48, 72, 120]
+    lines = [
+        "平仮名 ひらがな　片仮名 カタカナ",
+        "君の声　愛のストーリー　夢の中",
+        "中文日本語對齊　あいうえお アイウエオ",
+        "平あ仮ア名な片カ　春の風が吹いている",
+    ]
+    width = 2850
+    heights = [120 + len(lines) * max(48, round(size * 1.55)) for size in sizes]
+    image = Image.new("RGB", (width, 130 + sum(heights)), "#fffdf9")
+    draw = ImageDraw.Draw(image)
+    title = ImageFont.truetype(str(FONT_PATH), 40)
+    label = ImageFont.truetype(str(FONT_PATH), 20)
+    draw.text((55, 38), "QuanFangwei — Chinese / Japanese baseline and optical-center proof", font=title, fill="#4f276c")
+    draw.text((55, 92), "Same face · same size · same baseline · no CSS offset", font=label, fill="#5e5264")
+    y = 125
+    for size, block_height in zip(sizes, heights):
+        face = ImageFont.truetype(str(FONT_PATH), size)
+        step = max(48, round(size * 1.55))
+        draw.text((55, y + 8), f"{size} px", font=label, fill="#6d35c5")
+        baseline = y + 58 + size
+        for line in lines:
+            draw.line((155, baseline, width - 55, baseline), fill="#df5d74", width=1 if size < 48 else 2)
+            draw.text((170, baseline), line, font=face, fill="#17121f", anchor="ls")
+            baseline += step
+        y += block_height
+    image.save(CJK_ALIGNMENT_PROOF_PATH, "PNG", optimize=True)
+
+
 def render_dakuten_proof() -> None:
     pairs = [
         ("が", "か\u3099"), ("ぎ", "き\u3099"), ("ぱ", "は\u309A"),
@@ -622,6 +654,7 @@ def main() -> int:
         render_german(derived)
         render_sharp_s(derived)
         render_japanese_proofs()
+        render_cjk_alignment_proof()
         render_dakuten_proof()
     finally:
         source.close()
@@ -640,6 +673,7 @@ def main() -> int:
         HIRAGANA_PROOF_PATH,
         KATAKANA_PROOF_PATH,
         JAPANESE_LYRICS_PROOF_PATH,
+        CJK_ALIGNMENT_PROOF_PATH,
         DAKUTEN_PROOF_PATH,
     ):
         print(f"Rendered {path.relative_to(REPO_ROOT)}")
