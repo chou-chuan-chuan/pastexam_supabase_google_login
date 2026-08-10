@@ -33,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.008"
-UNIQUE_ID = "1.008;QFW;QuanFangweiSupplementScript-Regular;20260810"
+VERSION = "1.009"
+UNIQUE_ID = "1.009;QFW;QuanFangweiSupplementScript-Regular;20260811"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -304,10 +304,13 @@ def verify() -> list[str]:
 
     no_stroke = LEGIBLE_KANA["の"][0]
     no_start, no_end = no_stroke.points[0], no_stroke.points[-1]
-    require(no_end[0] < no_start[0] - 120 and no_end[1] < no_start[1] - 80,
-            f"hiragana no source must retain a separated upper entry and outer return: {no_start} -> {no_end}")
-    require(math.dist(no_start, no_end) >= 180,
-            f"hiragana no opening is too narrow and may read as zero: {no_start} -> {no_end}")
+    no_x_values = [point[0] for point in no_stroke.points]
+    no_y_values = [point[1] for point in no_stroke.points]
+    require(no_start[1] - no_end[1] >= 450 and math.dist(no_start, no_end) >= 450,
+            f"hiragana no must finish with a long separated right-hand descent: {no_start} -> {no_end}")
+    require(max(no_x_values) - min(no_x_values) >= 430 and max(no_y_values) - min(no_y_values) >= 500,
+            f"hiragana no needs a broad open handwritten loop, found x={min(no_x_values)}..{max(no_x_values)} "
+            f"y={min(no_y_values)}..{max(no_y_values)}")
     for character in ("シ", "ン"):
         start, end = LEGIBLE_KANA[character][-1].points[0], LEGIBLE_KANA[character][-1].points[-1]
         require(end[0] - start[0] >= 400 and end[1] - start[1] >= 450,

@@ -1,6 +1,6 @@
 # Japanese kana legibility visual review
 
-Review date: 2026-08-10
+Review date: 2026-08-11
 
 ## Version 1.006 finding
 
@@ -22,6 +22,13 @@ The first Phase 1 proof was technically valid but did not pass a stricter reader
 - All kana center-line outlines now receive a deterministic -145 y translation; center punctuation receives -120 y. The Japanese GPOS base-anchor y moves from 835 to 690, so composed and decomposed dakuten remain identical after alignment.
 - `quanfangwei-cjk-kana-alignment-proof.png` confirms Chinese, Hiragana, and Katakana share the same baseline without CSS offsets at 16, 20, 24, 32, 48, 72, and 120 px.
 
+## Version 1.009 modern hiragana redesign gate
+
+- The complete modern hiragana set now has a separately reviewable original source in `kana_sources/hiragana_redesign.py`; the supplied chart informs identity, counters, openings, and proportions, not raster edges.
+- The 120 px cell proof separates `さ` from `ち` and distinguishes `ぬ` / `ね` / `め`; small-kana and voiced forms rebuild from the same reviewed bases.
+- U+306E `の` uses a diagonal entry, broad left return, and long right descent. It remains recognizable in `君の声` at 48 px instead of reading as Latin O or a double-loop spiral.
+- Review artifact: `tools/font/proofs/quanfangwei-hiragana-redesign-proof.png`.
+
 ## Source/style judgment
 
 - Stroke weight is based on the measured official-source short-run median of about 51 font units.
@@ -34,6 +41,7 @@ The first Phase 1 proof was technically valid but did not pass a stricter reader
 
 - `tools/font/proofs/quanfangwei-kana-master-proof.png`
 - `tools/font/proofs/quanfangwei-hiragana-proof.png`
+- `tools/font/proofs/quanfangwei-hiragana-redesign-proof.png`
 - `tools/font/proofs/quanfangwei-katakana-proof.png`
 - `tools/font/proofs/quanfangwei-dakuten-proof.png`
 - `tools/font/proofs/quanfangwei-japanese-lyrics-proof.png`

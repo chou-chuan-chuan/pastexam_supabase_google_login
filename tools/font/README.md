@@ -38,7 +38,7 @@ python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 - `audit_japanese_kanji.py`：只分析本機 TXT／LRC／JSON；不抓取網路歌詞。
 - `reports/kana_style_analysis.md`：官方來源筆畫粗細、端點、曲線、傾斜、重心、baseline 與字框分析。
 
-### Japanese Phase 1 Support（Version 1.008）
+### Japanese Phase 1 Support（Version 1.009）
 
 - 基本平假名、片假名、small kana、濁音、半濁音、iteration marks、`・`、`ー` 與指定常用日文標點完整進入同一 Family。
 - 新假名使用一致的 `uniXXXX` glyph naming；官方來源已存在且正常的標點保持原 glyph mapping、輪廓、metrics 與 glyph order。
@@ -48,6 +48,7 @@ python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 - 所有新輪廓都由本 repository 的 original center-line data 產生；沒有載入或 trace 任何外部日本字型輪廓。
 - `kana_sources/legibility_overrides.py` 保存第二輪辨識度修正；`の` 維持明顯開口與內收尾筆，並刻意拉開 `シ／ツ`、`ソ／ン` 的主筆方向。
 - Version 1.008 依使用者提供的標準手寫表校對字形結構；build-time kana y shift 為 -145 units，中央日文符號為 -120 units，GPOS kana base anchor y 為 690。`proofs/quanfangwei-cjk-kana-alignment-proof.png` 以同一 face、size、baseline 驗證中日混排，沒有 CSS 位移。
+- Version 1.009 的 `kana_sources/hiragana_redesign.py` 保存完整現代平假名的第三輪原創 center-line source；`さ／ち` 下段分離，`の` 使用斜入、左回環與右側長收筆。`proofs/quanfangwei-hiragana-redesign-proof.png` 以 120 px 字格與 48 px 歌詞行驗收辨識度。
 - Japanese kanji 目前沿用 shared Unicode code point 的既有辰宇落雁 glyph；不建立大規模 `locl JAN`。
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical writing、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體。Phase 2 會以實際 TXT／LRC／JSON 歌詞缺字頻率與 regional-variant review 為基礎。
