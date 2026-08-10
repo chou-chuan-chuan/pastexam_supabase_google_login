@@ -41,6 +41,17 @@
     <p>Ich weiß, dass du schön bist. Grüße aus München!</p>
     <p>Heute bin ich müde｜今天有點累</p>
     <p>Über den Wolken｜在雲層之上</p>
+    <h2>Japanese Phase 1</h2>
+    <p id="hiragana-proof">あいうえお かきくけこ がぎぐげご ぱぴぷぺぽ ゃゅょっ</p>
+    <p id="katakana-proof">アイウエオ カキクケコ ガギグゲゴ パピプペポ ャュョッ</p>
+    <div class="comparison">
+      <section class="sample" id="dakuten-precomposed"><code>U+304C / U+3071</code><p>が ぱ</p></section>
+      <section class="sample" id="dakuten-decomposed"><code>U+304B U+3099 / U+306F U+309A</code><p>か&#x3099; は&#x309A;</p></section>
+      <section class="sample" id="katakana-dakuten-precomposed"><code>U+30AC / U+30D1</code><p>ガ パ</p></section>
+      <section class="sample" id="katakana-dakuten-decomposed"><code>U+30AB U+3099 / U+30CF U+309A</code><p>カ&#x3099; ハ&#x309A;</p></section>
+    </div>
+    <p id="japanese-lyrics">君の声を聞かせて｜愛のメロディー｜夜空のミュージック</p>
+    <p id="japanese-punctuation">　、。々〆〇〈〉《》「」『』【】〔〕〜・ーゝゞヽヾ</p>
     <section aria-label="lyric UI fixture">
       <p class="song-lyric-line active"><u>Ich will nicht gehen</u></p>
       <p class="song-lyric-line">Über den Wolken</p>
@@ -53,7 +64,7 @@
   </main>
   <script>
     const describe = (value) => [...value].map((character) => `U+${character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`).join(" ");
-    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}\n[…"ÄÖÜäöü"] = ${describe("ÄÖÜäöü")}\n[…"A\\u0308O\\u0308U\\u0308 a\\u0308o\\u0308u\\u0308"] = ${describe("A\u0308O\u0308U\u0308 a\u0308o\u0308u\u0308")}\n[…"ßẞ"] = ${describe("ßẞ")}\n[…"¨"] = ${describe("¨")}`;
+    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}\n[…"ÄÖÜäöü"] = ${describe("ÄÖÜäöü")}\n[…"A\\u0308O\\u0308U\\u0308 a\\u0308o\\u0308u\\u0308"] = ${describe("A\u0308O\u0308U\u0308 a\u0308o\u0308u\u0308")}\n[…"ßẞ"] = ${describe("ßẞ")}\n[…"が / か\\u3099"] = ${describe("が")} / ${describe("か\u3099")}\n[…"パ / ハ\\u309A"] = ${describe("パ")} / ${describe("ハ\u309A")}\n[…"¨"] = ${describe("¨")}`;
   </script>
 </body>
 </html>

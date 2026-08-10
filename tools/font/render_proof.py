@@ -26,6 +26,10 @@ CEDILLA_PROOF_TEXT_PATH = PROOF_DIR / "quanfangwei-cedilla-proof.txt"
 GERMAN_PROOF_PATH = PROOF_DIR / "quanfangwei-german-proof.png"
 GERMAN_PROOF_TEXT_PATH = PROOF_DIR / "quanfangwei-german-proof.txt"
 SHARP_S_PROOF_PATH = PROOF_DIR / "quanfangwei-sharp-s-proof.png"
+HIRAGANA_PROOF_PATH = PROOF_DIR / "quanfangwei-hiragana-proof.png"
+KATAKANA_PROOF_PATH = PROOF_DIR / "quanfangwei-katakana-proof.png"
+JAPANESE_LYRICS_PROOF_PATH = PROOF_DIR / "quanfangwei-japanese-lyrics-proof.png"
+DAKUTEN_PROOF_PATH = PROOF_DIR / "quanfangwei-dakuten-proof.png"
 
 SIZES = [16, 24, 32, 48, 72]
 PRECOMPOSED_C_CEDILLA = "\u00C7"
@@ -38,6 +42,8 @@ DIAERESIS_COMPONENT_OFFSETS = {
     "a": (27, -13), "o": (8, -57), "u": (35, -62),
 }
 GERMAN_SIZES = [16, 20, 24, 32, 48, 72, 120]
+JAPANESE_SIZES = [16, 20, 24, 32, 48, 72]
+JAPANESE_MARK_OFFSETS: dict[tuple[str, str], tuple[int, int]] = {}
 PROOF_LINES = [
     "? ¿ ? ¿",
     "C Ç C Ç",
@@ -70,6 +76,26 @@ def glyph_bounds(font: TTFont, glyph_name: str) -> tuple[float, float, float, fl
     if pen.bounds is None:
         raise ValueError(f"Glyph {glyph_name!r} has no bounds")
     return tuple(round(value, 2) for value in pen.bounds)
+
+
+def mark_to_base_anchors(font: TTFont, mark_name: str, base_name: str):
+    for lookup_index, lookup in enumerate(font["GPOS"].table.LookupList.Lookup):
+        if lookup.LookupType != 4:
+            continue
+        for subtable in lookup.SubTable:
+            if mark_name not in subtable.MarkCoverage.glyphs or base_name not in subtable.BaseCoverage.glyphs:
+                continue
+            mark_index = subtable.MarkCoverage.glyphs.index(mark_name)
+            base_index = subtable.BaseCoverage.glyphs.index(base_name)
+            mark_record = subtable.MarkArray.MarkRecord[mark_index]
+            base_anchor = subtable.BaseArray.BaseRecord[base_index].BaseAnchor[mark_record.Class]
+            mark_anchor = mark_record.MarkAnchor
+            return (
+                (base_anchor.XCoordinate, base_anchor.YCoordinate),
+                (mark_anchor.XCoordinate, mark_anchor.YCoordinate),
+                lookup_index,
+            )
+    return None
 
 
 def glyph_metrics(font: TTFont, codepoint: int) -> dict:
@@ -125,6 +151,17 @@ def draw_gpos_text(draw: ImageDraw.ImageDraw, position, text: str, font: ImageFo
     scale = font.size / upm
     for character in text:
         mark_offsets = CEDILLA_COMPONENT_OFFSETS if character == "\u0327" else DIAERESIS_COMPONENT_OFFSETS if character == "\u0308" else None
+        japanese_offset = JAPANESE_MARK_OFFSETS.get((previous_character, character))
+        if japanese_offset is not None:
+            draw.text(
+                (previous_origin + japanese_offset[0] * scale, baseline - japanese_offset[1] * scale),
+                character,
+                font=font,
+                fill=fill,
+                anchor="ls",
+            )
+            previous_character = character
+            continue
         if mark_offsets is not None and previous_character in mark_offsets:
             offset_x, offset_y = mark_offsets[previous_character]
             spacing_mark = "\u00B8" if character == "\u0327" else "\u00A8"
@@ -145,7 +182,7 @@ def draw_gpos_text(draw: ImageDraw.ImageDraw, position, text: str, font: ImageFo
 
 
 def gpos_text_length(text: str, font: ImageFont.FreeTypeFont) -> float:
-    return sum(font.getlength(character) for character in text if character not in {"\u0308", "\u0327"})
+    return sum(font.getlength(character) for character in text if character not in {"\u0308", "\u0327", "\u3099", "\u309A"})
 
 
 def raster_sequence_metrics(text: str, size: int, upm: int) -> tuple[tuple[int, int, int, int] | None, float]:
@@ -476,6 +513,86 @@ def render_sharp_s(derived: TTFont) -> None:
     image.save(SHARP_S_PROOF_PATH, "PNG", optimize=True)
 
 
+HIRAGANA_LINES = [
+    "あ い う え お", "か き く け こ", "さ し す せ そ", "た ち つ て と",
+    "な に ぬ ね の", "は ひ ふ へ ほ", "ま み む め も", "や   ゆ   よ",
+    "ら り る れ ろ", "わ       を", "ん", "",
+    "が ぎ ぐ げ ご", "ざ じ ず ぜ ぞ", "だ ぢ づ で ど", "ば び ぶ べ ぼ", "ぱ ぴ ぷ ぺ ぽ",
+    "ぁ ぃ ぅ ぇ ぉ", "ゃ ゅ ょ っ ゎ", "ゐ ゑ ゔ ゕ ゖ   ゝ ゞ",
+]
+KATAKANA_LINES = [
+    "ア イ ウ エ オ", "カ キ ク ケ コ", "サ シ ス セ ソ", "タ チ ツ テ ト",
+    "ナ ニ ヌ ネ ノ", "ハ ヒ フ ヘ ホ", "マ ミ ム メ モ", "ヤ   ユ   ヨ",
+    "ラ リ ル レ ロ", "ワ       ヲ", "ン", "",
+    "ガ ギ グ ゲ ゴ", "ザ ジ ズ ゼ ゾ", "ダ ヂ ヅ デ ド", "バ ビ ブ ベ ボ", "パ ピ プ ペ ポ",
+    "ァ ィ ゥ ェ ォ", "ャ ュ ョ ッ ヮ", "ヰ ヱ ヴ ヵ ヶ   ヷ ヸ ヹ ヺ", "ヽ ヾ ・ ー",
+]
+JAPANESE_LYRIC_LINES = [
+    "君の声を聞かせて", "もう一度だけ", "愛してる", "夜空を見上げて", "さよならを言えなくて",
+    "あなたに会いたい", "夢の中で", "春の風が吹いている", "心のままに", "明日もきっと晴れる",
+    "アイラブユー", "メロディー", "ラブソング", "ストーリー", "ミュージック", "ハート", "サヨナラ",
+    "君のメロディー", "愛のストーリー", "夜空のミュージック", "あなたとアイラブユー",
+]
+
+
+def render_japanese_sheet(path: Path, title_text: str, lines: list[str], width: int = 2300) -> None:
+    block_heights = [110 + len(lines) * max(30, round(size * 1.34)) for size in JAPANESE_SIZES]
+    image = Image.new("RGB", (width, 110 + sum(block_heights)), "#fffdf9")
+    draw = ImageDraw.Draw(image)
+    title = ImageFont.truetype(str(FONT_PATH), 38)
+    label = ImageFont.truetype(str(FONT_PATH), 20)
+    draw.text((55, 38), title_text, font=title, fill="#4f276c")
+    y = 100
+    for size, block_height in zip(JAPANESE_SIZES, block_heights):
+        face = ImageFont.truetype(str(FONT_PATH), size)
+        step = max(30, round(size * 1.34))
+        draw.text((55, y + 8), f"{size} px", font=label, fill="#6d35c5")
+        baseline = y + 48 + size
+        for line in lines:
+            if line:
+                draw.line((150, baseline + 3, width - 45, baseline + 3), fill="#f1ccd3", width=1)
+                draw_gpos_text(draw, (165, baseline), line, face, "#17121f", 1024)
+            baseline += step
+        y += block_height
+    image.save(path, "PNG", optimize=True)
+
+
+def render_japanese_proofs() -> None:
+    render_japanese_sheet(HIRAGANA_PROOF_PATH, "QuanFangwei — Hiragana Phase 1 proof", HIRAGANA_LINES)
+    render_japanese_sheet(KATAKANA_PROOF_PATH, "QuanFangwei — Katakana Phase 1 proof", KATAKANA_LINES)
+    render_japanese_sheet(JAPANESE_LYRICS_PROOF_PATH, "QuanFangwei — Japanese lyric rendering proof", JAPANESE_LYRIC_LINES, 2600)
+
+
+def render_dakuten_proof() -> None:
+    pairs = [
+        ("が", "か\u3099"), ("ぎ", "き\u3099"), ("ぱ", "は\u309A"),
+        ("ガ", "カ\u3099"), ("パ", "ハ\u309A"),
+    ]
+    sizes = [16, 20, 24, 32, 48, 72, 120]
+    width = 2450
+    heights = [130 + len(pairs) * max(58, round(size * 1.65)) for size in sizes]
+    image = Image.new("RGB", (width, 130 + sum(heights)), "#fffdf9")
+    draw = ImageDraw.Draw(image)
+    title = ImageFont.truetype(str(FONT_PATH), 40)
+    label = ImageFont.truetype(str(FONT_PATH), 20)
+    draw.text((55, 38), "QuanFangwei — composed / decomposed dakuten proof", font=title, fill="#4f276c")
+    y = 105
+    for size, block_height in zip(sizes, heights):
+        face = ImageFont.truetype(str(FONT_PATH), size)
+        step = max(58, round(size * 1.65))
+        draw.text((55, y + 8), f"{size} px", font=label, fill="#6d35c5")
+        baseline = y + 55 + size
+        for composed, decomposed in pairs:
+            draw.line((155, baseline + 3, width - 50, baseline + 3), fill="#e8a5b2", width=1)
+            draw.text((175, baseline), composed, font=face, fill="#17121f", anchor="ls")
+            draw_gpos_text(draw, (520, baseline), decomposed, face, "#17121f", 1024)
+            label_text = f"{codepoints(composed)}     {codepoints(decomposed)}"
+            draw.text((900, baseline), label_text, font=label, fill="#5e5264", anchor="ls")
+            baseline += step
+        y += block_height
+    image.save(DAKUTEN_PROOF_PATH, "PNG", optimize=True)
+
+
 def main() -> int:
     if not FONT_PATH.is_file():
         raise FileNotFoundError(f"Build the font first: {FONT_PATH}")
@@ -485,12 +602,27 @@ def main() -> int:
     source = TTFont(SOURCE_FONT_PATH, recalcTimestamp=False)
     derived = TTFont(FONT_PATH, recalcTimestamp=False)
     try:
+        cmap = derived.getBestCmap()
+        for base_cp in list(range(0x3041, 0x3097)) + list(range(0x30A1, 0x30FB)) + [0x309D, 0x30FD]:
+            base_name = cmap.get(base_cp)
+            if base_name is None:
+                continue
+            for mark_cp in (0x3099, 0x309A):
+                mark_name = cmap.get(mark_cp)
+                info = mark_to_base_anchors(derived, mark_name, base_name) if mark_name else None
+                if info:
+                    base_anchor, mark_anchor, _ = info
+                    JAPANESE_MARK_OFFSETS[(chr(base_cp), chr(mark_cp))] = (
+                        base_anchor[0] - mark_anchor[0], base_anchor[1] - mark_anchor[1]
+                    )
         render_analysis(source, derived)
         render_optical(derived)
         render_natural()
         render_cedilla(derived)
         render_german(derived)
         render_sharp_s(derived)
+        render_japanese_proofs()
+        render_dakuten_proof()
     finally:
         source.close()
         derived.close()
@@ -505,6 +637,10 @@ def main() -> int:
         GERMAN_PROOF_PATH,
         GERMAN_PROOF_TEXT_PATH,
         SHARP_S_PROOF_PATH,
+        HIRAGANA_PROOF_PATH,
+        KATAKANA_PROOF_PATH,
+        JAPANESE_LYRICS_PROOF_PATH,
+        DAKUTEN_PROOF_PATH,
     ):
         print(f"Rendered {path.relative_to(REPO_ROOT)}")
     return 0

@@ -1,0 +1,6108 @@
+{
+  "source_font": "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf",
+  "derived_font": "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf",
+  "source_glyph_count": 10250,
+  "derived_glyph_count": 10446,
+  "units_per_em": 1024,
+  "source_hhea": {
+    "ascent": 967,
+    "descent": -362
+  },
+  "source_cjk_codepoints": 9097,
+  "source_cjk_advance_widths": [
+    {
+      "advance": 1024,
+      "count": 79
+    },
+    {
+      "advance": 900,
+      "count": 58
+    },
+    {
+      "advance": 988,
+      "count": 40
+    },
+    {
+      "advance": 996,
+      "count": 38
+    },
+    {
+      "advance": 948,
+      "count": 37
+    },
+    {
+      "advance": 906,
+      "count": 37
+    },
+    {
+      "advance": 985,
+      "count": 37
+    },
+    {
+      "advance": 966,
+      "count": 37
+    },
+    {
+      "advance": 968,
+      "count": 36
+    },
+    {
+      "advance": 937,
+      "count": 35
+    },
+    {
+      "advance": 916,
+      "count": 35
+    },
+    {
+      "advance": 957,
+      "count": 35
+    },
+    {
+      "advance": 935,
+      "count": 35
+    },
+    {
+      "advance": 962,
+      "count": 34
+    },
+    {
+      "advance": 964,
+      "count": 34
+    },
+    {
+      "advance": 892,
+      "count": 34
+    },
+    {
+      "advance": 903,
+      "count": 34
+    },
+    {
+      "advance": 976,
+      "count": 34
+    },
+    {
+      "advance": 954,
+      "count": 33
+    },
+    {
+      "advance": 1043,
+      "count": 33
+    },
+    {
+      "advance": 940,
+      "count": 33
+    },
+    {
+      "advance": 932,
+      "count": 32
+    },
+    {
+      "advance": 993,
+      "count": 32
+    },
+    {
+      "advance": 1018,
+      "count": 32
+    },
+    {
+      "advance": 926,
+      "count": 32
+    },
+    {
+      "advance": 883,
+      "count": 32
+    },
+    {
+      "advance": 895,
+      "count": 31
+    },
+    {
+      "advance": 1030,
+      "count": 31
+    },
+    {
+      "advance": 933,
+      "count": 31
+    },
+    {
+      "advance": 986,
+      "count": 31
+    },
+    {
+      "advance": 975,
+      "count": 31
+    },
+    {
+      "advance": 950,
+      "count": 31
+    },
+    {
+      "advance": 972,
+      "count": 31
+    },
+    {
+      "advance": 947,
+      "count": 31
+    },
+    {
+      "advance": 959,
+      "count": 31
+    },
+    {
+      "advance": 942,
+      "count": 31
+    },
+    {
+      "advance": 963,
+      "count": 31
+    },
+    {
+      "advance": 1006,
+      "count": 31
+    },
+    {
+      "advance": 944,
+      "count": 31
+    },
+    {
+      "advance": 910,
+      "count": 30
+    },
+    {
+      "advance": 980,
+      "count": 30
+    },
+    {
+      "advance": 936,
+      "count": 30
+    },
+    {
+      "advance": 970,
+      "count": 30
+    },
+    {
+      "advance": 1036,
+      "count": 30
+    },
+    {
+      "advance": 953,
+      "count": 30
+    },
+    {
+      "advance": 1003,
+      "count": 30
+    },
+    {
+      "advance": 891,
+      "count": 30
+    },
+    {
+      "advance": 967,
+      "count": 30
+    },
+    {
+      "advance": 960,
+      "count": 30
+    },
+    {
+      "advance": 952,
+      "count": 30
+    },
+    {
+      "advance": 920,
+      "count": 29
+    },
+    {
+      "advance": 971,
+      "count": 29
+    },
+    {
+      "advance": 930,
+      "count": 29
+    },
+    {
+      "advance": 1008,
+      "count": 29
+    },
+    {
+      "advance": 913,
+      "count": 29
+    },
+    {
+      "advance": 1049,
+      "count": 29
+    },
+    {
+      "advance": 1060,
+      "count": 29
+    },
+    {
+      "advance": 998,
+      "count": 29
+    },
+    {
+      "advance": 928,
+      "count": 29
+    },
+    {
+      "advance": 987,
+      "count": 29
+    },
+    {
+      "advance": 915,
+      "count": 29
+    },
+    {
+      "advance": 994,
+      "count": 29
+    },
+    {
+      "advance": 978,
+      "count": 29
+    },
+    {
+      "advance": 884,
+      "count": 28
+    },
+    {
+      "advance": 969,
+      "count": 28
+    },
+    {
+      "advance": 899,
+      "count": 28
+    },
+    {
+      "advance": 979,
+      "count": 28
+    },
+    {
+      "advance": 992,
+      "count": 28
+    },
+    {
+      "advance": 995,
+      "count": 28
+    },
+    {
+      "advance": 956,
+      "count": 27
+    },
+    {
+      "advance": 924,
+      "count": 27
+    },
+    {
+      "advance": 927,
+      "count": 27
+    },
+    {
+      "advance": 1040,
+      "count": 27
+    },
+    {
+      "advance": 1067,
+      "count": 27
+    },
+    {
+      "advance": 897,
+      "count": 27
+    },
+    {
+      "advance": 893,
+      "count": 27
+    },
+    {
+      "advance": 955,
+      "count": 27
+    },
+    {
+      "advance": 844,
+      "count": 27
+    },
+    {
+      "advance": 874,
+      "count": 27
+    },
+    {
+      "advance": 949,
+      "count": 27
+    },
+    {
+      "advance": 1027,
+      "count": 27
+    },
+    {
+      "advance": 894,
+      "count": 27
+    },
+    {
+      "advance": 1031,
+      "count": 27
+    },
+    {
+      "advance": 997,
+      "count": 27
+    },
+    {
+      "advance": 1016,
+      "count": 27
+    },
+    {
+      "advance": 914,
+      "count": 27
+    },
+    {
+      "advance": 921,
+      "count": 27
+    },
+    {
+      "advance": 1041,
+      "count": 27
+    },
+    {
+      "advance": 1055,
+      "count": 27
+    },
+    {
+      "advance": 866,
+      "count": 26
+    },
+    {
+      "advance": 1011,
+      "count": 26
+    },
+    {
+      "advance": 1038,
+      "count": 26
+    },
+    {
+      "advance": 1044,
+      "count": 26
+    },
+    {
+      "advance": 1017,
+      "count": 26
+    },
+    {
+      "advance": 1063,
+      "count": 26
+    },
+    {
+      "advance": 902,
+      "count": 26
+    },
+    {
+      "advance": 1029,
+      "count": 26
+    },
+    {
+      "advance": 870,
+      "count": 26
+    },
+    {
+      "advance": 991,
+      "count": 26
+    },
+    {
+      "advance": 943,
+      "count": 26
+    },
+    {
+      "advance": 1050,
+      "count": 26
+    },
+    {
+      "advance": 1001,
+      "count": 26
+    },
+    {
+      "advance": 835,
+      "count": 26
+    },
+    {
+      "advance": 1015,
+      "count": 26
+    },
+    {
+      "advance": 911,
+      "count": 25
+    },
+    {
+      "advance": 821,
+      "count": 25
+    },
+    {
+      "advance": 904,
+      "count": 25
+    },
+    {
+      "advance": 836,
+      "count": 25
+    },
+    {
+      "advance": 974,
+      "count": 25
+    },
+    {
+      "advance": 889,
+      "count": 25
+    },
+    {
+      "advance": 1009,
+      "count": 25
+    },
+    {
+      "advance": 1013,
+      "count": 25
+    },
+    {
+      "advance": 958,
+      "count": 25
+    },
+    {
+      "advance": 923,
+      "count": 25
+    },
+    {
+      "advance": 1037,
+      "count": 25
+    },
+    {
+      "advance": 1002,
+      "count": 25
+    },
+    {
+      "advance": 982,
+      "count": 25
+    },
+    {
+      "advance": 925,
+      "count": 25
+    },
+    {
+      "advance": 876,
+      "count": 25
+    },
+    {
+      "advance": 908,
+      "count": 25
+    },
+    {
+      "advance": 983,
+      "count": 25
+    },
+    {
+      "advance": 1007,
+      "count": 25
+    },
+    {
+      "advance": 882,
+      "count": 24
+    },
+    {
+      "advance": 1010,
+      "count": 24
+    },
+    {
+      "advance": 864,
+      "count": 24
+    },
+    {
+      "advance": 977,
+      "count": 24
+    },
+    {
+      "advance": 1005,
+      "count": 24
+    },
+    {
+      "advance": 946,
+      "count": 24
+    },
+    {
+      "advance": 918,
+      "count": 24
+    },
+    {
+      "advance": 867,
+      "count": 24
+    },
+    {
+      "advance": 912,
+      "count": 24
+    },
+    {
+      "advance": 887,
+      "count": 24
+    },
+    {
+      "advance": 941,
+      "count": 24
+    },
+    {
+      "advance": 939,
+      "count": 23
+    },
+    {
+      "advance": 1032,
+      "count": 23
+    },
+    {
+      "advance": 890,
+      "count": 23
+    },
+    {
+      "advance": 846,
+      "count": 23
+    },
+    {
+      "advance": 922,
+      "count": 23
+    },
+    {
+      "advance": 1022,
+      "count": 23
+    },
+    {
+      "advance": 1004,
+      "count": 23
+    },
+    {
+      "advance": 931,
+      "count": 23
+    },
+    {
+      "advance": 1086,
+      "count": 23
+    },
+    {
+      "advance": 1078,
+      "count": 23
+    },
+    {
+      "advance": 990,
+      "count": 23
+    },
+    {
+      "advance": 1056,
+      "count": 23
+    },
+    {
+      "advance": 840,
+      "count": 23
+    },
+    {
+      "advance": 855,
+      "count": 23
+    },
+    {
+      "advance": 898,
+      "count": 23
+    },
+    {
+      "advance": 869,
+      "count": 23
+    },
+    {
+      "advance": 1062,
+      "count": 23
+    },
+    {
+      "advance": 700,
+      "count": 22
+    },
+    {
+      "advance": 828,
+      "count": 22
+    },
+    {
+      "advance": 865,
+      "count": 22
+    },
+    {
+      "advance": 905,
+      "count": 22
+    },
+    {
+      "advance": 848,
+      "count": 22
+    },
+    {
+      "advance": 849,
+      "count": 22
+    },
+    {
+      "advance": 1014,
+      "count": 22
+    },
+    {
+      "advance": 917,
+      "count": 22
+    },
+    {
+      "advance": 1033,
+      "count": 22
+    },
+    {
+      "advance": 951,
+      "count": 22
+    },
+    {
+      "advance": 989,
+      "count": 22
+    },
+    {
+      "advance": 907,
+      "count": 22
+    },
+    {
+      "advance": 841,
+      "count": 22
+    },
+    {
+      "advance": 842,
+      "count": 22
+    },
+    {
+      "advance": 929,
+      "count": 22
+    },
+    {
+      "advance": 856,
+      "count": 21
+    },
+    {
+      "advance": 801,
+      "count": 21
+    },
+    {
+      "advance": 1065,
+      "count": 21
+    },
+    {
+      "advance": 965,
+      "count": 21
+    },
+    {
+      "advance": 885,
+      "count": 21
+    },
+    {
+      "advance": 1051,
+      "count": 21
+    },
+    {
+      "advance": 1021,
+      "count": 21
+    },
+    {
+      "advance": 845,
+      "count": 21
+    },
+    {
+      "advance": 1026,
+      "count": 21
+    },
+    {
+      "advance": 1023,
+      "count": 21
+    },
+    {
+      "advance": 879,
+      "count": 21
+    },
+    {
+      "advance": 872,
+      "count": 21
+    },
+    {
+      "advance": 934,
+      "count": 21
+    },
+    {
+      "advance": 875,
+      "count": 21
+    },
+    {
+      "advance": 861,
+      "count": 21
+    },
+    {
+      "advance": 1000,
+      "count": 21
+    },
+    {
+      "advance": 808,
+      "count": 21
+    },
+    {
+      "advance": 999,
+      "count": 21
+    },
+    {
+      "advance": 888,
+      "count": 21
+    },
+    {
+      "advance": 909,
+      "count": 21
+    },
+    {
+      "advance": 886,
+      "count": 20
+    },
+    {
+      "advance": 973,
+      "count": 20
+    },
+    {
+      "advance": 881,
+      "count": 20
+    },
+    {
+      "advance": 961,
+      "count": 20
+    },
+    {
+      "advance": 901,
+      "count": 20
+    },
+    {
+      "advance": 1084,
+      "count": 20
+    },
+    {
+      "advance": 1046,
+      "count": 20
+    },
+    {
+      "advance": 814,
+      "count": 20
+    },
+    {
+      "advance": 795,
+      "count": 20
+    },
+    {
+      "advance": 919,
+      "count": 20
+    },
+    {
+      "advance": 837,
+      "count": 20
+    },
+    {
+      "advance": 852,
+      "count": 20
+    },
+    {
+      "advance": 863,
+      "count": 20
+    },
+    {
+      "advance": 792,
+      "count": 20
+    },
+    {
+      "advance": 1019,
+      "count": 20
+    },
+    {
+      "advance": 1071,
+      "count": 20
+    },
+    {
+      "advance": 819,
+      "count": 20
+    },
+    {
+      "advance": 800,
+      "count": 20
+    },
+    {
+      "advance": 1034,
+      "count": 20
+    },
+    {
+      "advance": 896,
+      "count": 20
+    },
+    {
+      "advance": 858,
+      "count": 19
+    },
+    {
+      "advance": 790,
+      "count": 19
+    },
+    {
+      "advance": 853,
+      "count": 19
+    },
+    {
+      "advance": 945,
+      "count": 19
+    },
+    {
+      "advance": 1042,
+      "count": 19
+    },
+    {
+      "advance": 815,
+      "count": 19
+    },
+    {
+      "advance": 1088,
+      "count": 19
+    },
+    {
+      "advance": 1064,
+      "count": 19
+    },
+    {
+      "advance": 839,
+      "count": 19
+    },
+    {
+      "advance": 868,
+      "count": 19
+    },
+    {
+      "advance": 816,
+      "count": 18
+    },
+    {
+      "advance": 832,
+      "count": 18
+    },
+    {
+      "advance": 871,
+      "count": 18
+    },
+    {
+      "advance": 1028,
+      "count": 18
+    },
+    {
+      "advance": 1045,
+      "count": 18
+    },
+    {
+      "advance": 984,
+      "count": 18
+    },
+    {
+      "advance": 1075,
+      "count": 18
+    },
+    {
+      "advance": 1054,
+      "count": 18
+    },
+    {
+      "advance": 789,
+      "count": 18
+    },
+    {
+      "advance": 834,
+      "count": 18
+    },
+    {
+      "advance": 1096,
+      "count": 18
+    },
+    {
+      "advance": 1069,
+      "count": 18
+    },
+    {
+      "advance": 1020,
+      "count": 18
+    },
+    {
+      "advance": 829,
+      "count": 17
+    },
+    {
+      "advance": 809,
+      "count": 17
+    },
+    {
+      "advance": 878,
+      "count": 17
+    },
+    {
+      "advance": 1079,
+      "count": 17
+    },
+    {
+      "advance": 1061,
+      "count": 17
+    },
+    {
+      "advance": 1057,
+      "count": 17
+    },
+    {
+      "advance": 1076,
+      "count": 17
+    },
+    {
+      "advance": 1047,
+      "count": 17
+    },
+    {
+      "advance": 1035,
+      "count": 17
+    },
+    {
+      "advance": 1025,
+      "count": 17
+    },
+    {
+      "advance": 812,
+      "count": 17
+    },
+    {
+      "advance": 847,
+      "count": 17
+    },
+    {
+      "advance": 1095,
+      "count": 17
+    },
+    {
+      "advance": 1053,
+      "count": 17
+    },
+    {
+      "advance": 788,
+      "count": 17
+    },
+    {
+      "advance": 1012,
+      "count": 17
+    },
+    {
+      "advance": 820,
+      "count": 16
+    },
+    {
+      "advance": 1077,
+      "count": 16
+    },
+    {
+      "advance": 1059,
+      "count": 16
+    },
+    {
+      "advance": 873,
+      "count": 16
+    },
+    {
+      "advance": 1073,
+      "count": 16
+    },
+    {
+      "advance": 1048,
+      "count": 16
+    },
+    {
+      "advance": 1089,
+      "count": 16
+    },
+    {
+      "advance": 862,
+      "count": 16
+    },
+    {
+      "advance": 796,
+      "count": 16
+    },
+    {
+      "advance": 880,
+      "count": 16
+    },
+    {
+      "advance": 938,
+      "count": 16
+    },
+    {
+      "advance": 811,
+      "count": 16
+    },
+    {
+      "advance": 824,
+      "count": 16
+    },
+    {
+      "advance": 805,
+      "count": 16
+    },
+    {
+      "advance": 1039,
+      "count": 16
+    },
+    {
+      "advance": 823,
+      "count": 16
+    },
+    {
+      "advance": 843,
+      "count": 15
+    },
+    {
+      "advance": 854,
+      "count": 15
+    },
+    {
+      "advance": 807,
+      "count": 15
+    },
+    {
+      "advance": 813,
+      "count": 15
+    },
+    {
+      "advance": 1093,
+      "count": 15
+    },
+    {
+      "advance": 1083,
+      "count": 15
+    },
+    {
+      "advance": 785,
+      "count": 15
+    },
+    {
+      "advance": 1099,
+      "count": 15
+    },
+    {
+      "advance": 857,
+      "count": 15
+    },
+    {
+      "advance": 860,
+      "count": 15
+    },
+    {
+      "advance": 770,
+      "count": 15
+    },
+    {
+      "advance": 793,
+      "count": 15
+    },
+    {
+      "advance": 1087,
+      "count": 14
+    },
+    {
+      "advance": 1070,
+      "count": 14
+    },
+    {
+      "advance": 784,
+      "count": 14
+    },
+    {
+      "advance": 1148,
+      "count": 14
+    },
+    {
+      "advance": 1111,
+      "count": 14
+    },
+    {
+      "advance": 831,
+      "count": 14
+    },
+    {
+      "advance": 822,
+      "count": 14
+    },
+    {
+      "advance": 764,
+      "count": 14
+    },
+    {
+      "advance": 851,
+      "count": 14
+    },
+    {
+      "advance": 794,
+      "count": 14
+    },
+    {
+      "advance": 1092,
+      "count": 14
+    },
+    {
+      "advance": 1090,
+      "count": 14
+    },
+    {
+      "advance": 1103,
+      "count": 14
+    },
+    {
+      "advance": 773,
+      "count": 14
+    },
+    {
+      "advance": 1058,
+      "count": 14
+    },
+    {
+      "advance": 806,
+      "count": 14
+    },
+    {
+      "advance": 1097,
+      "count": 14
+    },
+    {
+      "advance": 810,
+      "count": 13
+    },
+    {
+      "advance": 877,
+      "count": 13
+    },
+    {
+      "advance": 744,
+      "count": 13
+    },
+    {
+      "advance": 1108,
+      "count": 13
+    },
+    {
+      "advance": 1100,
+      "count": 13
+    },
+    {
+      "advance": 741,
+      "count": 13
+    },
+    {
+      "advance": 1117,
+      "count": 13
+    },
+    {
+      "advance": 1072,
+      "count": 13
+    },
+    {
+      "advance": 1135,
+      "count": 13
+    },
+    {
+      "advance": 786,
+      "count": 13
+    },
+    {
+      "advance": 1101,
+      "count": 13
+    },
+    {
+      "advance": 826,
+      "count": 13
+    },
+    {
+      "advance": 797,
+      "count": 13
+    },
+    {
+      "advance": 825,
+      "count": 13
+    },
+    {
+      "advance": 1102,
+      "count": 13
+    },
+    {
+      "advance": 1052,
+      "count": 13
+    },
+    {
+      "advance": 746,
+      "count": 13
+    },
+    {
+      "advance": 778,
+      "count": 13
+    },
+    {
+      "advance": 827,
+      "count": 13
+    },
+    {
+      "advance": 1119,
+      "count": 13
+    },
+    {
+      "advance": 779,
+      "count": 12
+    },
+    {
+      "advance": 1139,
+      "count": 12
+    },
+    {
+      "advance": 1068,
+      "count": 12
+    },
+    {
+      "advance": 1091,
+      "count": 12
+    },
+    {
+      "advance": 1106,
+      "count": 12
+    },
+    {
+      "advance": 1081,
+      "count": 12
+    },
+    {
+      "advance": 768,
+      "count": 12
+    },
+    {
+      "advance": 787,
+      "count": 12
+    },
+    {
+      "advance": 783,
+      "count": 12
+    },
+    {
+      "advance": 727,
+      "count": 12
+    },
+    {
+      "advance": 1080,
+      "count": 12
+    },
+    {
+      "advance": 802,
+      "count": 12
+    },
+    {
+      "advance": 838,
+      "count": 12
+    },
+    {
+      "advance": 1113,
+      "count": 12
+    },
+    {
+      "advance": 781,
+      "count": 12
+    },
+    {
+      "advance": 761,
+      "count": 12
+    },
+    {
+      "advance": 760,
+      "count": 12
+    },
+    {
+      "advance": 791,
+      "count": 12
+    },
+    {
+      "advance": 782,
+      "count": 12
+    },
+    {
+      "advance": 1134,
+      "count": 12
+    },
+    {
+      "advance": 780,
+      "count": 12
+    },
+    {
+      "advance": 730,
+      "count": 12
+    },
+    {
+      "advance": 708,
+      "count": 11
+    },
+    {
+      "advance": 1118,
+      "count": 11
+    },
+    {
+      "advance": 732,
+      "count": 11
+    },
+    {
+      "advance": 749,
+      "count": 11
+    },
+    {
+      "advance": 803,
+      "count": 11
+    },
+    {
+      "advance": 1104,
+      "count": 11
+    },
+    {
+      "advance": 830,
+      "count": 11
+    },
+    {
+      "advance": 1167,
+      "count": 11
+    },
+    {
+      "advance": 1145,
+      "count": 11
+    },
+    {
+      "advance": 1082,
+      "count": 11
+    },
+    {
+      "advance": 752,
+      "count": 11
+    },
+    {
+      "advance": 804,
+      "count": 11
+    },
+    {
+      "advance": 772,
+      "count": 11
+    },
+    {
+      "advance": 850,
+      "count": 11
+    },
+    {
+      "advance": 798,
+      "count": 11
+    },
+    {
+      "advance": 1107,
+      "count": 11
+    },
+    {
+      "advance": 1105,
+      "count": 11
+    },
+    {
+      "advance": 720,
+      "count": 11
+    },
+    {
+      "advance": 818,
+      "count": 11
+    },
+    {
+      "advance": 728,
+      "count": 10
+    },
+    {
+      "advance": 635,
+      "count": 10
+    },
+    {
+      "advance": 734,
+      "count": 10
+    },
+    {
+      "advance": 703,
+      "count": 10
+    },
+    {
+      "advance": 1158,
+      "count": 10
+    },
+    {
+      "advance": 1120,
+      "count": 10
+    },
+    {
+      "advance": 758,
+      "count": 10
+    },
+    {
+      "advance": 1116,
+      "count": 10
+    },
+    {
+      "advance": 1153,
+      "count": 10
+    },
+    {
+      "advance": 1161,
+      "count": 10
+    },
+    {
+      "advance": 1131,
+      "count": 10
+    },
+    {
+      "advance": 1085,
+      "count": 10
+    },
+    {
+      "advance": 1094,
+      "count": 10
+    },
+    {
+      "advance": 1151,
+      "count": 10
+    },
+    {
+      "advance": 1163,
+      "count": 10
+    },
+    {
+      "advance": 1162,
+      "count": 10
+    },
+    {
+      "advance": 1074,
+      "count": 10
+    },
+    {
+      "advance": 755,
+      "count": 10
+    },
+    {
+      "advance": 1109,
+      "count": 10
+    },
+    {
+      "advance": 1066,
+      "count": 10
+    },
+    {
+      "advance": 1126,
+      "count": 10
+    },
+    {
+      "advance": 774,
+      "count": 10
+    },
+    {
+      "advance": 1127,
+      "count": 10
+    },
+    {
+      "advance": 859,
+      "count": 10
+    },
+    {
+      "advance": 1138,
+      "count": 10
+    },
+    {
+      "advance": 666,
+      "count": 10
+    },
+    {
+      "advance": 766,
+      "count": 9
+    },
+    {
+      "advance": 733,
+      "count": 9
+    },
+    {
+      "advance": 765,
+      "count": 9
+    },
+    {
+      "advance": 742,
+      "count": 9
+    },
+    {
+      "advance": 756,
+      "count": 9
+    },
+    {
+      "advance": 724,
+      "count": 9
+    },
+    {
+      "advance": 1130,
+      "count": 9
+    },
+    {
+      "advance": 1098,
+      "count": 9
+    },
+    {
+      "advance": 1123,
+      "count": 9
+    },
+    {
+      "advance": 1168,
+      "count": 9
+    },
+    {
+      "advance": 1112,
+      "count": 9
+    },
+    {
+      "advance": 1157,
+      "count": 9
+    },
+    {
+      "advance": 771,
+      "count": 9
+    },
+    {
+      "advance": 759,
+      "count": 9
+    },
+    {
+      "advance": 714,
+      "count": 9
+    },
+    {
+      "advance": 1122,
+      "count": 9
+    },
+    {
+      "advance": 833,
+      "count": 9
+    },
+    {
+      "advance": 775,
+      "count": 9
+    },
+    {
+      "advance": 799,
+      "count": 9
+    },
+    {
+      "advance": 1129,
+      "count": 9
+    },
+    {
+      "advance": 777,
+      "count": 9
+    },
+    {
+      "advance": 1137,
+      "count": 9
+    },
+    {
+      "advance": 817,
+      "count": 9
+    },
+    {
+      "advance": 1190,
+      "count": 9
+    },
+    {
+      "advance": 1143,
+      "count": 9
+    },
+    {
+      "advance": 757,
+      "count": 9
+    },
+    {
+      "advance": 981,
+      "count": 9
+    },
+    {
+      "advance": 709,
+      "count": 8
+    },
+    {
+      "advance": 729,
+      "count": 8
+    },
+    {
+      "advance": 748,
+      "count": 8
+    },
+    {
+      "advance": 1169,
+      "count": 8
+    },
+    {
+      "advance": 685,
+      "count": 8
+    },
+    {
+      "advance": 754,
+      "count": 8
+    },
+    {
+      "advance": 762,
+      "count": 8
+    },
+    {
+      "advance": 1166,
+      "count": 8
+    },
+    {
+      "advance": 1124,
+      "count": 8
+    },
+    {
+      "advance": 1110,
+      "count": 8
+    },
+    {
+      "advance": 722,
+      "count": 8
+    },
+    {
+      "advance": 751,
+      "count": 8
+    },
+    {
+      "advance": 672,
+      "count": 8
+    },
+    {
+      "advance": 1156,
+      "count": 8
+    },
+    {
+      "advance": 1150,
+      "count": 8
+    },
+    {
+      "advance": 1149,
+      "count": 8
+    },
+    {
+      "advance": 731,
+      "count": 8
+    },
+    {
+      "advance": 1136,
+      "count": 8
+    },
+    {
+      "advance": 745,
+      "count": 8
+    },
+    {
+      "advance": 689,
+      "count": 8
+    },
+    {
+      "advance": 682,
+      "count": 8
+    },
+    {
+      "advance": 713,
+      "count": 7
+    },
+    {
+      "advance": 719,
+      "count": 7
+    },
+    {
+      "advance": 740,
+      "count": 7
+    },
+    {
+      "advance": 1164,
+      "count": 7
+    },
+    {
+      "advance": 1155,
+      "count": 7
+    },
+    {
+      "advance": 1173,
+      "count": 7
+    },
+    {
+      "advance": 1186,
+      "count": 7
+    },
+    {
+      "advance": 743,
+      "count": 7
+    },
+    {
+      "advance": 677,
+      "count": 7
+    },
+    {
+      "advance": 675,
+      "count": 7
+    },
+    {
+      "advance": 710,
+      "count": 7
+    },
+    {
+      "advance": 767,
+      "count": 7
+    },
+    {
+      "advance": 706,
+      "count": 7
+    },
+    {
+      "advance": 686,
+      "count": 7
+    },
+    {
+      "advance": 673,
+      "count": 7
+    },
+    {
+      "advance": 736,
+      "count": 7
+    },
+    {
+      "advance": 1114,
+      "count": 7
+    },
+    {
+      "advance": 1121,
+      "count": 7
+    },
+    {
+      "advance": 674,
+      "count": 7
+    },
+    {
+      "advance": 1187,
+      "count": 7
+    },
+    {
+      "advance": 715,
+      "count": 7
+    },
+    {
+      "advance": 1172,
+      "count": 7
+    },
+    {
+      "advance": 701,
+      "count": 7
+    },
+    {
+      "advance": 699,
+      "count": 7
+    },
+    {
+      "advance": 776,
+      "count": 7
+    },
+    {
+      "advance": 716,
+      "count": 7
+    },
+    {
+      "advance": 763,
+      "count": 7
+    },
+    {
+      "advance": 723,
+      "count": 7
+    },
+    {
+      "advance": 656,
+      "count": 6
+    },
+    {
+      "advance": 696,
+      "count": 6
+    },
+    {
+      "advance": 1133,
+      "count": 6
+    },
+    {
+      "advance": 1147,
+      "count": 6
+    },
+    {
+      "advance": 1218,
+      "count": 6
+    },
+    {
+      "advance": 1115,
+      "count": 6
+    },
+    {
+      "advance": 1198,
+      "count": 6
+    },
+    {
+      "advance": 1154,
+      "count": 6
+    },
+    {
+      "advance": 1142,
+      "count": 6
+    },
+    {
+      "advance": 679,
+      "count": 6
+    },
+    {
+      "advance": 678,
+      "count": 6
+    },
+    {
+      "advance": 726,
+      "count": 6
+    },
+    {
+      "advance": 718,
+      "count": 6
+    },
+    {
+      "advance": 753,
+      "count": 6
+    },
+    {
+      "advance": 1125,
+      "count": 6
+    },
+    {
+      "advance": 1176,
+      "count": 6
+    },
+    {
+      "advance": 1146,
+      "count": 6
+    },
+    {
+      "advance": 711,
+      "count": 6
+    },
+    {
+      "advance": 698,
+      "count": 6
+    },
+    {
+      "advance": 704,
+      "count": 6
+    },
+    {
+      "advance": 671,
+      "count": 6
+    },
+    {
+      "advance": 1132,
+      "count": 6
+    },
+    {
+      "advance": 676,
+      "count": 6
+    },
+    {
+      "advance": 1159,
+      "count": 6
+    },
+    {
+      "advance": 707,
+      "count": 6
+    },
+    {
+      "advance": 750,
+      "count": 6
+    },
+    {
+      "advance": 1170,
+      "count": 6
+    },
+    {
+      "advance": 659,
+      "count": 5
+    },
+    {
+      "advance": 702,
+      "count": 5
+    },
+    {
+      "advance": 712,
+      "count": 5
+    },
+    {
+      "advance": 1184,
+      "count": 5
+    },
+    {
+      "advance": 1160,
+      "count": 5
+    },
+    {
+      "advance": 1141,
+      "count": 5
+    },
+    {
+      "advance": 1230,
+      "count": 5
+    },
+    {
+      "advance": 737,
+      "count": 5
+    },
+    {
+      "advance": 691,
+      "count": 5
+    },
+    {
+      "advance": 717,
+      "count": 5
+    },
+    {
+      "advance": 668,
+      "count": 5
+    },
+    {
+      "advance": 1182,
+      "count": 5
+    },
+    {
+      "advance": 769,
+      "count": 5
+    },
+    {
+      "advance": 1210,
+      "count": 5
+    },
+    {
+      "advance": 1152,
+      "count": 5
+    },
+    {
+      "advance": 657,
+      "count": 5
+    },
+    {
+      "advance": 1178,
+      "count": 5
+    },
+    {
+      "advance": 1209,
+      "count": 5
+    },
+    {
+      "advance": 721,
+      "count": 5
+    },
+    {
+      "advance": 1197,
+      "count": 5
+    },
+    {
+      "advance": 665,
+      "count": 5
+    },
+    {
+      "advance": 647,
+      "count": 5
+    },
+    {
+      "advance": 681,
+      "count": 5
+    },
+    {
+      "advance": 693,
+      "count": 5
+    },
+    {
+      "advance": 739,
+      "count": 5
+    },
+    {
+      "advance": 644,
+      "count": 4
+    },
+    {
+      "advance": 747,
+      "count": 4
+    },
+    {
+      "advance": 648,
+      "count": 4
+    },
+    {
+      "advance": 653,
+      "count": 4
+    },
+    {
+      "advance": 1171,
+      "count": 4
+    },
+    {
+      "advance": 607,
+      "count": 4
+    },
+    {
+      "advance": 641,
+      "count": 4
+    },
+    {
+      "advance": 652,
+      "count": 4
+    },
+    {
+      "advance": 1144,
+      "count": 4
+    },
+    {
+      "advance": 1234,
+      "count": 4
+    },
+    {
+      "advance": 1215,
+      "count": 4
+    },
+    {
+      "advance": 1140,
+      "count": 4
+    },
+    {
+      "advance": 654,
+      "count": 4
+    },
+    {
+      "advance": 1212,
+      "count": 4
+    },
+    {
+      "advance": 697,
+      "count": 4
+    },
+    {
+      "advance": 612,
+      "count": 4
+    },
+    {
+      "advance": 1271,
+      "count": 4
+    },
+    {
+      "advance": 1206,
+      "count": 4
+    },
+    {
+      "advance": 1217,
+      "count": 4
+    },
+    {
+      "advance": 1183,
+      "count": 4
+    },
+    {
+      "advance": 735,
+      "count": 4
+    },
+    {
+      "advance": 590,
+      "count": 4
+    },
+    {
+      "advance": 639,
+      "count": 4
+    },
+    {
+      "advance": 645,
+      "count": 4
+    },
+    {
+      "advance": 569,
+      "count": 3
+    },
+    {
+      "advance": 638,
+      "count": 3
+    },
+    {
+      "advance": 611,
+      "count": 3
+    },
+    {
+      "advance": 694,
+      "count": 3
+    },
+    {
+      "advance": 1195,
+      "count": 3
+    },
+    {
+      "advance": 1185,
+      "count": 3
+    },
+    {
+      "advance": 1128,
+      "count": 3
+    },
+    {
+      "advance": 1194,
+      "count": 3
+    },
+    {
+      "advance": 1181,
+      "count": 3
+    },
+    {
+      "advance": 670,
+      "count": 3
+    },
+    {
+      "advance": 667,
+      "count": 3
+    },
+    {
+      "advance": 622,
+      "count": 3
+    },
+    {
+      "advance": 587,
+      "count": 3
+    },
+    {
+      "advance": 642,
+      "count": 3
+    },
+    {
+      "advance": 1214,
+      "count": 3
+    },
+    {
+      "advance": 1165,
+      "count": 3
+    },
+    {
+      "advance": 1229,
+      "count": 3
+    },
+    {
+      "advance": 1201,
+      "count": 3
+    },
+    {
+      "advance": 1226,
+      "count": 3
+    },
+    {
+      "advance": 692,
+      "count": 3
+    },
+    {
+      "advance": 687,
+      "count": 3
+    },
+    {
+      "advance": 1222,
+      "count": 3
+    },
+    {
+      "advance": 1177,
+      "count": 3
+    },
+    {
+      "advance": 725,
+      "count": 3
+    },
+    {
+      "advance": 599,
+      "count": 3
+    },
+    {
+      "advance": 1189,
+      "count": 3
+    },
+    {
+      "advance": 1180,
+      "count": 3
+    },
+    {
+      "advance": 1196,
+      "count": 3
+    },
+    {
+      "advance": 1175,
+      "count": 3
+    },
+    {
+      "advance": 636,
+      "count": 3
+    },
+    {
+      "advance": 1205,
+      "count": 3
+    },
+    {
+      "advance": 1233,
+      "count": 3
+    },
+    {
+      "advance": 1191,
+      "count": 3
+    },
+    {
+      "advance": 1267,
+      "count": 3
+    },
+    {
+      "advance": 592,
+      "count": 3
+    },
+    {
+      "advance": 649,
+      "count": 3
+    },
+    {
+      "advance": 1179,
+      "count": 3
+    },
+    {
+      "advance": 690,
+      "count": 3
+    },
+    {
+      "advance": 695,
+      "count": 3
+    },
+    {
+      "advance": 655,
+      "count": 3
+    },
+    {
+      "advance": 651,
+      "count": 3
+    },
+    {
+      "advance": 509,
+      "count": 2
+    },
+    {
+      "advance": 573,
+      "count": 2
+    },
+    {
+      "advance": 532,
+      "count": 2
+    },
+    {
+      "advance": 738,
+      "count": 2
+    },
+    {
+      "advance": 1303,
+      "count": 2
+    },
+    {
+      "advance": 609,
+      "count": 2
+    },
+    {
+      "advance": 630,
+      "count": 2
+    },
+    {
+      "advance": 660,
+      "count": 2
+    },
+    {
+      "advance": 606,
+      "count": 2
+    },
+    {
+      "advance": 618,
+      "count": 2
+    },
+    {
+      "advance": 584,
+      "count": 2
+    },
+    {
+      "advance": 1223,
+      "count": 2
+    },
+    {
+      "advance": 1224,
+      "count": 2
+    },
+    {
+      "advance": 1174,
+      "count": 2
+    },
+    {
+      "advance": 1246,
+      "count": 2
+    },
+    {
+      "advance": 1286,
+      "count": 2
+    },
+    {
+      "advance": 1310,
+      "count": 2
+    },
+    {
+      "advance": 1249,
+      "count": 2
+    },
+    {
+      "advance": 661,
+      "count": 2
+    },
+    {
+      "advance": 559,
+      "count": 2
+    },
+    {
+      "advance": 684,
+      "count": 2
+    },
+    {
+      "advance": 556,
+      "count": 2
+    },
+    {
+      "advance": 617,
+      "count": 2
+    },
+    {
+      "advance": 1221,
+      "count": 2
+    },
+    {
+      "advance": 1236,
+      "count": 2
+    },
+    {
+      "advance": 582,
+      "count": 2
+    },
+    {
+      "advance": 1216,
+      "count": 2
+    },
+    {
+      "advance": 1248,
+      "count": 2
+    },
+    {
+      "advance": 1204,
+      "count": 2
+    },
+    {
+      "advance": 579,
+      "count": 2
+    },
+    {
+      "advance": 640,
+      "count": 2
+    },
+    {
+      "advance": 633,
+      "count": 2
+    },
+    {
+      "advance": 1255,
+      "count": 2
+    },
+    {
+      "advance": 1208,
+      "count": 2
+    },
+    {
+      "advance": 1199,
+      "count": 2
+    },
+    {
+      "advance": 626,
+      "count": 2
+    },
+    {
+      "advance": 680,
+      "count": 2
+    },
+    {
+      "advance": 658,
+      "count": 2
+    },
+    {
+      "advance": 628,
+      "count": 2
+    },
+    {
+      "advance": 669,
+      "count": 2
+    },
+    {
+      "advance": 643,
+      "count": 2
+    },
+    {
+      "advance": 646,
+      "count": 2
+    },
+    {
+      "advance": 627,
+      "count": 2
+    },
+    {
+      "advance": 595,
+      "count": 2
+    },
+    {
+      "advance": 683,
+      "count": 2
+    },
+    {
+      "advance": 1213,
+      "count": 2
+    },
+    {
+      "advance": 601,
+      "count": 2
+    },
+    {
+      "advance": 663,
+      "count": 2
+    },
+    {
+      "advance": 620,
+      "count": 2
+    },
+    {
+      "advance": 637,
+      "count": 2
+    },
+    {
+      "advance": 705,
+      "count": 2
+    },
+    {
+      "advance": 285,
+      "count": 1
+    },
+    {
+      "advance": 489,
+      "count": 1
+    },
+    {
+      "advance": 550,
+      "count": 1
+    },
+    {
+      "advance": 1203,
+      "count": 1
+    },
+    {
+      "advance": 1225,
+      "count": 1
+    },
+    {
+      "advance": 1219,
+      "count": 1
+    },
+    {
+      "advance": 476,
+      "count": 1
+    },
+    {
+      "advance": 1342,
+      "count": 1
+    },
+    {
+      "advance": 448,
+      "count": 1
+    },
+    {
+      "advance": 662,
+      "count": 1
+    },
+    {
+      "advance": 629,
+      "count": 1
+    },
+    {
+      "advance": 530,
+      "count": 1
+    },
+    {
+      "advance": 1338,
+      "count": 1
+    },
+    {
+      "advance": 1270,
+      "count": 1
+    },
+    {
+      "advance": 518,
+      "count": 1
+    },
+    {
+      "advance": 1253,
+      "count": 1
+    },
+    {
+      "advance": 634,
+      "count": 1
+    },
+    {
+      "advance": 577,
+      "count": 1
+    },
+    {
+      "advance": 600,
+      "count": 1
+    },
+    {
+      "advance": 540,
+      "count": 1
+    },
+    {
+      "advance": 526,
+      "count": 1
+    },
+    {
+      "advance": 1261,
+      "count": 1
+    },
+    {
+      "advance": 1247,
+      "count": 1
+    },
+    {
+      "advance": 1228,
+      "count": 1
+    },
+    {
+      "advance": 1353,
+      "count": 1
+    },
+    {
+      "advance": 1309,
+      "count": 1
+    },
+    {
+      "advance": 535,
+      "count": 1
+    },
+    {
+      "advance": 598,
+      "count": 1
+    },
+    {
+      "advance": 575,
+      "count": 1
+    },
+    {
+      "advance": 605,
+      "count": 1
+    },
+    {
+      "advance": 596,
+      "count": 1
+    },
+    {
+      "advance": 563,
+      "count": 1
+    },
+    {
+      "advance": 583,
+      "count": 1
+    },
+    {
+      "advance": 631,
+      "count": 1
+    },
+    {
+      "advance": 548,
+      "count": 1
+    },
+    {
+      "advance": 1254,
+      "count": 1
+    },
+    {
+      "advance": 1252,
+      "count": 1
+    },
+    {
+      "advance": 1188,
+      "count": 1
+    },
+    {
+      "advance": 1332,
+      "count": 1
+    },
+    {
+      "advance": 558,
+      "count": 1
+    },
+    {
+      "advance": 572,
+      "count": 1
+    },
+    {
+      "advance": 566,
+      "count": 1
+    },
+    {
+      "advance": 610,
+      "count": 1
+    },
+    {
+      "advance": 1211,
+      "count": 1
+    },
+    {
+      "advance": 1289,
+      "count": 1
+    },
+    {
+      "advance": 613,
+      "count": 1
+    },
+    {
+      "advance": 624,
+      "count": 1
+    },
+    {
+      "advance": 517,
+      "count": 1
+    },
+    {
+      "advance": 551,
+      "count": 1
+    },
+    {
+      "advance": 608,
+      "count": 1
+    },
+    {
+      "advance": 529,
+      "count": 1
+    },
+    {
+      "advance": 534,
+      "count": 1
+    },
+    {
+      "advance": 615,
+      "count": 1
+    },
+    {
+      "advance": 1242,
+      "count": 1
+    },
+    {
+      "advance": 1322,
+      "count": 1
+    },
+    {
+      "advance": 580,
+      "count": 1
+    },
+    {
+      "advance": 585,
+      "count": 1
+    },
+    {
+      "advance": 688,
+      "count": 1
+    },
+    {
+      "advance": 597,
+      "count": 1
+    },
+    {
+      "advance": 1231,
+      "count": 1
+    },
+    {
+      "advance": 522,
+      "count": 1
+    },
+    {
+      "advance": 560,
+      "count": 1
+    },
+    {
+      "advance": 470,
+      "count": 1
+    },
+    {
+      "advance": 503,
+      "count": 1
+    },
+    {
+      "advance": 528,
+      "count": 1
+    },
+    {
+      "advance": 589,
+      "count": 1
+    },
+    {
+      "advance": 574,
+      "count": 1
+    },
+    {
+      "advance": 621,
+      "count": 1
+    },
+    {
+      "advance": 623,
+      "count": 1
+    },
+    {
+      "advance": 614,
+      "count": 1
+    },
+    {
+      "advance": 664,
+      "count": 1
+    },
+    {
+      "advance": 1357,
+      "count": 1
+    },
+    {
+      "advance": 544,
+      "count": 1
+    },
+    {
+      "advance": 1250,
+      "count": 1
+    },
+    {
+      "advance": 586,
+      "count": 1
+    },
+    {
+      "advance": 578,
+      "count": 1
+    },
+    {
+      "advance": 581,
+      "count": 1
+    },
+    {
+      "advance": 1220,
+      "count": 1
+    },
+    {
+      "advance": 1193,
+      "count": 1
+    },
+    {
+      "advance": 1235,
+      "count": 1
+    },
+    {
+      "advance": 1241,
+      "count": 1
+    },
+    {
+      "advance": 1334,
+      "count": 1
+    },
+    {
+      "advance": 1268,
+      "count": 1
+    },
+    {
+      "advance": 1300,
+      "count": 1
+    },
+    {
+      "advance": 1192,
+      "count": 1
+    },
+    {
+      "advance": 519,
+      "count": 1
+    },
+    {
+      "advance": 538,
+      "count": 1
+    },
+    {
+      "advance": 1202,
+      "count": 1
+    }
+  ],
+  "summary": {
+    "cjk_symbols_and_punctuation": {
+      "audited": 64,
+      "source_present": 21,
+      "derived_present": 23,
+      "phase_1_required": 19,
+      "phase_1_missing": 0
+    },
+    "common_japanese_kanji_sample": {
+      "audited": 21,
+      "source_present": 21,
+      "derived_present": 21,
+      "phase_1_required": 0,
+      "phase_1_missing": 0
+    },
+    "hiragana": {
+      "audited": 96,
+      "source_present": 0,
+      "derived_present": 92,
+      "phase_1_required": 92,
+      "phase_1_missing": 0
+    },
+    "katakana": {
+      "audited": 96,
+      "source_present": 0,
+      "derived_present": 94,
+      "phase_1_required": 94,
+      "phase_1_missing": 0
+    },
+    "katakana_phonetic_extensions": {
+      "audited": 16,
+      "source_present": 0,
+      "derived_present": 0,
+      "phase_1_required": 0,
+      "phase_1_missing": 0
+    }
+  },
+  "records": [
+    {
+      "character": "　",
+      "codepoint": "U+3000",
+      "unicode_name": "IDEOGRAPHIC SPACE",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3000",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "、",
+      "codepoint": "U+3001",
+      "unicode_name": "IDEOGRAPHIC COMMA",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3001",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "。",
+      "codepoint": "U+3002",
+      "unicode_name": "IDEOGRAPHIC FULL STOP",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3002",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〃",
+      "codepoint": "U+3003",
+      "unicode_name": "DITTO MARK",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3003",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〄",
+      "codepoint": "U+3004",
+      "unicode_name": "JAPANESE INDUSTRIAL STANDARD SYMBOL",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "々",
+      "codepoint": "U+3005",
+      "unicode_name": "IDEOGRAPHIC ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3005",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〆",
+      "codepoint": "U+3006",
+      "unicode_name": "IDEOGRAPHIC CLOSING MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3006",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〇",
+      "codepoint": "U+3007",
+      "unicode_name": "IDEOGRAPHIC NUMBER ZERO",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3007",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〈",
+      "codepoint": "U+3008",
+      "unicode_name": "LEFT ANGLE BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3008",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〉",
+      "codepoint": "U+3009",
+      "unicode_name": "RIGHT ANGLE BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3009",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "《",
+      "codepoint": "U+300A",
+      "unicode_name": "LEFT DOUBLE ANGLE BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300A",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "》",
+      "codepoint": "U+300B",
+      "unicode_name": "RIGHT DOUBLE ANGLE BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300B",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "「",
+      "codepoint": "U+300C",
+      "unicode_name": "LEFT CORNER BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300C",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "」",
+      "codepoint": "U+300D",
+      "unicode_name": "RIGHT CORNER BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300D",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "『",
+      "codepoint": "U+300E",
+      "unicode_name": "LEFT WHITE CORNER BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300E",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "』",
+      "codepoint": "U+300F",
+      "unicode_name": "RIGHT WHITE CORNER BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni300F",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "【",
+      "codepoint": "U+3010",
+      "unicode_name": "LEFT BLACK LENTICULAR BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3010",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "】",
+      "codepoint": "U+3011",
+      "unicode_name": "RIGHT BLACK LENTICULAR BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3011",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〒",
+      "codepoint": "U+3012",
+      "unicode_name": "POSTAL MARK",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3012",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〓",
+      "codepoint": "U+3013",
+      "unicode_name": "GETA MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〔",
+      "codepoint": "U+3014",
+      "unicode_name": "LEFT TORTOISE SHELL BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3014",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〕",
+      "codepoint": "U+3015",
+      "unicode_name": "RIGHT TORTOISE SHELL BRACKET",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3015",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〖",
+      "codepoint": "U+3016",
+      "unicode_name": "LEFT WHITE LENTICULAR BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〗",
+      "codepoint": "U+3017",
+      "unicode_name": "RIGHT WHITE LENTICULAR BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〘",
+      "codepoint": "U+3018",
+      "unicode_name": "LEFT WHITE TORTOISE SHELL BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〙",
+      "codepoint": "U+3019",
+      "unicode_name": "RIGHT WHITE TORTOISE SHELL BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〚",
+      "codepoint": "U+301A",
+      "unicode_name": "LEFT WHITE SQUARE BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〛",
+      "codepoint": "U+301B",
+      "unicode_name": "RIGHT WHITE SQUARE BRACKET",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〜",
+      "codepoint": "U+301C",
+      "unicode_name": "WAVE DASH",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni301C",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": true
+    },
+    {
+      "character": "〝",
+      "codepoint": "U+301D",
+      "unicode_name": "REVERSED DOUBLE PRIME QUOTATION MARK",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni301D",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〞",
+      "codepoint": "U+301E",
+      "unicode_name": "DOUBLE PRIME QUOTATION MARK",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni301E",
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〟",
+      "codepoint": "U+301F",
+      "unicode_name": "LOW DOUBLE PRIME QUOTATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〠",
+      "codepoint": "U+3020",
+      "unicode_name": "POSTAL MARK FACE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〡",
+      "codepoint": "U+3021",
+      "unicode_name": "HANGZHOU NUMERAL ONE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〢",
+      "codepoint": "U+3022",
+      "unicode_name": "HANGZHOU NUMERAL TWO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〣",
+      "codepoint": "U+3023",
+      "unicode_name": "HANGZHOU NUMERAL THREE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〤",
+      "codepoint": "U+3024",
+      "unicode_name": "HANGZHOU NUMERAL FOUR",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〥",
+      "codepoint": "U+3025",
+      "unicode_name": "HANGZHOU NUMERAL FIVE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〦",
+      "codepoint": "U+3026",
+      "unicode_name": "HANGZHOU NUMERAL SIX",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〧",
+      "codepoint": "U+3027",
+      "unicode_name": "HANGZHOU NUMERAL SEVEN",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〨",
+      "codepoint": "U+3028",
+      "unicode_name": "HANGZHOU NUMERAL EIGHT",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〩",
+      "codepoint": "U+3029",
+      "unicode_name": "HANGZHOU NUMERAL NINE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〪",
+      "codepoint": "U+302A",
+      "unicode_name": "IDEOGRAPHIC LEVEL TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〫",
+      "codepoint": "U+302B",
+      "unicode_name": "IDEOGRAPHIC RISING TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〬",
+      "codepoint": "U+302C",
+      "unicode_name": "IDEOGRAPHIC DEPARTING TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〭",
+      "codepoint": "U+302D",
+      "unicode_name": "IDEOGRAPHIC ENTERING TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〮",
+      "codepoint": "U+302E",
+      "unicode_name": "HANGUL SINGLE DOT TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〯",
+      "codepoint": "U+302F",
+      "unicode_name": "HANGUL DOUBLE DOT TONE MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〰",
+      "codepoint": "U+3030",
+      "unicode_name": "WAVY DASH",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〱",
+      "codepoint": "U+3031",
+      "unicode_name": "VERTICAL KANA REPEAT MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〲",
+      "codepoint": "U+3032",
+      "unicode_name": "VERTICAL KANA REPEAT WITH VOICED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〳",
+      "codepoint": "U+3033",
+      "unicode_name": "VERTICAL KANA REPEAT MARK UPPER HALF",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〴",
+      "codepoint": "U+3034",
+      "unicode_name": "VERTICAL KANA REPEAT WITH VOICED SOUND MARK UPPER HALF",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〵",
+      "codepoint": "U+3035",
+      "unicode_name": "VERTICAL KANA REPEAT MARK LOWER HALF",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〶",
+      "codepoint": "U+3036",
+      "unicode_name": "CIRCLED POSTAL MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〷",
+      "codepoint": "U+3037",
+      "unicode_name": "IDEOGRAPHIC TELEGRAPH LINE FEED SEPARATOR SYMBOL",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〸",
+      "codepoint": "U+3038",
+      "unicode_name": "HANGZHOU NUMERAL TEN",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〹",
+      "codepoint": "U+3039",
+      "unicode_name": "HANGZHOU NUMERAL TWENTY",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〺",
+      "codepoint": "U+303A",
+      "unicode_name": "HANGZHOU NUMERAL THIRTY",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〻",
+      "codepoint": "U+303B",
+      "unicode_name": "VERTICAL IDEOGRAPHIC ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〼",
+      "codepoint": "U+303C",
+      "unicode_name": "MASU MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〽",
+      "codepoint": "U+303D",
+      "unicode_name": "PART ALTERNATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〾",
+      "codepoint": "U+303E",
+      "unicode_name": "IDEOGRAPHIC VARIATION INDICATOR",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "〿",
+      "codepoint": "U+303F",
+      "unicode_name": "IDEOGRAPHIC HALF FILL SPACE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "cjk_symbols_and_punctuation",
+      "phase_1_required": false
+    },
+    {
+      "character": "぀",
+      "codepoint": "U+3040",
+      "unicode_name": "<UNASSIGNED>",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": false
+    },
+    {
+      "character": "ぁ",
+      "codepoint": "U+3041",
+      "unicode_name": "HIRAGANA LETTER SMALL A",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3041",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "あ",
+      "codepoint": "U+3042",
+      "unicode_name": "HIRAGANA LETTER A",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3042",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぃ",
+      "codepoint": "U+3043",
+      "unicode_name": "HIRAGANA LETTER SMALL I",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3043",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "い",
+      "codepoint": "U+3044",
+      "unicode_name": "HIRAGANA LETTER I",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3044",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぅ",
+      "codepoint": "U+3045",
+      "unicode_name": "HIRAGANA LETTER SMALL U",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3045",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "う",
+      "codepoint": "U+3046",
+      "unicode_name": "HIRAGANA LETTER U",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3046",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぇ",
+      "codepoint": "U+3047",
+      "unicode_name": "HIRAGANA LETTER SMALL E",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3047",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "え",
+      "codepoint": "U+3048",
+      "unicode_name": "HIRAGANA LETTER E",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3048",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぉ",
+      "codepoint": "U+3049",
+      "unicode_name": "HIRAGANA LETTER SMALL O",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3049",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "お",
+      "codepoint": "U+304A",
+      "unicode_name": "HIRAGANA LETTER O",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "か",
+      "codepoint": "U+304B",
+      "unicode_name": "HIRAGANA LETTER KA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "が",
+      "codepoint": "U+304C",
+      "unicode_name": "HIRAGANA LETTER GA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "き",
+      "codepoint": "U+304D",
+      "unicode_name": "HIRAGANA LETTER KI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぎ",
+      "codepoint": "U+304E",
+      "unicode_name": "HIRAGANA LETTER GI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "く",
+      "codepoint": "U+304F",
+      "unicode_name": "HIRAGANA LETTER KU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni304F",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぐ",
+      "codepoint": "U+3050",
+      "unicode_name": "HIRAGANA LETTER GU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3050",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "け",
+      "codepoint": "U+3051",
+      "unicode_name": "HIRAGANA LETTER KE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3051",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "げ",
+      "codepoint": "U+3052",
+      "unicode_name": "HIRAGANA LETTER GE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3052",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "こ",
+      "codepoint": "U+3053",
+      "unicode_name": "HIRAGANA LETTER KO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3053",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ご",
+      "codepoint": "U+3054",
+      "unicode_name": "HIRAGANA LETTER GO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3054",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "さ",
+      "codepoint": "U+3055",
+      "unicode_name": "HIRAGANA LETTER SA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3055",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ざ",
+      "codepoint": "U+3056",
+      "unicode_name": "HIRAGANA LETTER ZA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3056",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "し",
+      "codepoint": "U+3057",
+      "unicode_name": "HIRAGANA LETTER SI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3057",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "じ",
+      "codepoint": "U+3058",
+      "unicode_name": "HIRAGANA LETTER ZI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3058",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "す",
+      "codepoint": "U+3059",
+      "unicode_name": "HIRAGANA LETTER SU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3059",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ず",
+      "codepoint": "U+305A",
+      "unicode_name": "HIRAGANA LETTER ZU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "せ",
+      "codepoint": "U+305B",
+      "unicode_name": "HIRAGANA LETTER SE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぜ",
+      "codepoint": "U+305C",
+      "unicode_name": "HIRAGANA LETTER ZE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "そ",
+      "codepoint": "U+305D",
+      "unicode_name": "HIRAGANA LETTER SO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぞ",
+      "codepoint": "U+305E",
+      "unicode_name": "HIRAGANA LETTER ZO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "た",
+      "codepoint": "U+305F",
+      "unicode_name": "HIRAGANA LETTER TA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni305F",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "だ",
+      "codepoint": "U+3060",
+      "unicode_name": "HIRAGANA LETTER DA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3060",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ち",
+      "codepoint": "U+3061",
+      "unicode_name": "HIRAGANA LETTER TI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3061",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぢ",
+      "codepoint": "U+3062",
+      "unicode_name": "HIRAGANA LETTER DI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3062",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "っ",
+      "codepoint": "U+3063",
+      "unicode_name": "HIRAGANA LETTER SMALL TU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3063",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "つ",
+      "codepoint": "U+3064",
+      "unicode_name": "HIRAGANA LETTER TU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3064",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "づ",
+      "codepoint": "U+3065",
+      "unicode_name": "HIRAGANA LETTER DU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3065",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "て",
+      "codepoint": "U+3066",
+      "unicode_name": "HIRAGANA LETTER TE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3066",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "で",
+      "codepoint": "U+3067",
+      "unicode_name": "HIRAGANA LETTER DE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3067",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "と",
+      "codepoint": "U+3068",
+      "unicode_name": "HIRAGANA LETTER TO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3068",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ど",
+      "codepoint": "U+3069",
+      "unicode_name": "HIRAGANA LETTER DO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3069",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "な",
+      "codepoint": "U+306A",
+      "unicode_name": "HIRAGANA LETTER NA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "に",
+      "codepoint": "U+306B",
+      "unicode_name": "HIRAGANA LETTER NI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぬ",
+      "codepoint": "U+306C",
+      "unicode_name": "HIRAGANA LETTER NU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ね",
+      "codepoint": "U+306D",
+      "unicode_name": "HIRAGANA LETTER NE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "の",
+      "codepoint": "U+306E",
+      "unicode_name": "HIRAGANA LETTER NO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "は",
+      "codepoint": "U+306F",
+      "unicode_name": "HIRAGANA LETTER HA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni306F",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ば",
+      "codepoint": "U+3070",
+      "unicode_name": "HIRAGANA LETTER BA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3070",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぱ",
+      "codepoint": "U+3071",
+      "unicode_name": "HIRAGANA LETTER PA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3071",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ひ",
+      "codepoint": "U+3072",
+      "unicode_name": "HIRAGANA LETTER HI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3072",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "び",
+      "codepoint": "U+3073",
+      "unicode_name": "HIRAGANA LETTER BI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3073",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぴ",
+      "codepoint": "U+3074",
+      "unicode_name": "HIRAGANA LETTER PI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3074",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ふ",
+      "codepoint": "U+3075",
+      "unicode_name": "HIRAGANA LETTER HU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3075",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぶ",
+      "codepoint": "U+3076",
+      "unicode_name": "HIRAGANA LETTER BU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3076",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぷ",
+      "codepoint": "U+3077",
+      "unicode_name": "HIRAGANA LETTER PU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3077",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "へ",
+      "codepoint": "U+3078",
+      "unicode_name": "HIRAGANA LETTER HE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3078",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "べ",
+      "codepoint": "U+3079",
+      "unicode_name": "HIRAGANA LETTER BE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3079",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぺ",
+      "codepoint": "U+307A",
+      "unicode_name": "HIRAGANA LETTER PE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ほ",
+      "codepoint": "U+307B",
+      "unicode_name": "HIRAGANA LETTER HO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぼ",
+      "codepoint": "U+307C",
+      "unicode_name": "HIRAGANA LETTER BO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ぽ",
+      "codepoint": "U+307D",
+      "unicode_name": "HIRAGANA LETTER PO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ま",
+      "codepoint": "U+307E",
+      "unicode_name": "HIRAGANA LETTER MA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "み",
+      "codepoint": "U+307F",
+      "unicode_name": "HIRAGANA LETTER MI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni307F",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "む",
+      "codepoint": "U+3080",
+      "unicode_name": "HIRAGANA LETTER MU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3080",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "め",
+      "codepoint": "U+3081",
+      "unicode_name": "HIRAGANA LETTER ME",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3081",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "も",
+      "codepoint": "U+3082",
+      "unicode_name": "HIRAGANA LETTER MO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3082",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゃ",
+      "codepoint": "U+3083",
+      "unicode_name": "HIRAGANA LETTER SMALL YA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3083",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "や",
+      "codepoint": "U+3084",
+      "unicode_name": "HIRAGANA LETTER YA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3084",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゅ",
+      "codepoint": "U+3085",
+      "unicode_name": "HIRAGANA LETTER SMALL YU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3085",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゆ",
+      "codepoint": "U+3086",
+      "unicode_name": "HIRAGANA LETTER YU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3086",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ょ",
+      "codepoint": "U+3087",
+      "unicode_name": "HIRAGANA LETTER SMALL YO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3087",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "よ",
+      "codepoint": "U+3088",
+      "unicode_name": "HIRAGANA LETTER YO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3088",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ら",
+      "codepoint": "U+3089",
+      "unicode_name": "HIRAGANA LETTER RA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3089",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "り",
+      "codepoint": "U+308A",
+      "unicode_name": "HIRAGANA LETTER RI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "る",
+      "codepoint": "U+308B",
+      "unicode_name": "HIRAGANA LETTER RU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "れ",
+      "codepoint": "U+308C",
+      "unicode_name": "HIRAGANA LETTER RE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ろ",
+      "codepoint": "U+308D",
+      "unicode_name": "HIRAGANA LETTER RO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゎ",
+      "codepoint": "U+308E",
+      "unicode_name": "HIRAGANA LETTER SMALL WA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "わ",
+      "codepoint": "U+308F",
+      "unicode_name": "HIRAGANA LETTER WA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni308F",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゐ",
+      "codepoint": "U+3090",
+      "unicode_name": "HIRAGANA LETTER WI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3090",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゑ",
+      "codepoint": "U+3091",
+      "unicode_name": "HIRAGANA LETTER WE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3091",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "を",
+      "codepoint": "U+3092",
+      "unicode_name": "HIRAGANA LETTER WO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3092",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ん",
+      "codepoint": "U+3093",
+      "unicode_name": "HIRAGANA LETTER N",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3093",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゔ",
+      "codepoint": "U+3094",
+      "unicode_name": "HIRAGANA LETTER VU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3094",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゕ",
+      "codepoint": "U+3095",
+      "unicode_name": "HIRAGANA LETTER SMALL KA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3095",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゖ",
+      "codepoint": "U+3096",
+      "unicode_name": "HIRAGANA LETTER SMALL KE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3096",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "゗",
+      "codepoint": "U+3097",
+      "unicode_name": "<UNASSIGNED>",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": false
+    },
+    {
+      "character": "゘",
+      "codepoint": "U+3098",
+      "unicode_name": "<UNASSIGNED>",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": false
+    },
+    {
+      "character": "゙",
+      "codepoint": "U+3099",
+      "unicode_name": "COMBINING KATAKANA-HIRAGANA VOICED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni3099",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "゚",
+      "codepoint": "U+309A",
+      "unicode_name": "COMBINING KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni309A",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "゛",
+      "codepoint": "U+309B",
+      "unicode_name": "KATAKANA-HIRAGANA VOICED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni309B",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "゜",
+      "codepoint": "U+309C",
+      "unicode_name": "KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni309C",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゝ",
+      "codepoint": "U+309D",
+      "unicode_name": "HIRAGANA ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni309D",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゞ",
+      "codepoint": "U+309E",
+      "unicode_name": "HIRAGANA VOICED ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni309E",
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゟ",
+      "codepoint": "U+309F",
+      "unicode_name": "HIRAGANA DIGRAPH YORI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "hiragana",
+      "phase_1_required": false
+    },
+    {
+      "character": "゠",
+      "codepoint": "U+30A0",
+      "unicode_name": "KATAKANA-HIRAGANA DOUBLE HYPHEN",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": false
+    },
+    {
+      "character": "ァ",
+      "codepoint": "U+30A1",
+      "unicode_name": "KATAKANA LETTER SMALL A",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ア",
+      "codepoint": "U+30A2",
+      "unicode_name": "KATAKANA LETTER A",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ィ",
+      "codepoint": "U+30A3",
+      "unicode_name": "KATAKANA LETTER SMALL I",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "イ",
+      "codepoint": "U+30A4",
+      "unicode_name": "KATAKANA LETTER I",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゥ",
+      "codepoint": "U+30A5",
+      "unicode_name": "KATAKANA LETTER SMALL U",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ウ",
+      "codepoint": "U+30A6",
+      "unicode_name": "KATAKANA LETTER U",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ェ",
+      "codepoint": "U+30A7",
+      "unicode_name": "KATAKANA LETTER SMALL E",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "エ",
+      "codepoint": "U+30A8",
+      "unicode_name": "KATAKANA LETTER E",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ォ",
+      "codepoint": "U+30A9",
+      "unicode_name": "KATAKANA LETTER SMALL O",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30A9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "オ",
+      "codepoint": "U+30AA",
+      "unicode_name": "KATAKANA LETTER O",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "カ",
+      "codepoint": "U+30AB",
+      "unicode_name": "KATAKANA LETTER KA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ガ",
+      "codepoint": "U+30AC",
+      "unicode_name": "KATAKANA LETTER GA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "キ",
+      "codepoint": "U+30AD",
+      "unicode_name": "KATAKANA LETTER KI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AD",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ギ",
+      "codepoint": "U+30AE",
+      "unicode_name": "KATAKANA LETTER GI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ク",
+      "codepoint": "U+30AF",
+      "unicode_name": "KATAKANA LETTER KU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30AF",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "グ",
+      "codepoint": "U+30B0",
+      "unicode_name": "KATAKANA LETTER GU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B0",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ケ",
+      "codepoint": "U+30B1",
+      "unicode_name": "KATAKANA LETTER KE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゲ",
+      "codepoint": "U+30B2",
+      "unicode_name": "KATAKANA LETTER GE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "コ",
+      "codepoint": "U+30B3",
+      "unicode_name": "KATAKANA LETTER KO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゴ",
+      "codepoint": "U+30B4",
+      "unicode_name": "KATAKANA LETTER GO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "サ",
+      "codepoint": "U+30B5",
+      "unicode_name": "KATAKANA LETTER SA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ザ",
+      "codepoint": "U+30B6",
+      "unicode_name": "KATAKANA LETTER ZA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "シ",
+      "codepoint": "U+30B7",
+      "unicode_name": "KATAKANA LETTER SI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ジ",
+      "codepoint": "U+30B8",
+      "unicode_name": "KATAKANA LETTER ZI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ス",
+      "codepoint": "U+30B9",
+      "unicode_name": "KATAKANA LETTER SU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30B9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ズ",
+      "codepoint": "U+30BA",
+      "unicode_name": "KATAKANA LETTER ZU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "セ",
+      "codepoint": "U+30BB",
+      "unicode_name": "KATAKANA LETTER SE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゼ",
+      "codepoint": "U+30BC",
+      "unicode_name": "KATAKANA LETTER ZE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ソ",
+      "codepoint": "U+30BD",
+      "unicode_name": "KATAKANA LETTER SO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BD",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ゾ",
+      "codepoint": "U+30BE",
+      "unicode_name": "KATAKANA LETTER ZO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "タ",
+      "codepoint": "U+30BF",
+      "unicode_name": "KATAKANA LETTER TA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30BF",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ダ",
+      "codepoint": "U+30C0",
+      "unicode_name": "KATAKANA LETTER DA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C0",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "チ",
+      "codepoint": "U+30C1",
+      "unicode_name": "KATAKANA LETTER TI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヂ",
+      "codepoint": "U+30C2",
+      "unicode_name": "KATAKANA LETTER DI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ッ",
+      "codepoint": "U+30C3",
+      "unicode_name": "KATAKANA LETTER SMALL TU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ツ",
+      "codepoint": "U+30C4",
+      "unicode_name": "KATAKANA LETTER TU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヅ",
+      "codepoint": "U+30C5",
+      "unicode_name": "KATAKANA LETTER DU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "テ",
+      "codepoint": "U+30C6",
+      "unicode_name": "KATAKANA LETTER TE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "デ",
+      "codepoint": "U+30C7",
+      "unicode_name": "KATAKANA LETTER DE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ト",
+      "codepoint": "U+30C8",
+      "unicode_name": "KATAKANA LETTER TO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ド",
+      "codepoint": "U+30C9",
+      "unicode_name": "KATAKANA LETTER DO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30C9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ナ",
+      "codepoint": "U+30CA",
+      "unicode_name": "KATAKANA LETTER NA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ニ",
+      "codepoint": "U+30CB",
+      "unicode_name": "KATAKANA LETTER NI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヌ",
+      "codepoint": "U+30CC",
+      "unicode_name": "KATAKANA LETTER NU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ネ",
+      "codepoint": "U+30CD",
+      "unicode_name": "KATAKANA LETTER NE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CD",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ノ",
+      "codepoint": "U+30CE",
+      "unicode_name": "KATAKANA LETTER NO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ハ",
+      "codepoint": "U+30CF",
+      "unicode_name": "KATAKANA LETTER HA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30CF",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "バ",
+      "codepoint": "U+30D0",
+      "unicode_name": "KATAKANA LETTER BA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D0",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "パ",
+      "codepoint": "U+30D1",
+      "unicode_name": "KATAKANA LETTER PA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヒ",
+      "codepoint": "U+30D2",
+      "unicode_name": "KATAKANA LETTER HI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ビ",
+      "codepoint": "U+30D3",
+      "unicode_name": "KATAKANA LETTER BI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ピ",
+      "codepoint": "U+30D4",
+      "unicode_name": "KATAKANA LETTER PI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "フ",
+      "codepoint": "U+30D5",
+      "unicode_name": "KATAKANA LETTER HU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ブ",
+      "codepoint": "U+30D6",
+      "unicode_name": "KATAKANA LETTER BU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "プ",
+      "codepoint": "U+30D7",
+      "unicode_name": "KATAKANA LETTER PU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヘ",
+      "codepoint": "U+30D8",
+      "unicode_name": "KATAKANA LETTER HE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ベ",
+      "codepoint": "U+30D9",
+      "unicode_name": "KATAKANA LETTER BE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30D9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ペ",
+      "codepoint": "U+30DA",
+      "unicode_name": "KATAKANA LETTER PE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ホ",
+      "codepoint": "U+30DB",
+      "unicode_name": "KATAKANA LETTER HO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ボ",
+      "codepoint": "U+30DC",
+      "unicode_name": "KATAKANA LETTER BO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ポ",
+      "codepoint": "U+30DD",
+      "unicode_name": "KATAKANA LETTER PO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DD",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "マ",
+      "codepoint": "U+30DE",
+      "unicode_name": "KATAKANA LETTER MA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ミ",
+      "codepoint": "U+30DF",
+      "unicode_name": "KATAKANA LETTER MI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30DF",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ム",
+      "codepoint": "U+30E0",
+      "unicode_name": "KATAKANA LETTER MU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E0",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "メ",
+      "codepoint": "U+30E1",
+      "unicode_name": "KATAKANA LETTER ME",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "モ",
+      "codepoint": "U+30E2",
+      "unicode_name": "KATAKANA LETTER MO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ャ",
+      "codepoint": "U+30E3",
+      "unicode_name": "KATAKANA LETTER SMALL YA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヤ",
+      "codepoint": "U+30E4",
+      "unicode_name": "KATAKANA LETTER YA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ュ",
+      "codepoint": "U+30E5",
+      "unicode_name": "KATAKANA LETTER SMALL YU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ユ",
+      "codepoint": "U+30E6",
+      "unicode_name": "KATAKANA LETTER YU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ョ",
+      "codepoint": "U+30E7",
+      "unicode_name": "KATAKANA LETTER SMALL YO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヨ",
+      "codepoint": "U+30E8",
+      "unicode_name": "KATAKANA LETTER YO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ラ",
+      "codepoint": "U+30E9",
+      "unicode_name": "KATAKANA LETTER RA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30E9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "リ",
+      "codepoint": "U+30EA",
+      "unicode_name": "KATAKANA LETTER RI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30EA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ル",
+      "codepoint": "U+30EB",
+      "unicode_name": "KATAKANA LETTER RU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30EB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "レ",
+      "codepoint": "U+30EC",
+      "unicode_name": "KATAKANA LETTER RE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30EC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ロ",
+      "codepoint": "U+30ED",
+      "unicode_name": "KATAKANA LETTER RO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30ED",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヮ",
+      "codepoint": "U+30EE",
+      "unicode_name": "KATAKANA LETTER SMALL WA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30EE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ワ",
+      "codepoint": "U+30EF",
+      "unicode_name": "KATAKANA LETTER WA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30EF",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヰ",
+      "codepoint": "U+30F0",
+      "unicode_name": "KATAKANA LETTER WI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F0",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヱ",
+      "codepoint": "U+30F1",
+      "unicode_name": "KATAKANA LETTER WE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F1",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヲ",
+      "codepoint": "U+30F2",
+      "unicode_name": "KATAKANA LETTER WO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F2",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ン",
+      "codepoint": "U+30F3",
+      "unicode_name": "KATAKANA LETTER N",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F3",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヴ",
+      "codepoint": "U+30F4",
+      "unicode_name": "KATAKANA LETTER VU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F4",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヵ",
+      "codepoint": "U+30F5",
+      "unicode_name": "KATAKANA LETTER SMALL KA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F5",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヶ",
+      "codepoint": "U+30F6",
+      "unicode_name": "KATAKANA LETTER SMALL KE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F6",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヷ",
+      "codepoint": "U+30F7",
+      "unicode_name": "KATAKANA LETTER VA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F7",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヸ",
+      "codepoint": "U+30F8",
+      "unicode_name": "KATAKANA LETTER VI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F8",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヹ",
+      "codepoint": "U+30F9",
+      "unicode_name": "KATAKANA LETTER VE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30F9",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヺ",
+      "codepoint": "U+30FA",
+      "unicode_name": "KATAKANA LETTER VO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30FA",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "・",
+      "codepoint": "U+30FB",
+      "unicode_name": "KATAKANA MIDDLE DOT",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30FB",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ー",
+      "codepoint": "U+30FC",
+      "unicode_name": "KATAKANA-HIRAGANA PROLONGED SOUND MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30FC",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヽ",
+      "codepoint": "U+30FD",
+      "unicode_name": "KATAKANA ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30FD",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヾ",
+      "codepoint": "U+30FE",
+      "unicode_name": "KATAKANA VOICED ITERATION MARK",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni30FE",
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": true
+    },
+    {
+      "character": "ヿ",
+      "codepoint": "U+30FF",
+      "unicode_name": "KATAKANA DIGRAPH KOTO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇰ",
+      "codepoint": "U+31F0",
+      "unicode_name": "KATAKANA LETTER SMALL KU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇱ",
+      "codepoint": "U+31F1",
+      "unicode_name": "KATAKANA LETTER SMALL SI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇲ",
+      "codepoint": "U+31F2",
+      "unicode_name": "KATAKANA LETTER SMALL SU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇳ",
+      "codepoint": "U+31F3",
+      "unicode_name": "KATAKANA LETTER SMALL TO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇴ",
+      "codepoint": "U+31F4",
+      "unicode_name": "KATAKANA LETTER SMALL NU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇵ",
+      "codepoint": "U+31F5",
+      "unicode_name": "KATAKANA LETTER SMALL HA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇶ",
+      "codepoint": "U+31F6",
+      "unicode_name": "KATAKANA LETTER SMALL HI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇷ",
+      "codepoint": "U+31F7",
+      "unicode_name": "KATAKANA LETTER SMALL HU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇸ",
+      "codepoint": "U+31F8",
+      "unicode_name": "KATAKANA LETTER SMALL HE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇹ",
+      "codepoint": "U+31F9",
+      "unicode_name": "KATAKANA LETTER SMALL HO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇺ",
+      "codepoint": "U+31FA",
+      "unicode_name": "KATAKANA LETTER SMALL MU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇻ",
+      "codepoint": "U+31FB",
+      "unicode_name": "KATAKANA LETTER SMALL RA",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇼ",
+      "codepoint": "U+31FC",
+      "unicode_name": "KATAKANA LETTER SMALL RI",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇽ",
+      "codepoint": "U+31FD",
+      "unicode_name": "KATAKANA LETTER SMALL RU",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇾ",
+      "codepoint": "U+31FE",
+      "unicode_name": "KATAKANA LETTER SMALL RE",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "ㇿ",
+      "codepoint": "U+31FF",
+      "unicode_name": "KATAKANA LETTER SMALL RO",
+      "source_font_has_glyph": false,
+      "derived_font_has_glyph": false,
+      "glyph_name": null,
+      "needs_addition": false,
+      "category": "katakana_phonetic_extensions",
+      "phase_1_required": false
+    },
+    {
+      "character": "一",
+      "codepoint": "U+4E00",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-4E00",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni4E00",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "上",
+      "codepoint": "U+4E0A",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-4E0A",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni4E0A",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "中",
+      "codepoint": "U+4E2D",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-4E2D",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni4E2D",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "会",
+      "codepoint": "U+4F1A",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-4F1A",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni4F1A",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "君",
+      "codepoint": "U+541B",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-541B",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni541B",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "吹",
+      "codepoint": "U+5439",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-5439",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni5439",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "声",
+      "codepoint": "U+58F0",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-58F0",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni58F0",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "夜",
+      "codepoint": "U+591C",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-591C",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni591C",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "夢",
+      "codepoint": "U+5922",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-5922",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni5922",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "度",
+      "codepoint": "U+5EA6",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-5EA6",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni5EA6",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "心",
+      "codepoint": "U+5FC3",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-5FC3",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni5FC3",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "愛",
+      "codepoint": "U+611B",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-611B",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni611B",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "日",
+      "codepoint": "U+65E5",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-65E5",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni65E5",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "明",
+      "codepoint": "U+660E",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-660E",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni660E",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "春",
+      "codepoint": "U+6625",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-6625",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni6625",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "晴",
+      "codepoint": "U+6674",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-6674",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni6674",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "空",
+      "codepoint": "U+7A7A",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-7A7A",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni7A7A",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "聞",
+      "codepoint": "U+805E",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-805E",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni805E",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "見",
+      "codepoint": "U+898B",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-898B",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni898B",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "言",
+      "codepoint": "U+8A00",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-8A00",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni8A00",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    },
+    {
+      "character": "風",
+      "codepoint": "U+98A8",
+      "unicode_name": "CJK UNIFIED IDEOGRAPH-98A8",
+      "source_font_has_glyph": true,
+      "derived_font_has_glyph": true,
+      "glyph_name": "uni98A8",
+      "needs_addition": false,
+      "category": "common_japanese_kanji_sample",
+      "phase_1_required": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Japanese song page font fixture</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <style>
+    .fixture-shell { width: min(100% - 24px, 780px); margin: 24px auto; }
+    .lyrics-list { max-height: 220px; }
+    .fixture-status { color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
+    @media (max-width: 480px) { .lyric-line { grid-template-columns: 72px minmax(0, 1fr); } }
+  </style>
+</head>
+<body>
+  <main class="fixture-shell">
+    <section class="lyrics-panel" aria-label="Japanese song page fixture">
+      <div class="panel-heading">
+        <div><p class="eyebrow">Japanese Phase 1 fixture</p><h1>君のメロディー</h1></div>
+        <span id="currentTimeLabel" class="time-readout">00:00.000</span>
+      </div>
+      <p class="fixture-status">This fixture is not production lyric data. It exercises the real song-page CSS, timestamp column, active underline, mixed CJK/kana layout, and auto-scroll.</p>
+      <ol id="lyricsList" class="lyrics-list" aria-live="polite">
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:00.000</span><span>君の声を聞かせて</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:04.500</span><span>もう一度だけ</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:08.250</span><span>愛してる</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:12.000</span><span>夜空を見上げて</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:16.750</span><span>君のメロディー</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:21.000</span><span>さよならを言えなくて</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:25.500</span><span>あなたに会いたい</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:30.000</span><span>夢の中で</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:34.250</span><span>春の風が吹いている</span></button></li>
+        <li><button class="lyric-line" type="button"><span class="lyric-time">00:39.000</span><span>愛のストーリー</span></button></li>
+      </ol>
+      <p id="fixtureResult" class="fixture-status"></p>
+    </section>
+  </main>
+  <script>
+    const list = document.querySelector("#lyricsList");
+    const rows = [...list.children];
+    window.activateLyric = (index) => {
+      rows.forEach((row, rowIndex) => row.classList.toggle("active", rowIndex === index));
+      const active = rows[index];
+      active.scrollIntoView({ block: "nearest", behavior: "instant" });
+      document.querySelector("#currentTimeLabel").textContent = active.querySelector(".lyric-time").textContent;
+      document.querySelector("#fixtureResult").textContent = `active=${index}; scrollTop=${list.scrollTop}; scrollWidth=${list.scrollWidth}; clientWidth=${list.clientWidth}`;
+    };
+    rows.forEach((row, index) => row.querySelector("button").addEventListener("click", () => window.activateLyric(index)));
+    document.fonts.ready.then(() => {
+      window.activateLyric(8);
+      document.documentElement.dataset.fontReady = document.fonts.check('20px "QuanFangwei Supplement Web"', "君のメロディー") ? "true" : "false";
+    });
+  </script>
+</body>
+</html>

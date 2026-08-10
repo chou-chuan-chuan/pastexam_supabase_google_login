@@ -18,15 +18,16 @@ test("keeps the official source font unchanged and ships valid font signatures",
   assert.equal(woff2.subarray(0, 4).toString("ascii"), "wOF2");
 });
 
-test("loads the versioned supplemental webfont first and manifests cedilla and German coverage", async () => {
+test("loads the versioned supplemental webfont first and manifests Latin, German, and Japanese coverage", async () => {
   const [css, manifestText] = await Promise.all([
     readFile(new URL("../assets/style.css", import.meta.url), "utf8"),
     readFile(new URL("../tools/font/glyph_manifest.json", import.meta.url), "utf8")
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.003/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.003/);
+  assert.equal(manifest.derived_font.version, "1.004");
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.004/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.004/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
@@ -45,4 +46,10 @@ test("loads the versioned supplemental webfont first and manifests cedilla and G
     { character: "ß", codepoint: "U+00DF", glyph_name: "germandbls" },
     { character: "ẞ", codepoint: "U+1E9E", glyph_name: "uni1E9E" }
   ]);
+  assert.match(manifest.groups.hiragana.characters, /あ.*ん.*ゔ/);
+  assert.match(manifest.groups.katakana.characters, /ア.*ン.*ヴ/);
+  assert.match(manifest.groups.japanese_marks.characters, /゙.*゚.*゛.*゜.*ー/);
+  assert.equal(manifest.groups.hiragana.status, "verified");
+  assert.equal(manifest.groups.katakana.status, "verified");
+  assert.equal(manifest.groups.japanese_marks.status, "verified");
 });
