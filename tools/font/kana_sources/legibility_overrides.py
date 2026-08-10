@@ -132,3 +132,11 @@ LEGIBLE_KANA: dict[str, tuple[Stroke, ...]] = {
         S((255, 190), (405, 245), (545, 345), (655, 490), (720, 680), width=56, end=30),
     ),
 }
+
+# Revision 2 replaces the complete modern-hiragana set after the first proof
+# showed that several Phase 1 skeletons were technically present but not
+# comfortably recognizable.  Keeping the source in its own module makes this
+# visual revision reviewable and reversible without touching katakana.
+from kana_sources.hiragana_redesign import REDESIGNED_HIRAGANA
+
+LEGIBLE_KANA.update(REDESIGNED_HIRAGANA)

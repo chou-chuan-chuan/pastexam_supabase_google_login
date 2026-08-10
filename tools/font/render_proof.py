@@ -27,6 +27,7 @@ GERMAN_PROOF_PATH = PROOF_DIR / "quanfangwei-german-proof.png"
 GERMAN_PROOF_TEXT_PATH = PROOF_DIR / "quanfangwei-german-proof.txt"
 SHARP_S_PROOF_PATH = PROOF_DIR / "quanfangwei-sharp-s-proof.png"
 HIRAGANA_PROOF_PATH = PROOF_DIR / "quanfangwei-hiragana-proof.png"
+HIRAGANA_REDESIGN_PROOF_PATH = PROOF_DIR / "quanfangwei-hiragana-redesign-proof.png"
 KATAKANA_PROOF_PATH = PROOF_DIR / "quanfangwei-katakana-proof.png"
 JAPANESE_LYRICS_PROOF_PATH = PROOF_DIR / "quanfangwei-japanese-lyrics-proof.png"
 DAKUTEN_PROOF_PATH = PROOF_DIR / "quanfangwei-dakuten-proof.png"
@@ -564,6 +565,47 @@ def render_japanese_proofs() -> None:
     render_japanese_sheet(JAPANESE_LYRICS_PROOF_PATH, "QuanFangwei — Japanese lyric rendering proof", JAPANESE_LYRIC_LINES, 2600)
 
 
+def render_hiragana_redesign_proof() -> None:
+    """Large per-cell proof for structural review of the original drawings."""
+    rows = [
+        "あいうえお", "かきくけこ", "さしすせそ", "たちつてと", "なにぬねの",
+        "はひふへほ", "まみむめも", "や　ゆ　よ", "らりるれろ", "わ　　　を", "ん",
+    ]
+    cell_width, cell_height = 235, 205
+    left, top = 120, 185
+    width = left * 2 + cell_width * 5
+    height = top + cell_height * len(rows) + 340
+    image = Image.new("RGB", (width, height), "#fffdf9")
+    draw = ImageDraw.Draw(image)
+    title = ImageFont.truetype(str(FONT_PATH), 40)
+    label = ImageFont.truetype(str(FONT_PATH), 18)
+    face = ImageFont.truetype(str(FONT_PATH), 120)
+    sample = ImageFont.truetype(str(FONT_PATH), 48)
+    draw.text((55, 38), "QuanFangwei — original hiragana redesign review", font=title, fill="#4f276c")
+    draw.text((55, 100), "120 px cells · authored center-lines · no raster tracing", font=label, fill="#5e5264")
+    for row_index, row in enumerate(rows):
+        y = top + row_index * cell_height
+        characters = [character for character in row if character != "　"]
+        if row.startswith("や"):
+            columns = [0, 2, 4]
+        elif row.startswith("わ"):
+            columns = [0, 4]
+        else:
+            columns = list(range(len(characters)))
+        for column, character in zip(columns, characters):
+            x = left + column * cell_width
+            draw.rectangle((x, y, x + cell_width, y + cell_height), outline="#eadce5", width=2)
+            baseline = y + 155
+            draw.line((x + 8, baseline, x + cell_width - 8, baseline), fill="#df5d74", width=1)
+            draw.text((x + cell_width / 2, baseline), character, font=face, fill="#17121f", anchor="ms")
+            draw.text((x + 10, y + 10), f"U+{ord(character):04X}", font=label, fill="#786a7d")
+    sample_y = top + cell_height * len(rows) + 45
+    draw.text((55, sample_y), "48 px lyric-size sequence", font=label, fill="#6d35c5")
+    draw.text((120, sample_y + 72), "あいうえお　かきくけこ　さしすせそ　たちつてと", font=sample, fill="#17121f")
+    draw.text((120, sample_y + 145), "君の声を聞かせて　もう一度だけ　あなたに会いたい", font=sample, fill="#17121f")
+    image.save(HIRAGANA_REDESIGN_PROOF_PATH, "PNG", optimize=True)
+
+
 def render_cjk_alignment_proof() -> None:
     """Show Chinese/kana mixed on the exact same baselines at lyric sizes."""
     sizes = [16, 20, 24, 32, 48, 72, 120]
@@ -654,6 +696,7 @@ def main() -> int:
         render_german(derived)
         render_sharp_s(derived)
         render_japanese_proofs()
+        render_hiragana_redesign_proof()
         render_cjk_alignment_proof()
         render_dakuten_proof()
     finally:
@@ -671,6 +714,7 @@ def main() -> int:
         GERMAN_PROOF_TEXT_PATH,
         SHARP_S_PROOF_PATH,
         HIRAGANA_PROOF_PATH,
+        HIRAGANA_REDESIGN_PROOF_PATH,
         KATAKANA_PROOF_PATH,
         JAPANESE_LYRICS_PROOF_PATH,
         CJK_ALIGNMENT_PROOF_PATH,

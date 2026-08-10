@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.008"
+    "version": "1.009"
   },
   "glyphs": [
     {
@@ -198,13 +198,13 @@
   "groups": {
     "hiragana": {
       "characters": "ぁあぃいぅうぇえぉおかがきぎくぐけげこござじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
-      "source_file": "kana_sources/full_data.py + kana_sources/legibility_overrides.py",
+      "source_file": "kana_sources/full_data.py + kana_sources/legibility_overrides.py + kana_sources/hiragana_redesign.py",
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite",
+      "construction_method": "complete_modern_hiragana_redesign_from_original_variable_width_centerlines_or_reviewed_base_plus_shared_mark_composite",
       "source_style_references": ["一", "丨", "丿", "丶", "乙", "了", "口", "日", "心", "女", "子", "之", "也", "乃", "川", "久", "九", "千", "小", "大"],
-      "optical_adjustments": "Per-glyph curves, joins, terminal pressure, center, and 960-unit advance; small kana use reviewed 72% optical scale with stroke-width correction. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
+      "optical_adjustments": "Per-glyph curves, joins, terminal pressure, center, and 960-unit advance; small kana use reviewed 72% optical scale with stroke-width correction. Version 1.009 separates the さ/ち lower structures and gives の a diagonal entry, broad left loop, and long right descent. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
       "status": "verified"
     },
     "katakana": {
