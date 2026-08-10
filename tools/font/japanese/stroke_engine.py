@@ -112,3 +112,14 @@ def path_to_glyph(path: pathops.Path):
 
 def build_stroke_glyph(strokes: tuple[Stroke, ...]):
     return path_to_glyph(glyph_path(strokes))
+
+
+def translate_strokes(strokes: tuple[Stroke, ...], dx: float = 0, dy: float = 0) -> tuple[Stroke, ...]:
+    """Translate deterministic center-line data without changing its pressure."""
+    return tuple(Stroke(
+        tuple((x + dx, y + dy) for x, y in stroke.points),
+        stroke.width,
+        stroke.start_width,
+        stroke.end_width,
+        stroke.cap,
+    ) for stroke in strokes)

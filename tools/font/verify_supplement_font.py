@@ -8,6 +8,7 @@ import math
 import sys
 from io import BytesIO
 from pathlib import Path
+from statistics import median
 
 import uharfbuzz as hb
 from fontTools.misc.testTools import getXML
@@ -16,6 +17,7 @@ from fontTools.pens.recordingPen import RecordingPen
 from fontTools.ttLib import TTFont
 
 from kana_sources.legibility_overrides import LEGIBLE_KANA
+from kana_sources.full_data import HIRAGANA_BASE, KATAKANA_BASE
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -31,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.007"
-UNIQUE_ID = "1.007;QFW;QuanFangweiSupplementScript-Regular;20260810"
+VERSION = "1.008"
+UNIQUE_ID = "1.008;QFW;QuanFangweiSupplementScript-Regular;20260810"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -283,6 +285,22 @@ def verify() -> list[str]:
         require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name],
                 f"WOFF2 Japanese metrics differ for {glyph_name}")
         require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 Japanese bounds differ for {glyph_name}")
+
+    def median_optical_center(characters: str) -> float:
+        centers = []
+        for character in characters:
+            glyph_bounds = bounds(ttf, ttf_cmap[ord(character)])
+            centers.append((glyph_bounds[1] + glyph_bounds[3]) / 2)
+        return median(centers)
+
+    han_alignment_sample = "平仮名片君愛声夢春心明日夜空"
+    han_center = median_optical_center(han_alignment_sample)
+    hiragana_center = median_optical_center(HIRAGANA_BASE)
+    katakana_center = median_optical_center(KATAKANA_BASE)
+    require(abs(hiragana_center - han_center) <= 35,
+            f"Hiragana optical center floats relative to Chinese: hira={hiragana_center}, han={han_center}")
+    require(abs(katakana_center - han_center) <= 35,
+            f"Katakana optical center floats relative to Chinese: kata={katakana_center}, han={han_center}")
 
     no_stroke = LEGIBLE_KANA["の"][0]
     no_start, no_end = no_stroke.points[0], no_stroke.points[-1]
@@ -566,6 +584,7 @@ def main() -> int:
     print("PASS: germandbls/uni1E9E use continuous beta-like source outlines with distinct German cmaps")
     print("PASS: complete Phase 1 Hiragana, Katakana, Japanese punctuation, and iteration marks are mapped")
     print("PASS: hiragana no and the shi/tsu/so/n directional pairs retain recognizable source geometry")
+    print("PASS: Hiragana and Katakana optical centers align with the source Chinese sample")
     print("PASS: uni3099/uni309A have zero advance, GDEF mark class, and GPOS anchors matching precomposed kana")
     print("PASS: all original cmap mappings and glyph order are preserved")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")

@@ -15,6 +15,13 @@ The first Phase 1 proof was technically valid but did not pass a stricter reader
 - Dakuten proof: passed at 16, 20, 24, 32, 48, 72, and 120 px. Composed and decomposed pairs use the same mark contour, optical origin, and 960-unit total advance.
 - Duplicate-outline audit: only `へ` / `ヘ`, the expected shared hiragana/katakana form, are identical among the Phase 1 kana.
 
+## Version 1.008 template and alignment gate
+
+- The user-supplied handwritten gojūon chart is used as a structural and proportional reference only; its raster outlines are not traced or embedded.
+- Pre-fix measurements put Hiragana/Katakana median optical centers roughly 145 font units above the source Chinese sample.
+- All kana center-line outlines now receive a deterministic -145 y translation; center punctuation receives -120 y. The Japanese GPOS base-anchor y moves from 835 to 690, so composed and decomposed dakuten remain identical after alignment.
+- `quanfangwei-cjk-kana-alignment-proof.png` confirms Chinese, Hiragana, and Katakana share the same baseline without CSS offsets at 16, 20, 24, 32, 48, 72, and 120 px.
+
 ## Source/style judgment
 
 - Stroke weight is based on the measured official-source short-run median of about 51 font units.
