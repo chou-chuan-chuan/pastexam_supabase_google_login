@@ -171,6 +171,12 @@ MASTER_GLYPHS: dict[str, tuple[Stroke, ...]] = {
     ),
 }
 
+# Reviewed canonical-structure replacements are kept separately so visual
+# revisions remain easy to audit without obscuring the original Phase 1 data.
+from kana_sources.legibility_overrides import LEGIBLE_KANA
+
+MASTER_GLYPHS.update({character: strokes for character, strokes in LEGIBLE_KANA.items() if character in MASTER_GLYPHS})
+
 
 def _scaled(strokes: tuple[Stroke, ...], scale: float = 0.72, center=(500, 470), shift=(0, -15)) -> tuple[Stroke, ...]:
     result = []

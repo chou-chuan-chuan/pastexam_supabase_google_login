@@ -148,6 +148,10 @@ KANA_STROKES.update({
           S((700,545),(650,410),(555,300),(440,220),(315,180),width=54,end=27)),
 })
 
+from kana_sources.legibility_overrides import LEGIBLE_KANA
+
+KANA_STROKES.update(LEGIBLE_KANA)
+
 # Small vowels, small wa, and small ka/ke use per-glyph optical scaling.
 for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゎ":"わ",
                      "ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ","ヮ":"ワ",
