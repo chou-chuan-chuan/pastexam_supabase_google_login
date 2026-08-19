@@ -315,3 +315,11 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 
 
 Version 1.012 針對實際歌詞 proof 做局部視覺修正：`す` 擴大中央 counter、`り` 延長收尾；維護者手寫的 `懐／夕` 取代對應 shared-codepoint 顯示；`気／付` 保留原始辰宇落雁 drawing，只建立 vertical optical alignment copy 以改善 `気付け` 與 refined Hiragana 的混排對齊。其他中文字仍沿用原始 mapping。
+
+
+### Version 1.013 stable-release scope
+
+- `懐` (U+61D0) is intentionally left on the original ChenYuluoyan source glyph.
+- `々` (U+3005) uses the existing Phase-1 handwritten mark; the later experimental redraw is not shipped.
+- `夕` (U+5915) remains on the original source glyph.
+- Other reviewed Hiragana refinements and the existing `気`/`付` mixed-alignment work remain included.

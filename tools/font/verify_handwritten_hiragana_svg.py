@@ -30,7 +30,7 @@ SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.012"
+EXPECTED_FONT_VERSION = "1.013"
 KANA_ADVANCE = 960
 
 
@@ -182,7 +182,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.012 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.013 metadata, and CJK optical alignment are valid")
     return 0
 
 

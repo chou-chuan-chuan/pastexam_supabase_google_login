@@ -52,7 +52,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.012"
+VERSION = "1.013"
 BUILD_DATE = "2026-08-20"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260820"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -466,7 +466,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.012
+        font["head"].fontRevision = 1.013
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

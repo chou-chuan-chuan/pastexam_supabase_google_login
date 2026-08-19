@@ -1,6 +1,6 @@
-"""Build Version 1.012 user-maintainer Japanese shared-codepoint overrides.
+"""Build Version 1.013 user-maintainer Japanese shared-codepoint overrides.
 
-Two Han characters (懐 U+61D0 and 夕 U+5915) are rebuilt from the maintainer's
+One Han character (懐 U+61D0 and 夕 U+5915) are rebuilt from the maintainer's
 own handwriting center-lines.  気 U+6C17 and 付 U+4ED8 keep the source font's
 original drawings, but are installed under distinct derived glyph names with
 an optical vertical transform so the mixed sequence 気付け aligns better with
@@ -25,8 +25,9 @@ from kana_sources.user_kanji_refined import (
 USER_OVERRIDE_SUFFIX = ".qfwUser"
 ALIGN_OVERRIDE_SUFFIX = ".qfwJaAlign"
 ALIGNMENT_REFERENCE = "け"
-ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.08
-ALIGNMENT_SCALE_CLAMP = (0.82, 1.06)
+ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.04
+ALIGNMENT_SCALE_CLAMP = (0.88, 1.04)
+ALIGNMENT_OPTICAL_Y = {"気": 30.0, "付": 6.0}
 
 
 def glyph_bounds(font: TTFont, glyph_name: str) -> tuple[float, float, float, float]:
@@ -113,7 +114,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
         source_center = (source_bounds[1] + source_bounds[3]) / 2
         scale_y = target_height / source_height
         scale_y = min(ALIGNMENT_SCALE_CLAMP[1], max(ALIGNMENT_SCALE_CLAMP[0], scale_y))
-        dy = ref_center - source_center * scale_y
+        dy = ref_center - source_center * scale_y + ALIGNMENT_OPTICAL_Y.get(character, 0.0)
         transform = Transform(1, 0, 0, scale_y, 0, dy)
         target_name = f"{source_name}{ALIGN_OVERRIDE_SUFFIX}"
         glyph = transformed_glyph(font, source_name, transform)
@@ -126,6 +127,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             "derived_glyph": target_name,
             "scale_y": round(scale_y, 6),
             "dy": round(dy, 3),
+            "optical_y_correction": ALIGNMENT_OPTICAL_Y.get(character, 0.0),
             "reference_glyph": reference_name,
         }
 

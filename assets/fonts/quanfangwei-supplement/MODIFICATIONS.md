@@ -8,7 +8,7 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-08-20
-- 版本：Version 1.012
+- 版本：Version 1.013
 - Japanese Phase 1：完整現代平假名、片假名、小假名、預組合濁音／半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、iteration marks、middle dot、長音與常用標點
 - Kana legibility revision：重畫容易誤認的現代假名骨架，尤其讓 U+306E `の` 保持清楚開口，並強化 `お`／`ぬ`／`め`／`る` 及 `シ`／`ツ`／`ソ`／`ン` 的識別差異；仍未載入或複製外部字型輪廓
 - Kana template/alignment revision：Version 1.011 不再把掃描表格中的 cell 位置當成字型 metrics；46 個基本平假名 center-line 各自重新置中到 (480,500)，結構 x/y 分別作 1.10／1.28 optical scale，再沿用 -145 units 的共同 build-time baseline shift。最終 verifier 直接比較平假名與來源中文字的 median optical center

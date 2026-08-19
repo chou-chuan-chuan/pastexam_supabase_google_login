@@ -123,3 +123,11 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - 只有上述四個 Han code point 是原始 cmap identity 的明列例外；source glyph 本身仍保留且 verifier 會比較 drawing 未變。
 - Proof：`proofs/quanfangwei-special-japanese-1.012-proof.png`、`proofs/quanfangwei-special-japanese-1.012-mixed-proof.png`。
 - Verification：`python tools/font/verify_special_japanese_overrides.py`。
+
+
+### Version 1.013 stable-release scope
+
+- `懐` (U+61D0) is intentionally left on the original ChenYuluoyan source glyph.
+- `々` (U+3005) uses the existing Phase-1 handwritten mark; the later experimental redraw is not shipped.
+- `夕` (U+5915) remains on the original source glyph.
+- Other reviewed Hiragana refinements and the existing `気`/`付` mixed-alignment work remain included.
