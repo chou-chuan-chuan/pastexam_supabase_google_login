@@ -38,7 +38,7 @@ python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 - `audit_japanese_kanji.py`：只分析本機 TXT／LRC／JSON；不抓取網路歌詞。
 - `reports/kana_style_analysis.md`：官方來源筆畫粗細、端點、曲線、傾斜、重心、baseline 與字框分析。
 
-### Japanese Phase 1 Support（Version 1.010）
+### Japanese Phase 1 Support（Version 1.011）
 
 - 基本平假名、片假名、small kana、濁音、半濁音、iteration marks、`・`、`ー` 與指定常用日文標點完整進入同一 Family。
 - 新假名使用一致的 `uniXXXX` glyph naming；官方來源已存在且正常的標點保持原 glyph mapping、輪廓、metrics 與 glyph order。
@@ -101,3 +101,14 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - `ぁぃぅぇぉゃゅょっゕゖ` 由對應 SVG 基底作確定性縮放；濁音／半濁音繼續共用 base 與 mark components。
 - 來源、SVG hash、轉換參數與逐字 cell mapping 記錄於 `references/user-hiragana-template-manifest.json`。
 - 驗收指令：`python tools/font/verify_handwritten_hiragana_svg.py` 與 `python tools/font/render_handwritten_hiragana_proof.py`。
+
+
+### Refined user-handwriting Hiragana（Version 1.011）
+
+- 維護者本人手寫 SVG 已補齊完整 46 個現代基本平假名；Version 1.011 新增 `わ／を／ん`。
+- SVG 現在只作字形結構與比例 reference；最終 TTF 不再直接安裝 SVG filled outline。
+- `kana_sources/user_handwriting_refined.py` 保存從手寫 reference 整理出的確定性 center-line branches，並交由既有 variable-width handwriting renderer 建構。
+- 每字重新置中至 `(480,500)`；結構 x/y scale 為 `1.10/1.28`，target stroke width `42–50` units，build-time y shift 仍為 `-145`。
+- `ぁぃぅぇぉゃゅょっゎゕゖ` 由 refined bases 確定性縮放；濁音／半濁音繼續共用原有 GPOS/GDEF mark flow。
+- 主要驗收圖：`proofs/quanfangwei-user-handwritten-hiragana-proof.png`、`proofs/quanfangwei-user-handwritten-mixed-proof.png`、`proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+- 驗證：`python tools/font/verify_handwritten_hiragana_svg.py`。

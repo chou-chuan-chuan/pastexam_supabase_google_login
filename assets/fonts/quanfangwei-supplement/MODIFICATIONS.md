@@ -8,12 +8,12 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-08-19
-- 版本：Version 1.010
+- 版本：Version 1.011
 - Japanese Phase 1：完整現代平假名、片假名、小假名、預組合濁音／半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、iteration marks、middle dot、長音與常用標點
 - Kana legibility revision：重畫容易誤認的現代假名骨架，尤其讓 U+306E `の` 保持清楚開口，並強化 `お`／`ぬ`／`め`／`る` 及 `シ`／`ツ`／`ソ`／`ン` 的識別差異；仍未載入或複製外部字型輪廓
-- Kana template/alignment revision：前版以標準五十音表作結構參考；Version 1.010 另將維護者本人手寫稿中的 43 個平假名向量化為 SVG。所有假名仍沿用 -145 units 的共同 baseline alignment，中央符號維持 -120 units。
-- User-handwriting SVG revision：來源稿中的 43 個基本平假名直接由維護者本人手寫 raster 向量化為 versioned SVG；わ／を／ん、片假名、歷史假名及未涵蓋形式仍沿用既有 project-local center-line source。未載入或複製任何外部日文字型輪廓
-- 假名輪廓：43 個來源平假名由維護者本人手寫稿向量化；11 個小平假名由 SVG 基底確定性縮放；其他假名仍由 repository 內原創 center-line data 建構。SVG build scale 為 110%，平均筆畫維持接近原字型約 51 font units
+- Kana template/alignment revision：Version 1.011 不再把掃描表格中的 cell 位置當成字型 metrics；46 個基本平假名 center-line 各自重新置中到 (480,500)，結構 x/y 分別作 1.10／1.28 optical scale，再沿用 -145 units 的共同 build-time baseline shift。最終 verifier 直接比較平假名與來源中文字的 median optical center
+- User-handwriting refined revision：維護者本人手寫 SVG 現在涵蓋完整 46 個現代基本平假名（Version 1.011 新增 わ／を／ん）。SVG 只作結構／比例來源，不再直接安裝 filled outline；預先整理的 center-line branches 位於 `kana_sources/user_handwriting_refined.py`
+- 假名輪廓：46 個現代基本平假名以維護者本人手寫結構為骨架，再交由 repository 原有 variable-width handwriting renderer 產生最終 TrueType 輪廓；target center-line width 為 42–50 units，renderer 再加入 deterministic pressure/taper/handwritten terminals。小平假名從 refined base 確定性縮放，濁音／半濁音仍共用 base + mark components
 - 濁點：兩個不等寬、略有壓力與角度差的短筆，視覺參考原字型 apostrophe、quotation-like strokes、semicolon 與中文點筆；未複製其他日本字型
 - 半濁點：以不完全幾何、寬度與曲率略變的封閉手寫小圈重畫，視覺參考原字型 U+3002、口、日等圓／框形筆勢；未複製其他日本字型
 - Japanese combining：U+3099 `uni3099` 與 U+309A `uni309A` advance 均為 0，加入 GDEF mark class 與 GPOS MarkBasePos；預組合與分解形式共用同一 mark contour 與 anchor delta

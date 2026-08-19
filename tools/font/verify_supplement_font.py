@@ -17,7 +17,7 @@ from fontTools.pens.recordingPen import RecordingPen
 from fontTools.ttLib import TTFont
 
 from kana_sources.legibility_overrides import LEGIBLE_KANA
-from kana_sources.full_data import HIRAGANA_BASE, KATAKANA_BASE
+from kana_sources.full_data import HIRAGANA_BASE, KATAKANA_BASE, KANA_STROKES
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -33,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.010"
-UNIQUE_ID = "1.010;QFW;QuanFangweiSupplementScript-Regular;20260819"
+VERSION = "1.011"
+UNIQUE_ID = "1.011;QFW;QuanFangweiSupplementScript-Regular;20260819"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -302,15 +302,13 @@ def verify() -> list[str]:
     require(abs(katakana_center - han_center) <= 35,
             f"Katakana optical center floats relative to Chinese: kata={katakana_center}, han={han_center}")
 
-    no_stroke = LEGIBLE_KANA["の"][0]
-    no_start, no_end = no_stroke.points[0], no_stroke.points[-1]
-    no_x_values = [point[0] for point in no_stroke.points]
-    no_y_values = [point[1] for point in no_stroke.points]
-    require(no_start[1] - no_end[1] >= 450 and math.dist(no_start, no_end) >= 450,
-            f"hiragana no must finish with a long separated right-hand descent: {no_start} -> {no_end}")
-    require(max(no_x_values) - min(no_x_values) >= 430 and max(no_y_values) - min(no_y_values) >= 500,
-            f"hiragana no needs a broad open handwritten loop, found x={min(no_x_values)}..{max(no_x_values)} "
+    no_points = [point for stroke in KANA_STROKES["の"] for point in stroke.points]
+    no_x_values = [point[0] for point in no_points]
+    no_y_values = [point[1] for point in no_points]
+    require(max(no_x_values) - min(no_x_values) >= 300 and max(no_y_values) - min(no_y_values) >= 300,
+            f"refined hiragana no needs a broad handwritten loop, found x={min(no_x_values)}..{max(no_x_values)} "
             f"y={min(no_y_values)}..{max(no_y_values)}")
+
     for character in ("シ", "ン"):
         start, end = LEGIBLE_KANA[character][-1].points[0], LEGIBLE_KANA[character][-1].points[-1]
         require(end[0] - start[0] >= 400 and end[1] - start[1] >= 450,

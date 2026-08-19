@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">わ U+308F — user-authored handwritten hiragana template</title>
+  <desc id="desc">Vectorized from the project maintainer's own handwriting image. Raw path coordinates use a 960 by 1024 y-up font coordinate system.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="#000000" fill-rule="evenodd">
+    <path d="M 301.7 204.2 L 287.9 217.9 L 278.8 447.1 L 255.8 442.5 L 246.7 424.2 L 223.8 437.9 L 251.2 511.2 L 287.9 547.9 L 287.9 584.6 L 210.0 580.0 L 205.4 602.9 L 287.9 630.4 L 297.1 777.1 L 310.8 790.8 L 333.8 767.9 L 324.6 630.4 L 370.4 621.2 L 370.4 602.9 L 324.6 566.2 L 320.0 525.0 L 439.2 589.2 L 595.0 625.8 L 705.0 616.7 L 801.2 557.1 L 819.6 520.4 L 782.9 474.6 L 773.7 437.9 L 549.2 240.8 L 526.2 263.8 L 746.2 456.2 L 773.7 529.6 L 723.3 580.0 L 595.0 598.3 L 439.2 552.5 L 329.2 497.5 L 306.2 465.4 L 315.4 217.9 L 301.7 204.2 Z"/>
+  </g>
+</svg>

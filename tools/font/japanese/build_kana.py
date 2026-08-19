@@ -9,7 +9,6 @@ from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables import otTables
 
 from japanese.stroke_engine import build_stroke_glyph, translate_strokes
-from japanese.svg_template_loader import SVG_TEMPLATE_CHARACTERS, build_svg_template_glyph
 from kana_sources.full_data import (
     COMPOSITES,
     DAKUTEN_STROKES,
@@ -120,11 +119,8 @@ def build_japanese_phase1(font: TTFont) -> dict:
         if ord(character) in font.getBestCmap():
             continue
         name = glyph_name(character)
-        if character in SVG_TEMPLATE_CHARACTERS:
-            glyph = build_svg_template_glyph(character, KANA_VERTICAL_SHIFT)
-        else:
-            positioned_strokes = translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT)
-            glyph = build_stroke_glyph(positioned_strokes)
+        positioned_strokes = translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT)
+        glyph = build_stroke_glyph(positioned_strokes)
         install(font, name, glyph, KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
@@ -190,5 +186,4 @@ def build_japanese_phase1(font: TTFont) -> dict:
         "dakuten_mark_anchor": DAKUTEN_ANCHOR,
         "handakuten_mark_anchor": HANDAKUTEN_ANCHOR,
         "kana_advance": KANA_ADVANCE,
-        "user_handwriting_svg_characters": "".join(sorted(SVG_TEMPLATE_CHARACTERS, key=ord)),
     }
