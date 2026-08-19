@@ -1,0 +1,34 @@
+{
+  "version": "1.012",
+  "source_image": "user-japanese-overrides-source.png",
+  "source_sha256": "955e68a5e0e7f9f3ef996f300faa70cf6c7013c81359cd8f8b9aada6da7375ca",
+  "handwritten_overrides": [
+    {
+      "character": "懐",
+      "codepoint": "U+61D0",
+      "svg": "user-japanese-overrides/U+61D0.svg",
+      "sha256": "49670a137369da93efc0c1d7509b686ff073c687f6c8c500db023921d5ec772b",
+      "construction": "maintainer_handwriting_structural_svg_to_centerline_to_variable_width_renderer"
+    },
+    {
+      "character": "夕",
+      "codepoint": "U+5915",
+      "svg": "user-japanese-overrides/U+5915.svg",
+      "sha256": "2624ba47b2255e142f0966895e64f9fcb03400a0f1a0a3426ce7854441586f7a",
+      "construction": "maintainer_handwriting_structural_svg_to_centerline_to_variable_width_renderer"
+    }
+  ],
+  "alignment_overrides": [
+    {
+      "character": "気",
+      "codepoint": "U+6C17",
+      "construction": "preserve_source_drawing_vertical_optical_copy_against_け"
+    },
+    {
+      "character": "付",
+      "codepoint": "U+4ED8",
+      "construction": "preserve_source_drawing_vertical_optical_copy_against_け"
+    }
+  ],
+  "notes": "The raster is the project maintainer's own handwriting reference. It is not embedded in the font. 懐/夕 final outlines are regenerated through the repository stroke engine."
+}

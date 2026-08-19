@@ -25,6 +25,7 @@ from fontTools.ttLib.tables import otTables
 from fontTools.ttLib.tables.ttProgram import Program
 
 from japanese.build_kana import build_japanese_phase1
+from japanese.user_japanese_overrides import build_user_japanese_overrides
 
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -51,9 +52,9 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.011"
-BUILD_DATE = "2026-08-19"
-UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260819"
+VERSION = "1.012"
+BUILD_DATE = "2026-08-20"
+UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260820"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
 BUILD_TIMESTAMP = int((datetime(2026, 8, 11, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
 
@@ -333,8 +334,8 @@ def set_name_records(font: TTFont) -> None:
         5: (f"Version {VERSION}", f"Version {VERSION}"),
         6: (POSTSCRIPT_NAME, POSTSCRIPT_NAME),
         10: (
-            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It preserves the source Chinese and Latin glyphs, and adds Spanish, French, German, modern Japanese kana, combining sound marks, and common Japanese punctuation. It is not an official release by the original authors.",
-            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的衍生版本；保留原始中文與 Latin，並補入西班牙文、法文、德文、現代日文假名、濁音組合符號與常用日文標點。本修改版不是原作者官方發布版本。",
+            "QuanFangwei Supplement Script is an independently modified OFL 1.1 derivative of ChenYuluoyan Thin. It preserves the source Chinese and Latin glyphs except for explicitly documented maintainer-approved Japanese shared-codepoint overrides, and adds Spanish, French, German, modern Japanese kana, combining sound marks, and common Japanese punctuation. It is not an official release by the original authors.",
+            "荃方位補寫體是基於辰宇落雁體、依 SIL Open Font License 1.1 獨立製作的衍生版本；除文件明列的維護者核准日文 shared-codepoint 覆寫外，保留原始中文與 Latin，並補入西班牙文、法文、德文、現代日文假名、濁音組合符號與常用日文標點。本修改版不是原作者官方發布版本。",
         ),
         16: (FAMILY_EN, FAMILY_ZH),
         17: (SUBFAMILY, SUBFAMILY),
@@ -399,11 +400,12 @@ def write_modifications() -> None:
 - Kana legibility revision：重畫容易誤認的現代假名骨架，尤其讓 U+306E `の` 保持清楚開口，並強化 `お`／`ぬ`／`め`／`る` 及 `シ`／`ツ`／`ソ`／`ン` 的識別差異；仍未載入或複製外部字型輪廓
 - Kana template/alignment revision：Version 1.011 不再把掃描表格中的 cell 位置當成字型 metrics；46 個基本平假名 center-line 各自重新置中到 (480,500)，結構 x/y 分別作 1.10／1.28 optical scale，再沿用 -145 units 的共同 build-time baseline shift。最終 verifier 直接比較平假名與來源中文字的 median optical center
 - User-handwriting refined revision：維護者本人手寫 SVG 現在涵蓋完整 46 個現代基本平假名（Version 1.011 新增 わ／を／ん）。SVG 只作結構／比例來源，不再直接安裝 filled outline；預先整理的 center-line branches 位於 `kana_sources/user_handwriting_refined.py`
+- Special Japanese refinement（Version 1.012）：`す` 擴大中央 counter，`り` 延長下方收尾；新增維護者手寫 `懐／夕`；`気／付` 保留原 glyph drawing，僅依 refined `け` 的實際 bounds 做 build-time 垂直 optical normalization。原 glyph 仍保留在 glyph set，只有四個明列 code point 的 cmap 改指向衍生 glyph
 - 假名輪廓：46 個現代基本平假名以維護者本人手寫結構為骨架，再交由 repository 原有 variable-width handwriting renderer 產生最終 TrueType 輪廓；target center-line width 為 42–50 units，renderer 再加入 deterministic pressure/taper/handwritten terminals。小平假名從 refined base 確定性縮放，濁音／半濁音仍共用 base + mark components
 - 濁點：兩個不等寬、略有壓力與角度差的短筆，視覺參考原字型 apostrophe、quotation-like strokes、semicolon 與中文點筆；未複製其他日本字型
 - 半濁點：以不完全幾何、寬度與曲率略變的封閉手寫小圈重畫，視覺參考原字型 U+3002、口、日等圓／框形筆勢；未複製其他日本字型
 - Japanese combining：U+3099 `uni3099` 與 U+309A `uni309A` advance 均為 0，加入 GDEF mark class 與 GPOS MarkBasePos；預組合與分解形式共用同一 mark contour 與 anchor delta
-- Japanese kanji：共享 Unicode code point 目前沿用原始辰宇落雁中文字形；不增加大規模 `locl JAN`，日本區域字形變體留待 Phase 2
+- Japanese kanji：Version 1.012 明確覆寫 U+61D0 `懐` 與 U+5915 `夕`，兩者以維護者本人手寫 reference 整理為 center-line 並交由既有 variable-width renderer 重建；U+6C17 `気` 與 U+4ED8 `付` 僅建立保留原來源輪廓的垂直 optical transform copy，以和 `け` 對齊。其他 shared Unicode 漢字仍沿用原始辰宇落雁字形
 - Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical typesetting、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體；一般現代日文歌曲的假名部分應完整顯示
 - Future Phase 2：依本機 TXT／LRC／JSON 歌詞的缺字頻率補足實際漢字，並個別審查 Japanese regional glyph variants；不抓取網路歌詞
 - 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`
@@ -461,9 +463,10 @@ def main() -> int:
         add_cedilla_mark_positioning(font)
         build_german_additions(font)
         japanese_metadata = build_japanese_phase1(font)
+        japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.011
+        font["head"].fontRevision = 1.012
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

@@ -38,7 +38,7 @@ python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 - `audit_japanese_kanji.py`：只分析本機 TXT／LRC／JSON；不抓取網路歌詞。
 - `reports/kana_style_analysis.md`：官方來源筆畫粗細、端點、曲線、傾斜、重心、baseline 與字框分析。
 
-### Japanese Phase 1 Support（Version 1.011）
+### Japanese Phase 1 Support（Version 1.012）
 
 - 基本平假名、片假名、small kana、濁音、半濁音、iteration marks、`・`、`ー` 與指定常用日文標點完整進入同一 Family。
 - 新假名使用一致的 `uniXXXX` glyph naming；官方來源已存在且正常的標點保持原 glyph mapping、輪廓、metrics 與 glyph order。
@@ -112,3 +112,14 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - `ぁぃぅぇぉゃゅょっゎゕゖ` 由 refined bases 確定性縮放；濁音／半濁音繼續共用原有 GPOS/GDEF mark flow。
 - 主要驗收圖：`proofs/quanfangwei-user-handwritten-hiragana-proof.png`、`proofs/quanfangwei-user-handwritten-mixed-proof.png`、`proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 - 驗證：`python tools/font/verify_handwritten_hiragana_svg.py`。
+
+
+### Special Japanese refinement（Version 1.012）
+
+- `す`：中央 loop/counter 擴大，16–24 px 仍保留可辨識內白。
+- `り`：第二筆下方收尾延長，讓歌詞尺寸的尾巴更明顯。
+- `懐` U+61D0、`夕` U+5915：以維護者本人最新手寫圖為結構來源，整理為 center-line 後交由既有 variable-width handwriting renderer 重建，不直接嵌入 raster。
+- `気` U+6C17、`付` U+4ED8：原始 source glyph drawing 不修改；新增 derived optical copies，只做 vertical scale/translation，使 `気付け` 的 ink center/height 更接近 refined `け`。
+- 只有上述四個 Han code point 是原始 cmap identity 的明列例外；source glyph 本身仍保留且 verifier 會比較 drawing 未變。
+- Proof：`proofs/quanfangwei-special-japanese-1.012-proof.png`、`proofs/quanfangwei-special-japanese-1.012-mixed-proof.png`。
+- Verification：`python tools/font/verify_special_japanese_overrides.py`。

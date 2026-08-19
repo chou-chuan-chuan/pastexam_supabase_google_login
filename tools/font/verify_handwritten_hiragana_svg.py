@@ -29,7 +29,8 @@ MANIFEST_PATH = REFERENCE_DIR / "user-hiragana-template-manifest.json"
 SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
-EXPECTED_VERSION = "1.011"
+EXPECTED_REFERENCE_VERSION = "1.011"
+EXPECTED_FONT_VERSION = "1.012"
 KANA_ADVANCE = 960
 
 
@@ -74,8 +75,8 @@ def main() -> int:
     require(sha256(SOURCE_COMPLETE) == EXPECTED_COMPLETE_SHA256,
             "The complete maintainer handwriting source image hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-    require(manifest.get("font_version") == EXPECTED_VERSION,
-            f"Template manifest version is not {EXPECTED_VERSION}")
+    require(manifest.get("font_version") == EXPECTED_REFERENCE_VERSION,
+            f"Template manifest version is not {EXPECTED_REFERENCE_VERSION}")
     require(manifest.get("coverage", {}).get("basic_modern_hiragana") == 46,
             "Template manifest does not declare all 46 modern basic Hiragana")
     expected = set(MODERN_HIRAGANA_ORDER)
@@ -114,8 +115,8 @@ def main() -> int:
     try:
         cmap = font.getBestCmap()
         version_names = {record.toUnicode() for record in font["name"].names if record.nameID == 5}
-        require(any(EXPECTED_VERSION in value for value in version_names),
-                f"Built font name table does not report Version {EXPECTED_VERSION}")
+        require(any(EXPECTED_FONT_VERSION in value for value in version_names),
+                f"Built font name table does not report Version {EXPECTED_FONT_VERSION}")
 
         hira_centers = []
         for character in MODERN_HIRAGANA_ORDER:
@@ -181,7 +182,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.011 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.012 metadata, and CJK optical alignment are valid")
     return 0
 
 
