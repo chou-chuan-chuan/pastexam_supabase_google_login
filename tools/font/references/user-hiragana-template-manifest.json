@@ -1,69 +1,51 @@
 {
-  "schema_version": 1,
-  "font_version": "1.010",
-  "source": {
-    "file": "user-hiragana-template-source.png",
-    "sha256": "dea3c4c8576744dd609161940aae594a92bb9864b174a54dfce53759c32f0a00",
-    "authorship": "User-provided original handwriting; not an external font outline.",
-    "coverage": 43,
-    "characters": "あかさたなはまやらいきしちにひみりうくすつぬふむゆるえけせてねへめれおこそとのほもよろ",
-    "missing_from_source_chart": "わをん"
+  "schema_version": 2,
+  "font_version": "1.011",
+  "sources": [
+    {
+      "file": "user-hiragana-template-source.png",
+      "sha256": "dea3c4c8576744dd609161940aae594a92bb9864b174a54dfce53759c32f0a00",
+      "coverage": 43,
+      "role": "Version 1.010 maintainer-owned handwriting chart"
+    },
+    {
+      "file": "user-hiragana-template-source-complete.png",
+      "sha256": "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9",
+      "coverage": 46,
+      "role": "Version 1.011 complete maintainer-owned handwriting chart adding わ/を/ん"
+    }
+  ],
+  "authorship": "All SVG structural references come from the project maintainer’s own handwriting; no external Japanese font outline is used.",
+  "coverage": {
+    "basic_modern_hiragana": 46,
+    "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+    "missing_from_source_chart": ""
   },
-  "segmentation": {
-    "x_edges_px": [
-      75,
-      190,
-      285,
-      385,
-      485,
-      585,
-      685,
-      785,
-      885,
-      1000
-    ],
-    "y_edges_px": [
-      75,
-      175,
-      270,
-      370,
-      470,
-      590
-    ],
-    "threshold_after_gaussian_blur": 215,
-    "stroke_compatibility_adjustment": "one 3x3 dilation before contour extraction"
-  },
-  "normalization": {
-    "view_box": [
-      0,
-      0,
-      960,
-      1024
-    ],
-    "font_coordinate_system": "y-up",
-    "normalized_ink_target_x": [
-      80,
-      880
-    ],
-    "normalized_ink_target_y": [
-      150,
-      850
-    ],
-    "build_scale": 1.1,
-    "build_scale_center": [
+  "refinement": {
+    "raster": [
       480,
-      500
+      512
     ],
+    "x_scale": 1.1,
+    "y_scale": 1.28,
+    "center": [
+      480.0,
+      500.0
+    ],
+    "per_glyph_recenter": [
+      480.0,
+      500.0
+    ],
+    "width_factor": 1.1,
+    "width_range": [
+      42.0,
+      50.0
+    ],
+    "simplify_tolerance": 2.5,
+    "max_points_per_branch": 16,
+    "final_outline_method": "pre-generated center-line branches rendered by japanese.stroke_engine variable-width renderer",
     "build_vertical_shift": -145,
-    "small_kana_scale": 0.72,
-    "small_kana_center": [
-      500,
-      470
-    ],
-    "small_kana_shift": [
-      0,
-      -12
-    ]
+    "direct_svg_outline_installation": false
   },
   "derived_small_hiragana": {
     "ぁ": "あ",
@@ -75,6 +57,7 @@
     "ゅ": "ゆ",
     "ょ": "よ",
     "っ": "つ",
+    "ゎ": "わ",
     "ゕ": "か",
     "ゖ": "け"
   },
@@ -83,646 +66,415 @@
       "character": "あ",
       "codepoint": "U+3042",
       "file": "U+3042.svg",
-      "row": 0,
-      "column": 0,
-      "source_cell": {
-        "x0": 75,
-        "y0": 75,
-        "x1": 190,
-        "y1": 175
-      },
-      "contours": 3,
-      "sha256": "dba2119b56a5c3abf9dde90d034f3e288de7e189403f2b967d63c8f3d0d864b6"
-    },
-    {
-      "character": "か",
-      "codepoint": "U+304B",
-      "file": "U+304B.svg",
-      "row": 0,
-      "column": 1,
-      "source_cell": {
-        "x0": 190,
-        "y0": 75,
-        "x1": 285,
-        "y1": 175
-      },
-      "contours": 2,
-      "sha256": "e17604c7a501952fb91ee3b61010990cb179dd0c55783b9fe53ec4329b111f43"
-    },
-    {
-      "character": "さ",
-      "codepoint": "U+3055",
-      "file": "U+3055.svg",
-      "row": 0,
-      "column": 2,
-      "source_cell": {
-        "x0": 285,
-        "y0": 75,
-        "x1": 385,
-        "y1": 175
-      },
-      "contours": 2,
-      "sha256": "6993ff8397c24b7e69d5805ed63955a6d61e032f4019eb7ff72ea47e608f80d5"
-    },
-    {
-      "character": "た",
-      "codepoint": "U+305F",
-      "file": "U+305F.svg",
-      "row": 0,
-      "column": 3,
-      "source_cell": {
-        "x0": 385,
-        "y0": 75,
-        "x1": 485,
-        "y1": 175
-      },
-      "contours": 3,
-      "sha256": "c157dd272d1ec46fbbf5414460272a7cf938c99eaae82f6a64eb0cfb0e7c30bb"
-    },
-    {
-      "character": "な",
-      "codepoint": "U+306A",
-      "file": "U+306A.svg",
-      "row": 0,
-      "column": 4,
-      "source_cell": {
-        "x0": 485,
-        "y0": 75,
-        "x1": 585,
-        "y1": 175
-      },
-      "contours": 4,
-      "sha256": "01b3e8de192bc924757564d15b0618949c2161695b6c100f2a7609a4b83d7964"
-    },
-    {
-      "character": "は",
-      "codepoint": "U+306F",
-      "file": "U+306F.svg",
-      "row": 0,
-      "column": 5,
-      "source_cell": {
-        "x0": 585,
-        "y0": 75,
-        "x1": 685,
-        "y1": 175
-      },
-      "contours": 3,
-      "sha256": "939a7e733ec91721e80d1eaf01f6230302b589be6b0e135bef3554e4ad248add"
-    },
-    {
-      "character": "ま",
-      "codepoint": "U+307E",
-      "file": "U+307E.svg",
-      "row": 0,
-      "column": 6,
-      "source_cell": {
-        "x0": 685,
-        "y0": 75,
-        "x1": 785,
-        "y1": 175
-      },
-      "contours": 2,
-      "sha256": "076bc16559115394a9b23aefa4dbd328015b6d5710847a857759d047e54b891f"
-    },
-    {
-      "character": "や",
-      "codepoint": "U+3084",
-      "file": "U+3084.svg",
-      "row": 0,
-      "column": 7,
-      "source_cell": {
-        "x0": 785,
-        "y0": 75,
-        "x1": 885,
-        "y1": 175
-      },
-      "contours": 2,
-      "sha256": "52e7b663746a0383e96718613691299a1f9b1a3f58d788a0adec5cf70dfa3cb9"
-    },
-    {
-      "character": "ら",
-      "codepoint": "U+3089",
-      "file": "U+3089.svg",
-      "row": 0,
-      "column": 8,
-      "source_cell": {
-        "x0": 885,
-        "y0": 75,
-        "x1": 1000,
-        "y1": 175
-      },
-      "contours": 2,
-      "sha256": "1dfb611235b1acdb26f7182873bb2fce93e7f5c4907b7d16295e28fd5bbdecf4"
+      "sha256": "dba2119b56a5c3abf9dde90d034f3e288de7e189403f2b967d63c8f3d0d864b6",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 12,
+      "refined_target_width": 48.4
     },
     {
       "character": "い",
       "codepoint": "U+3044",
       "file": "U+3044.svg",
-      "row": 1,
-      "column": 0,
-      "source_cell": {
-        "x0": 75,
-        "y0": 175,
-        "x1": 190,
-        "y1": 270
-      },
-      "contours": 2,
-      "sha256": "1ccf25b741745ee7e296d4adae649c7e7e219376bf978a817e6b2668f80d55e8"
-    },
-    {
-      "character": "き",
-      "codepoint": "U+304D",
-      "file": "U+304D.svg",
-      "row": 1,
-      "column": 1,
-      "source_cell": {
-        "x0": 190,
-        "y0": 175,
-        "x1": 285,
-        "y1": 270
-      },
-      "contours": 2,
-      "sha256": "cf335b46094e33bd393d6ec4390cb6e0552dcc471bce6739cf0b59afdf4ca109"
-    },
-    {
-      "character": "し",
-      "codepoint": "U+3057",
-      "file": "U+3057.svg",
-      "row": 1,
-      "column": 2,
-      "source_cell": {
-        "x0": 285,
-        "y0": 175,
-        "x1": 385,
-        "y1": 270
-      },
-      "contours": 1,
-      "sha256": "f28be8468109660fb1238c889906cd3d33847d9f07eb9487c4cb25905653d053"
-    },
-    {
-      "character": "ち",
-      "codepoint": "U+3061",
-      "file": "U+3061.svg",
-      "row": 1,
-      "column": 3,
-      "source_cell": {
-        "x0": 385,
-        "y0": 175,
-        "x1": 485,
-        "y1": 270
-      },
-      "contours": 1,
-      "sha256": "03b4668dbc7658f4347d9da1efd7c3eb4f9e059af82b18de383f844b25a5cddd"
-    },
-    {
-      "character": "に",
-      "codepoint": "U+306B",
-      "file": "U+306B.svg",
-      "row": 1,
-      "column": 4,
-      "source_cell": {
-        "x0": 485,
-        "y0": 175,
-        "x1": 585,
-        "y1": 270
-      },
-      "contours": 3,
-      "sha256": "946dca7bd4a26ed5ec9e84227ffdfaef7ffeaa309d81a16c639a375ab793a410"
-    },
-    {
-      "character": "ひ",
-      "codepoint": "U+3072",
-      "file": "U+3072.svg",
-      "row": 1,
-      "column": 5,
-      "source_cell": {
-        "x0": 585,
-        "y0": 175,
-        "x1": 685,
-        "y1": 270
-      },
-      "contours": 1,
-      "sha256": "b737f9f1fde936e00ca4accd58efa9c6f826a22ecf6a8513f7e34d5003295e04"
-    },
-    {
-      "character": "み",
-      "codepoint": "U+307F",
-      "file": "U+307F.svg",
-      "row": 1,
-      "column": 6,
-      "source_cell": {
-        "x0": 685,
-        "y0": 175,
-        "x1": 785,
-        "y1": 270
-      },
-      "contours": 2,
-      "sha256": "09c6008bd7e356a39df3f0434d90d682e8dca2878d95d1b68cebaf1a7afc6807"
-    },
-    {
-      "character": "り",
-      "codepoint": "U+308A",
-      "file": "U+308A.svg",
-      "row": 1,
-      "column": 8,
-      "source_cell": {
-        "x0": 885,
-        "y0": 175,
-        "x1": 1000,
-        "y1": 270
-      },
-      "contours": 1,
-      "sha256": "dcc450e52ef9198f3fcaf9feeada682c8feb911ecfae8ec69d851c10ec273790"
+      "sha256": "1ccf25b741745ee7e296d4adae649c7e7e219376bf978a817e6b2668f80d55e8",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 2,
+      "refined_target_width": 44.0
     },
     {
       "character": "う",
       "codepoint": "U+3046",
       "file": "U+3046.svg",
-      "row": 2,
-      "column": 0,
-      "source_cell": {
-        "x0": 75,
-        "y0": 270,
-        "x1": 190,
-        "y1": 370
-      },
-      "contours": 2,
-      "sha256": "d8e28da32f206d1483297c3ccb9855c565e1c4ef93542b83191358be8707c1c7"
-    },
-    {
-      "character": "く",
-      "codepoint": "U+304F",
-      "file": "U+304F.svg",
-      "row": 2,
-      "column": 1,
-      "source_cell": {
-        "x0": 190,
-        "y0": 270,
-        "x1": 285,
-        "y1": 370
-      },
-      "contours": 1,
-      "sha256": "7ded905e6507cbdc9a28e740411206bfbfc7b7da80915a87bfd1456a560b2f68"
-    },
-    {
-      "character": "す",
-      "codepoint": "U+3059",
-      "file": "U+3059.svg",
-      "row": 2,
-      "column": 2,
-      "source_cell": {
-        "x0": 285,
-        "y0": 270,
-        "x1": 385,
-        "y1": 370
-      },
-      "contours": 1,
-      "sha256": "d512a3b73e8f1936d65906a672b1161ab36150840ef01c58e8b93bfc68933ee3"
-    },
-    {
-      "character": "つ",
-      "codepoint": "U+3064",
-      "file": "U+3064.svg",
-      "row": 2,
-      "column": 3,
-      "source_cell": {
-        "x0": 385,
-        "y0": 270,
-        "x1": 485,
-        "y1": 370
-      },
-      "contours": 1,
-      "sha256": "f22a1793427353a6b1220956bdc0e9d313faa0ad10c334ad35f078122cdd58e7"
-    },
-    {
-      "character": "ぬ",
-      "codepoint": "U+306C",
-      "file": "U+306C.svg",
-      "row": 2,
-      "column": 4,
-      "source_cell": {
-        "x0": 485,
-        "y0": 270,
-        "x1": 585,
-        "y1": 370
-      },
-      "contours": 4,
-      "sha256": "ef6b18665fcb2126cf5bd887284acbed1b5fcd650f177ddf7564e310f0ddc830"
-    },
-    {
-      "character": "ふ",
-      "codepoint": "U+3075",
-      "file": "U+3075.svg",
-      "row": 2,
-      "column": 5,
-      "source_cell": {
-        "x0": 585,
-        "y0": 270,
-        "x1": 685,
-        "y1": 370
-      },
-      "contours": 4,
-      "sha256": "b7510df0c4ad92af7bad9edc7f074c1288112f2989e29fc700eb2c4f97e30ffc"
-    },
-    {
-      "character": "む",
-      "codepoint": "U+3080",
-      "file": "U+3080.svg",
-      "row": 2,
-      "column": 6,
-      "source_cell": {
-        "x0": 685,
-        "y0": 270,
-        "x1": 785,
-        "y1": 370
-      },
-      "contours": 3,
-      "sha256": "25dec07bcb88be55174a3481aa4ffea18438d2950ca8ca9efbe0a2c7083da076"
-    },
-    {
-      "character": "ゆ",
-      "codepoint": "U+3086",
-      "file": "U+3086.svg",
-      "row": 2,
-      "column": 7,
-      "source_cell": {
-        "x0": 785,
-        "y0": 270,
-        "x1": 885,
-        "y1": 370
-      },
-      "contours": 2,
-      "sha256": "07cafb402ea8d6e88a67367ebeae3f3b0488cf78565a756808027db306bb0249"
-    },
-    {
-      "character": "る",
-      "codepoint": "U+308B",
-      "file": "U+308B.svg",
-      "row": 2,
-      "column": 8,
-      "source_cell": {
-        "x0": 885,
-        "y0": 270,
-        "x1": 1000,
-        "y1": 370
-      },
-      "contours": 2,
-      "sha256": "a7a85ee326e24ddc02bb50424dd766df54a6ae18bb764eb48eeb08a1cb88e81c"
+      "sha256": "d8e28da32f206d1483297c3ccb9855c565e1c4ef93542b83191358be8707c1c7",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 2,
+      "refined_target_width": 44.2
     },
     {
       "character": "え",
       "codepoint": "U+3048",
       "file": "U+3048.svg",
-      "row": 3,
-      "column": 0,
-      "source_cell": {
-        "x0": 75,
-        "y0": 370,
-        "x1": 190,
-        "y1": 470
-      },
-      "contours": 2,
-      "sha256": "084dab73291e67125a7998a4b4329427515f2d757c7194b7a31a1332a9af3c58"
-    },
-    {
-      "character": "け",
-      "codepoint": "U+3051",
-      "file": "U+3051.svg",
-      "row": 3,
-      "column": 1,
-      "source_cell": {
-        "x0": 190,
-        "y0": 370,
-        "x1": 285,
-        "y1": 470
-      },
-      "contours": 2,
-      "sha256": "228913645329649a00c7a436074c934615e5581ea8b2faa7983687f9f72a1d3d"
-    },
-    {
-      "character": "せ",
-      "codepoint": "U+305B",
-      "file": "U+305B.svg",
-      "row": 3,
-      "column": 2,
-      "source_cell": {
-        "x0": 285,
-        "y0": 370,
-        "x1": 385,
-        "y1": 470
-      },
-      "contours": 1,
-      "sha256": "0810387d20d964188a79848ebed028b52f726d8c2277156fb0be2dade4a43ae5"
-    },
-    {
-      "character": "て",
-      "codepoint": "U+3066",
-      "file": "U+3066.svg",
-      "row": 3,
-      "column": 3,
-      "source_cell": {
-        "x0": 385,
-        "y0": 370,
-        "x1": 485,
-        "y1": 470
-      },
-      "contours": 1,
-      "sha256": "c6c84ad8c778aeffc47728789d63542ecf9a0af32f23c6d8ee30e734361c7532"
-    },
-    {
-      "character": "ね",
-      "codepoint": "U+306D",
-      "file": "U+306D.svg",
-      "row": 3,
-      "column": 4,
-      "source_cell": {
-        "x0": 485,
-        "y0": 370,
-        "x1": 585,
-        "y1": 470
-      },
-      "contours": 2,
-      "sha256": "d726eadba071556d0efa88bb9f2a87d14ca83cef83d56e255d0fb84ef7852761"
-    },
-    {
-      "character": "へ",
-      "codepoint": "U+3078",
-      "file": "U+3078.svg",
-      "row": 3,
-      "column": 5,
-      "source_cell": {
-        "x0": 585,
-        "y0": 370,
-        "x1": 685,
-        "y1": 470
-      },
-      "contours": 1,
-      "sha256": "b0c6b4702f7f74782b5fefe22da95ff87dbb6686e40b84e9ab0cf6957d986a69"
-    },
-    {
-      "character": "め",
-      "codepoint": "U+3081",
-      "file": "U+3081.svg",
-      "row": 3,
-      "column": 6,
-      "source_cell": {
-        "x0": 685,
-        "y0": 370,
-        "x1": 785,
-        "y1": 470
-      },
-      "contours": 3,
-      "sha256": "f59bf033af20be168041a51ce54d527a97bfec3926d5be90fa8dbab4be305754"
-    },
-    {
-      "character": "れ",
-      "codepoint": "U+308C",
-      "file": "U+308C.svg",
-      "row": 3,
-      "column": 8,
-      "source_cell": {
-        "x0": 885,
-        "y0": 370,
-        "x1": 1000,
-        "y1": 470
-      },
-      "contours": 1,
-      "sha256": "36add93f663c927f2d3e7e9a84380fb00c37a744a6e7099db39287f6e782a5e2"
+      "sha256": "084dab73291e67125a7998a4b4329427515f2d757c7194b7a31a1332a9af3c58",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 4,
+      "refined_target_width": 46.8
     },
     {
       "character": "お",
       "codepoint": "U+304A",
       "file": "U+304A.svg",
-      "row": 4,
-      "column": 0,
-      "source_cell": {
-        "x0": 75,
-        "y0": 470,
-        "x1": 190,
-        "y1": 590
-      },
-      "contours": 3,
-      "sha256": "d6150a677eb862d538b75f4f0cdaab648449ef9a055fb083303f85e3aeb0e44f"
+      "sha256": "d6150a677eb862d538b75f4f0cdaab648449ef9a055fb083303f85e3aeb0e44f",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 8,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "か",
+      "codepoint": "U+304B",
+      "file": "U+304B.svg",
+      "sha256": "e17604c7a501952fb91ee3b61010990cb179dd0c55783b9fe53ec4329b111f43",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 7,
+      "refined_target_width": 50.0
+    },
+    {
+      "character": "き",
+      "codepoint": "U+304D",
+      "file": "U+304D.svg",
+      "sha256": "cf335b46094e33bd393d6ec4390cb6e0552dcc471bce6739cf0b59afdf4ca109",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 12,
+      "refined_target_width": 49.2
+    },
+    {
+      "character": "く",
+      "codepoint": "U+304F",
+      "file": "U+304F.svg",
+      "sha256": "7ded905e6507cbdc9a28e740411206bfbfc7b7da80915a87bfd1456a560b2f68",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 50.0
+    },
+    {
+      "character": "け",
+      "codepoint": "U+3051",
+      "file": "U+3051.svg",
+      "sha256": "228913645329649a00c7a436074c934615e5581ea8b2faa7983687f9f72a1d3d",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 7,
+      "refined_target_width": 50.0
     },
     {
       "character": "こ",
       "codepoint": "U+3053",
       "file": "U+3053.svg",
-      "row": 4,
-      "column": 1,
-      "source_cell": {
-        "x0": 190,
-        "y0": 470,
-        "x1": 285,
-        "y1": 590
-      },
-      "contours": 2,
-      "sha256": "d41f8c24953ef9ce3df0f908e9f5865e6ac6df3e81779074828cf48eea8fe421"
+      "sha256": "d41f8c24953ef9ce3df0f908e9f5865e6ac6df3e81779074828cf48eea8fe421",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 4,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "さ",
+      "codepoint": "U+3055",
+      "file": "U+3055.svg",
+      "sha256": "6993ff8397c24b7e69d5805ed63955a6d61e032f4019eb7ff72ea47e608f80d5",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 9,
+      "refined_target_width": 45.1
+    },
+    {
+      "character": "し",
+      "codepoint": "U+3057",
+      "file": "U+3057.svg",
+      "sha256": "f28be8468109660fb1238c889906cd3d33847d9f07eb9487c4cb25905653d053",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 1,
+      "refined_target_width": 50.0
+    },
+    {
+      "character": "す",
+      "codepoint": "U+3059",
+      "file": "U+3059.svg",
+      "sha256": "d512a3b73e8f1936d65906a672b1161ab36150840ef01c58e8b93bfc68933ee3",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 6,
+      "refined_target_width": 48.4
+    },
+    {
+      "character": "せ",
+      "codepoint": "U+305B",
+      "file": "U+305B.svg",
+      "sha256": "0810387d20d964188a79848ebed028b52f726d8c2277156fb0be2dade4a43ae5",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 7,
+      "refined_target_width": 44.0
     },
     {
       "character": "そ",
       "codepoint": "U+305D",
       "file": "U+305D.svg",
-      "row": 4,
-      "column": 2,
-      "source_cell": {
-        "x0": 285,
-        "y0": 470,
-        "x1": 385,
-        "y1": 590
-      },
-      "contours": 1,
-      "sha256": "7294399ad411300df837f48624a97f9def7af4789712da5b2fe16a12ac615dc1"
+      "sha256": "7294399ad411300df837f48624a97f9def7af4789712da5b2fe16a12ac615dc1",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 8,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "た",
+      "codepoint": "U+305F",
+      "file": "U+305F.svg",
+      "sha256": "c157dd272d1ec46fbbf5414460272a7cf938c99eaae82f6a64eb0cfb0e7c30bb",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 9,
+      "refined_target_width": 47.4
+    },
+    {
+      "character": "ち",
+      "codepoint": "U+3061",
+      "file": "U+3061.svg",
+      "sha256": "03b4668dbc7658f4347d9da1efd7c3eb4f9e059af82b18de383f844b25a5cddd",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 7,
+      "refined_target_width": 47.4
+    },
+    {
+      "character": "つ",
+      "codepoint": "U+3064",
+      "file": "U+3064.svg",
+      "sha256": "f22a1793427353a6b1220956bdc0e9d313faa0ad10c334ad35f078122cdd58e7",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 1,
+      "refined_target_width": 47.4
+    },
+    {
+      "character": "て",
+      "codepoint": "U+3066",
+      "file": "U+3066.svg",
+      "sha256": "c6c84ad8c778aeffc47728789d63542ecf9a0af32f23c6d8ee30e734361c7532",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 49.2
     },
     {
       "character": "と",
       "codepoint": "U+3068",
       "file": "U+3068.svg",
-      "row": 4,
-      "column": 3,
-      "source_cell": {
-        "x0": 385,
-        "y0": 470,
-        "x1": 485,
-        "y1": 590
-      },
-      "contours": 1,
-      "sha256": "2763379e26d17f38098d1268bccd4e12d1f5cf398e162a19d6a2ef5a9e89d960"
+      "sha256": "2763379e26d17f38098d1268bccd4e12d1f5cf398e162a19d6a2ef5a9e89d960",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 4,
+      "refined_target_width": 45.3
+    },
+    {
+      "character": "な",
+      "codepoint": "U+306A",
+      "file": "U+306A.svg",
+      "sha256": "01b3e8de192bc924757564d15b0618949c2161695b6c100f2a7609a4b83d7964",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 13,
+      "refined_target_width": 44.9
+    },
+    {
+      "character": "に",
+      "codepoint": "U+306B",
+      "file": "U+306B.svg",
+      "sha256": "946dca7bd4a26ed5ec9e84227ffdfaef7ffeaa309d81a16c639a375ab793a410",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 48.4
+    },
+    {
+      "character": "ぬ",
+      "codepoint": "U+306C",
+      "file": "U+306C.svg",
+      "sha256": "ef6b18665fcb2126cf5bd887284acbed1b5fcd650f177ddf7564e310f0ddc830",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 12,
+      "refined_target_width": 49.8
+    },
+    {
+      "character": "ね",
+      "codepoint": "U+306D",
+      "file": "U+306D.svg",
+      "sha256": "d726eadba071556d0efa88bb9f2a87d14ca83cef83d56e255d0fb84ef7852761",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 13,
+      "refined_target_width": 45.9
     },
     {
       "character": "の",
       "codepoint": "U+306E",
       "file": "U+306E.svg",
-      "row": 4,
-      "column": 4,
-      "source_cell": {
-        "x0": 485,
-        "y0": 470,
-        "x1": 585,
-        "y1": 590
-      },
-      "contours": 2,
-      "sha256": "1ff2c0777f1e53322b5a4971611dab4b8219ff407e7e3755e3e12b742d2ba8eb"
+      "sha256": "1ff2c0777f1e53322b5a4971611dab4b8219ff407e7e3755e3e12b742d2ba8eb",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 2,
+      "refined_target_width": 45.9
+    },
+    {
+      "character": "は",
+      "codepoint": "U+306F",
+      "file": "U+306F.svg",
+      "sha256": "939a7e733ec91721e80d1eaf01f6230302b589be6b0e135bef3554e4ad248add",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 8,
+      "refined_target_width": 45.3
+    },
+    {
+      "character": "ひ",
+      "codepoint": "U+3072",
+      "file": "U+3072.svg",
+      "sha256": "b737f9f1fde936e00ca4accd58efa9c6f826a22ecf6a8513f7e34d5003295e04",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 48.6
+    },
+    {
+      "character": "ふ",
+      "codepoint": "U+3075",
+      "file": "U+3075.svg",
+      "sha256": "b7510df0c4ad92af7bad9edc7f074c1288112f2989e29fc700eb2c4f97e30ffc",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 10,
+      "refined_target_width": 47.4
+    },
+    {
+      "character": "へ",
+      "codepoint": "U+3078",
+      "file": "U+3078.svg",
+      "sha256": "b0c6b4702f7f74782b5fefe22da95ff87dbb6686e40b84e9ab0cf6957d986a69",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 2,
+      "refined_target_width": 50.0
     },
     {
       "character": "ほ",
       "codepoint": "U+307B",
       "file": "U+307B.svg",
-      "row": 4,
-      "column": 5,
-      "source_cell": {
-        "x0": 585,
-        "y0": 470,
-        "x1": 685,
-        "y1": 590
-      },
-      "contours": 3,
-      "sha256": "0f53849da0a68abaa966fb18adbf30e54cfa1776992bde6a64426473063d456d"
+      "sha256": "0f53849da0a68abaa966fb18adbf30e54cfa1776992bde6a64426473063d456d",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 10,
+      "refined_target_width": 43.3
+    },
+    {
+      "character": "ま",
+      "codepoint": "U+307E",
+      "file": "U+307E.svg",
+      "sha256": "076bc16559115394a9b23aefa4dbd328015b6d5710847a857759d047e54b891f",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 12,
+      "refined_target_width": 47.4
+    },
+    {
+      "character": "み",
+      "codepoint": "U+307F",
+      "file": "U+307F.svg",
+      "sha256": "09c6008bd7e356a39df3f0434d90d682e8dca2878d95d1b68cebaf1a7afc6807",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 8,
+      "refined_target_width": 50.0
+    },
+    {
+      "character": "む",
+      "codepoint": "U+3080",
+      "file": "U+3080.svg",
+      "sha256": "25dec07bcb88be55174a3481aa4ffea18438d2950ca8ca9efbe0a2c7083da076",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 10,
+      "refined_target_width": 44.0
+    },
+    {
+      "character": "め",
+      "codepoint": "U+3081",
+      "file": "U+3081.svg",
+      "sha256": "f59bf033af20be168041a51ce54d527a97bfec3926d5be90fa8dbab4be305754",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 9,
+      "refined_target_width": 48.4
     },
     {
       "character": "も",
       "codepoint": "U+3082",
       "file": "U+3082.svg",
-      "row": 4,
-      "column": 6,
-      "source_cell": {
-        "x0": 685,
-        "y0": 470,
-        "x1": 785,
-        "y1": 590
-      },
-      "contours": 1,
-      "sha256": "16692488cf2fedc1e9d3c9e8e43c97f594600a57c79e7914cc2e0bc8c94ef32f"
+      "sha256": "16692488cf2fedc1e9d3c9e8e43c97f594600a57c79e7914cc2e0bc8c94ef32f",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 11,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "や",
+      "codepoint": "U+3084",
+      "file": "U+3084.svg",
+      "sha256": "52e7b663746a0383e96718613691299a1f9b1a3f58d788a0adec5cf70dfa3cb9",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 7,
+      "refined_target_width": 48.4
+    },
+    {
+      "character": "ゆ",
+      "codepoint": "U+3086",
+      "file": "U+3086.svg",
+      "sha256": "07cafb402ea8d6e88a67367ebeae3f3b0488cf78565a756808027db306bb0249",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 9,
+      "refined_target_width": 49.2
     },
     {
       "character": "よ",
       "codepoint": "U+3088",
       "file": "U+3088.svg",
-      "row": 4,
-      "column": 7,
-      "source_cell": {
-        "x0": 785,
-        "y0": 470,
-        "x1": 885,
-        "y1": 590
-      },
-      "contours": 2,
-      "sha256": "efa5c3d8cb5904effdc1f29a0591dcc7fc16cd79c75c14d10611a4c6ac67be21"
+      "sha256": "efa5c3d8cb5904effdc1f29a0591dcc7fc16cd79c75c14d10611a4c6ac67be21",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 45.9
+    },
+    {
+      "character": "ら",
+      "codepoint": "U+3089",
+      "file": "U+3089.svg",
+      "sha256": "1dfb611235b1acdb26f7182873bb2fce93e7f5c4907b7d16295e28fd5bbdecf4",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 4,
+      "refined_target_width": 48.4
+    },
+    {
+      "character": "り",
+      "codepoint": "U+308A",
+      "file": "U+308A.svg",
+      "sha256": "dcc450e52ef9198f3fcaf9feeada682c8feb911ecfae8ec69d851c10ec273790",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 4,
+      "refined_target_width": 44.0
+    },
+    {
+      "character": "る",
+      "codepoint": "U+308B",
+      "file": "U+308B.svg",
+      "sha256": "a7a85ee326e24ddc02bb50424dd766df54a6ae18bb764eb48eeb08a1cb88e81c",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 6,
+      "refined_target_width": 44.0
+    },
+    {
+      "character": "れ",
+      "codepoint": "U+308C",
+      "file": "U+308C.svg",
+      "sha256": "36add93f663c927f2d3e7e9a84380fb00c37a744a6e7099db39287f6e782a5e2",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 10,
+      "refined_target_width": 44.2
     },
     {
       "character": "ろ",
       "codepoint": "U+308D",
       "file": "U+308D.svg",
-      "row": 4,
-      "column": 8,
-      "source_cell": {
-        "x0": 885,
-        "y0": 470,
-        "x1": 1000,
-        "y1": 590
-      },
-      "contours": 1,
-      "sha256": "f56e4b119f6fca7d1f8fe9fdca7e32af6da40aef63633fc67202fd5d2bd265e5"
+      "sha256": "f56e4b119f6fca7d1f8fe9fdca7e32af6da40aef63633fc67202fd5d2bd265e5",
+      "provenance": "Version 1.010 maintainer-handwriting SVG",
+      "refined_stroke_count": 5,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "わ",
+      "codepoint": "U+308F",
+      "file": "U+308F.svg",
+      "sha256": "62c9679ab1fcd765470d583e8262e2d753d79407d09f4676c75ffc659a5c5197",
+      "provenance": "Version 1.011 supplemental maintainer-handwriting SVG",
+      "refined_stroke_count": 8,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "を",
+      "codepoint": "U+3092",
+      "file": "U+3092.svg",
+      "sha256": "8a144a0481593c9a7fbb041012d4364d2b1488401019a02973413a3b539618eb",
+      "provenance": "Version 1.011 supplemental maintainer-handwriting SVG",
+      "refined_stroke_count": 11,
+      "refined_target_width": 42.0
+    },
+    {
+      "character": "ん",
+      "codepoint": "U+3093",
+      "file": "U+3093.svg",
+      "sha256": "2714a19056eb5e1caae8227c4c558994c6e4919b8c32dbfde4f13cff72520282",
+      "provenance": "Version 1.011 supplemental maintainer-handwriting SVG",
+      "refined_stroke_count": 3,
+      "refined_target_width": 42.0
     }
   ]
 }

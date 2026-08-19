@@ -150,7 +150,15 @@ KANA_STROKES.update({
 
 from kana_sources.legibility_overrides import LEGIBLE_KANA
 
+from kana_sources.user_handwriting_refined import USER_HANDWRITING_REFINED
+
 KANA_STROKES.update(LEGIBLE_KANA)
+# Version 1.011: all 46 modern basic Hiragana use the maintainer's
+# handwriting structure, optically normalized and rendered by the
+# existing variable-width center-line stroke engine.  This update is
+# intentionally before small-kana derivation so ゎ/っ/ゃ etc. inherit
+# the refined bases.
+KANA_STROKES.update(USER_HANDWRITING_REFINED)
 
 # Small vowels, small wa, and small ka/ke use per-glyph optical scaling.
 for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゎ":"わ",

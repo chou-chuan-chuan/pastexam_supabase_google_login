@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.010"
+    "version": "1.011"
   },
   "glyphs": [
     {
@@ -289,16 +289,18 @@
   "groups": {
     "hiragana": {
       "characters": "ぁあぃいぅうぇえぉおかがきぎくぐけげこござじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
-      "source_file": "references/user-hiragana-svg/*.svg + japanese/svg_template_loader.py + kana_sources/full_data.py (forms not covered by the source chart)",
+      "source_file": "kana_sources/user_handwriting_refined.py + references/user-hiragana-svg/*.svg + kana_sources/full_data.py (historical/voiced composition metadata)",
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "user_authored_svg_outlines_for_43_source_hiragana_and_11_scaled_small_forms; existing_centerline_base_or_shared_mark_composite_for_remaining_forms",
+      "construction_method": "46 maintainer-handwriting structural SVG references converted to versioned refined center-line branches; final outlines rendered by the existing variable-width handwriting stroke engine; small forms derived from refined bases",
       "source_style_references": [
         "references/user-hiragana-template-source.png",
-        "the project maintainer's own handwriting"
+        "references/user-hiragana-template-source-complete.png",
+        "the project maintainer's own handwriting",
+        "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "Version 1.010 scales the reviewed user-authored SVG outlines to 110% around (480,500), then applies the existing -145 y alignment. Eleven small forms use the reviewed 72% optical scale; わ/を/ん retain the previous project-local center-line designs.",
+      "optical_adjustments": "Version 1.011 uses structural x/y scales 1.10/1.28, per-glyph recentering to (480,500), 42–50 unit target center-line widths with variable pressure/taper, and the existing -145 y build shift. The verifier requires refined Hiragana median optical center to stay within 30 units of a source-CJK sample.",
       "status": "verified"
     },
     "katakana": {

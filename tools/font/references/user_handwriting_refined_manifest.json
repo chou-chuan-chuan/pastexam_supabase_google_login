@@ -1,0 +1,260 @@
+{
+  "version": "1.011",
+  "source": "maintainer-owned handwritten SVGs",
+  "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+  "parameters": {
+    "raster": [
+      480,
+      512
+    ],
+    "x_scale": 1.1,
+    "y_scale": 1.28,
+    "center": [
+      480.0,
+      500.0
+    ],
+    "per_glyph_recenter": [
+      480.0,
+      500.0
+    ],
+    "width_factor": 1.1,
+    "width_range": [
+      42.0,
+      50.0
+    ],
+    "simplify_tolerance": 2.5,
+    "max_points_per_branch": 16
+  },
+  "glyphs": {
+    "あ": {
+      "svg_sha256": "dba2119b56a5c3abf9dde90d034f3e288de7e189403f2b967d63c8f3d0d864b6",
+      "stroke_count": 12,
+      "median_target_width": 48.4
+    },
+    "い": {
+      "svg_sha256": "1ccf25b741745ee7e296d4adae649c7e7e219376bf978a817e6b2668f80d55e8",
+      "stroke_count": 2,
+      "median_target_width": 44.0
+    },
+    "う": {
+      "svg_sha256": "d8e28da32f206d1483297c3ccb9855c565e1c4ef93542b83191358be8707c1c7",
+      "stroke_count": 2,
+      "median_target_width": 44.2
+    },
+    "え": {
+      "svg_sha256": "084dab73291e67125a7998a4b4329427515f2d757c7194b7a31a1332a9af3c58",
+      "stroke_count": 4,
+      "median_target_width": 46.8
+    },
+    "お": {
+      "svg_sha256": "d6150a677eb862d538b75f4f0cdaab648449ef9a055fb083303f85e3aeb0e44f",
+      "stroke_count": 8,
+      "median_target_width": 42.0
+    },
+    "か": {
+      "svg_sha256": "e17604c7a501952fb91ee3b61010990cb179dd0c55783b9fe53ec4329b111f43",
+      "stroke_count": 7,
+      "median_target_width": 50.0
+    },
+    "き": {
+      "svg_sha256": "cf335b46094e33bd393d6ec4390cb6e0552dcc471bce6739cf0b59afdf4ca109",
+      "stroke_count": 12,
+      "median_target_width": 49.2
+    },
+    "く": {
+      "svg_sha256": "7ded905e6507cbdc9a28e740411206bfbfc7b7da80915a87bfd1456a560b2f68",
+      "stroke_count": 5,
+      "median_target_width": 50.0
+    },
+    "け": {
+      "svg_sha256": "228913645329649a00c7a436074c934615e5581ea8b2faa7983687f9f72a1d3d",
+      "stroke_count": 7,
+      "median_target_width": 50.0
+    },
+    "こ": {
+      "svg_sha256": "d41f8c24953ef9ce3df0f908e9f5865e6ac6df3e81779074828cf48eea8fe421",
+      "stroke_count": 4,
+      "median_target_width": 42.0
+    },
+    "さ": {
+      "svg_sha256": "6993ff8397c24b7e69d5805ed63955a6d61e032f4019eb7ff72ea47e608f80d5",
+      "stroke_count": 9,
+      "median_target_width": 45.1
+    },
+    "し": {
+      "svg_sha256": "f28be8468109660fb1238c889906cd3d33847d9f07eb9487c4cb25905653d053",
+      "stroke_count": 1,
+      "median_target_width": 50.0
+    },
+    "す": {
+      "svg_sha256": "d512a3b73e8f1936d65906a672b1161ab36150840ef01c58e8b93bfc68933ee3",
+      "stroke_count": 6,
+      "median_target_width": 48.4
+    },
+    "せ": {
+      "svg_sha256": "0810387d20d964188a79848ebed028b52f726d8c2277156fb0be2dade4a43ae5",
+      "stroke_count": 7,
+      "median_target_width": 44.0
+    },
+    "そ": {
+      "svg_sha256": "7294399ad411300df837f48624a97f9def7af4789712da5b2fe16a12ac615dc1",
+      "stroke_count": 8,
+      "median_target_width": 42.0
+    },
+    "た": {
+      "svg_sha256": "c157dd272d1ec46fbbf5414460272a7cf938c99eaae82f6a64eb0cfb0e7c30bb",
+      "stroke_count": 9,
+      "median_target_width": 47.4
+    },
+    "ち": {
+      "svg_sha256": "03b4668dbc7658f4347d9da1efd7c3eb4f9e059af82b18de383f844b25a5cddd",
+      "stroke_count": 7,
+      "median_target_width": 47.4
+    },
+    "つ": {
+      "svg_sha256": "f22a1793427353a6b1220956bdc0e9d313faa0ad10c334ad35f078122cdd58e7",
+      "stroke_count": 1,
+      "median_target_width": 47.4
+    },
+    "て": {
+      "svg_sha256": "c6c84ad8c778aeffc47728789d63542ecf9a0af32f23c6d8ee30e734361c7532",
+      "stroke_count": 5,
+      "median_target_width": 49.2
+    },
+    "と": {
+      "svg_sha256": "2763379e26d17f38098d1268bccd4e12d1f5cf398e162a19d6a2ef5a9e89d960",
+      "stroke_count": 4,
+      "median_target_width": 45.3
+    },
+    "な": {
+      "svg_sha256": "01b3e8de192bc924757564d15b0618949c2161695b6c100f2a7609a4b83d7964",
+      "stroke_count": 13,
+      "median_target_width": 44.9
+    },
+    "に": {
+      "svg_sha256": "946dca7bd4a26ed5ec9e84227ffdfaef7ffeaa309d81a16c639a375ab793a410",
+      "stroke_count": 5,
+      "median_target_width": 48.4
+    },
+    "ぬ": {
+      "svg_sha256": "ef6b18665fcb2126cf5bd887284acbed1b5fcd650f177ddf7564e310f0ddc830",
+      "stroke_count": 12,
+      "median_target_width": 49.8
+    },
+    "ね": {
+      "svg_sha256": "d726eadba071556d0efa88bb9f2a87d14ca83cef83d56e255d0fb84ef7852761",
+      "stroke_count": 13,
+      "median_target_width": 45.9
+    },
+    "の": {
+      "svg_sha256": "1ff2c0777f1e53322b5a4971611dab4b8219ff407e7e3755e3e12b742d2ba8eb",
+      "stroke_count": 2,
+      "median_target_width": 45.9
+    },
+    "は": {
+      "svg_sha256": "939a7e733ec91721e80d1eaf01f6230302b589be6b0e135bef3554e4ad248add",
+      "stroke_count": 8,
+      "median_target_width": 45.3
+    },
+    "ひ": {
+      "svg_sha256": "b737f9f1fde936e00ca4accd58efa9c6f826a22ecf6a8513f7e34d5003295e04",
+      "stroke_count": 5,
+      "median_target_width": 48.6
+    },
+    "ふ": {
+      "svg_sha256": "b7510df0c4ad92af7bad9edc7f074c1288112f2989e29fc700eb2c4f97e30ffc",
+      "stroke_count": 10,
+      "median_target_width": 47.4
+    },
+    "へ": {
+      "svg_sha256": "b0c6b4702f7f74782b5fefe22da95ff87dbb6686e40b84e9ab0cf6957d986a69",
+      "stroke_count": 2,
+      "median_target_width": 50.0
+    },
+    "ほ": {
+      "svg_sha256": "0f53849da0a68abaa966fb18adbf30e54cfa1776992bde6a64426473063d456d",
+      "stroke_count": 10,
+      "median_target_width": 43.3
+    },
+    "ま": {
+      "svg_sha256": "076bc16559115394a9b23aefa4dbd328015b6d5710847a857759d047e54b891f",
+      "stroke_count": 12,
+      "median_target_width": 47.4
+    },
+    "み": {
+      "svg_sha256": "09c6008bd7e356a39df3f0434d90d682e8dca2878d95d1b68cebaf1a7afc6807",
+      "stroke_count": 8,
+      "median_target_width": 50.0
+    },
+    "む": {
+      "svg_sha256": "25dec07bcb88be55174a3481aa4ffea18438d2950ca8ca9efbe0a2c7083da076",
+      "stroke_count": 10,
+      "median_target_width": 44.0
+    },
+    "め": {
+      "svg_sha256": "f59bf033af20be168041a51ce54d527a97bfec3926d5be90fa8dbab4be305754",
+      "stroke_count": 9,
+      "median_target_width": 48.4
+    },
+    "も": {
+      "svg_sha256": "16692488cf2fedc1e9d3c9e8e43c97f594600a57c79e7914cc2e0bc8c94ef32f",
+      "stroke_count": 11,
+      "median_target_width": 42.0
+    },
+    "や": {
+      "svg_sha256": "52e7b663746a0383e96718613691299a1f9b1a3f58d788a0adec5cf70dfa3cb9",
+      "stroke_count": 7,
+      "median_target_width": 48.4
+    },
+    "ゆ": {
+      "svg_sha256": "07cafb402ea8d6e88a67367ebeae3f3b0488cf78565a756808027db306bb0249",
+      "stroke_count": 9,
+      "median_target_width": 49.2
+    },
+    "よ": {
+      "svg_sha256": "efa5c3d8cb5904effdc1f29a0591dcc7fc16cd79c75c14d10611a4c6ac67be21",
+      "stroke_count": 5,
+      "median_target_width": 45.9
+    },
+    "ら": {
+      "svg_sha256": "1dfb611235b1acdb26f7182873bb2fce93e7f5c4907b7d16295e28fd5bbdecf4",
+      "stroke_count": 4,
+      "median_target_width": 48.4
+    },
+    "り": {
+      "svg_sha256": "dcc450e52ef9198f3fcaf9feeada682c8feb911ecfae8ec69d851c10ec273790",
+      "stroke_count": 4,
+      "median_target_width": 44.0
+    },
+    "る": {
+      "svg_sha256": "a7a85ee326e24ddc02bb50424dd766df54a6ae18bb764eb48eeb08a1cb88e81c",
+      "stroke_count": 6,
+      "median_target_width": 44.0
+    },
+    "れ": {
+      "svg_sha256": "36add93f663c927f2d3e7e9a84380fb00c37a744a6e7099db39287f6e782a5e2",
+      "stroke_count": 10,
+      "median_target_width": 44.2
+    },
+    "ろ": {
+      "svg_sha256": "f56e4b119f6fca7d1f8fe9fdca7e32af6da40aef63633fc67202fd5d2bd265e5",
+      "stroke_count": 5,
+      "median_target_width": 42.0
+    },
+    "わ": {
+      "svg_sha256": "62c9679ab1fcd765470d583e8262e2d753d79407d09f4676c75ffc659a5c5197",
+      "stroke_count": 8,
+      "median_target_width": 42.0
+    },
+    "を": {
+      "svg_sha256": "8a144a0481593c9a7fbb041012d4364d2b1488401019a02973413a3b539618eb",
+      "stroke_count": 11,
+      "median_target_width": 42.0
+    },
+    "ん": {
+      "svg_sha256": "2714a19056eb5e1caae8227c4c558994c6e4919b8c32dbfde4f13cff72520282",
+      "stroke_count": 3,
+      "median_target_width": 42.0
+    }
+  }
+}

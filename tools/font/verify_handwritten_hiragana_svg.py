@@ -1,39 +1,46 @@
 #!/usr/bin/env python3
-"""Verify that the built font exactly uses the user-authored Hiragana SVGs."""
+"""Verify Version 1.011 user-handwriting references and refined font output."""
 
 from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 from statistics import median
 
+from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 
 from japanese.svg_template_loader import (
-    SVG_TEMPLATE_CHARACTERS,
-    SVG_TEMPLATE_SMALL_MAP,
+    MODERN_HIRAGANA_ORDER,
     SVG_TEMPLATE_SOURCE_CHARACTERS,
-    build_svg_template_glyph,
+    build_svg_reference_glyph,
 )
+from kana_sources.user_handwriting_refined import USER_HANDWRITING_REFINED
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TOOLS_DIR = Path(__file__).resolve().parent
 REFERENCE_DIR = TOOLS_DIR / "references"
-SOURCE_IMAGE = REFERENCE_DIR / "user-hiragana-template-source.png"
+SOURCE_COMPLETE = REFERENCE_DIR / "user-hiragana-template-source-complete.png"
 MANIFEST_PATH = REFERENCE_DIR / "user-hiragana-template-manifest.json"
 SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
-EXPECTED_SOURCE_SHA256 = "dea3c4c8576744dd609161940aae594a92bb9864b174a54dfce53759c32f0a00"
-EXPECTED_VERSION = "1.010"
-KANA_VERTICAL_SHIFT = -145
+EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
+EXPECTED_VERSION = "1.011"
 KANA_ADVANCE = 960
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def bounds(font: TTFont, glyph_name: str):
+    pen = BoundsPen(font.getGlyphSet())
+    font.getGlyphSet()[glyph_name].draw(pen)
+    return pen.bounds
 
 
 def glyph_signature(glyph, glyf_table) -> tuple:
@@ -46,93 +53,135 @@ def glyph_signature(glyph, glyf_table) -> tuple:
     )
 
 
-def fail(message: str, errors: list[str]) -> None:
-    errors.append(message)
+def stroke_length(stroke) -> float:
+    return sum(math.dist(a, b) for a, b in zip(stroke.points, stroke.points[1:]))
 
 
 def main() -> int:
     errors: list[str] = []
-    for path in (SOURCE_IMAGE, MANIFEST_PATH, FONT_PATH):
-        if not path.is_file():
-            fail(f"Missing required file: {path}", errors)
+
+    def require(condition: bool, message: str) -> None:
+        if not condition:
+            errors.append(message)
+
+    for path in (SOURCE_COMPLETE, MANIFEST_PATH, FONT_PATH):
+        require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
 
-    if sha256(SOURCE_IMAGE) != EXPECTED_SOURCE_SHA256:
-        fail("The user handwriting source image hash changed", errors)
+    require(sha256(SOURCE_COMPLETE) == EXPECTED_COMPLETE_SHA256,
+            "The complete maintainer handwriting source image hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-    if manifest.get("font_version") != EXPECTED_VERSION:
-        fail(f"Manifest version is not {EXPECTED_VERSION}", errors)
-    if manifest.get("source", {}).get("sha256") != EXPECTED_SOURCE_SHA256:
-        fail("Manifest source-image hash is incorrect", errors)
+    require(manifest.get("font_version") == EXPECTED_VERSION,
+            f"Template manifest version is not {EXPECTED_VERSION}")
+    require(manifest.get("coverage", {}).get("basic_modern_hiragana") == 46,
+            "Template manifest does not declare all 46 modern basic Hiragana")
+    expected = set(MODERN_HIRAGANA_ORDER)
+    require(set(SVG_TEMPLATE_SOURCE_CHARACTERS) == expected,
+            "SVG reference loader does not cover all 46 modern Hiragana")
+    require(set(USER_HANDWRITING_REFINED) == expected,
+            "Refined center-line source does not cover all 46 modern Hiragana")
+
     records = {item["character"]: item for item in manifest.get("glyphs", [])}
-    if set(records) != set(SVG_TEMPLATE_SOURCE_CHARACTERS):
-        fail("Manifest source-character set differs from the SVG loader", errors)
-    for character, record in records.items():
+    require(set(records) == expected, "SVG manifest character set is incomplete")
+    for character in sorted(expected, key=ord):
+        record = records.get(character)
+        if not record:
+            continue
         path = SVG_DIR / record["file"]
-        if not path.is_file():
-            fail(f"Missing SVG for {character}: {path}", errors)
-        elif sha256(path) != record["sha256"]:
-            fail(f"SVG hash differs from manifest for {character}", errors)
+        require(path.is_file(), f"Missing SVG for {character}: {path}")
+        if path.is_file():
+            require(sha256(path) == record["sha256"], f"SVG hash mismatch for {character}")
+        strokes = USER_HANDWRITING_REFINED[character]
+        require(bool(strokes), f"No refined strokes for {character}")
+        for stroke in strokes:
+            require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
+            require(len(stroke.points) >= 2, f"{character} contains an empty stroke")
+
+    # Structural gates for the glyphs that motivated this refinement.
+    require(any(stroke_length(stroke) < 190 for stroke in USER_HANDWRITING_REFINED["む"]),
+            "む no longer preserves a short independent handwritten mark")
+    require(repr(USER_HANDWRITING_REFINED["ぬ"]) != repr(USER_HANDWRITING_REFINED["め"]),
+            "ぬ and め refined sources unexpectedly became identical")
+    require(repr(USER_HANDWRITING_REFINED["き"]) != repr(USER_HANDWRITING_REFINED["さ"]),
+            "き and さ refined sources unexpectedly became identical")
+    require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
+            "Version 1.011 is missing the newly supplied わ/を/ん sources")
 
     font = TTFont(FONT_PATH, recalcTimestamp=False)
     try:
         cmap = font.getBestCmap()
-        version_names = {
-            record.toUnicode()
-            for record in font["name"].names
-            if record.nameID == 5
-        }
-        if not any(EXPECTED_VERSION in value for value in version_names):
-            fail(f"Built font name table does not report Version {EXPECTED_VERSION}", errors)
+        version_names = {record.toUnicode() for record in font["name"].names if record.nameID == 5}
+        require(any(EXPECTED_VERSION in value for value in version_names),
+                f"Built font name table does not report Version {EXPECTED_VERSION}")
 
-        centers: list[float] = []
-        for character in sorted(SVG_TEMPLATE_CHARACTERS, key=ord):
+        hira_centers = []
+        for character in MODERN_HIRAGANA_ORDER:
+            glyph_name = cmap.get(ord(character))
+            require(glyph_name is not None, f"Built font is missing {character} U+{ord(character):04X}")
+            if glyph_name is None:
+                continue
+            glyph = font["glyf"][glyph_name]
+            require(not glyph.isComposite(), f"Basic Hiragana {character} unexpectedly became composite")
+            glyph_bounds = bounds(font, glyph_name)
+            require(glyph_bounds is not None, f"Built glyph {character} has no bounds")
+            if glyph_bounds:
+                require(-80 <= glyph_bounds[0] < glyph_bounds[2] <= 1040,
+                        f"Unsafe horizontal bounds for {character}: {glyph_bounds}")
+                require(font["hhea"].descent < glyph_bounds[1] < glyph_bounds[3] < font["hhea"].ascent,
+                        f"Unsafe vertical bounds for {character}: {glyph_bounds}")
+                hira_centers.append((glyph_bounds[1] + glyph_bounds[3]) / 2)
+            require(font["hmtx"].metrics[glyph_name][0] == KANA_ADVANCE,
+                    f"Unexpected advance for {character}: {font['hmtx'].metrics[glyph_name][0]}")
+
+        # Mixed CJK/Kana optical alignment is a first-class 1.011 gate.
+        han_sample = "平仮名片君愛声夢春心明日夜空"
+        han_centers = []
+        for character in han_sample:
+            glyph_name = cmap.get(ord(character))
+            if glyph_name:
+                b = bounds(font, glyph_name)
+                if b:
+                    han_centers.append((b[1] + b[3]) / 2)
+        if hira_centers and han_centers:
+            hira_center = median(hira_centers)
+            han_center = median(han_centers)
+            require(abs(hira_center - han_center) <= 30,
+                    f"Refined Hiragana optical center does not align with source CJK: hira={hira_center}, han={han_center}")
+
+        # Ensure the build is no longer installing the filled SVG outlines directly.
+        for character in "きぬむめわをん":
             glyph_name = cmap.get(ord(character))
             if not glyph_name:
-                fail(f"Built font is missing U+{ord(character):04X} {character}", errors)
                 continue
             actual = font["glyf"][glyph_name]
-            expected = build_svg_template_glyph(character, KANA_VERTICAL_SHIFT)
-            if actual.isComposite():
-                fail(f"SVG-template glyph {glyph_name} unexpectedly became composite", errors)
-                continue
-            if glyph_signature(actual, font["glyf"]) != glyph_signature(expected, {}):
-                fail(f"Built outline differs from reviewed SVG template for {character} ({glyph_name})", errors)
-            actual.recalcBounds(font["glyf"])
-            bounds = (actual.xMin, actual.yMin, actual.xMax, actual.yMax)
-            if not (-80 <= bounds[0] < bounds[2] <= 1040):
-                fail(f"Unsafe horizontal bounds for {character}: {bounds}", errors)
-            if not (font["hhea"].descent < bounds[1] < bounds[3] < font["hhea"].ascent):
-                fail(f"Unsafe vertical bounds for {character}: {bounds}", errors)
-            advance = font["hmtx"].metrics[glyph_name][0]
-            if advance != KANA_ADVANCE:
-                fail(f"Unexpected advance for {character}: {advance}", errors)
-            if character in SVG_TEMPLATE_SOURCE_CHARACTERS:
-                centers.append((bounds[1] + bounds[3]) / 2)
+            reference = build_svg_reference_glyph(character, -145)
+            if not actual.isComposite():
+                require(glyph_signature(actual, font["glyf"]) != glyph_signature(reference, {}),
+                        f"{character} still exactly matches the old direct-SVG outline instead of refined strokes")
 
-        if len(centers) == len(SVG_TEMPLATE_SOURCE_CHARACTERS):
-            center = median(centers)
-            if not 285 <= center <= 370:
-                fail(f"SVG Hiragana median optical center is out of reviewed range: {center}", errors)
-
-        # Ensure every declared small variant really derives from a present SVG base.
-        for small, base in SVG_TEMPLATE_SMALL_MAP.items():
-            if base not in SVG_TEMPLATE_SOURCE_CHARACTERS or ord(small) not in cmap:
-                fail(f"Small-kana derivation is incomplete: {small} <- {base}", errors)
+        # Small wa must now derive from the newly supplied わ source and remain optically smaller.
+        for small, base in (("ゎ", "わ"), ("っ", "つ"), ("ゃ", "や")):
+            sb = bounds(font, cmap[ord(small)])
+            bb = bounds(font, cmap[ord(base)])
+            if sb and bb:
+                require((sb[2]-sb[0]) < (bb[2]-bb[0]) and (sb[3]-sb[1]) < (bb[3]-bb[1]),
+                        f"Small-kana scale is not smaller for {small} <- {base}")
     finally:
         font.close()
 
     if errors:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
-        print(f"User-handwriting SVG verification failed with {len(errors)} error(s).", file=sys.stderr)
+        print(f"Refined Hiragana verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
-    print("PASS: source image and all 43 SVG hashes match the reviewed manifest")
-    print("PASS: 43 source Hiragana and 11 small forms exactly match deterministic SVG builds")
-    print("PASS: advances, bounds, font version, and median optical center are valid")
+
+    print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
+    print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
+    print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
+    print("PASS: final TTF advances, bounds, Version 1.011 metadata, and CJK optical alignment are valid")
     return 0
 
 
