@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.009"
+    "version": "1.010"
   },
   "glyphs": [
     {
@@ -73,7 +73,7 @@
       "notes": "Keep the original lowercase c unchanged. Place the shared reviewed cedilla at +81 x / +10 y, preserving c advance and side bearings while maintaining the same 26-unit optical gap used for capital C."
     },
     {
-      "character": "\u0327",
+      "character": "̧",
       "codepoint": "U+0327",
       "unicode_name": "COMBINING CEDILLA",
       "glyph_name": "uni0327",
@@ -100,7 +100,13 @@
       "unicode_name": "DIAERESIS",
       "glyph_name": "dieresis",
       "construction_method": "identity_component_of_source_combining_diaeresis_with_spacing_metrics",
-      "source_glyphs": [{"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Keep the source ink bounds at x=60..240 and use a 300-unit advance for balanced 60-unit side bearings.",
       "notes": "The source-native two-dot contour is reused exactly; only spacing metrics distinguish U+00A8 from U+0308."
     },
@@ -110,7 +116,14 @@
       "unicode_name": "COMBINING DIAERESIS",
       "glyph_name": "uni0308",
       "construction_method": "preserve_official_source_glyph_and_existing_gpos",
-      "source_glyphs": [{"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308", "availability": "present_in_source"}],
+      "source_glyphs": [
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308",
+          "availability": "present_in_source"
+        }
+      ],
       "optical_adjustments": "No modification. Preserve zero advance, mark anchor <145 477>, and the source GDEF mark class.",
       "notes": "The official source already contains the handwritten two-dot mark and mark-to-base positioning for A/O/U/a/o/u."
     },
@@ -120,7 +133,18 @@
       "unicode_name": "LATIN CAPITAL LETTER A WITH DIAERESIS",
       "glyph_name": "Adieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "A", "codepoint": "U+0041", "glyph_name": "A"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "A",
+          "codepoint": "U+0041",
+          "glyph_name": "A"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +127 x / +145 y and base anchor <272 622>.",
       "notes": "Original A outline and advance remain unchanged; decomposed A+U+0308 matches this source composite through source GPOS."
     },
@@ -130,7 +154,18 @@
       "unicode_name": "LATIN CAPITAL LETTER O WITH DIAERESIS",
       "glyph_name": "Odieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "O", "codepoint": "U+004F", "glyph_name": "O"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "O",
+          "codepoint": "U+004F",
+          "glyph_name": "O"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +90 x / +87 y and base anchor <235 564>.",
       "notes": "Original O outline and advance remain unchanged; decomposed O+U+0308 matches through source GPOS."
     },
@@ -140,7 +175,18 @@
       "unicode_name": "LATIN CAPITAL LETTER U WITH DIAERESIS",
       "glyph_name": "Udieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "U", "codepoint": "U+0055", "glyph_name": "U"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "U",
+          "codepoint": "U+0055",
+          "glyph_name": "U"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +29 x / +88 y and base anchor <174 565>.",
       "notes": "Original U outline and advance remain unchanged; decomposed U+U+0308 matches through source GPOS."
     },
@@ -150,7 +196,18 @@
       "unicode_name": "LATIN SMALL LETTER A WITH DIAERESIS",
       "glyph_name": "adieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "a", "codepoint": "U+0061", "glyph_name": "a"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "a",
+          "codepoint": "U+0061",
+          "glyph_name": "a"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +27 x / -13 y and base anchor <172 464>.",
       "notes": "Lowercase height is tuned independently in the source; decomposed a+U+0308 matches through source GPOS."
     },
@@ -160,7 +217,18 @@
       "unicode_name": "LATIN SMALL LETTER O WITH DIAERESIS",
       "glyph_name": "odieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "o", "codepoint": "U+006F", "glyph_name": "o"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "o",
+          "codepoint": "U+006F",
+          "glyph_name": "o"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +8 x / -57 y and base anchor <153 420>.",
       "notes": "Lowercase height is tuned independently in the source; decomposed o+U+0308 matches through source GPOS."
     },
@@ -170,7 +238,18 @@
       "unicode_name": "LATIN SMALL LETTER U WITH DIAERESIS",
       "glyph_name": "udieresis",
       "construction_method": "preserve_source_composite",
-      "source_glyphs": [{"character": "u", "codepoint": "U+0075", "glyph_name": "u"}, {"character": "̈", "codepoint": "U+0308", "glyph_name": "uni0308"}],
+      "source_glyphs": [
+        {
+          "character": "u",
+          "codepoint": "U+0075",
+          "glyph_name": "u"
+        },
+        {
+          "character": "̈",
+          "codepoint": "U+0308",
+          "glyph_name": "uni0308"
+        }
+      ],
       "optical_adjustments": "Preserve source component delta +35 x / -62 y and base anchor <180 415>.",
       "notes": "Lowercase height is tuned independently in the source; decomposed u+U+0308 matches through source GPOS."
     },
@@ -180,7 +259,13 @@
       "unicode_name": "LATIN SMALL LETTER SHARP S",
       "glyph_name": "germandbls",
       "construction_method": "copy_source_beta_outline_under_distinct_german_mapping",
-      "source_glyphs": [{"character": "β", "codepoint": "U+03B2", "glyph_name": "beta"}],
+      "source_glyphs": [
+        {
+          "character": "β",
+          "codepoint": "U+03B2",
+          "glyph_name": "beta"
+        }
+      ],
       "optical_adjustments": "Preserve the source beta outline and native proportion with identity transform; use advance 391.",
       "notes": "The latest user-supplied alphabet reference explicitly requests a beta-like lowercase sharp s. U+00DF retains its own germandbls cmap mapping; U+03B2 remains unchanged."
     },
@@ -190,7 +275,13 @@
       "unicode_name": "LATIN CAPITAL LETTER SHARP S",
       "glyph_name": "uni1E9E",
       "construction_method": "optically_transform_source_beta_for_capital_zone",
-      "source_glyphs": [{"character": "β", "codepoint": "U+03B2", "glyph_name": "beta"}],
+      "source_glyphs": [
+        {
+          "character": "β",
+          "codepoint": "U+03B2",
+          "glyph_name": "beta"
+        }
+      ],
       "optical_adjustments": "Scale source beta to 110% x / 74% y and translate +204 y; use advance 430 so the descender is shortened into the capital zone.",
       "notes": "The latest reference requests a beta-like capital sharp s. U+1E9E retains its own uni1E9E cmap mapping and a capital-height optical transform; U+03B2 remains unchanged."
     }
@@ -198,13 +289,16 @@
   "groups": {
     "hiragana": {
       "characters": "ぁあぃいぅうぇえぉおかがきぎくぐけげこござじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
-      "source_file": "kana_sources/full_data.py + kana_sources/legibility_overrides.py + kana_sources/hiragana_redesign.py",
+      "source_file": "references/user-hiragana-svg/*.svg + japanese/svg_template_loader.py + kana_sources/full_data.py (forms not covered by the source chart)",
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "complete_modern_hiragana_redesign_from_original_variable_width_centerlines_or_reviewed_base_plus_shared_mark_composite",
-      "source_style_references": ["一", "丨", "丿", "丶", "乙", "了", "口", "日", "心", "女", "子", "之", "也", "乃", "川", "久", "九", "千", "小", "大"],
-      "optical_adjustments": "Per-glyph curves, joins, terminal pressure, center, and 960-unit advance; small kana use reviewed 72% optical scale with stroke-width correction. Version 1.009 separates the さ/ち lower structures and gives の a diagonal entry, broad left loop, and long right descent. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
+      "construction_method": "user_authored_svg_outlines_for_43_source_hiragana_and_11_scaled_small_forms; existing_centerline_base_or_shared_mark_composite_for_remaining_forms",
+      "source_style_references": [
+        "references/user-hiragana-template-source.png",
+        "the project maintainer's own handwriting"
+      ],
+      "optical_adjustments": "Version 1.010 scales the reviewed user-authored SVG outlines to 110% around (480,500), then applies the existing -145 y alignment. Eleven small forms use the reviewed 72% optical scale; わ/を/ん retain the previous project-local center-line designs.",
       "status": "verified"
     },
     "katakana": {
@@ -214,7 +308,21 @@
       "unicode_name_source": "Python unicodedata.name",
       "category": "katakana",
       "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite",
-      "source_style_references": ["一", "丨", "丿", "丶", "乙", "了", "口", "川", "久", "九", "千", "小", "大"],
+      "source_style_references": [
+        "一",
+        "丨",
+        "丿",
+        "丶",
+        "乙",
+        "了",
+        "口",
+        "川",
+        "久",
+        "九",
+        "千",
+        "小",
+        "大"
+      ],
       "optical_adjustments": "Per-glyph terminal angle and spacing; small kana use reviewed 72% optical scale with stroke-width correction. Build-time y shift -145 aligns the median optical center with source Chinese glyphs.",
       "status": "verified"
     },
@@ -225,7 +333,19 @@
       "unicode_name_source": "Python unicodedata.name",
       "category": "japanese_marks_and_punctuation",
       "construction_method": "original_handwritten_strokes; spacing marks share combining contours; voiced iteration marks share the same dakuten component",
-      "source_style_references": ["apostrophe", "quotesingle", "comma", "period", "colon", "semicolon", "i", "j", "丶", "口", "日"],
+      "source_style_references": [
+        "apostrophe",
+        "quotesingle",
+        "comma",
+        "period",
+        "colon",
+        "semicolon",
+        "i",
+        "j",
+        "丶",
+        "口",
+        "日"
+      ],
       "optical_adjustments": "U+3099/U+309A have zero advance and GPOS anchors; base-anchor y is 690 after kana alignment. U+309B/U+309C have 300-unit spacing advances; center marks shift -120 and full-width marks use 960 units.",
       "status": "verified"
     }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">あ U+3042 — user-authored handwritten hiragana template</title>
+  <desc id="desc">Vectorized from the project maintainer's own handwriting image. Raw path coordinates use a 960 by 1024 y-up font coordinate system.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="#000000">
+    <path fill-rule="nonzero" d="M 403 836 L 417 822 L 424 687 L 438 673 L 550 680 L 564 694 L 585 694 L 592 680 L 592 652 L 529 638 L 473 638 L 438 631 L 438 595 L 452 581 L 508 588 L 515 624 L 536 624 L 557 581 L 620 567 L 662 546 L 712 496 L 719 475 L 740 454 L 740 383 L 719 320 L 705 313 L 669 313 L 669 341 L 691 369 L 698 390 L 698 426 L 684 461 L 634 511 L 578 539 L 550 539 L 536 468 L 508 419 L 515 397 L 543 362 L 543 341 L 508 334 L 494 341 L 473 376 L 424 355 L 389 327 L 347 327 L 333 334 L 305 369 L 291 412 L 291 489 L 326 532 L 396 574 L 396 610 L 382 624 L 305 617 L 291 624 L 284 652 L 298 659 L 354 659 L 375 666 L 375 836 Z M 389 525 L 333 482 L 340 405 L 347 390 L 382 383 L 396 397 L 431 397 L 452 419 L 417 504 L 417 525 Z M 459 511 L 480 475 L 501 504 L 501 539 L 459 546 Z"/>
+  </g>
+</svg>

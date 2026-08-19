@@ -38,7 +38,7 @@ python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
 - `audit_japanese_kanji.py`：只分析本機 TXT／LRC／JSON；不抓取網路歌詞。
 - `reports/kana_style_analysis.md`：官方來源筆畫粗細、端點、曲線、傾斜、重心、baseline 與字框分析。
 
-### Japanese Phase 1 Support（Version 1.009）
+### Japanese Phase 1 Support（Version 1.010）
 
 - 基本平假名、片假名、small kana、濁音、半濁音、iteration marks、`・`、`ー` 與指定常用日文標點完整進入同一 Family。
 - 新假名使用一致的 `uniXXXX` glyph naming；官方來源已存在且正常的標點保持原 glyph mapping、輪廓、metrics 與 glyph order。
@@ -91,3 +91,13 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 9. 更新 `MODIFICATIONS.md` 與網站 README。
 
 OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScript／Typographic Family 名稱。原作者、來源與 Reserved Font Name 只能在 copyright、license、credit 或修改說明中保留。
+
+
+### User-authored Hiragana SVG revision（Version 1.010）
+
+- `tools/font/references/user-hiragana-template-source.png` 是專案維護者本人提供的原始手寫稿。
+- 來源稿中的 43 個基本平假名保存為獨立 SVG，並由字型建置程式直接轉成 TrueType 輪廓。
+- 來源稿沒有 `わ／を／ん`；這三字與片假名仍沿用既有 project-local center-line 設計。
+- `ぁぃぅぇぉゃゅょっゕゖ` 由對應 SVG 基底作確定性縮放；濁音／半濁音繼續共用 base 與 mark components。
+- 來源、SVG hash、轉換參數與逐字 cell mapping 記錄於 `references/user-hiragana-template-manifest.json`。
+- 驗收指令：`python tools/font/verify_handwritten_hiragana_svg.py` 與 `python tools/font/render_handwritten_hiragana_proof.py`。

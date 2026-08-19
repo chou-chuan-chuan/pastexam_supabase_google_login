@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">そ U+305D — user-authored handwritten hiragana template</title>
+  <desc id="desc">Vectorized from the project maintainer's own handwriting image. Raw path coordinates use a 960 by 1024 y-up font coordinate system.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="#000000">
+    <path fill-rule="nonzero" d="M 395 738 L 403 726 L 500 726 L 589 738 L 629 732 L 662 738 L 678 732 L 678 709 L 654 703 L 613 674 L 557 579 L 629 579 L 678 585 L 718 597 L 775 597 L 767 568 L 710 550 L 565 426 L 613 385 L 662 368 L 702 368 L 710 379 L 735 379 L 767 356 L 767 332 L 726 326 L 694 338 L 646 338 L 573 362 L 524 397 L 524 444 L 638 544 L 589 550 L 541 544 L 516 532 L 484 538 L 411 526 L 363 526 L 355 550 L 403 562 L 484 568 L 508 585 L 533 626 L 533 656 L 557 679 L 557 697 L 500 703 L 371 697 L 363 726 L 371 738 Z"/>
+  </g>
+</svg>
