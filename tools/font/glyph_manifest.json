@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.011"
+    "version": "1.013"
   },
   "glyphs": [
     {
@@ -300,7 +300,7 @@
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "Version 1.011 uses structural x/y scales 1.10/1.28, per-glyph recentering to (480,500), 42–50 unit target center-line widths with variable pressure/taper, and the existing -145 y build shift. The verifier requires refined Hiragana median optical center to stay within 30 units of a source-CJK sample.",
+      "optical_adjustments": "Version 1.012 retains the 1.011 recentered variable-width handwriting system, enlarges the す central counter, and extends the り terminal tail for clearer small-size recognition. Existing build-time kana alignment remains intact.",
       "status": "verified"
     },
     "katakana": {
@@ -350,6 +350,14 @@
       ],
       "optical_adjustments": "U+3099/U+309A have zero advance and GPOS anchors; base-anchor y is 690 after kana alignment. U+309B/U+309C have 300-unit spacing advances; center marks shift -120 and full-width marks use 960 units.",
       "status": "verified"
+    },
+    "japanese_user_overrides": {
+      "characters": "懐夕気付",
+      "source_file": "kana_sources/user_kanji_refined.py + japanese/user_japanese_overrides.py",
+      "reference_image": "references/user-japanese-overrides-source.png",
+      "construction_method": "懐/夕: maintainer-handwriting center-lines rendered by project variable-width stroke engine; 気/付: untouched source drawings copied to derived glyph names with vertical-only optical transform against refined け",
+      "cmap_policy": "Only U+61D0/U+5915/U+6C17/U+4ED8 are intentional exceptions to source cmap identity preservation.",
+      "status": "verified_by_special_override_verifier"
     }
   }
 }
