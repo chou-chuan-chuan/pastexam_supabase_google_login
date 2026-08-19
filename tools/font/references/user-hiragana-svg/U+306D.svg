@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">ね U+306D — user-authored handwritten hiragana template</title>
+  <desc id="desc">Vectorized from the project maintainer's own handwriting image. Raw path coordinates use a 960 by 1024 y-up font coordinate system.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="#000000">
+    <path fill-rule="nonzero" d="M 444 772 L 444 758 L 452 751 L 452 652 L 460 638 L 533 638 L 533 610 L 468 546 L 476 532 L 533 560 L 613 574 L 759 574 L 840 546 L 856 518 L 856 461 L 840 390 L 872 376 L 880 320 L 864 320 L 815 355 L 791 327 L 783 306 L 759 284 L 710 284 L 670 298 L 629 327 L 613 348 L 613 376 L 621 397 L 662 426 L 759 426 L 783 412 L 807 454 L 807 511 L 791 525 L 718 546 L 686 546 L 541 525 L 500 496 L 484 496 L 476 440 L 492 355 L 516 284 L 524 207 L 516 192 L 476 192 L 468 291 L 427 447 L 395 397 L 371 383 L 355 341 L 331 320 L 306 320 L 306 362 L 322 376 L 331 405 L 371 447 L 387 482 L 419 518 L 419 567 L 379 574 L 322 567 L 322 588 L 363 610 L 395 603 L 419 617 L 403 737 L 387 751 L 387 765 Z M 702 327 L 735 320 L 751 334 L 767 369 L 735 390 L 694 390 L 654 362 Z"/>
+  </g>
+</svg>

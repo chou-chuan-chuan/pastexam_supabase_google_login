@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">よ U+3088 — user-authored handwritten hiragana template</title>
+  <desc id="desc">Vectorized from the project maintainer's own handwriting image. Raw path coordinates use a 960 by 1024 y-up font coordinate system.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="#000000">
+    <path fill-rule="nonzero" d="M 444 721 L 460 709 L 460 685 L 484 597 L 533 591 L 662 597 L 678 591 L 686 568 L 500 562 L 492 474 L 508 462 L 589 438 L 613 421 L 670 403 L 735 374 L 735 344 L 710 338 L 678 350 L 638 374 L 597 385 L 516 426 L 492 421 L 500 403 L 492 368 L 468 321 L 436 303 L 387 303 L 347 321 L 314 344 L 314 397 L 339 426 L 395 462 L 444 462 L 452 503 L 444 509 L 444 550 L 427 568 L 427 615 L 411 662 L 411 709 L 419 721 Z M 371 397 L 363 385 L 387 362 L 387 350 L 403 338 L 427 350 L 452 391 L 452 426 L 427 432 Z"/>
+  </g>
+</svg>
