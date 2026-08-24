@@ -151,6 +151,9 @@ KANA_STROKES.update({
 from kana_sources.legibility_overrides import LEGIBLE_KANA
 
 from kana_sources.user_handwriting_refined import USER_HANDWRITING_REFINED
+from kana_sources.user_handwriting_optical import (
+    USER_HANDWRITING_OPTICALLY_NORMALIZED,
+)
 
 KANA_STROKES.update(LEGIBLE_KANA)
 # Version 1.011: all 46 modern basic Hiragana use the maintainer's
@@ -159,11 +162,26 @@ KANA_STROKES.update(LEGIBLE_KANA)
 # intentionally before small-kana derivation so ゎ/っ/ゃ etc. inherit
 # the refined bases.
 KANA_STROKES.update(USER_HANDWRITING_REFINED)
+# Optical normalization is a topology-preserving layer around the accepted
+# user handwriting above. It must never be replaced by an older kana source.
+KANA_STROKES.update(USER_HANDWRITING_OPTICALLY_NORMALIZED)
 
-# Small vowels, small wa, and small ka/ke use per-glyph optical scaling.
-for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お","ゎ":"わ",
-                     "ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ","ヮ":"ワ",
-                     "ゕ":"か","ゖ":"け","ヵ":"カ","ヶ":"ケ"}.items():
+# Every small Hiragana is deterministically derived from its normalized large
+# counterpart. Structure and topology therefore stay identical; only optical
+# scale, placement, and a slight pressure reduction differ.
+for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
+                     "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
+                     "ゕ":"か","ゖ":"け"}.items():
+    KANA_STROKES[small] = scale(
+        KANA_STROKES[large],
+        0.72,
+        center=(480, 500),
+        shift=(0, -12),
+    )
+
+# Small Katakana retain the accepted Phase-1 derivation.
+for small, large in {"ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ","ヮ":"ワ",
+                     "ヵ":"カ","ヶ":"ケ"}.items():
     KANA_STROKES[small] = scale(KANA_STROKES[large], 0.72)
 
 
@@ -195,12 +213,6 @@ ITERATION_STROKES = {
 }
 
 JAPANESE_MARK_STROKES = {
-    "々": (
-             S((360, 790), (330, 650), (285, 535), width=49, end=27),
-             S((350, 620), (470, 665), (610, 650), width=47),
-             S((600, 635), (545, 500), (455, 390), (350, 315), width=52, end=28),
-             S((510, 410), (625, 315), (720, 220), width=49, end=27),
-         ),
     "〆": (S((650,760),(565,625),(470,485),(370,350),(260,240),width=54,end=27),
           S((290,650),(395,545),(515,435),(650,330),(760,270),width=51,end=28)),
     "・": (S((472,470),(505,445),width=62,start=58,end=45),),

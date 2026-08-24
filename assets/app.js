@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
-import { filterSongs, pendingSongPayload, songTagObjects } from "./catalog.js";
+import { filterSongs, pendingSongPayload, songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
@@ -186,7 +186,7 @@ function songCard(song) {
     });
     tagRow.append(chip);
   }
-  body.append(tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "filename", song.original_filename));
+  body.append(tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "card-meta", `上傳者：${uploaderDisplayName(song)}`), node("p", "filename", song.original_filename));
 
   const actions = node("div", "card-actions");
   const read = node("a", "button primary", "播放與閱讀");
@@ -227,7 +227,7 @@ async function loadSongs() {
   if (!configured) { songs = []; tags = []; setLoading(false); render(); return; }
   setLoading(true);
   const [songsResult, tagsResult] = await Promise.all([
-    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,status,created_at,updated_at,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
+    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
     supabase.from("tags").select("id,name,slug").order("name")
   ]);
   setLoading(false);

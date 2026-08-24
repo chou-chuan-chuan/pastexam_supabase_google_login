@@ -1,7 +1,8 @@
-"""Build Version 1.013 user-maintainer Japanese shared-codepoint overrides.
+"""Build dedicated user-reference Japanese shared-codepoint overrides.
 
-One Han character (懐 U+61D0 and 夕 U+5915) are rebuilt from the maintainer's
-own handwriting center-lines.  気 U+6C17 and 付 U+4ED8 keep the source font's
+懐 U+61D0 combines the source face's native 懷 and 衣 outlines. 々 U+3005 is
+rebuilt from dedicated project-local center-lines.
+夕 U+5915 is deliberately untouched. 気 U+6C17 and 付 U+4ED8 keep the source font's
 original drawings, but are installed under distinct derived glyph names with
 an optical vertical transform so the mixed sequence 気付け aligns better with
 refined Hiragana.  Original source glyphs remain present and unmodified.
@@ -9,20 +10,35 @@ refined Hiragana.  Original source glyphs remain present and unmodified.
 
 from __future__ import annotations
 
+import pathops
+
 from fontTools.misc.transform import Transform
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 
-from japanese.stroke_engine import build_stroke_glyph
+from japanese.stroke_engine import (
+    build_stroke_glyph,
+    path_to_glyph,
+    translate_strokes,
+)
 from kana_sources.user_kanji_refined import (
     ALIGNMENT_OVERRIDE_CHARACTERS,
-    USER_KANJI_REFINED,
+    HYBRID_FINAL_SHIFT,
+    HYBRID_KANJI_CHARACTERS,
+    HYBRID_KEEP_LEFT_MAX,
+    HYBRID_KEEP_UPPER_MIN,
+    HYBRID_REPLACEMENT_CHARACTER,
+    HYBRID_REPLACEMENT_TRANSFORM,
+    HYBRID_SOURCE_CHARACTER,
 )
+from kana_sources.user_japanese_mark_refined import USER_JAPANESE_MARK_REFINED
 
 
 USER_OVERRIDE_SUFFIX = ".qfwUser"
+USER_MARK_POSITION = (45.0, -120.0)
+USER_MARK_ADVANCE = 960
 ALIGN_OVERRIDE_SUFFIX = ".qfwJaAlign"
 ALIGNMENT_REFERENCE = "け"
 ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.04
@@ -67,30 +83,104 @@ def transformed_glyph(font: TTFont, source_name: str, transform: Transform):
     return pen.glyph()
 
 
+def rectangle_path(x_min: float, y_min: float, x_max: float, y_max: float) -> pathops.Path:
+    path = pathops.Path()
+    pen = path.getPen()
+    pen.moveTo((x_min, y_min))
+    pen.lineTo((x_max, y_min))
+    pen.lineTo((x_max, y_max))
+    pen.lineTo((x_min, y_max))
+    pen.closePath()
+    return path
+
+
+def hybrid_kanji_glyph(font: TTFont, source_name: str, replacement_name: str):
+    """Keep native 懷 upper/left outlines and fit the native 衣 below them."""
+    source_path = pathops.Path()
+    source_transform = Transform(1, 0, 0, 1, *HYBRID_FINAL_SHIFT)
+    font.getGlyphSet()[source_name].draw(TransformPen(source_path.getPen(), source_transform))
+    left_region = rectangle_path(-200, -300, HYBRID_KEEP_LEFT_MAX, 1200)
+    upper_region = rectangle_path(HYBRID_KEEP_LEFT_MAX, HYBRID_KEEP_UPPER_MIN, 1400, 1200)
+    keep_region = pathops.op(left_region, upper_region, pathops.PathOp.UNION)
+    kept_source = pathops.op(source_path, keep_region, pathops.PathOp.INTERSECTION)
+    replacement = pathops.Path()
+    scale, dx, dy = HYBRID_REPLACEMENT_TRANSFORM
+    replacement_transform = Transform(scale, 0, 0, scale, dx, dy)
+    font.getGlyphSet()[replacement_name].draw(
+        TransformPen(replacement.getPen(), replacement_transform)
+    )
+    combined = pathops.op(kept_source, replacement, pathops.PathOp.UNION)
+    return path_to_glyph(pathops.simplify(combined))
+
+
 def build_user_japanese_overrides(font: TTFont) -> dict:
     cmap = font.getBestCmap()
     metadata: dict[str, object] = {
         "handwritten": {},
+        "marks": {},
         "alignment": {},
     }
 
-    # Rebuild the two explicitly approved Han characters from the maintainer's
-    # own structural handwriting data while preserving the source advance.
-    for character, strokes in USER_KANJI_REFINED.items():
+    # Rebuild the approved hybrid Han character from the source face's native
+    # 懷 and 衣 structures while preserving the target codepoint and advance.
+    for character in HYBRID_KANJI_CHARACTERS:
         codepoint = ord(character)
         source_name = cmap.get(codepoint)
         if source_name is None:
             raise RuntimeError(f"Source font is missing U+{codepoint:04X} {character}")
         advance, _ = font["hmtx"].metrics[source_name]
         target_name = f"uni{codepoint:04X}{USER_OVERRIDE_SUFFIX}"
-        glyph = build_stroke_glyph(strokes)
+        style_character = HYBRID_SOURCE_CHARACTER[character]
+        style_source_name = cmap.get(ord(style_character))
+        if style_source_name is None:
+            raise RuntimeError(f"Source font is missing style source {style_character}")
+        replacement_character = HYBRID_REPLACEMENT_CHARACTER[character]
+        replacement_source_name = cmap.get(ord(replacement_character))
+        if replacement_source_name is None:
+            raise RuntimeError(
+                f"Source font is missing replacement source {replacement_character}"
+            )
+        glyph = hybrid_kanji_glyph(font, style_source_name, replacement_source_name)
         glyph.recalcBounds(font["glyf"])
         install(font, target_name, glyph, advance, glyph.xMin, source_name)
         add_mapping(font, codepoint, target_name)
         metadata["handwritten"][character] = {
             "source_glyph": source_name,
+            "style_source_character": style_character,
+            "style_source_glyph": style_source_name,
+            "replacement_source_character": replacement_character,
+            "replacement_source_glyph": replacement_source_name,
+            "replacement_transform": HYBRID_REPLACEMENT_TRANSFORM,
             "derived_glyph": target_name,
             "advance": advance,
+            "hybrid_final_shift": HYBRID_FINAL_SHIFT,
+        }
+
+    # Install the dedicated 々 drawing even when the source font already maps
+    # that shared codepoint. The former Phase-1 mark is not used as input.
+    cmap = font.getBestCmap()
+    vertical_fallback = cmap[0x4E00]
+    for character, strokes in USER_JAPANESE_MARK_REFINED.items():
+        codepoint = ord(character)
+        source_name = cmap.get(codepoint)
+        vertical_source = source_name or vertical_fallback
+        advance = USER_MARK_ADVANCE
+        target_name = f"uni{codepoint:04X}{USER_OVERRIDE_SUFFIX}"
+        positioned_strokes = translate_strokes(
+            strokes,
+            dx=USER_MARK_POSITION[0],
+            dy=USER_MARK_POSITION[1],
+        )
+        glyph = build_stroke_glyph(positioned_strokes)
+        glyph.recalcBounds(font["glyf"])
+        install(font, target_name, glyph, advance, glyph.xMin, vertical_source)
+        add_mapping(font, codepoint, target_name)
+        metadata["marks"][character] = {
+            "source_glyph": source_name,
+            "derived_glyph": target_name,
+            "advance": advance,
+            "dx": USER_MARK_POSITION[0],
+            "dy": USER_MARK_POSITION[1],
         }
 
     # Re-read cmap after the handwritten remaps.  The reference Hiragana glyph

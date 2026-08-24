@@ -33,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.013"
-UNIQUE_ID = "1.013;QFW;QuanFangweiSupplementScript-Regular;20260820"
+VERSION = "1.014"
+UNIQUE_ID = "1.014;QFW;QuanFangweiSupplementScript-Regular;20260825"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -56,7 +56,7 @@ JAPANESE_PUNCTUATION_REQUIRED = {
 }
 JAPANESE_REQUIRED = HIRAGANA_REQUIRED | KATAKANA_REQUIRED | JAPANESE_PUNCTUATION_REQUIRED
 KANA_ADVANCE = 960
-JAPANESE_SOURCE_CMAP_OVERRIDES = {0x61D0, 0x5915, 0x6C17, 0x4ED8}
+JAPANESE_SOURCE_CMAP_OVERRIDES = {0x3005, 0x61D0, 0x6C17, 0x4ED8}
 
 
 def sha256(path: Path) -> str:
@@ -212,6 +212,9 @@ def verify() -> list[str]:
         0x1E9E: "uni1E9E",
         **{codepoint: f"uni{codepoint:04X}" for codepoint in JAPANESE_REQUIRED if codepoint not in source_cmap},
     }
+    # Version 1.014 intentionally replaces the Phase-1 U+3005 cmap target
+    # with a dedicated, independently verifiable project-local drawing.
+    required[0x3005] = "uni3005.qfwUser"
     for codepoint, glyph_name in required.items():
         require(ttf_cmap.get(codepoint) == glyph_name, f"TTF U+{codepoint:04X} does not map to {glyph_name}")
         require(woff2_cmap.get(codepoint) == glyph_name, f"WOFF2 U+{codepoint:04X} does not map to {glyph_name}")
@@ -519,7 +522,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 198, "Derived glyph count did not increase by exactly 198")
+    require(len(ttf_order) == len(source_order) + 199, "Derived glyph count did not increase by exactly 199")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup

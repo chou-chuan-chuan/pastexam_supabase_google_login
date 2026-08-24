@@ -131,3 +131,12 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - `々` (U+3005) uses the existing Phase-1 handwritten mark; the later experimental redraw is not shipped.
 - `夕` (U+5915) remains on the original source glyph.
 - Other reviewed Hiragana refinements and the existing `気`/`付` mixed-alignment work remain included.
+
+### Version 1.014 optical normalization and approved special glyphs
+
+- `USER_HANDWRITING_REFINED` remains the authoritative 46-Hiragana topology. `kana_sources/user_handwriting_optical.py` applies only uniform per-glyph scale and translation around it.
+- Every small Hiragana derives from its normalized large form at 0.72 scale; large `や` remains an identity control and `ゃ` shares its topology.
+- `懐` combines the native source-face `懷` upper/left outline with a uniformly scaled and positioned native `衣` lower outline. The original `懐`、`懷`、`衣` drawings remain present and unchanged.
+- `々` uses dedicated project-local center-lines rendered by the existing variable-width engine; its approved right/lower gestures intersect. `夕` remains completely unchanged.
+- Visual gates: `proofs/quanfangwei-hiragana-optical-before-after-proof.png`、`proofs/quanfangwei-small-kana-ya-proof.png`、`proofs/quanfangwei-user-japanese-specials-proof.png`、`proofs/quanfangwei-user-japanese-mixed-proof.png`.
+- Verification: `python tools/font/verify_handwritten_hiragana_svg.py` and `python tools/font/verify_special_japanese_overrides.py`.

@@ -12,7 +12,7 @@
 - YouTube IFrame Player API；不自動播放、不下載影音、不使用 Data API key。
 - 同步歌詞依 cue 原始時間高亮，支援 seek 與自動捲動。
 - 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
-- 33 個 Node 內建 test runner 測試；沒有網站 build step 或大型 framework。
+- 34 個 Node 內建 test runner 測試；沒有網站 build step 或大型 framework。
 
 ## 荃方位補寫體
 
@@ -23,7 +23,7 @@
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.012 支援：
+衍生版 Version 1.014 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
@@ -81,7 +81,7 @@ python tools/font/audit_japanese_kanji.py
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-### Japanese Phase 1 Support（Version 1.012）
+### Japanese Phase 1 Support（Version 1.014）
 
 同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
 
@@ -91,19 +91,21 @@ Version 1.008 以使用者提供的標準手寫五十音表作為字形結構、
 
 Version 1.009 重新設計完整現代平假名的原創 center-line source，依使用者提供的手寫五十音表校對辨識骨架與字面比例，但不描摹 raster edge。`さ` 與 `ち` 改用明確分離的下段結構；`の` 改為斜入、左側回環、右側長收筆，不再像英文字母 O 或雙圈螺旋。新增 `tools/font/proofs/quanfangwei-hiragana-redesign-proof.png`，以 120 px 字格與 48 px 歌詞混排逐字驗收。
 
-Version 1.010 以專案維護者本人提供的手寫稿作為實際 SVG 來源：來源圖中的 43 個基本平假名經分格、輪廓清理與固定座標正規化後保存為版本化 SVG，建置時直接轉成 TrueType 輪廓。來源圖未包含 `わ／を／ん`，因此三字仍沿用既有 center-line 設計；`ぁぃぅぇぉゃゅょっゕゖ` 由 SVG 基底確定性縮放，濁音／半濁音則繼續共用 base 與 mark components。這些 SVG 只來自維護者本人的手寫稿，沒有載入或複製外部日文字型輪廓。
+Version 1.010 以專案維護者本人提供的手寫稿作為實際 SVG 來源：來源圖中的 43 個基本平假名經分格、輪廓清理與固定座標正規化後保存為版本化 SVG。Version 1.011 再將完整 46 個現代基本平假名整理成 per-glyph center-line branches，由既有 variable-width handwriting renderer 產生最終輪廓。
 
-Version 1.011 將維護者手寫 SVG 改回結構來源，而不是最終 filled outline：完整 46 個現代基本平假名（新增 `わ／を／ん`）先整理成 per-glyph recentered center-line branches，再由既有 variable-width handwriting renderer 加入與辰宇落雁相容的筆壓、粗細變化與收筆。這版同時把掃描表格 cell 位置與字型 metrics 解耦，並以實際中文字形 median optical center 作混排 alignment gate。
+Version 1.014 以穩定版 1.013 的 `USER_HANDWRITING_REFINED` 為不可替換基準，只在外層逐字套用等比例 optical scale／translation；`を` 縮小、`る` 放大，並審查全部 46 字。所有小平假名均由 normalization 後的大字以 0.72 比例衍生，包含 `ゃ←や`，不另換回舊假名骨架。
 
-Version 1.010 中的 43 個來源平假名是維護者本人手寫稿的可版本控制 SVG；其餘假名仍使用 repository 內原創 center-line source。兩套來源都維持接近辰宇落雁體約 51 font-unit 的筆畫尺度；端點、曲率、傾斜、重心與小假名 optical scale 均逐字調整。濁點參考原字型的 quotation-like short strokes、apostrophe、semicolon 與中文點筆；半濁點參考原字型 `。`、`口`、`日` 等手寫圈／框形筆勢。沒有載入、trace、skew 或複製 Noto、Yu Gothic、Meiryo、Hiragino 或任何其他外部日本字型輪廓。
+U+61D0 `懐` 結合辰宇落雁體原生 `懷` 的上／左結構與原生 `衣` 的下部輪廓；`衣` 只作等比例縮放與定位。U+3005 `々` 使用 project-local center-lines 並將右側缺口連起；U+5915 `夕` 完全不改。主要驗收圖為 `tools/font/proofs/quanfangwei-hiragana-optical-before-after-proof.png`、`quanfangwei-small-kana-ya-proof.png`、`quanfangwei-user-japanese-specials-proof.png` 與 `quanfangwei-user-japanese-mixed-proof.png`。
+
+假名輪廓是 repository 內原創、可版本控制的 center-line source，使用與辰宇落雁體約 51 font-unit 筆畫相符的 variable-width renderer 重建；端點、曲率、傾斜、重心與小假名 optical scale 均逐字調整。濁點參考原字型的 quotation-like short strokes、apostrophe、semicolon 與中文點筆；半濁點參考原字型 `。`、`口`、`日` 等手寫圈／框形筆勢。沒有載入、trace、skew 或複製 Noto、Yu Gothic、Meiryo、Hiragino 或任何其他外部日本字型輪廓。
 
 日文漢字目前以 Unicode shared code point 沿用既有辰宇落雁中文字形；Phase 1 不新增大規模 `locl JAN`，以免破壞繁體中文。Japanese-specific glyph variants 是 future work。
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體、vertical Japanese typesetting、ruby annotation typography、complete Ainu katakana extensions、historical kana、half-width katakana 或每一種 Japanese punctuation variant；但一般現代日文歌曲的假名部分應完整顯示。Phase 2 將依本機 TXT／LRC／JSON 歌詞 audit 的頻率補足實際缺少漢字，並評估 regional variants。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.012 一致的穩定 `?v=1.012` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.014 一致的穩定 `?v=1.014` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.009` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.014` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 
 ## 品牌圖像
 
@@ -127,7 +129,7 @@ https://hxzbuupsbawfeosnboie.supabase.co
 
 ### `songs`
 
-儲存 `title`、`artist`、`album`、`release_year`、`language`、`genre`、`notes`、正規化後的 `youtube_video_id`、`pdf_path`、原始檔名、上傳者、審核狀態及建立／更新／審核時間。video ID 有格式 constraint，status 只有三種值，`updated_at` 由 trigger 維護。
+儲存 `title`、`artist`、`album`、`release_year`、`language`、`genre`、`notes`、正規化後的 `youtube_video_id`、`pdf_path`、原始檔名、`uploader_id`、安全的 `uploader_display_name`、審核狀態及建立／更新／審核時間。display name 由 server-side trigger 從 Google/OAuth `auth.users` metadata 的名稱 claims 解析，沒有名稱時才使用 UUID，且不把 email、token 或其他敏感欄位複製到歌曲列。video ID 有格式 constraint，status 只有三種值，`updated_at` 由 trigger 維護。
 
 ### `lyric_cues`
 
@@ -313,13 +315,12 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 
 本網站不下載 YouTube 影片／音訊、不抓取 captions、不爬第三方歌詞網站、不規避地區／廣告／嵌入限制、不接受任意 iframe HTML，也不宣稱 YouTube 內容由本站託管。
 
-
-Version 1.012 針對實際歌詞 proof 做局部視覺修正：`す` 擴大中央 counter、`り` 延長收尾；維護者手寫的 `懐／夕` 取代對應 shared-codepoint 顯示；`気／付` 保留原始辰宇落雁 drawing，只建立 vertical optical alignment copy 以改善 `気付け` 與 refined Hiragana 的混排對齊。其他中文字仍沿用原始 mapping。
-
-
 ### Version 1.013 stable-release scope
 
-- `懐` (U+61D0) is intentionally left on the original ChenYuluoyan source glyph.
-- `々` (U+3005) uses the existing Phase-1 handwritten mark; the later experimental redraw is not shipped.
-- `夕` (U+5915) remains on the original source glyph.
-- Other reviewed Hiragana refinements and the existing `気`/`付` mixed-alignment work remain included.
+- `USER_HANDWRITING_REFINED` 保存完整 46 個已接受的現代平假名手寫結構。
+- `懐`、`々`、`夕` 在 1.013 使用穩定來源字形；`気`／`付` 的既有混排對齊保留。
+
+### Version 1.014 optical and Japanese-special refinement
+
+- 全部 46 個平假名只做拓撲保持的 optical scale／translation；所有小平假名由 normalization 後的大字縮小。
+- `懐` 使用原生 `懷` 上／左結構加原生 `衣` 下部；`々` 使用已連接缺口的專用中心線；`夕` 不變。

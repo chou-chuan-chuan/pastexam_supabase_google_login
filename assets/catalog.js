@@ -4,6 +4,12 @@ export function songTagObjects(song) {
     .filter(Boolean);
 }
 
+export function uploaderDisplayName(song) {
+  return String(song?.uploader_display_name || "").trim()
+    || String(song?.uploader_id || "").trim()
+    || "—";
+}
+
 export function matchesSong(song, filters = {}) {
   const query = String(filters.query || "").trim().toLocaleLowerCase();
   const tags = songTagObjects(song);
