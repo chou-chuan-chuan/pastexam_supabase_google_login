@@ -15,6 +15,9 @@ test("setup defines the lyrics tables, constraints, indexes, RLS, and private bu
   assert.match(setup, /unique \(song_id, line_index\)/);
   assert.match(setup, /create index if not exists lyric_cues_song_start_idx/);
   assert.match(setup, /values \('lyrics-pdfs', 'lyrics-pdfs', false, 52428800/);
+  assert.match(setup, /uploader_display_name text/);
+  assert.match(setup, /function public\.set_song_uploader_display_name/);
+  assert.match(setup, /raw_user_meta_data/);
 });
 
 test("database RPCs atomically replace cues and tags and confirm used-tag deletion", () => {

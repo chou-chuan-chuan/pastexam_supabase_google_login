@@ -18,6 +18,11 @@ from japanese.svg_template_loader import (
     SVG_TEMPLATE_SOURCE_CHARACTERS,
     build_svg_reference_glyph,
 )
+from kana_sources.full_data import KANA_STROKES
+from kana_sources.user_handwriting_optical import (
+    HIRAGANA_OPTICAL_TRANSFORMS,
+    USER_HANDWRITING_OPTICALLY_NORMALIZED,
+)
 from kana_sources.user_handwriting_refined import USER_HANDWRITING_REFINED
 
 
@@ -30,7 +35,7 @@ SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.013"
+EXPECTED_FONT_VERSION = "1.014"
 KANA_ADVANCE = 960
 
 
@@ -84,6 +89,10 @@ def main() -> int:
             "SVG reference loader does not cover all 46 modern Hiragana")
     require(set(USER_HANDWRITING_REFINED) == expected,
             "Refined center-line source does not cover all 46 modern Hiragana")
+    require(set(HIRAGANA_OPTICAL_TRANSFORMS) == expected,
+            "Optical transform review does not explicitly cover all 46 modern Hiragana")
+    require(set(USER_HANDWRITING_OPTICALLY_NORMALIZED) == expected,
+            "Optically normalized source does not cover all 46 modern Hiragana")
 
     records = {item["character"]: item for item in manifest.get("glyphs", [])}
     require(set(records) == expected, "SVG manifest character set is incomplete")
@@ -100,6 +109,11 @@ def main() -> int:
         for stroke in strokes:
             require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
             require(len(stroke.points) >= 2, f"{character} contains an empty stroke")
+        normalized = USER_HANDWRITING_OPTICALLY_NORMALIZED[character]
+        require(len(normalized) == len(strokes),
+                f"Optical normalization changed stroke count for {character}")
+        require([len(stroke.points) for stroke in normalized] == [len(stroke.points) for stroke in strokes],
+                f"Optical normalization changed point topology for {character}")
 
     # Structural gates for the glyphs that motivated this refinement.
     require(any(stroke_length(stroke) < 190 for stroke in USER_HANDWRITING_REFINED["む"]),
@@ -110,6 +124,16 @@ def main() -> int:
             "き and さ refined sources unexpectedly became identical")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
+    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["や"] == USER_HANDWRITING_REFINED["や"],
+            "Accepted large や must remain an identity optical transform")
+    for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
+                         "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
+                         "ゕ":"か","ゖ":"け"}.items():
+        require(len(KANA_STROKES[small]) == len(KANA_STROKES[large]),
+                f"Small Hiragana {small} does not preserve {large} stroke count")
+        require([len(stroke.points) for stroke in KANA_STROKES[small]] ==
+                [len(stroke.points) for stroke in KANA_STROKES[large]],
+                f"Small Hiragana {small} does not preserve {large} point topology")
 
     font = TTFont(FONT_PATH, recalcTimestamp=False)
     try:
@@ -182,7 +206,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.013 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.014 metadata, and CJK optical alignment are valid")
     return 0
 
 

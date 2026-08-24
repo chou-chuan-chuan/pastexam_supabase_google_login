@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { filterSongs, matchesSong, pendingSongPayload } from "../assets/catalog.js";
+import { filterSongs, matchesSong, pendingSongPayload, uploaderDisplayName } from "../assets/catalog.js";
 
 const songs = [
   {
@@ -53,4 +53,10 @@ test("submission payload always forces pending status", () => {
   }, "user-id");
   assert.equal(payload.status, "pending");
   assert.equal(payload.uploader_id, "user-id");
+});
+
+test("uploader display prefers the stored OAuth name and falls back to UUID", () => {
+  assert.equal(uploaderDisplayName({ uploader_display_name: " Google User ", uploader_id: "uuid" }), "Google User");
+  assert.equal(uploaderDisplayName({ uploader_id: "uuid" }), "uuid");
+  assert.equal(uploaderDisplayName({}), "—");
 });

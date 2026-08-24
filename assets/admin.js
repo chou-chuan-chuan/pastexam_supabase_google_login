@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
-import { songTagObjects } from "./catalog.js";
+import { songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { parseLrc } from "./lrc.js";
 import { formatCueTime, prepareCuesForSave, validateCueRows } from "./lyrics-sync.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeWatchUrl } from "./youtube.js";
@@ -52,7 +52,7 @@ function updateCounts() { const count = (status) => songs.filter((song) => song.
 
 function matches(song) {
   const query = el.search.value.trim().toLocaleLowerCase();
-  const haystack = [song.title, song.artist, song.album, song.language, song.genre, song.release_year, song.original_filename, song.uploader_id, ...songTagObjects(song).map((tag) => tag.name)].join(" ").toLocaleLowerCase();
+  const haystack = [song.title, song.artist, song.album, song.language, song.genre, song.release_year, song.original_filename, uploaderDisplayName(song), song.uploader_id, ...songTagObjects(song).map((tag) => tag.name)].join(" ").toLocaleLowerCase();
   return (!query || haystack.includes(query)) && (!el.status.value || song.status === el.status.value);
 }
 
@@ -76,7 +76,7 @@ function adminSongCard(song) {
   const top = node("div", "card-top"); top.append(node("span", `badge status-${song.status}`, statusLabel(song.status))); if (song.language) top.append(node("span", "badge type", song.language)); if (song.genre) top.append(node("span", "badge genre", song.genre));
   const details = document.createElement("dl"); details.className = "admin-details";
   const detail = (term, value) => { details.append(node("dt", "", term), node("dd", "", value || "—")); };
-  detail("歌手", song.artist); detail("專輯／年份", [song.album, song.release_year].filter(Boolean).join(" · ")); detail("YouTube ID", song.youtube_video_id); detail("上傳者", song.uploader_id); detail("建立時間", formatDate(song.created_at));
+  detail("歌手", song.artist); detail("專輯／年份", [song.album, song.release_year].filter(Boolean).join(" · ")); detail("YouTube ID", song.youtube_video_id); detail("上傳者", uploaderDisplayName(song)); detail("建立時間", formatDate(song.created_at));
   const tagRow = node("div", "tag-row"); songTagObjects(song).forEach((tag) => tagRow.append(node("span", "tag-chip", `#${tag.name}`)));
   content.append(top, node("h3", "", song.title), details, tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "filename", song.original_filename));
   const actions = node("div", "admin-card-actions");
@@ -117,7 +117,7 @@ async function loadData() {
   if (!isAdmin) return;
   setLoading(true);
   const [songsResult, tagsResult] = await Promise.all([
-    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,status,created_at,updated_at,reviewed_at,reviewed_by,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
+    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,reviewed_at,reviewed_by,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
     supabase.from("tags").select("id,name,slug,created_at").order("name")
   ]);
   setLoading(false);
@@ -223,7 +223,7 @@ async function saveCues() {
   const { data, error } = await supabase.rpc("replace_song_lyric_cues", { p_song_id: currentSong.id, p_cues: payload });
   el.saveCues.disabled = false; el.saveCues.textContent = "儲存";
   if (error) return showMessage(errorMessage(error, "同步歌詞儲存失敗；原 transaction 已回滾。"), "error", 0);
-  cueRows = payload.map((cue) => ({ start_ms: cue.start_ms, text: cue.text })); renderCueRows(); showMessage(`已原子替換 ${data} 行同步歌詞。`, "success");
+  cueRows = payload.map((cue) => ({ start_ms: cue.start_ms, text: cue.text })); renderCueRows(); showMessage(`已替換 ${data} 句同步歌詞。`, "success");
 }
 
 async function createTag(event) {

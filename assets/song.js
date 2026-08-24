@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS } from "./auth.js";
-import { songTagObjects } from "./catalog.js";
+import { songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { findActiveCue, formatCueTime } from "./lyrics-sync.js";
 import { YouTubePlayer } from "./youtube-player.js";
 import { youtubeWatchUrl } from "./youtube.js";
@@ -9,7 +9,7 @@ import { youtubeWatchUrl } from "./youtube.js";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS);
 const $ = (selector) => document.querySelector(selector);
 const el = {
-  message: $("#songMessage"), loading: $("#songLoading"), content: $("#songContent"), title: $("#songTitle"), artist: $("#songArtist"), meta: $("#songMeta"), tags: $("#songTags"),
+  message: $("#songMessage"), loading: $("#songLoading"), content: $("#songContent"), title: $("#songTitle"), artist: $("#songArtist"), meta: $("#songMeta"), uploader: $("#songUploader"), tags: $("#songTags"),
   fallback: $("#youtubeFallbackLink"), playerHost: $("#youtubePlayer"), playerStatus: $("#playerStatus"), playerError: $("#playerError"), time: $("#currentTimeLabel"),
   autoScroll: $("#autoScrollToggle"), lyricsEmpty: $("#lyricsEmpty"), lyrics: $("#lyricsList"),
   filename: $("#pdfFilename"), pdfFrame: $("#songPdfFrame"), openPdf: $("#openSongPdf"), downloadPdf: $("#downloadSongPdf")
@@ -51,6 +51,7 @@ function renderSong() {
   el.title.textContent = song.title;
   el.artist.textContent = song.artist;
   el.meta.textContent = [song.album, song.release_year, song.language, song.genre].filter(Boolean).join(" · ") || "尚無其他歌曲資訊";
+  el.uploader.textContent = `上傳者：${uploaderDisplayName(song)}`;
   el.filename.textContent = song.original_filename;
   el.fallback.href = youtubeWatchUrl(song.youtube_video_id);
   el.tags.replaceChildren(...songTagObjects(song).map((tag) => {
@@ -114,7 +115,7 @@ async function load() {
   const id = songIdFromUrl();
   if (!id) return showError("歌曲網址缺少有效的 id。");
   const [songResult, cueResult] = await Promise.all([
-    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,status,song_tags(tags(id,name,slug))").eq("id", id).single(),
+    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,song_tags(tags(id,name,slug))").eq("id", id).single(),
     supabase.from("lyric_cues").select("id,line_index,start_ms,end_ms,text").eq("song_id", id).order("line_index")
   ]);
   if (songResult.error) return showError(songResult.error.message || "無法載入歌曲；歌曲可能尚未通過審核。");
