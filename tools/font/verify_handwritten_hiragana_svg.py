@@ -32,10 +32,12 @@ REFERENCE_DIR = TOOLS_DIR / "references"
 SOURCE_COMPLETE = REFERENCE_DIR / "user-hiragana-template-source-complete.png"
 MANIFEST_PATH = REFERENCE_DIR / "user-hiragana-template-manifest.json"
 SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
+WA_CENTERLINE_PATH = SVG_DIR / "U+308F-v1.016-centerline.svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.015"
+EXPECTED_FONT_VERSION = "1.016"
+EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 KANA_ADVANCE = 960
 
 
@@ -75,7 +77,7 @@ def main() -> int:
         if not condition:
             errors.append(message)
 
-    for path in (SOURCE_COMPLETE, MANIFEST_PATH, FONT_PATH):
+    for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, FONT_PATH):
         require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
@@ -130,6 +132,11 @@ def main() -> int:
             "き and さ refined sources unexpectedly became identical")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
+    require(canonical_text_sha256(WA_CENTERLINE_PATH) == EXPECTED_WA_CENTERLINE_SHA256,
+            "Version 1.016 わ center-line SVG hash changed")
+    wa_source = USER_HANDWRITING_REFINED["わ"]
+    require(len(wa_source) == 2 and sum(len(stroke.points) for stroke in wa_source) == 26,
+            "Version 1.016 わ no longer matches the reviewed two-stroke topology")
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["や"] == USER_HANDWRITING_REFINED["や"],
             "Accepted large や must remain an identity optical transform")
     for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
@@ -212,7 +219,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.015 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.016 metadata, and CJK optical alignment are valid")
     return 0
 
 

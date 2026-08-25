@@ -16,6 +16,7 @@ import pathops
 
 from fontTools.misc.transform import Transform
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.qu2cuPen import Qu2CuPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
@@ -57,12 +58,14 @@ class SourceOpticalTransform:
     scale_y: float
     dx: float
     dy: float
+    embolden: float = 0.0
 
 
 # These shared Han codepoints have no language-specific cmap distinction in the
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
+    "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),
     "哀": SourceOpticalTransform(0.93, 0.93, 15.5, 36.0),
     "奧": SourceOpticalTransform(0.94, 0.94, 19.0, 34.5),
@@ -106,6 +109,34 @@ def transformed_glyph(font: TTFont, source_name: str, transform: Transform):
     pen = TTGlyphPen(font.getGlyphSet())
     font.getGlyphSet()[source_name].draw(TransformPen(pen, transform))
     return pen.glyph()
+
+
+def transformed_emboldened_glyph(
+    font: TTFont,
+    source_name: str,
+    transform: Transform,
+    embolden: float,
+):
+    """Transform a source outline, then restore weight without changing it."""
+    def cubic_path() -> pathops.Path:
+        result = pathops.Path()
+        cubic_pen = Qu2CuPen(result.getPen(), max_err=1.0, all_cubic=True)
+        font.getGlyphSet()[source_name].draw(TransformPen(cubic_pen, transform))
+        return result
+
+    # PathOps boolean operations do not accept TrueType CONIC verbs. Convert
+    # the temporary work path to cubic curves; path_to_glyph converts the final
+    # union back to quadratic outlines for the built TTF.
+    original = cubic_path()
+    boundary = cubic_path()
+    boundary.stroke(
+        embolden,
+        pathops.LineCap.BUTT_CAP,
+        pathops.LineJoin.BEVEL_JOIN,
+        4.0,
+    )
+    combined = pathops.op(original, boundary, pathops.PathOp.UNION)
+    return path_to_glyph(pathops.simplify(combined))
 
 
 def centered_optical_transform(
@@ -239,7 +270,11 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
         source_bounds = glyph_bounds(font, source_name)
         matrix = centered_optical_transform(source_bounds, optical)
         target_name = f"{source_name}{OPTICAL_ALIGNMENT_SUFFIX}"
-        glyph = transformed_glyph(font, source_name, matrix)
+        glyph = (
+            transformed_emboldened_glyph(font, source_name, matrix, optical.embolden)
+            if optical.embolden
+            else transformed_glyph(font, source_name, matrix)
+        )
         glyph.recalcBounds(font["glyf"])
         advance, _ = font["hmtx"].metrics[source_name]
         install(font, target_name, glyph, advance, glyph.xMin, source_name)
@@ -251,6 +286,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             "scale_y": optical.scale_y,
             "dx": optical.dx,
             "dy": optical.dy,
+            "embolden": optical.embolden,
             "matrix_dx": round(matrix.dx, 3),
             "matrix_dy": round(matrix.dy, 3),
             "advance": advance,

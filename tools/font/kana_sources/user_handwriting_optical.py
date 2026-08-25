@@ -66,14 +66,18 @@ def transform_strokes(
 HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "あ": OpticalTransform(0.98),
     "い": OpticalTransform(),
-    "う": OpticalTransform(),
+    # Version 1.016: enlarge around the accepted optical center, with a small
+    # additional horizontal correction, then move the result down.
+    "う": OpticalTransform(1.08, 0.0, -20.0, scale_x=1.12, scale_y=1.08),
     "え": OpticalTransform(),
     "お": OpticalTransform(),
     "か": OpticalTransform(),
     "き": OpticalTransform(0.96),
     "く": OpticalTransform(),
-    "け": OpticalTransform(),
-    "こ": OpticalTransform(),
+    # Version 1.016: retain size and move the accepted drawing right/down.
+    "け": OpticalTransform(1.0, 28.0, -26.0, scale_x=1.06, scale_y=1.0),
+    # Version 1.016: retain size and move the accepted drawing slightly right.
+    "こ": OpticalTransform(1.0, 28.0, 0.0),
     "さ": OpticalTransform(),
     "し": OpticalTransform(),
     # Keep the accepted handwritten structure and vertical size. Widen around

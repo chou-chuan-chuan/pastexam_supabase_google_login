@@ -25,9 +25,9 @@ test("loads the versioned supplemental webfont first and manifests Latin, German
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.015");
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.015/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.015/);
+  assert.equal(manifest.derived_font.version, "1.016");
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.016/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.016/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [

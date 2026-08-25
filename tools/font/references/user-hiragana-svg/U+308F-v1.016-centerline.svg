@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1024" role="img" aria-labelledby="title desc">
+  <title id="title">わ U+308F — Version 1.016 user-reference center-lines</title>
+  <desc id="desc">Project-local structural SVG based on the maintainer-supplied reference. Final font outlines are rendered by the QuanFangwei variable-width handwriting engine.</desc>
+  <g transform="translate(0 1024) scale(1 -1)" fill="none" stroke="#000000" stroke-width="48.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 320 835 C 316 740 318 635 325 520 C 340 385 350 300 365 205"/>
+    <path d="M 180 635 C 245 628 325 642 405 668 C 370 610 320 525 270 435 C 245 390 225 355 215 345 C 270 390 350 485 455 560 C 580 610 700 622 782 585 C 815 550 820 475 808 425 C 790 365 735 305 690 278 C 645 250 590 245 555 270"/>
+  </g>
+</svg>
