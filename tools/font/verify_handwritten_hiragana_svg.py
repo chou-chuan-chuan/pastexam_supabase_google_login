@@ -35,12 +35,17 @@ SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.014"
+EXPECTED_FONT_VERSION = "1.015"
 KANA_ADVANCE = 960
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def canonical_text_sha256(path: Path) -> str:
+    """Hash Git-canonical LF bytes so Windows text checkout stays verifiable."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def bounds(font: TTFont, glyph_name: str):
@@ -103,7 +108,8 @@ def main() -> int:
         path = SVG_DIR / record["file"]
         require(path.is_file(), f"Missing SVG for {character}: {path}")
         if path.is_file():
-            require(sha256(path) == record["sha256"], f"SVG hash mismatch for {character}")
+            require(canonical_text_sha256(path) == record["sha256"],
+                    f"SVG hash mismatch for {character}")
         strokes = USER_HANDWRITING_REFINED[character]
         require(bool(strokes), f"No refined strokes for {character}")
         for stroke in strokes:
@@ -206,7 +212,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.014 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.015 metadata, and CJK optical alignment are valid")
     return 0
 
 
