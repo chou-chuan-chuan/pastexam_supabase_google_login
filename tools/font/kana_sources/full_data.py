@@ -169,14 +169,19 @@ KANA_STROKES.update(USER_HANDWRITING_OPTICALLY_NORMALIZED)
 # Every small Hiragana is deterministically derived from its normalized large
 # counterpart. Structure and topology therefore stay identical; only optical
 # scale, placement, and a slight pressure reduction differ.
+SMALL_HIRAGANA_OPTICAL_SHIFTS = {
+    # Version 1.016: move the newly derived small wa slightly right/down.
+    "ゎ": (14, -14),
+}
 for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
                      "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
                      "ゕ":"か","ゖ":"け"}.items():
+    extra_dx, extra_dy = SMALL_HIRAGANA_OPTICAL_SHIFTS.get(small, (0, 0))
     KANA_STROKES[small] = scale(
         KANA_STROKES[large],
         0.72,
         center=(480, 500),
-        shift=(0, -12),
+        shift=(extra_dx, -12 + extra_dy),
     )
 
 # Small Katakana retain the accepted Phase-1 derivation.

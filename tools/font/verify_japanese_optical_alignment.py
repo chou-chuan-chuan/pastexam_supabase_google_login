@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the narrow Version 1.015 Japanese optical-alignment refinement."""
+"""Verify the source-preserving Japanese optical-alignment refinements."""
 
 from __future__ import annotations
 
@@ -39,11 +39,12 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
 EXPECTED_HAN_TRANSFORMS = {
-    "恋": (0.98, 0.98, 17.5, 35.0),
-    "哀": (0.93, 0.93, 15.5, 36.0),
-    "奧": (0.94, 0.94, 19.0, 34.5),
-    "優": (0.90, 0.90, 19.5, 35.0),
-    "寄": (0.92, 0.92, 18.5, 36.0),
+    "変": (0.80, 0.80, 19.25, 35.0, 8.0),
+    "恋": (0.98, 0.98, 17.5, 35.0, 0.0),
+    "哀": (0.93, 0.93, 15.5, 36.0, 0.0),
+    "奧": (0.94, 0.94, 19.0, 34.5, 0.0),
+    "優": (0.90, 0.90, 19.5, 35.0, 0.0),
+    "寄": (0.92, 0.92, 18.5, 36.0, 0.0),
 }
 
 
@@ -127,10 +128,11 @@ def main() -> int:
             f"す optical center did not receive the reviewed 32-unit downward shift: {before_center[1]} -> {after_center[1]}")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
-            "Han optical transform set is not limited to 恋/哀/奧/優/寄")
+            "Han optical transform set is not limited to 変/恋/哀/奧/優/寄")
     for character, expected in EXPECTED_HAN_TRANSFORMS.items():
         transform = SHARED_HAN_OPTICAL_TRANSFORMS[character]
-        require((transform.scale_x, transform.scale_y, transform.dx, transform.dy) == expected,
+        require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
+                 transform.embolden) == expected,
                 f"Unexpected transform record for {character}: {transform}")
         require(transform.scale_x == transform.scale_y,
                 f"{character} must retain proportional source geometry")
@@ -171,8 +173,11 @@ def main() -> int:
                     f"{character} advance changed: {source_advance} -> {target_advance}")
             if ttf_bounds:
                 x_min, y_min, x_max, y_max = ttf_bounds
-                require(target_lsb == x_min,
-                        f"{character} lsb does not match transformed bounds: {target_lsb} vs {x_min}")
+                glyf_x_min = ttf["glyf"][target_name].xMin
+                require(target_lsb == glyf_x_min,
+                        f"{character} lsb does not match glyf xMin: {target_lsb} vs {glyf_x_min}")
+                require(abs(target_lsb - x_min) <= 2.0,
+                        f"{character} lsb is too far from the quadratic ink bound: {target_lsb} vs {x_min}")
                 require(0 <= x_min < x_max <= target_advance,
                         f"{character} clips or escapes its advance: {ttf_bounds}, advance={target_advance}")
                 require(ttf["hhea"].descent < y_min < y_max < ttf["hhea"].ascent,
@@ -217,9 +222,9 @@ def main() -> int:
         return 1
 
     print("PASS: す source hash/topology is unchanged; only its reviewed optical width increased")
-    print("PASS: 恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
+    print("PASS: 変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 奥/夕 and approved 懐/々 remain unchanged")
-    print("PASS: all 46 authoritative Hiragana retain their stroke and point topology")
+    print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
     return 0
 
 

@@ -145,6 +145,17 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 
 - `す` keeps the authoritative Version 1.014 handwritten branches and point order; only the outer transform widens it from effective `scale_x=1.04` to `1.60`, retains `scale_y=1.04`, and shifts its optical center right and down.
 - `恋／哀／奧／優／寄` use separately recorded, proportional transforms around each source ink center. Source drawings and advances remain unchanged; `奥` U+5965 is not an alias or target.
+- Version 1.016 adds the same source-preserving derived mechanism for `変` U+5909: uniform `0.80` scale around its native ink center, `dx +19.25 / dy +35`, then an `8-unit` boundary embolden on the derived copy to restore the source face's apparent stroke weight.
 - These are shared-cmap derived copies because the current font has no `locl JAN`; no broad language-specific GSUB architecture is introduced.
 - Proof: `proofs/quanfangwei-japanese-optical-alignment-proof.png` at 16／20／24／32／48／72 px.
 - Verification: `python tools/font/verify_japanese_optical_alignment.py`.
+
+### Version 1.016 け／う optical adjustment
+
+- `け` keeps its accepted source branches; only the outer transform widens it to `scale_x=1.06` while retaining `scale_y=1.00`, then moves it `+28 x / -26 y`.
+- `う` keeps its accepted source branches, is adjusted to `scale_x=1.12`／`scale_y=1.08` around `(480,500)`, and receives only `dy=-20` translation.
+- `こ` keeps its accepted source branches and size; only the outer transform moves it `+28 x`.
+- `わ` U+308F is the explicit Version 1.016 user-reference topology rewrite: two project-local center-line strokes rendered by the existing variable-width engine. `ゎ` derives at the existing 0.72 scale, then receives an additional `+14 x / -14 y` right/down optical shift.
+- The other 45 Hiragana source topologies and all unlisted transforms remain unchanged. Small kana continue deriving from the normalized large forms.
+- Proof: `proofs/quanfangwei-ke-u-optical-proof.png` at 16／20／24／32／48／72 px.
+- Verification: `python tools/font/verify_hiragana_ke_u_optical.py`.

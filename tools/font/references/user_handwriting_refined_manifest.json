@@ -243,8 +243,9 @@
     },
     "わ": {
       "svg_sha256": "62c9679ab1fcd765470d583e8262e2d753d79407d09f4676c75ffc659a5c5197",
-      "stroke_count": 8,
-      "median_target_width": 42.0
+      "centerline_file": "user-hiragana-svg/U+308F-v1.016-centerline.svg",
+      "stroke_count": 2,
+      "median_target_width": 48.4
     },
     "を": {
       "svg_sha256": "8a144a0481593c9a7fbb041012d4364d2b1488401019a02973413a3b539618eb",

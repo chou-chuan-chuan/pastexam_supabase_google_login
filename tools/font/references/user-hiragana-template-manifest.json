@@ -454,9 +454,10 @@
       "codepoint": "U+308F",
       "file": "U+308F.svg",
       "sha256": "62c9679ab1fcd765470d583e8262e2d753d79407d09f4676c75ffc659a5c5197",
-      "provenance": "Version 1.011 supplemental maintainer-handwriting SVG",
-      "refined_stroke_count": 8,
-      "refined_target_width": 42.0
+      "provenance": "Version 1.011 legacy filled reference plus Version 1.016 maintainer-supplied structural rewrite",
+      "centerline_file": "U+308F-v1.016-centerline.svg",
+      "refined_stroke_count": 2,
+      "refined_target_width": 48.4
     },
     {
       "character": "を",
