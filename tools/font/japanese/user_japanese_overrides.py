@@ -10,6 +10,8 @@ refined Hiragana.  Original source glyphs remain present and unmodified.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import pathops
 
 from fontTools.misc.transform import Transform
@@ -44,6 +46,29 @@ ALIGNMENT_REFERENCE = "け"
 ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.04
 ALIGNMENT_SCALE_CLAMP = (0.88, 1.04)
 ALIGNMENT_OPTICAL_Y = {"気": 30.0, "付": 6.0}
+OPTICAL_ALIGNMENT_SUFFIX = ".qfwJaOptical"
+
+
+@dataclass(frozen=True)
+class SourceOpticalTransform:
+    """Scale around source ink center, then translate without altering source."""
+
+    scale_x: float
+    scale_y: float
+    dx: float
+    dy: float
+
+
+# These shared Han codepoints have no language-specific cmap distinction in the
+# current font. Conservative derived copies improve Japanese mixed-text balance
+# while the original ChenYuluoyan glyph drawings remain present and untouched.
+SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
+    "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),
+    "哀": SourceOpticalTransform(0.93, 0.93, 15.5, 36.0),
+    "奧": SourceOpticalTransform(0.94, 0.94, 19.0, 34.5),
+    "優": SourceOpticalTransform(0.90, 0.90, 19.5, 35.0),
+    "寄": SourceOpticalTransform(0.92, 0.92, 18.5, 36.0),
+}
 
 
 def glyph_bounds(font: TTFont, glyph_name: str) -> tuple[float, float, float, float]:
@@ -83,6 +108,24 @@ def transformed_glyph(font: TTFont, source_name: str, transform: Transform):
     return pen.glyph()
 
 
+def centered_optical_transform(
+    source_bounds: tuple[float, float, float, float],
+    transform: SourceOpticalTransform,
+) -> Transform:
+    """Return a matrix that scales around ink center before dx/dy translation."""
+    x_min, y_min, x_max, y_max = source_bounds
+    center_x = (x_min + x_max) / 2
+    center_y = (y_min + y_max) / 2
+    return Transform(
+        transform.scale_x,
+        0,
+        0,
+        transform.scale_y,
+        center_x * (1 - transform.scale_x) + transform.dx,
+        center_y * (1 - transform.scale_y) + transform.dy,
+    )
+
+
 def rectangle_path(x_min: float, y_min: float, x_max: float, y_max: float) -> pathops.Path:
     path = pathops.Path()
     pen = path.getPen()
@@ -119,6 +162,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
         "handwritten": {},
         "marks": {},
         "alignment": {},
+        "optical_alignment": {},
     }
 
     # Rebuild the approved hybrid Han character from the source face's native
@@ -181,6 +225,35 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             "advance": advance,
             "dx": USER_MARK_POSITION[0],
             "dy": USER_MARK_POSITION[1],
+        }
+
+    # Install source-preserving optical copies for the five explicitly reviewed
+    # shared Han codepoints. This deliberately does not add a broad locl JAN
+    # system; source outlines stay unchanged and advances remain source-native.
+    cmap = font.getBestCmap()
+    for character, optical in SHARED_HAN_OPTICAL_TRANSFORMS.items():
+        codepoint = ord(character)
+        source_name = cmap.get(codepoint)
+        if source_name is None:
+            raise RuntimeError(f"Source font is missing U+{codepoint:04X} {character}")
+        source_bounds = glyph_bounds(font, source_name)
+        matrix = centered_optical_transform(source_bounds, optical)
+        target_name = f"{source_name}{OPTICAL_ALIGNMENT_SUFFIX}"
+        glyph = transformed_glyph(font, source_name, matrix)
+        glyph.recalcBounds(font["glyf"])
+        advance, _ = font["hmtx"].metrics[source_name]
+        install(font, target_name, glyph, advance, glyph.xMin, source_name)
+        add_mapping(font, codepoint, target_name)
+        metadata["optical_alignment"][character] = {
+            "source_glyph": source_name,
+            "derived_glyph": target_name,
+            "scale_x": optical.scale_x,
+            "scale_y": optical.scale_y,
+            "dx": optical.dx,
+            "dy": optical.dy,
+            "matrix_dx": round(matrix.dx, 3),
+            "matrix_dy": round(matrix.dy, 3),
+            "advance": advance,
         }
 
     # Re-read cmap after the handwritten remaps.  The reference Hiragana glyph

@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.014"
+    "version": "1.015"
   },
   "glyphs": [
     {
@@ -293,14 +293,14 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "accepted 46 maintainer-handwriting center-line branches wrapped by per-glyph uniform optical scale/translation; final outlines rendered by the existing variable-width handwriting stroke engine; every small Hiragana derives from its normalized large form at 0.72 scale",
+      "construction_method": "accepted 46 maintainer-handwriting center-line branches wrapped by per-glyph optical scale/translation; Version 1.015 permits only the reviewed U+3059 horizontal-width correction while preserving topology; final outlines use the existing variable-width handwriting engine; every small Hiragana derives from its normalized large form at 0.72 scale",
       "source_style_references": [
         "references/user-hiragana-template-source.png",
         "references/user-hiragana-template-source-complete.png",
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "Version 1.014 preserves every accepted 1.013 stroke branch and point topology. Conservative uniform transforms normalize all 46, including shrinking を and enlarging る; large や is an identity control and small ゃ is derived from it.",
+      "optical_adjustments": "Version 1.014 preserves every accepted 1.013 stroke branch and point topology. Version 1.015 widens only U+3059 す in the outer transform layer (scale_x 1.60, scale_y 1.04) and shifts its optical center right and down; all 46 source topologies remain authoritative and unchanged.",
       "status": "verified"
     },
     "katakana": {
@@ -352,11 +352,11 @@
       "status": "verified"
     },
     "japanese_user_overrides": {
-      "characters": "懐々気付",
+      "characters": "懐々気付恋哀奧優寄",
       "source_file": "kana_sources/user_kanji_refined.py + kana_sources/user_japanese_mark_refined.py + japanese/user_japanese_overrides.py",
       "reference_image": "references/user-japanese-overrides-source.png",
-      "construction_method": "懐: native 懷 upper/left outline plus uniformly scaled and translated native 衣 lower outline; 々: dedicated project-local center-lines rendered by the variable-width engine; 気/付: untouched source drawings copied to derived glyph names with vertical-only optical transform against refined け",
-      "cmap_policy": "Only U+61D0/U+3005/U+6C17/U+4ED8 are intentional Japanese override mappings. U+5915 夕 remains unchanged.",
+      "construction_method": "懐: native 懷 upper/left outline plus uniformly scaled and translated native 衣 lower outline; 々: dedicated project-local center-lines rendered by the variable-width engine; 気/付: untouched source drawings copied to derived glyph names with vertical-only optical transform against refined け; 恋/哀/奧/優/寄: untouched source drawings copied to proportional, centered optical derived glyphs with source advances preserved",
+      "cmap_policy": "U+61D0/U+3005/U+6C17/U+4ED8/U+604B/U+54C0/U+5967/U+512A/U+5BC4 are intentional shared-cmap override mappings. U+5915 夕 and U+5965 奥 remain unchanged; no broad locl JAN feature is added.",
       "status": "verified_by_special_override_verifier"
     }
   }

@@ -140,3 +140,11 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - `々` uses dedicated project-local center-lines rendered by the existing variable-width engine; its approved right/lower gestures intersect. `夕` remains completely unchanged.
 - Visual gates: `proofs/quanfangwei-hiragana-optical-before-after-proof.png`、`proofs/quanfangwei-small-kana-ya-proof.png`、`proofs/quanfangwei-user-japanese-specials-proof.png`、`proofs/quanfangwei-user-japanese-mixed-proof.png`.
 - Verification: `python tools/font/verify_handwritten_hiragana_svg.py` and `python tools/font/verify_special_japanese_overrides.py`.
+
+### Version 1.015 Japanese glyph optical alignment
+
+- `す` keeps the authoritative Version 1.014 handwritten branches and point order; only the outer transform widens it from effective `scale_x=1.04` to `1.60`, retains `scale_y=1.04`, and shifts its optical center right and down.
+- `恋／哀／奧／優／寄` use separately recorded, proportional transforms around each source ink center. Source drawings and advances remain unchanged; `奥` U+5965 is not an alias or target.
+- These are shared-cmap derived copies because the current font has no `locl JAN`; no broad language-specific GSUB architecture is introduced.
+- Proof: `proofs/quanfangwei-japanese-optical-alignment-proof.png` at 16／20／24／32／48／72 px.
+- Verification: `python tools/font/verify_japanese_optical_alignment.py`.

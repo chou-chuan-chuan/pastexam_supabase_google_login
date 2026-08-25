@@ -2,7 +2,7 @@
   "source_font": "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf",
   "derived_font": "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf",
   "source_glyph_count": 10250,
-  "derived_glyph_count": 10448,
+  "derived_glyph_count": 10454,
   "units_per_em": 1024,
   "source_hhea": {
     "ascent": 967,
@@ -2942,7 +2942,7 @@
       "unicode_name": "IDEOGRAPHIC ITERATION MARK",
       "source_font_has_glyph": false,
       "derived_font_has_glyph": true,
-      "glyph_name": "uni3005",
+      "glyph_name": "uni3005.qfwUser",
       "needs_addition": false,
       "category": "cjk_symbols_and_punctuation",
       "phase_1_required": true

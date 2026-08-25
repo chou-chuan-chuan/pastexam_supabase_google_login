@@ -26,7 +26,7 @@
 | 。 | U+3002 | IDEOGRAPHIC FULL STOP | yes | yes | uni3002 | no | cjk_symbols_and_punctuation | yes |
 | 〃 | U+3003 | DITTO MARK | yes | yes | uni3003 | no | cjk_symbols_and_punctuation | no |
 | 〄 | U+3004 | JAPANESE INDUSTRIAL STANDARD SYMBOL | no | no |  | no | cjk_symbols_and_punctuation | no |
-| 々 | U+3005 | IDEOGRAPHIC ITERATION MARK | no | yes | uni3005 | no | cjk_symbols_and_punctuation | yes |
+| 々 | U+3005 | IDEOGRAPHIC ITERATION MARK | no | yes | uni3005.qfwUser | no | cjk_symbols_and_punctuation | yes |
 | 〆 | U+3006 | IDEOGRAPHIC CLOSING MARK | no | yes | uni3006 | no | cjk_symbols_and_punctuation | yes |
 | 〇 | U+3007 | IDEOGRAPHIC NUMBER ZERO | yes | yes | uni3007 | no | cjk_symbols_and_punctuation | yes |
 | 〈 | U+3008 | LEFT ANGLE BRACKET | yes | yes | uni3008 | no | cjk_symbols_and_punctuation | yes |

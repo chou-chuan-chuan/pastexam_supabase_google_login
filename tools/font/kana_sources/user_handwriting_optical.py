@@ -2,8 +2,9 @@
 
 The accepted Version 1.013 ``USER_HANDWRITING_REFINED`` center-lines are authoritative.
 This module never substitutes an older kana source and never changes branch or
-point topology.  It only applies conservative, uniform per-glyph scale and
-translation transforms after the accepted source has been installed.
+point topology.  It only applies conservative per-glyph scale and translation
+transforms after the accepted source has been installed. Axis-specific scaling
+is reserved for an explicitly reviewed optical-width correction such as す.
 
 Stroke pressure is intentionally left unchanged: the adjustment changes the
 optical body size while preserving the established handwriting weight.
@@ -25,6 +26,8 @@ class OpticalTransform:
     scale: float = 1.0
     dx: float = 0.0
     dy: float = 0.0
+    scale_x: float | None = None
+    scale_y: float | None = None
 
 
 OPTICAL_CENTER = (480.0, 500.0)
@@ -35,15 +38,17 @@ def transform_strokes(
     transform: OpticalTransform,
     center: tuple[float, float] = OPTICAL_CENTER,
 ) -> tuple[Stroke, ...]:
-    """Apply a topology-preserving uniform center-line transform."""
+    """Apply a topology-preserving center-line transform."""
     if transform == OpticalTransform():
         return strokes
+    scale_x = transform.scale if transform.scale_x is None else transform.scale_x
+    scale_y = transform.scale if transform.scale_y is None else transform.scale_y
     return tuple(
         Stroke(
             tuple(
                 (
-                    center[0] + (x - center[0]) * transform.scale + transform.dx,
-                    center[1] + (y - center[1]) * transform.scale + transform.dy,
+                    center[0] + (x - center[0]) * scale_x + transform.dx,
+                    center[1] + (y - center[1]) * scale_y + transform.dy,
                 )
                 for x, y in stroke.points
             ),
@@ -71,7 +76,9 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "こ": OpticalTransform(),
     "さ": OpticalTransform(),
     "し": OpticalTransform(),
-    "す": OpticalTransform(1.04, -15.0, -15.0),
+    # Keep the accepted handwritten structure and vertical size. Widen around
+    # its optical center, then compensate dx so the reviewed center moves right.
+    "す": OpticalTransform(1.04, 59.0, -47.0, scale_x=1.60, scale_y=1.04),
     "せ": OpticalTransform(),
     "そ": OpticalTransform(),
     "た": OpticalTransform(0.96),
