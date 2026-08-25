@@ -1,0 +1,366 @@
+{
+  "method": {
+    "sizes_px": [
+      16,
+      20,
+      24,
+      32,
+      48,
+      72,
+      96
+    ],
+    "supersample": 4,
+    "alpha_threshold": 128,
+    "maximum_local_run_em": 0.18,
+    "source_font_sha256": "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db",
+    "source_hinting": "removed only in a temporary raster copy"
+  },
+  "characters": {
+    "source_han": "一十口日田心女君愛聲夢春明夜空",
+    "large_hiragana": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+    "small_hiragana": "ぁぃぅぇぉゃゅょっゎゕゖ",
+    "katakana": "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶヷヸヹヺ",
+    "japanese_marks": "゙゚゛゜ゝゞヽヾ々・ー〆",
+    "project_derived_han": "懐気付恋哀奧優寄変"
+  },
+  "groups": {
+    "source_han": {
+      "16": {
+        "glyph_count": 15,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.086329
+      },
+      "20": {
+        "glyph_count": 15,
+        "effective_stroke_px": 0.875,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.086281
+      },
+      "24": {
+        "glyph_count": 15,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.086268
+      },
+      "32": {
+        "glyph_count": 15,
+        "effective_stroke_px": 1.375,
+        "horizontal_stroke_px": 1.25,
+        "vertical_stroke_px": 1.5,
+        "ink_density_em2": 0.08626
+      },
+      "48": {
+        "glyph_count": 15,
+        "effective_stroke_px": 2.0,
+        "horizontal_stroke_px": 2.0,
+        "vertical_stroke_px": 2.0,
+        "ink_density_em2": 0.086284
+      },
+      "72": {
+        "glyph_count": 15,
+        "effective_stroke_px": 3.0,
+        "horizontal_stroke_px": 3.0,
+        "vertical_stroke_px": 3.0,
+        "ink_density_em2": 0.086271
+      },
+      "96": {
+        "glyph_count": 15,
+        "effective_stroke_px": 4.0,
+        "horizontal_stroke_px": 4.0,
+        "vertical_stroke_px": 4.25,
+        "ink_density_em2": 0.086261
+      }
+    },
+    "large_hiragana": {
+      "16": {
+        "glyph_count": 46,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.054477
+      },
+      "20": {
+        "glyph_count": 46,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.054481
+      },
+      "24": {
+        "glyph_count": 46,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.054478
+      },
+      "32": {
+        "glyph_count": 46,
+        "effective_stroke_px": 1.25,
+        "horizontal_stroke_px": 1.25,
+        "vertical_stroke_px": 1.25,
+        "ink_density_em2": 0.054478
+      },
+      "48": {
+        "glyph_count": 46,
+        "effective_stroke_px": 2.0,
+        "horizontal_stroke_px": 2.0,
+        "vertical_stroke_px": 2.0,
+        "ink_density_em2": 0.054482
+      },
+      "72": {
+        "glyph_count": 46,
+        "effective_stroke_px": 3.0,
+        "horizontal_stroke_px": 3.0,
+        "vertical_stroke_px": 3.0,
+        "ink_density_em2": 0.054482
+      },
+      "96": {
+        "glyph_count": 46,
+        "effective_stroke_px": 3.75,
+        "horizontal_stroke_px": 4.0,
+        "vertical_stroke_px": 4.0,
+        "ink_density_em2": 0.054484
+      }
+    },
+    "small_hiragana": {
+      "16": {
+        "glyph_count": 12,
+        "effective_stroke_px": 0.625,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.6875,
+        "ink_density_em2": 0.037844
+      },
+      "20": {
+        "glyph_count": 12,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.03784
+      },
+      "24": {
+        "glyph_count": 12,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.037838
+      },
+      "32": {
+        "glyph_count": 12,
+        "effective_stroke_px": 1.25,
+        "horizontal_stroke_px": 1.25,
+        "vertical_stroke_px": 1.25,
+        "ink_density_em2": 0.037836
+      },
+      "48": {
+        "glyph_count": 12,
+        "effective_stroke_px": 1.75,
+        "horizontal_stroke_px": 1.875,
+        "vertical_stroke_px": 1.75,
+        "ink_density_em2": 0.037838
+      },
+      "72": {
+        "glyph_count": 12,
+        "effective_stroke_px": 2.75,
+        "horizontal_stroke_px": 2.75,
+        "vertical_stroke_px": 2.75,
+        "ink_density_em2": 0.03784
+      },
+      "96": {
+        "glyph_count": 12,
+        "effective_stroke_px": 3.625,
+        "horizontal_stroke_px": 3.75,
+        "vertical_stroke_px": 3.5,
+        "ink_density_em2": 0.03784
+      }
+    },
+    "katakana": {
+      "16": {
+        "glyph_count": 90,
+        "effective_stroke_px": 0.5,
+        "horizontal_stroke_px": 0.5,
+        "vertical_stroke_px": 0.6875,
+        "ink_density_em2": 0.049576
+      },
+      "20": {
+        "glyph_count": 90,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.049578
+      },
+      "24": {
+        "glyph_count": 90,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.049577
+      },
+      "32": {
+        "glyph_count": 90,
+        "effective_stroke_px": 1.25,
+        "horizontal_stroke_px": 1.25,
+        "vertical_stroke_px": 1.25,
+        "ink_density_em2": 0.04958
+      },
+      "48": {
+        "glyph_count": 90,
+        "effective_stroke_px": 1.75,
+        "horizontal_stroke_px": 1.75,
+        "vertical_stroke_px": 2.0,
+        "ink_density_em2": 0.049589
+      },
+      "72": {
+        "glyph_count": 90,
+        "effective_stroke_px": 2.75,
+        "horizontal_stroke_px": 2.75,
+        "vertical_stroke_px": 2.75,
+        "ink_density_em2": 0.049592
+      },
+      "96": {
+        "glyph_count": 90,
+        "effective_stroke_px": 3.5,
+        "horizontal_stroke_px": 3.5,
+        "vertical_stroke_px": 3.75,
+        "ink_density_em2": 0.049594
+      }
+    },
+    "japanese_marks": {
+      "16": {
+        "glyph_count": 12,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.013219
+      },
+      "20": {
+        "glyph_count": 12,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.875,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.013219
+      },
+      "24": {
+        "glyph_count": 12,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.013222
+      },
+      "32": {
+        "glyph_count": 12,
+        "effective_stroke_px": 1.375,
+        "horizontal_stroke_px": 1.5,
+        "vertical_stroke_px": 1.375,
+        "ink_density_em2": 0.01322
+      },
+      "48": {
+        "glyph_count": 12,
+        "effective_stroke_px": 2.0,
+        "horizontal_stroke_px": 2.25,
+        "vertical_stroke_px": 2.125,
+        "ink_density_em2": 0.013219
+      },
+      "72": {
+        "glyph_count": 12,
+        "effective_stroke_px": 3.125,
+        "horizontal_stroke_px": 3.25,
+        "vertical_stroke_px": 3.125,
+        "ink_density_em2": 0.013218
+      },
+      "96": {
+        "glyph_count": 12,
+        "effective_stroke_px": 4.25,
+        "horizontal_stroke_px": 4.25,
+        "vertical_stroke_px": 4.25,
+        "ink_density_em2": 0.013219
+      }
+    },
+    "project_derived_han": {
+      "16": {
+        "glyph_count": 9,
+        "effective_stroke_px": 0.75,
+        "horizontal_stroke_px": 0.75,
+        "vertical_stroke_px": 0.75,
+        "ink_density_em2": 0.096819
+      },
+      "20": {
+        "glyph_count": 9,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.096893
+      },
+      "24": {
+        "glyph_count": 9,
+        "effective_stroke_px": 1.0,
+        "horizontal_stroke_px": 1.0,
+        "vertical_stroke_px": 1.0,
+        "ink_density_em2": 0.096933
+      },
+      "32": {
+        "glyph_count": 9,
+        "effective_stroke_px": 1.5,
+        "horizontal_stroke_px": 1.5,
+        "vertical_stroke_px": 1.5,
+        "ink_density_em2": 0.097004
+      },
+      "48": {
+        "glyph_count": 9,
+        "effective_stroke_px": 2.0,
+        "horizontal_stroke_px": 2.25,
+        "vertical_stroke_px": 2.0,
+        "ink_density_em2": 0.09707
+      },
+      "72": {
+        "glyph_count": 9,
+        "effective_stroke_px": 3.0,
+        "horizontal_stroke_px": 3.25,
+        "vertical_stroke_px": 3.0,
+        "ink_density_em2": 0.097104
+      },
+      "96": {
+        "glyph_count": 9,
+        "effective_stroke_px": 4.25,
+        "horizontal_stroke_px": 4.25,
+        "vertical_stroke_px": 4.0,
+        "ink_density_em2": 0.097128
+      }
+    }
+  },
+  "median_ratio_to_source_han": {
+    "large_hiragana": {
+      "effective_stroke_px": 1.0,
+      "horizontal_stroke_px": 1.0,
+      "vertical_stroke_px": 1.0,
+      "ink_density_em2": 0.631497
+    },
+    "small_hiragana": {
+      "effective_stroke_px": 0.90625,
+      "horizontal_stroke_px": 1.0,
+      "vertical_stroke_px": 0.875,
+      "ink_density_em2": 0.43861
+    },
+    "katakana": {
+      "effective_stroke_px": 0.875,
+      "horizontal_stroke_px": 0.916667,
+      "vertical_stroke_px": 0.916667,
+      "ink_density_em2": 0.574718
+    },
+    "japanese_marks": {
+      "effective_stroke_px": 1.0,
+      "horizontal_stroke_px": 1.083333,
+      "vertical_stroke_px": 1.0,
+      "ink_density_em2": 0.153215
+    },
+    "project_derived_han": {
+      "effective_stroke_px": 1.0,
+      "horizontal_stroke_px": 1.083333,
+      "vertical_stroke_px": 1.0,
+      "ink_density_em2": 1.124554
+    }
+  }
+}

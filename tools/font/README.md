@@ -16,6 +16,8 @@ python tools/font/render_proof.py
 python tools/font/analyze_glyphs.py
 python tools/font/audit_japanese_coverage.py
 python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
+python tools/font/audit_japanese_weight.py
+python tools/font/verify_japanese_weight.py
 ```
 
 建置腳本會先輸出每個參考字元、Unicode code point、Unicode name 與預期 glyph name，並驗證兩張 reference PNG 可開啟。來源 TTF 的 SHA-256 也會被核對；不符合已審核的官方檔案時建置會失敗。所有暫存輸出先寫入衍生目錄，完成後才替換正式檔案，不會修改原始 TTF。
@@ -159,3 +161,12 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - The other 45 Hiragana source topologies and all unlisted transforms remain unchanged. Small kana continue deriving from the normalized large forms.
 - Proof: `proofs/quanfangwei-ke-u-optical-proof.png` at 16／20／24／32／48／72 px.
 - Verification: `python tools/font/verify_hiragana_ke_u_optical.py`.
+
+### Version 1.017 Japanese stroke-weight harmonization
+
+- `japanese/stroke_engine.py` 新增 `scale_stroke_weight()`，只比例調整 `width`、`start_width`、`end_width`，保留 center-line points、stroke topology、cap 與 taper ratio。
+- 大平假名使用 ×1.10；小平假名從 normalized large kana 的 0.72 字面縮放繼承相同壓力補償；片假名使用 ×1.14。Dakuten ×1.10、handakuten ×1.20、長音 `ー` ×1.10。
+- Iteration marks、`々`、`・`、`〆` 與 source-derived Han 本來已接近 source weight，保持 ×1.00。沒有 CSS stroke、font synthesis、outline expansion 或 glyph regeneration。
+- `audit_japanese_weight.py` 在 16／20／24／32／48／72／96 px 使用 4× supersampling、alpha 128 threshold 與短 scanline ink runs 量測 horizontal／vertical effective stroke weight 與 ink density。
+- `verify_japanese_weight.py` 驗證 46 字 points／stroke count／topology hash、optical transform hash、source TTF hash、全部 source glyph drawing prefix、TTF／WOFF2 cmap／metrics／bounds、clipping 與 small-kana weight gate。
+- Proof: `proofs/quanfangwei-japanese-weight-before-after-proof.png`；量測報告：`reports/japanese_weight_audit.json`.

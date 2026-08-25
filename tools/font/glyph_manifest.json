@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.016"
+    "version": "1.017"
   },
   "glyphs": [
     {
@@ -293,14 +293,14 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "46 maintainer-handwriting center-line glyphs wrapped by per-glyph optical scale/translation; Version 1.015 permits only the reviewed U+3059 horizontal-width correction; Version 1.016 permits U+3051/U+3046 optical scaling/translation, U+3053 translation, and the explicit two-stroke U+308F user-reference rewrite; final outlines use the existing variable-width handwriting engine; every small Hiragana derives from its normalized large form at 0.72 scale",
+      "construction_method": "46 maintainer-handwriting center-line glyphs wrapped by per-glyph optical scale/translation; Version 1.015 permits only the reviewed U+3059 horizontal-width correction; Version 1.016 permits U+3051/U+3046 optical scaling/translation, U+3053 translation, and the explicit two-stroke U+308F user-reference rewrite; Version 1.017 applies a pressure-only x1.10 stroke-weight layer after those accepted transforms; final outlines use the existing variable-width handwriting engine; every small Hiragana derives from its normalized large form at 0.72 scale and inherits the same pressure normalization",
       "source_style_references": [
         "references/user-hiragana-template-source.png",
         "references/user-hiragana-template-source-complete.png",
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "Version 1.014 preserves every accepted 1.013 stroke branch and point topology. Version 1.015 widens only U+3059 す in the outer transform layer (scale_x 1.60, scale_y 1.04) and shifts its optical center right and down. Version 1.016 adjusts only U+3051 け to scale_x 1.06/scale_y 1.00 with +28 x/-26 y, U+3046 う to scale_x 1.12/scale_y 1.08 around the optical center with dy -20, and U+3053 こ by +28 x. U+308F わ is the sole explicit source-topology rewrite, recorded as a two-stroke user-reference center-line SVG; the other 45 source topologies remain unchanged.",
+      "optical_adjustments": "Version 1.014 preserves every accepted 1.013 stroke branch and point topology. Version 1.015 widens only U+3059 す in the outer transform layer (scale_x 1.60, scale_y 1.04) and shifts its optical center right and down. Version 1.016 adjusts only U+3051 け to scale_x 1.06/scale_y 1.00 with +28 x/-26 y, U+3046 う to scale_x 1.12/scale_y 1.08 around the optical center with dy -20, and U+3053 こ by +28 x. U+308F わ is the sole explicit source-topology rewrite, recorded as a two-stroke user-reference center-line SVG; the other 45 source topologies remain unchanged. Version 1.017 preserves all of these transforms and changes only width/start_width/end_width through the reviewed group normalization layer.",
       "status": "verified"
     },
     "katakana": {
@@ -309,7 +309,7 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "katakana",
-      "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite",
+      "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite; Version 1.017 applies a topology-preserving x1.14 pressure layer to width/start_width/end_width before final outline generation",
       "source_style_references": [
         "一",
         "丨",
@@ -334,7 +334,7 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "japanese_marks_and_punctuation",
-      "construction_method": "original_handwritten_strokes; U+3005 uses dedicated project-local center-lines with intersecting right/lower gestures; spacing marks share combining contours; voiced iteration marks share the same dakuten component",
+      "construction_method": "original_handwritten_strokes; U+3005 uses dedicated project-local center-lines with intersecting right/lower gestures; spacing marks share combining contours; voiced iteration marks share the same dakuten component; Version 1.017 applies pressure-only factors x1.10 dakuten, x1.20 handakuten, and x1.10 long sound mark while iteration marks, U+3005, middle dot, and source U+3006 stay unchanged",
       "source_style_references": [
         "apostrophe",
         "quotesingle",
