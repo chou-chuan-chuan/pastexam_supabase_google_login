@@ -52,11 +52,11 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.016"
-BUILD_DATE = "2026-08-25"
-UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260825"
+VERSION = "1.017"
+BUILD_DATE = "2026-08-26"
+UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260826"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
-BUILD_TIMESTAMP = int((datetime(2026, 8, 25, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
+BUILD_TIMESTAMP = int((datetime(2026, 8, 26, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
 
 # These anchors reproduce the existing Ccedilla component transform exactly.
 # The cedilla top-center (95, 91) attaches to C at (221, 91), yielding the
@@ -403,6 +403,7 @@ def write_modifications() -> None:
 - Stable handwriting baseline（Version 1.013）：完整保留維護者的 46 個 `USER_HANDWRITING_REFINED` 平假名結構；`気／付` 保留原 glyph drawing，僅依 refined `け` 的實際 bounds 做 build-time 垂直 optical normalization
 - Optical normalization（Version 1.014）：在 1.013 手寫結構外層逐字套用 scale／translation，不替換筆畫拓撲；全部小平假名由 normalization 後的大字以 0.72 比例衍生。Version 1.015 只將 U+3059 `す` 的水平 scale 由 1.04 增為 1.60，垂直 scale 保持 1.04，並將 optical center 向右、向下移。Version 1.016 將 U+3051 `け` 調至 scale_x 1.06／scale_y 1.00 並平移 +28 x／-26 y，U+3046 `う` 調至 scale_x 1.12／scale_y 1.08、向下平移 20 units，U+3053 `こ` 只向右平移 28 units；U+308F `わ` 是本版唯一明確授權的 source-topology 重寫，依使用者參考建立兩筆 center-line，並由現有 variable-width engine 產生輪廓；小字 `ゎ` 在 0.72 衍生後額外平移 +14 x／-14 y；其餘 45 字源拓撲不變
 - 假名輪廓：46 個現代基本平假名以維護者本人手寫結構為骨架，再交由 repository 原有 variable-width handwriting renderer 產生最終 TrueType 輪廓；target center-line width 為 42–50 units，renderer 再加入 deterministic pressure/taper/handwritten terminals。小平假名從 refined base 確定性縮放，濁音／半濁音仍共用 base + mark components
+- Stroke-weight harmonization（Version 1.017）：只在已驗收 center-line 與 optical transform 之後比例調整 `width` / `start_width` / `end_width`；大平假名 ×1.10，小平假名繼承 ×1.10，片假名 ×1.14，dakuten ×1.10，handakuten ×1.20，長音 `ー` ×1.10。`USER_HANDWRITING_REFINED` points／stroke topology 與逐字 optical scale/dx/dy 完全不變；iteration marks、`々`、`・`、`〆` 與 source-derived Han 不加粗
 - 濁點：兩個不等寬、略有壓力與角度差的短筆，視覺參考原字型 apostrophe、quotation-like strokes、semicolon 與中文點筆；未複製其他日本字型
 - 半濁點：以不完全幾何、寬度與曲率略變的封閉手寫小圈重畫，視覺參考原字型 U+3002、口、日等圓／框形筆勢；未複製其他日本字型
 - Japanese combining：U+3099 `uni3099` 與 U+309A `uni309A` advance 均為 0，加入 GDEF mark class 與 GPOS MarkBasePos；預組合與分解形式共用同一 mark contour 與 anchor delta
@@ -467,7 +468,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.016
+        font["head"].fontRevision = 1.017
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

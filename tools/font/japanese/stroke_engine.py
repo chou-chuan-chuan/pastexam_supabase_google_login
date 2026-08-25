@@ -123,3 +123,21 @@ def translate_strokes(strokes: tuple[Stroke, ...], dx: float = 0, dy: float = 0)
         stroke.end_width,
         stroke.cap,
     ) for stroke in strokes)
+
+
+def scale_stroke_weight(strokes: tuple[Stroke, ...], factor: float) -> tuple[Stroke, ...]:
+    """Scale pressure without changing center-lines, topology, or taper ratios."""
+    if factor <= 0:
+        raise ValueError("Stroke-weight factor must be positive")
+    if factor == 1.0:
+        return strokes
+    return tuple(
+        Stroke(
+            stroke.points,
+            stroke.width * factor,
+            None if stroke.start_width is None else stroke.start_width * factor,
+            None if stroke.end_width is None else stroke.end_width * factor,
+            stroke.cap,
+        )
+        for stroke in strokes
+    )

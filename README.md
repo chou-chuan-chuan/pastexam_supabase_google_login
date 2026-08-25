@@ -23,7 +23,7 @@
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.016 支援：
+衍生版 Version 1.017 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
@@ -75,13 +75,15 @@ python tools/font/render_proof.py
 python tools/font/analyze_glyphs.py
 python tools/font/audit_japanese_coverage.py
 python tools/font/audit_japanese_kanji.py
+python tools/font/audit_japanese_weight.py
+python tools/font/verify_japanese_weight.py
 ```
 
 目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance、GDEF mark class、GPOS anchors，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping；也會確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走分解序列，驗證 mark 最終 origin 為 `+126 x / 0 y`。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-### Japanese Phase 1 Support（Version 1.016）
+### Japanese Phase 1 Support（Version 1.017）
 
 同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
 
@@ -103,9 +105,9 @@ U+61D0 `懐` 結合辰宇落雁體原生 `懷` 的上／左結構與原生 `衣`
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體、vertical Japanese typesetting、ruby annotation typography、complete Ainu katakana extensions、historical kana、half-width katakana 或每一種 Japanese punctuation variant；但一般現代日文歌曲的假名部分應完整顯示。Phase 2 將依本機 TXT／LRC／JSON 歌詞 audit 的頻率補足實際缺少漢字，並評估 regional variants。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.016 一致的穩定 `?v=1.016` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.017 一致的穩定 `?v=1.017` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.016` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.017` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 
 ## 品牌圖像
 
@@ -339,3 +341,10 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 - U+5909 `変` 沿用 shared-Han derived optical copy，保留原生 drawing 與 advance，等比縮小至 `0.80`、`dx +19.25`、`dy +35`，並在 derived outline 上以 `8 units` boundary embolden 補償縮小後的筆重。
 - U+308F `わ` 依維護者本次提供的結構參考重寫為兩筆 project-local center-line，最終輪廓仍由現有 QuanFangwei variable-width handwriting engine 產生；不嵌入或描摹 raster 邊緣。小字 `ゎ` 由新版 `わ` 以 0.72 比例衍生後，再額外平移 `+14 x / -14 y`（視覺向右下）。
 - 其餘 42 個大平假名與已驗收的 `す／恋／哀／奧／優／寄／懐／々` 均不修改。
+
+### Version 1.017 Japanese stroke-weight harmonization
+
+- 使用 16／20／24／32／48／72／96 px、4× supersampling 與固定 alpha threshold 比對官方辰宇落雁 Han reference 的 horizontal／vertical effective stroke weight 與 ink density。
+- 新增 pressure-only normalization layer，只比例調整 `width`、`start_width`、`end_width`；大平假名 ×1.10、小平假名繼承 ×1.10、片假名 ×1.14、dakuten ×1.10、handakuten ×1.20、長音 `ー` ×1.10。
+- 46 個 `USER_HANDWRITING_REFINED` points、stroke count、topology hash，以及現有 per-glyph optical scale/dx/dy 全部保持不變。`ゝ ゞ ヽ ヾ`、`々`、`・`、`〆` 與 source-derived Han 不加粗。
+- Deterministic audit／verifier：`tools/font/audit_japanese_weight.py`、`tools/font/verify_japanese_weight.py`。人工 proof：`tools/font/proofs/quanfangwei-japanese-weight-before-after-proof.png`。

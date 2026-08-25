@@ -33,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.016"
-UNIQUE_ID = "1.016;QFW;QuanFangweiSupplementScript-Regular;20260825"
+VERSION = "1.017"
+UNIQUE_ID = "1.017;QFW;QuanFangweiSupplementScript-Regular;20260826"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -551,6 +551,12 @@ def verify() -> list[str]:
     require(names(ttf, 6) == {POSTSCRIPT_NAME}, "PostScript Name is incorrect")
     require(UNIQUE_ID in names(ttf, 3), "Unique ID is incorrect")
     require(f"Version {VERSION}" in names(ttf, 5), "Version name record is incorrect")
+    require(math.isclose(ttf["head"].fontRevision, float(VERSION), abs_tol=0.0001),
+            f"TTF fontRevision is incorrect: {ttf['head'].fontRevision}")
+    require(math.isclose(woff2["head"].fontRevision, float(VERSION), abs_tol=0.0001),
+            f"WOFF2 fontRevision is incorrect: {woff2['head'].fontRevision}")
+    require(f"Version {VERSION}" in names(woff2, 5), "WOFF2 Version name record is incorrect")
+    require(UNIQUE_ID in names(woff2, 3), "WOFF2 Unique ID is incorrect")
     require(FAMILY_EN in names(ttf, 16) and FAMILY_ZH in names(ttf, 16), "Typographic Family records are incomplete")
     require("Regular" in names(ttf, 17), "Typographic Subfamily record is missing")
     for name_id in (1, 4, 6, 16):

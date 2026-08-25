@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from japanese.stroke_engine import Stroke
+from japanese.stroke_engine import Stroke, scale_stroke_weight
 from kana_sources.master_data import MASTER_GLYPHS, S
 
 
@@ -164,7 +164,25 @@ KANA_STROKES.update(LEGIBLE_KANA)
 KANA_STROKES.update(USER_HANDWRITING_REFINED)
 # Optical normalization is a topology-preserving layer around the accepted
 # user handwriting above. It must never be replaced by an older kana source.
-KANA_STROKES.update(USER_HANDWRITING_OPTICALLY_NORMALIZED)
+LARGE_HIRAGANA_WEIGHT_FACTOR = 1.10
+KATAKANA_WEIGHT_FACTOR = 1.14
+DAKUTEN_WEIGHT_FACTOR = 1.10
+HANDAKUTEN_WEIGHT_FACTOR = 1.20
+LONG_SOUND_MARK_WEIGHT_FACTOR = 1.10
+
+KANA_STROKES.update({
+    character: scale_stroke_weight(strokes, LARGE_HIRAGANA_WEIGHT_FACTOR)
+    for character, strokes in USER_HANDWRITING_OPTICALLY_NORMALIZED.items()
+})
+
+# Katakana retain their accepted center-lines and optical placement. Apply one
+# pressure-only layer to both base and already-small forms; the eight small
+# forms re-derived below inherit the same normalized base pressure.
+KANA_STROKES.update({
+    character: scale_stroke_weight(strokes, KATAKANA_WEIGHT_FACTOR)
+    for character, strokes in KANA_STROKES.items()
+    if 0x30A1 <= ord(character) <= 0x30FA
+})
 
 # Every small Hiragana is deterministically derived from its normalized large
 # counterpart. Structure and topology therefore stay identical; only optical
@@ -198,6 +216,9 @@ HANDAKUTEN_STROKES = (
     S((35, 805), (45, 855), (90, 880), (140, 858), (155, 810), (140, 765), (92, 750), (48, 770), (35, 805), width=34, start=31, end=29),
 )
 
+DAKUTEN_STROKES = scale_stroke_weight(DAKUTEN_STROKES, DAKUTEN_WEIGHT_FACTOR)
+HANDAKUTEN_STROKES = scale_stroke_weight(HANDAKUTEN_STROKES, HANDAKUTEN_WEIGHT_FACTOR)
+
 
 HIRAGANA_BASE = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん"
 KATAKANA_BASE = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン"
@@ -223,3 +244,6 @@ JAPANESE_MARK_STROKES = {
     "・": (S((472,470),(505,445),width=62,start=58,end=45),),
     "ー": (S((210,455),(430,470),(745,480),width=51,start=46,end=34),),
 }
+JAPANESE_MARK_STROKES["ー"] = scale_stroke_weight(
+    JAPANESE_MARK_STROKES["ー"], LONG_SOUND_MARK_WEIGHT_FACTOR
+)
