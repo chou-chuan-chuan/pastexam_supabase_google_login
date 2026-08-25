@@ -170,3 +170,10 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - `audit_japanese_weight.py` 在 16／20／24／32／48／72／96 px 使用 4× supersampling、alpha 128 threshold 與短 scanline ink runs 量測 horizontal／vertical effective stroke weight 與 ink density。
 - `verify_japanese_weight.py` 驗證 46 字 points／stroke count／topology hash、optical transform hash、source TTF hash、全部 source glyph drawing prefix、TTF／WOFF2 cmap／metrics／bounds、clipping 與 small-kana weight gate。
 - Proof: `proofs/quanfangwei-japanese-weight-before-after-proof.png`；量測報告：`reports/japanese_weight_audit.json`.
+
+### Version 1.018 容 optical alignment
+
+- U+5BB9 `容` 保留官方辰宇落雁來源 glyph drawing，並沿用既有 shared-Han derived-copy 機制；沒有建立大規模 `locl JAN`。
+- 最終參數為 `scale_x=1.00`、`scale_y=1.00`、`dx=+19.45`、`dy=+35`。Advance 872 不變；因 outline 平移，LSB／RSB 由來源的 85／126 改為 104／107。
+- 不修改其他 Han，也不重新生成或改動 `USER_HANDWRITING_REFINED` 46 平假名 topology。
+- Proof：`proofs/quanfangwei-yong-alignment-proof.png`（16／20／24／32／48／72 px）；Stage B verifier：`python tools/font/verify_yong_alignment.py`。

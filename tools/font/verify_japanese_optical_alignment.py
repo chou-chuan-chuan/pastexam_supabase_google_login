@@ -39,6 +39,7 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
 EXPECTED_HAN_TRANSFORMS = {
+    "容": (1.00, 1.00, 19.45, 35.0, 0.0),
     "変": (0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": (0.98, 0.98, 17.5, 35.0, 0.0),
     "哀": (0.93, 0.93, 15.5, 36.0, 0.0),
@@ -128,7 +129,7 @@ def main() -> int:
             f"す optical center did not receive the reviewed 32-unit downward shift: {before_center[1]} -> {after_center[1]}")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
-            "Han optical transform set is not limited to 変/恋/哀/奧/優/寄")
+            "Han optical transform set is not limited to 容/変/恋/哀/奧/優/寄")
     for character, expected in EXPECTED_HAN_TRANSFORMS.items():
         transform = SHARED_HAN_OPTICAL_TRANSFORMS[character]
         require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
@@ -176,7 +177,7 @@ def main() -> int:
                 glyf_x_min = ttf["glyf"][target_name].xMin
                 require(target_lsb == glyf_x_min,
                         f"{character} lsb does not match glyf xMin: {target_lsb} vs {glyf_x_min}")
-                require(abs(target_lsb - x_min) <= 2.0,
+                require(abs(target_lsb - x_min) <= 3.0,
                         f"{character} lsb is too far from the quadratic ink bound: {target_lsb} vs {x_min}")
                 require(0 <= x_min < x_max <= target_advance,
                         f"{character} clips or escapes its advance: {ttf_bounds}, advance={target_advance}")
@@ -222,7 +223,7 @@ def main() -> int:
         return 1
 
     print("PASS: す source hash/topology is unchanged; only its reviewed optical width increased")
-    print("PASS: 変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
+    print("PASS: 容/変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 奥/夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
     return 0

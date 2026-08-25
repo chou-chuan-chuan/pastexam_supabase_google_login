@@ -36,7 +36,7 @@ WA_CENTERLINE_PATH = SVG_DIR / "U+308F-v1.016-centerline.svg"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.017"
+EXPECTED_FONT_VERSION = "1.018"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 KANA_ADVANCE = 960
 
@@ -219,7 +219,7 @@ def main() -> int:
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.017 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.018 metadata, and CJK optical alignment are valid")
     return 0
 
 
