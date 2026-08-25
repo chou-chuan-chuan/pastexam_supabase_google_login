@@ -1,7 +1,8 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET } from "../config.js";
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
 import { songTagObjects, uploaderDisplayName } from "./catalog.js";
+import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { parseLrc } from "./lrc.js";
 import { formatCueTime, prepareCuesForSave, validateCueRows } from "./lyrics-sync.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeWatchUrl } from "./youtube.js";
@@ -16,7 +17,7 @@ const el = {
   search: $("#adminSearchInput"), status: $("#adminStatusFilter"), refresh: $("#adminRefreshButton"), description: $("#adminListDescription"), loading: $("#adminLoadingState"), grid: $("#adminSongGrid"), empty: $("#adminEmptyState"), pending: $("#pendingCount"), approved: $("#approvedCount"), rejected: $("#rejectedCount"),
   preview: $("#adminPreviewDialog"), previewTitle: $("#adminPreviewTitle"), previewFrame: $("#adminPdfPreviewFrame"), closePreview: $("#adminClosePreviewButton"), closePreviewFooter: $("#adminClosePreviewFooterButton"), openPdf: $("#adminOpenPdfButton"), downloadPdf: $("#adminDownloadPdfButton"),
   tagSearch: $("#tagSearchInput"), tagForm: $("#createTagForm"), newTagName: $("#newTagName"), newTagSlug: $("#newTagSlug"), createTag: $("#createTagButton"), tagList: $("#tagAdminList"),
-  editor: $("#songEditorDialog"), closeEditor: $("#closeSongEditorButton"), editorTitleHeading: $("#songEditorTitle"), metadataForm: $("#songMetadataForm"), title: $("#editorTitle"), artist: $("#editorArtist"), album: $("#editorAlbum"), year: $("#editorYear"), language: $("#editorLanguage"), genre: $("#editorGenre"), youtube: $("#editorYoutube"), youtubeStatus: $("#editorYoutubeStatus"), tagChoices: $("#editorTagChoices"), notes: $("#editorNotes"), saveMetadata: $("#saveMetadataButton"), playerShell: $(".admin-player-shell"), currentTime: $("#editorCurrentTime"), playerStatus: $("#editorPlayerStatus"), fallback: $("#editorYoutubeFallback"),
+  editor: $("#songEditorDialog"), closeEditor: $("#closeSongEditorButton"), editorTitleHeading: $("#songEditorTitle"), metadataForm: $("#songMetadataForm"), title: $("#editorTitle"), artist: $("#editorArtist"), album: $("#editorAlbum"), year: $("#editorYear"), language: $("#editorLanguage"), genre: $("#editorGenre"), youtube: $("#editorYoutube"), youtubeStatus: $("#editorYoutubeStatus"), tagChoices: $("#editorTagChoices"), notes: $("#editorNotes"), pdf: $("#editorPdf"), currentPdf: $("#editorCurrentPdf"), saveMetadata: $("#saveMetadataButton"), playerShell: $(".admin-player-shell"), currentTime: $("#editorCurrentTime"), playerStatus: $("#editorPlayerStatus"), fallback: $("#editorYoutubeFallback"),
   lrcFile: $("#lrcFileInput"), lrcText: $("#lrcTextInput"), previewLrc: $("#previewLrcButton"), lrcSummary: $("#lrcSummary"), lrcErrors: $("#lrcErrorList"), plainLyrics: $("#plainLyricsInput"), createLines: $("#createCueLinesButton"), addCue: $("#addCueButton"), markCue: $("#markCueButton"), moveUp: $("#moveCueUpButton"), moveDown: $("#moveCueDownButton"), deleteCue: $("#deleteCueButton"), cueRows: $("#cueRows"), cueValidation: $("#cueValidationList"), saveCues: $("#saveCuesButton")
 };
 
@@ -166,6 +167,7 @@ async function setupEditorPlayer(videoId) {
 async function openEditor(song) {
   currentSong = song; selectedCueIndex = -1; el.editorTitleHeading.textContent = `${song.title} — 同步編輯`;
   el.title.value = song.title; el.artist.value = song.artist; el.album.value = song.album || ""; el.year.value = song.release_year || ""; el.language.value = song.language || ""; el.genre.value = song.genre || ""; el.youtube.value = normalizeYouTubeUrl(song.youtube_video_id); el.notes.value = song.notes || ""; renderEditorTagChoices(songTagObjects(song).map((tag) => tag.id)); validateEditorYoutube();
+  el.pdf.value = ""; el.currentPdf.textContent = song.original_filename;
   const { data, error } = await supabase.from("lyric_cues").select("id,line_index,start_ms,end_ms,text").eq("song_id", song.id).order("line_index");
   if (error) { showMessage(errorMessage(error, "無法載入同步歌詞。"), "error", 0); return; }
   cueRows = (data || []).map((cue) => ({ start_ms: cue.start_ms, text: cue.text })); renderCueRows(); el.lrcText.value = ""; el.plainLyrics.value = ""; el.lrcErrors.replaceChildren(); el.cueValidation.replaceChildren();
@@ -183,11 +185,29 @@ async function saveMetadata(event) {
   const videoId = validateEditorYoutube(); if (!videoId || !el.title.value.trim() || !el.artist.value.trim()) return showMessage("歌曲名稱、歌手與有效 YouTube URL 為必填。", "error", 0);
   el.saveMetadata.disabled = true;
   const values = { title: el.title.value.trim(), artist: el.artist.value.trim(), album: el.album.value.trim() || null, release_year: el.year.value ? Number(el.year.value) : null, language: el.language.value.trim() || null, genre: el.genre.value.trim() || null, notes: el.notes.value.trim() || null, youtube_video_id: videoId };
-  const { error } = await supabase.from("songs").update(values).eq("id", currentSong.id);
+  let result;
+  let error;
+  try {
+    result = await updateSongWithOptionalPdf({ supabase, bucket: STORAGE_BUCKET, song: currentSong, values, file: el.pdf.files[0] || null, currentUserId: currentUser.id, maxFileSizeBytes: MAX_FILE_SIZE_BYTES });
+  } catch (updateError) {
+    error = updateError;
+  }
   const tagResult = error ? null : await supabase.rpc("set_song_tags", { p_song_id: currentSong.id, p_tag_ids: selectedEditorTagIds() });
   el.saveMetadata.disabled = false;
-  if (error || tagResult?.error) return showMessage(errorMessage(error || tagResult.error, "無法更新歌曲資料或標籤。"), "error", 0);
-  showMessage("歌曲資料與標籤已更新。", "success"); currentSong = { ...currentSong, ...values }; await setupEditorPlayer(videoId); await loadData();
+  if (error) {
+    const rollbackNote = error instanceof PdfReplacementError && error.rollbackWarning ? " 新 PDF 回滾失敗，可能留下 orphan object，請手動清理。" : "";
+    return showMessage(`${errorMessage(error, "無法更新歌曲資料。")}${rollbackNote}`, "error", 0);
+  }
+  if (tagResult?.error) return showMessage(errorMessage(tagResult.error, "歌曲已更新，但標籤未能更新。"), "error", 0);
+  currentSong = { ...currentSong, ...values, pdf_path: result.pdfPath, original_filename: result.originalFilename };
+  el.currentPdf.textContent = result.originalFilename; el.pdf.value = "";
+  if (result.cleanupWarning) {
+    console.warn("Old PDF cleanup failed after successful replacement", result.cleanupWarning);
+    showMessage("PDF 已更換；但舊 PDF 清理失敗，新的 PDF 仍可正常使用，請清理 orphan object。", "info", 0);
+  } else {
+    showMessage(result.replaced ? "PDF 已更換。" : "歌曲資料與標籤已更新。", "success");
+  }
+  await setupEditorPlayer(videoId); await loadData();
 }
 
 function renderCueRows() {

@@ -2,7 +2,7 @@
 
 懐 U+61D0 combines the source face's native 懷 and 衣 outlines. 々 U+3005 is
 rebuilt from dedicated project-local center-lines.
-夕 U+5915 is deliberately untouched. 気 U+6C17 and 付 U+4ED8 keep the source font's
+夕 U+5915 is deliberately untouched. 気 U+6C17, 付 U+4ED8, and 容 U+5BB9 keep the source font's
 original drawings, but are installed under distinct derived glyph names with
 an optical vertical transform so the mixed sequence 気付け aligns better with
 refined Hiragana.  Original source glyphs remain present and unmodified.
@@ -65,6 +65,7 @@ class SourceOpticalTransform:
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
+    "容": SourceOpticalTransform(1.00, 1.00, 19.45, 35.0),
     "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),
     "哀": SourceOpticalTransform(0.93, 0.93, 15.5, 36.0),
@@ -258,7 +259,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             "dy": USER_MARK_POSITION[1],
         }
 
-    # Install source-preserving optical copies for the five explicitly reviewed
+    # Install source-preserving optical copies for the explicitly reviewed
     # shared Han codepoints. This deliberately does not add a broad locl JAN
     # system; source outlines stay unchanged and advances remain source-native.
     cmap = font.getBestCmap()

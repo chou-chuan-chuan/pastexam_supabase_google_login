@@ -83,7 +83,8 @@
       <label class="field"><span>YouTube URL *</span><input id="editYoutube" type="url" required></label>
       <fieldset class="field tag-choice-fieldset"><legend>標籤</legend><div id="editTagChoices" class="tag-choice-list"></div></fieldset>
       <label class="field"><span>備註</span><textarea id="editNotes" rows="3" maxlength="1200"></textarea></label>
-      <p class="muted">PDF 檔案不會在編輯時更換；只有 pending 狀態可由上傳者修改。</p>
+      <label class="field"><span>更換 PDF</span><input id="editPdf" type="file" accept="application/pdf"><small>目前 PDF：<span id="editCurrentPdf">—</span></small><small>若不選擇新檔案，將保留目前 PDF。</small></label>
+      <p class="muted">只有 pending 狀態可由上傳者修改。</p>
       <div id="editProgress" class="upload-progress hidden"><div class="spinner"></div><span>儲存中…</span></div>
       <div class="dialog-actions"><button type="button" class="button secondary" data-close="editDialog">取消</button><button id="saveEditButton" type="submit" class="button primary">儲存</button></div>
     </form>

@@ -2,6 +2,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
 import { filterSongs, pendingSongPayload, songTagObjects, uploaderDisplayName } from "./catalog.js";
+import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
@@ -16,7 +17,7 @@ const el = {
   loading: $("#loadingState"), grid: $("#songGrid"), empty: $("#emptyState"),
   previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"), previewFrame: $("#pdfPreviewFrame"), closePreview: $("#closePreviewButton"), closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"), downloadPdf: $("#downloadPdfButton"),
   uploadDialog: $("#uploadDialog"), uploadForm: $("#uploadForm"), uploadTitle: $("#uploadTitle"), uploadArtist: $("#uploadArtist"), uploadAlbum: $("#uploadAlbum"), uploadYear: $("#uploadYear"), uploadLanguage: $("#uploadLanguage"), uploadGenre: $("#uploadGenre"), uploadYoutube: $("#uploadYoutube"), uploadYoutubeStatus: $("#uploadYoutubeStatus"), uploadYoutubePreview: $("#uploadYoutubePreview"), uploadYoutubeThumbnail: $("#uploadYoutubeThumbnail"), uploadYoutubeVideoId: $("#uploadYoutubeVideoId"), uploadTags: $("#uploadTagChoices"), uploadNotes: $("#uploadNotes"), uploadPdf: $("#uploadPdf"), maxFileSize: $("#maxFileSizeLabel"), uploadProgress: $("#uploadProgress"), submitUpload: $("#submitUploadButton"),
-  editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton")
+  editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editPdf: $("#editPdf"), editCurrentPdf: $("#editCurrentPdf"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton")
 };
 
 let currentUser = null;
@@ -302,7 +303,9 @@ async function uploadSong(event) {
 }
 
 function openEdit(song) {
+  if (!canEdit(song)) return showMessage("你目前沒有權限編輯這筆歌曲。", "error", 0);
   el.editSongId.value = song.id; el.editTitle.value = song.title; el.editArtist.value = song.artist; el.editAlbum.value = song.album || ""; el.editYear.value = song.release_year || ""; el.editLanguage.value = song.language || ""; el.editGenre.value = song.genre || ""; el.editYoutube.value = normalizeYouTubeUrl(song.youtube_video_id); el.editNotes.value = song.notes || "";
+  el.editPdf.value = ""; el.editCurrentPdf.textContent = song.original_filename;
   renderTagChoices(el.editTags, songTagObjects(song).map((tag) => tag.id));
   el.editDialog.showModal();
 }
@@ -313,16 +316,39 @@ async function saveEdit(event) {
   const values = { title: el.editTitle.value.trim(), artist: el.editArtist.value.trim(), album: el.editAlbum.value.trim() || null, release_year: el.editYear.value ? Number(el.editYear.value) : null, language: el.editLanguage.value.trim() || null, genre: el.editGenre.value.trim() || null, notes: el.editNotes.value.trim() || null, youtube_video_id: youtubeId };
   const validation = validateSongFields(values);
   if (validation) return showMessage(validation, "error", 0);
-  el.saveEdit.disabled = true; el.editProgress.classList.remove("hidden");
   const songId = el.editSongId.value;
-  const { error } = await supabase.from("songs").update(values).eq("id", songId).eq("status", "pending");
-  if (!error) {
+  const song = songs.find((item) => item.id === songId);
+  if (!song || !canEdit(song)) return showMessage("你目前沒有權限編輯這筆歌曲。", "error", 0);
+  el.saveEdit.disabled = true; el.editProgress.classList.remove("hidden");
+  let updateResult;
+  let updateError;
+  let tagWarning;
+  try {
+    updateResult = await updateSongWithOptionalPdf({ supabase, bucket: STORAGE_BUCKET, song, values, file: el.editPdf.files[0] || null, currentUserId: currentUser.id, maxFileSizeBytes: MAX_FILE_SIZE_BYTES, requirePendingOwner: true });
     const { error: tagError } = await supabase.rpc("set_song_tags", { p_song_id: songId, p_tag_ids: selectedTagIds(el.editTags) });
-    if (tagError) showMessage(errorMessage(tagError, "歌曲已更新，但標籤未能更新。"), "error", 0);
+    tagWarning = tagError || null;
+  } catch (error) {
+    updateError = error;
   }
   el.saveEdit.disabled = false; el.editProgress.classList.add("hidden");
-  if (error) return showMessage(errorMessage(error, "無法更新待審核歌曲。"), "error", 0);
-  el.editDialog.close(); showMessage("待審核歌曲已更新。", "success"); await loadSongs();
+  if (updateError) {
+    const rollbackNote = updateError instanceof PdfReplacementError && updateError.rollbackWarning ? " 新 PDF 回滾失敗，可能留下 orphan object，請通知管理員。" : "";
+    return showMessage(`${errorMessage(updateError, "無法更新待審核歌曲。")}${rollbackNote}`, "error", 0);
+  }
+  el.editDialog.close();
+  if (updateResult.cleanupWarning || tagWarning) {
+    if (updateResult.cleanupWarning) console.warn("Old PDF cleanup failed after successful replacement", updateResult.cleanupWarning);
+    if (tagWarning) console.warn("Song updated but tags were not updated", tagWarning);
+    const notices = [];
+    if (updateResult.replaced) notices.push("PDF 已更換。");
+    else notices.push("待審核歌曲已更新。");
+    if (tagWarning) notices.push("標籤未能更新。");
+    if (updateResult.cleanupWarning) notices.push("舊 PDF 清理失敗，新的 PDF 仍可正常使用；請通知管理員清理 orphan object。");
+    showMessage(notices.join(" "), "info", 0);
+  } else {
+    showMessage(updateResult.replaced ? "PDF 已更換。" : "待審核歌曲已更新。", "success");
+  }
+  await loadSongs();
 }
 
 async function deletePendingSong(song) {
