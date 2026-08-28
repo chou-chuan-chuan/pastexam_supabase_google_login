@@ -39,6 +39,7 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
 EXPECTED_HAN_TRANSFORMS = {
+    "奥": (0.895, 0.895, 10.5, 34.0, 8.0),
     "容": (1.00, 1.00, 19.45, 35.0, 0.0),
     "変": (0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": (0.98, 0.98, 17.5, 35.0, 0.0),
@@ -129,7 +130,7 @@ def main() -> int:
             f"す optical center did not receive the reviewed 32-unit downward shift: {before_center[1]} -> {after_center[1]}")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
-            "Han optical transform set is not limited to 容/変/恋/哀/奧/優/寄")
+            "Han optical transform set is not limited to 奥/容/変/恋/哀/奧/優/寄")
     for character, expected in EXPECTED_HAN_TRANSFORMS.items():
         transform = SHARED_HAN_OPTICAL_TRANSFORMS[character]
         require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
@@ -137,9 +138,6 @@ def main() -> int:
                 f"Unexpected transform record for {character}: {transform}")
         require(transform.scale_x == transform.scale_y,
                 f"{character} must retain proportional source geometry")
-    require("奥" not in SHARED_HAN_OPTICAL_TRANSFORMS,
-            "U+5965 奥 must not be included in the U+5967 奧 refinement")
-
     source = TTFont(SOURCE_PATH, recalcTimestamp=False)
     ttf = TTFont(TTF_PATH, recalcTimestamp=False)
     woff2 = TTFont(WOFF2_PATH, recalcTimestamp=False)
@@ -170,8 +168,10 @@ def main() -> int:
                     f"TTF/WOFF2 horizontal metrics differ for {character}")
             source_advance = source["hmtx"].metrics[source_name][0]
             target_advance, target_lsb = ttf["hmtx"].metrics[target_name]
-            require(target_advance == source_advance,
-                    f"{character} advance changed: {source_advance} -> {target_advance}")
+            recorded_advance = SHARED_HAN_OPTICAL_TRANSFORMS[character].advance
+            expected_advance = recorded_advance if recorded_advance is not None else source_advance
+            require(target_advance == expected_advance,
+                    f"{character} advance changed unexpectedly: {source_advance} -> {target_advance}")
             if ttf_bounds:
                 x_min, y_min, x_max, y_max = ttf_bounds
                 glyf_x_min = ttf["glyf"][target_name].xMin
@@ -186,11 +186,15 @@ def main() -> int:
                 target_center = center(ttf_bounds)
                 require(abs(target_center[0] - target_advance / 2) <= 1.0,
                         f"{character} is not centered in its advance: center={target_center[0]}, advance={target_advance}")
-                require(352 <= target_center[1] <= 358,
-                        f"{character} optical y center is outside the reviewed range: {target_center[1]}")
+                if character == "奥":
+                    require(abs(target_center[1] - 354) <= 0.5,
+                            f"奥 optical y center does not match U+5967 奧: {target_center[1]}")
+                else:
+                    require(352 <= target_center[1] <= 358,
+                            f"{character} optical y center is outside the reviewed range: {target_center[1]}")
 
-        # Regression gates for codepoints explicitly outside this refinement.
-        for character in "奥夕":
+        # Regression gate for a codepoint explicitly outside this refinement.
+        for character in "夕":
             source_name = source_cmap[ord(character)]
             require(ttf_cmap.get(ord(character)) == source_name,
                     f"{character} U+{ord(character):04X} cmap changed unexpectedly")
@@ -223,8 +227,8 @@ def main() -> int:
         return 1
 
     print("PASS: す source hash/topology is unchanged; only its reviewed optical width increased")
-    print("PASS: 容/変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
-    print("PASS: TTF/WOFF2 agree; 奥/夕 and approved 懐/々 remain unchanged")
+    print("PASS: 奥/容/変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
+    print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
     return 0
 

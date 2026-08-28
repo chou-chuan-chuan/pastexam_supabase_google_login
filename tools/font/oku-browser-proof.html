@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>U+5965 奥 vs U+5967 奧 Optical Proof</title>
+  <style>
+    @font-face {
+      font-family: "Oku Before Proof";
+      src: url("/.codex-quanfangwei-1.018-oku-before.ttf") format("truetype");
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: "Oku Built Proof";
+      src:
+        url("../../assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2?v=1.019-oku-weight8") format("woff2"),
+        url("../../assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf?v=1.019-oku-weight8") format("truetype");
+      font-weight: 400;
+    }
+    :root { color: #251c36; background: #f5eef8; font-synthesis: none; }
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    main { width: min(1180px, calc(100% - 32px)); margin: 32px auto; padding: 28px; border-radius: 20px; background: #fffdf9; }
+    h1, .meta { margin: 0 0 12px; }
+    .meta { color: #72677e; }
+    .grid { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0; border-top: 1px solid #ddd5e7; border-left: 1px solid #ddd5e7; }
+    .cell { min-width: 0; padding: 12px; border-right: 1px solid #ddd5e7; border-bottom: 1px solid #ddd5e7; overflow: hidden; white-space: nowrap; }
+    .pair { display: grid; gap: 8px; }
+    .row { display: grid; grid-template-columns: 64px minmax(max-content, 1fr); align-items: baseline; overflow-x: auto; }
+    .glyph { line-height: 1.35; }
+    .source { font-family: "Oku Before Proof"; }
+    .built { font-family: "Oku Built Proof"; }
+    .label { color: #72677e; font: 14px/1.4 system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>U+5965 奥 vs U+5967 奧 — before / after</h1>
+    <p class="meta">U+5967 奧 is the authoritative reference. After preserves the original 奥 drawing, applies uniform scale 0.895, dx +10.5, dy +34, plus an 8-unit boundary embolden to restore stroke weight; advance 790.</p>
+    <div class="grid" id="proof"></div>
+  </main>
+  <script>
+    const sizes = [16, 20, 24, 32, 48, 72];
+    const lines = ["奥", "奧", "奥奧", "目の奥奧に", "目の奥奧にずっと写るシルエット"];
+    const proof = document.querySelector("#proof");
+    proof.innerHTML = '<div class="cell label">Size</div><div class="cell label">Before origin/main 1.018 / After optical derived copy 1.019</div>';
+    for (const size of sizes) {
+      for (const [index, text] of lines.entries()) {
+        proof.insertAdjacentHTML("beforeend", `<div class="cell label">${index === 0 ? `${size}px` : ""}</div><div class="cell pair"><div class="row"><span class="label">Before</span><span class="source glyph" style="font-size:${size}px">${text}</span></div><div class="row"><span class="label">After</span><span class="built glyph" style="font-size:${size}px">${text}</span></div></div>`);
+      }
+    }
+  </script>
+</body>
+</html>
