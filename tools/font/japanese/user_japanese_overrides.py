@@ -59,12 +59,14 @@ class SourceOpticalTransform:
     dx: float
     dy: float
     embolden: float = 0.0
+    advance: int | None = None
 
 
 # These shared Han codepoints have no language-specific cmap distinction in the
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
+    "奥": SourceOpticalTransform(0.895, 0.895, 10.5, 34.0, 8.0, advance=790),
     "容": SourceOpticalTransform(1.00, 1.00, 19.45, 35.0),
     "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),
@@ -277,7 +279,8 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             else transformed_glyph(font, source_name, matrix)
         )
         glyph.recalcBounds(font["glyf"])
-        advance, _ = font["hmtx"].metrics[source_name]
+        source_advance, _ = font["hmtx"].metrics[source_name]
+        advance = optical.advance if optical.advance is not None else source_advance
         install(font, target_name, glyph, advance, glyph.xMin, source_name)
         add_mapping(font, codepoint, target_name)
         metadata["optical_alignment"][character] = {
@@ -291,6 +294,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
             "matrix_dx": round(matrix.dx, 3),
             "matrix_dy": round(matrix.dy, 3),
             "advance": advance,
+            "source_advance": source_advance,
         }
 
     # Re-read cmap after the handwritten remaps.  The reference Hiragana glyph

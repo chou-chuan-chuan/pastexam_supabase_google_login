@@ -37,7 +37,7 @@ LARGE_HIRAGANA = "あいうえおかきくけこさしすせそたちつてと�
 SMALL_HIRAGANA = "ぁぃぅぇぉゃゅょっゎゕゖ"
 KATAKANA = "".join(chr(cp) for cp in range(0x30A1, 0x30FB))
 JAPANESE_MARKS = "゙゚゛゜ゝゞヽヾ々・ー〆"
-PROJECT_DERIVED_HAN = "懐気付容恋哀奧優寄変"
+PROJECT_DERIVED_HAN = "懐気付奥容恋哀奧優寄変"
 
 
 def sha256(path: Path) -> str:

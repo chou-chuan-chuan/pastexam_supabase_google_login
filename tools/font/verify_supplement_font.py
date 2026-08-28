@@ -33,8 +33,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.018"
-UNIQUE_ID = "1.018;QFW;QuanFangweiSupplementScript-Regular;20260826"
+VERSION = "1.019"
+UNIQUE_ID = "1.019;QFW;QuanFangweiSupplementScript-Regular;20260829"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -57,7 +57,7 @@ JAPANESE_PUNCTUATION_REQUIRED = {
 JAPANESE_REQUIRED = HIRAGANA_REQUIRED | KATAKANA_REQUIRED | JAPANESE_PUNCTUATION_REQUIRED
 KANA_ADVANCE = 960
 JAPANESE_SOURCE_CMAP_OVERRIDES = {
-    0x3005, 0x4ED8, 0x512A, 0x54C0, 0x5967, 0x5BB9,
+    0x3005, 0x4ED8, 0x512A, 0x54C0, 0x5965, 0x5967, 0x5BB9,
     0x5909, 0x5BC4, 0x604B, 0x61D0, 0x6C17,
 }
 
@@ -525,7 +525,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 206, "Derived glyph count did not increase by exactly 206")
+    require(len(ttf_order) == len(source_order) + 207, "Derived glyph count did not increase by exactly 207")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
@@ -602,7 +602,7 @@ def main() -> int:
     print("PASS: hiragana no and the shi/tsu/so/n directional pairs retain recognizable source geometry")
     print("PASS: Hiragana and Katakana optical centers align with the source Chinese sample")
     print("PASS: uni3099/uni309A have zero advance, GDEF mark class, and GPOS anchors matching precomposed kana")
-    print("PASS: original cmap mappings are preserved except eleven documented Japanese overrides; original glyph order remains a prefix")
+    print("PASS: original cmap mappings are preserved except twelve documented Japanese overrides; original glyph order remains a prefix")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")
     return 0
