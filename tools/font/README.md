@@ -54,7 +54,7 @@ python tools/font/verify_oku_optical_alignment.py
 - Version 1.008 依使用者提供的標準手寫表校對字形結構；build-time kana y shift 為 -145 units，中央日文符號為 -120 units，GPOS kana base anchor y 為 690。`proofs/quanfangwei-cjk-kana-alignment-proof.png` 以同一 face、size、baseline 驗證中日混排，沒有 CSS 位移。
 - Version 1.009 的 `kana_sources/hiragana_redesign.py` 保存完整現代平假名的第三輪原創 center-line source；`さ／ち` 下段分離，`の` 使用斜入、左回環與右側長收筆。`proofs/quanfangwei-hiragana-redesign-proof.png` 以 120 px 字格與 48 px 歌詞行驗收辨識度。
 - Japanese kanji 目前沿用 shared Unicode code point 的既有辰宇落雁 glyph；不建立大規模 `locl JAN`。
-- U+5965 `奥` 保留官方 `uni5965` source drawing，並以 U+5967 `奧` 為主要 reference，映射到 uniform 0.895、dx +10.5、dy +34 的 derived optical copy，再套用 8-unit boundary embolden 恢復筆重；advance 790，derived LSB／RSB 為 127／128。以 `analyze_oku_optical_alignment.py`、`verify_oku_optical_alignment.py`、`render_oku_optical_alignment_proof.py`、`render_oku_diagnostic_proof.py` 與 `oku-browser-proof.html` 驗收。
+- U+5965 `奥` 保留官方 `uni5965` source drawing，並以 U+5967 `奧` 為主要 reference，映射到 uniform 0.895、dx +10.5、dy +34 的 derived optical copy，再套用 6-unit boundary embolden 恢復筆重；advance 790，derived LSB／RSB 為 128／129。以 `analyze_oku_optical_alignment.py`、`verify_oku_optical_alignment.py`、`render_oku_optical_alignment_proof.py`、`render_oku_diagnostic_proof.py` 與 `oku-browser-proof.html` 驗收。
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical writing、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體。Phase 2 會以實際 TXT／LRC／JSON 歌詞缺字頻率與 regional-variant review 為基礎。
 
@@ -185,5 +185,5 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 
 - U+5965 `奥` 使用現有 shared-Han derived-copy 架構；官方 source glyph `uni5965` 保留且 drawing identity 不變。
 - U+5967 `奧` 是 authoritative primary reference：bounds `(122,-53,668,761)`、ink `546×814`、center `(395,354)`、advance 790、LSB／RSB 122／122；`目写影深身` 與既有 alignment sample 只作 secondary context。原始 `奥` 為 bounds `(91,-153,678,793)`、ink `587×946`、center `(384.5,320)`、advance 798。
-- Uniform scale 0.895 取 `奥`→`奧` width ratio 與 height ratio 的幾何平均（等效 ink area），避免非等比扭曲；`dx +10.5`／`dy +34` 將中心對齊 `(395,354)`。8-unit boundary embolden 將 72 px effective stroke 從 2.75 px 恢復為 3.25 px，與 `奧` 相同。Advance 改為 790；final bounds 約 `(127.8,-73,662,781.7)`，LSB／RSB 127／128。
+- Uniform scale 0.895 取 `奥`→`奧` width ratio 與 height ratio 的幾何平均（等效 ink area），避免非等比扭曲；`dx +10.5`／`dy +34` 將中心對齊 `(395,354)`。6-unit boundary embolden 讓 16–48 px effective stroke 與 `奧` 相同，72 px 僅差 0.25 px，並避免 8-unit 版本偏粗。Advance 改為 790；final bounds 約 `(128.8,-72,661,780.7)`，LSB／RSB 128／129。
 - Proof：`proofs/quanfangwei-oku-optical-alignment-proof.png` 與 `proofs/quanfangwei-oku-optical-diagnostic-proof.png`；measurement report：`reports/oku-optical-alignment.json`；verification：`python tools/font/verify_oku_optical_alignment.py`。

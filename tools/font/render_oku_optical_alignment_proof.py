@@ -39,7 +39,7 @@ def main() -> int:
     draw.text((55, 34), "U+5965 奥 — optical alignment", font=face(args.after_font, 42), fill=INK)
     draw.text(
         (55, 92),
-        "U+5967 奧 is the primary reference | scale 0.895 | dx +10.5 | dy +34 | 8-unit weight compensation",
+        "U+5967 奧 is the primary reference | scale 0.895 | dx +10.5 | dy +34 | 6-unit weight compensation",
         font=face(args.after_font, 22),
         fill=MUTED,
     )
