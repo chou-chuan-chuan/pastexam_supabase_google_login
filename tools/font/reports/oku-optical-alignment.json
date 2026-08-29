@@ -364,23 +364,23 @@
     "scale_y": 0.895,
     "dx": 10.5,
     "dy": 34.0,
-    "embolden": 6.0,
+    "embolden": 4.0,
     "advance": 790
   },
   "current_output": {
     "character": "奥",
     "codepoint": "U+5965",
     "glyph_name": "uni5965.qfwJaOptical",
-    "xMin": 128.8,
-    "xMax": 661.0,
-    "yMin": -72.0,
-    "yMax": 780.692,
-    "ink_width": 532.2,
-    "ink_height": 852.692,
-    "optical_center_x": 394.9,
+    "xMin": 129.8,
+    "xMax": 660.083,
+    "yMin": -71.0,
+    "yMax": 779.692,
+    "ink_width": 530.283,
+    "ink_height": 850.692,
+    "optical_center_x": 394.942,
     "optical_center_y": 354.346,
     "advance": 790,
-    "lsb": 128,
-    "rsb": 129.8
+    "lsb": 129,
+    "rsb": 130.717
   }
 }

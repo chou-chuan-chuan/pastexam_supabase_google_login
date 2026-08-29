@@ -18,14 +18,14 @@ SOURCE_PATH = REPO_ROOT / "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf"
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 CHARACTER = "奥"
-EXPECTED_TRANSFORM = (0.895, 0.895, 10.5, 34.0, 6.0, 790)
+EXPECTED_TRANSFORM = (0.895, 0.895, 10.5, 34.0, 4.0, 790)
 EXPECTED_SOURCE_BOUNDS = (91.0, -153.0, 678.0, 793.0)
 EXPECTED_REFERENCE_BOUNDS = (122.0, -53.0, 668.0, 761.0)
-EXPECTED_TARGET_BOUNDS = (128.8, -72.0, 661.0, 780.692)
+EXPECTED_TARGET_BOUNDS = (129.8, -71.0, 660.083, 779.692)
 EXPECTED_ADVANCE = 790
 EXPECTED_SOURCE_METRICS = (798, 91, 120)
 EXPECTED_REFERENCE_METRICS = (790, 122, 122)
-EXPECTED_TARGET_LSB = 128
+EXPECTED_TARGET_LSB = 129
 EXPECTED_TARGET_RSB = 129
 REFERENCE_CENTER = (395.0, 354.0)
 
@@ -101,7 +101,7 @@ def main() -> int:
             print("FAIL:", error, file=sys.stderr)
         return 1
     print("PASS: U+5965 keeps the official source drawing and maps to a derived optical copy")
-    print("PASS: scale_x=0.895 scale_y=0.895 dx=10.5 dy=34.0 embolden=6.0; advance=790")
+    print("PASS: scale_x=0.895 scale_y=0.895 dx=10.5 dy=34.0 embolden=4.0; advance=790")
     return 0
 
 

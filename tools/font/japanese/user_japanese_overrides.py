@@ -66,7 +66,7 @@ class SourceOpticalTransform:
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
-    "奥": SourceOpticalTransform(0.895, 0.895, 10.5, 34.0, 6.0, advance=790),
+    "奥": SourceOpticalTransform(0.895, 0.895, 10.5, 34.0, 4.0, advance=790),
     "容": SourceOpticalTransform(1.00, 1.00, 19.45, 35.0),
     "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),

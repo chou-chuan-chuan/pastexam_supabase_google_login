@@ -360,5 +360,5 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 
 - U+5965 `奥` 保留官方辰宇落雁 source drawing，shared code point 映射到獨立 derived optical copy；原始 `uni5965` drawing 與 glyph-order prefix 不變。
 - U+5967 `奧` 是主要視覺 reference：bounds `(122,-53,668,761)`、ink `546×814`、center `(395,354)`、advance 790、LSB／RSB 122／122。其他 Han sample 只作 secondary context。
-- Derived copy 使用 uniform `scale_x=scale_y=0.895`、`dx=+10.5`、`dy=+34`，再套用 6-unit boundary embolden 補回縮放損失的筆重；advance 改為 790。Final bounds 約 `(128.8,-72,661,780.7)`、center `(394.9,354.35)`，與 `奧` 的中心誤差小於 0.5 font unit；LSB／RSB 為 128／129。Uniform scale 取兩字 width／height ratio 的幾何平均，保留原 aspect ratio 與 source drawing。
+- Derived copy 使用 uniform `scale_x=scale_y=0.895`、`dx=+10.5`、`dy=+34`，再套用 4-unit boundary embolden 微量補回縮放損失的筆重；advance 改為 790。Final bounds 約 `(129.8,-71,660.1,779.7)`、center `(394.94,354.35)`，與 `奧` 的中心誤差小於 0.5 font unit；LSB／RSB 均為 129。Uniform scale 取兩字 width／height ratio 的幾何平均，保留原 aspect ratio 與 source drawing。
 - 不修改其他 Han、平假名、片假名或 stroke-weight layer。Proof：`quanfangwei-oku-optical-alignment-proof.png`、`quanfangwei-oku-optical-diagnostic-proof.png`；verifier：`python tools/font/verify_oku_optical_alignment.py`。
