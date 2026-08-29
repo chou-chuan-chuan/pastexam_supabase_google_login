@@ -12,6 +12,7 @@ from pathlib import Path
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 
+from audit_japanese_weight import glyph_measurement
 from japanese.user_japanese_overrides import SHARED_HAN_OPTICAL_TRANSFORMS
 
 
@@ -40,6 +41,7 @@ def measure(font: TTFont, character: str) -> dict[str, object]:
         raise RuntimeError(f"U+{ord(character):04X} {character} has no ink bounds")
     x_min, y_min, x_max, y_max = pen.bounds
     advance, lsb = font["hmtx"].metrics[glyph_name]
+    glyph = font["glyf"][glyph_name]
     return {
         "character": character,
         "codepoint": f"U+{ord(character):04X}",
@@ -54,7 +56,8 @@ def measure(font: TTFont, character: str) -> dict[str, object]:
         "optical_center_y": round_value((y_min + y_max) / 2),
         "advance": int(advance),
         "lsb": int(lsb),
-        "rsb": round_value(advance - lsb - (x_max - x_min)),
+        "rsb": int(advance - lsb - (glyph.xMax - glyph.xMin)),
+        "outline_rsb": round_value(advance - lsb - (x_max - x_min)),
     }
 
 
@@ -86,6 +89,8 @@ def main() -> int:
     with TTFont(OUTPUT_PATH, recalcTimestamp=False) as output:
         current_output = measure(output, TARGET)
         authoritative_reference = measure(output, "奧")
+    current_output["ink_density_16px_em2"] = glyph_measurement(OUTPUT_PATH, TARGET, 16)["ink_density_em2"]
+    authoritative_reference["ink_density_16px_em2"] = glyph_measurement(OUTPUT_PATH, "奧", 16)["ink_density_em2"]
     width_scale = float(authoritative_reference["ink_width"]) / float(before["ink_width"])
     height_scale = float(authoritative_reference["ink_height"]) / float(before["ink_height"])
     area_scale = math.sqrt(width_scale * height_scale)
@@ -98,10 +103,10 @@ def main() -> int:
         "reference_measurements": references,
         "reference_median": median_box(references),
         "authoritative_reference": authoritative_reference,
-        "matching_ratios": {
-            "width_scale": round_value(width_scale),
-            "height_scale": round_value(height_scale),
-            "uniform_ink_area_scale": round_value(area_scale),
+        "source_to_reference_ratios": {
+            "raw_width_ratio": round_value(width_scale),
+            "raw_height_ratio": round_value(height_scale),
+            "geometric_mean_diagnostic_only": round_value(area_scale),
         },
         "transform": {
             "scale_x": transform.scale_x,

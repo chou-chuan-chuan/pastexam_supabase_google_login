@@ -39,7 +39,7 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
 EXPECTED_HAN_TRANSFORMS = {
-    "奥": (0.895, 0.895, 10.5, 34.0, 4.0),
+    "奥": (0.921976, 0.855348, 9.0, 34.5, 4.0),
     "容": (1.00, 1.00, 19.45, 35.0, 0.0),
     "変": (0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": (0.98, 0.98, 17.5, 35.0, 0.0),
@@ -136,8 +136,12 @@ def main() -> int:
         require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
                  transform.embolden) == expected,
                 f"Unexpected transform record for {character}: {transform}")
-        require(transform.scale_x == transform.scale_y,
-                f"{character} must retain proportional source geometry")
+        if character == "奥":
+            require(transform.scale_x != transform.scale_y,
+                    "奥 must use the approved independent X/Y browser-optical fit")
+        else:
+            require(transform.scale_x == transform.scale_y,
+                    f"{character} must retain proportional source geometry")
     source = TTFont(SOURCE_PATH, recalcTimestamp=False)
     ttf = TTFont(TTF_PATH, recalcTimestamp=False)
     woff2 = TTFont(WOFF2_PATH, recalcTimestamp=False)

@@ -54,7 +54,7 @@ python tools/font/verify_oku_optical_alignment.py
 - Version 1.008 依使用者提供的標準手寫表校對字形結構；build-time kana y shift 為 -145 units，中央日文符號為 -120 units，GPOS kana base anchor y 為 690。`proofs/quanfangwei-cjk-kana-alignment-proof.png` 以同一 face、size、baseline 驗證中日混排，沒有 CSS 位移。
 - Version 1.009 的 `kana_sources/hiragana_redesign.py` 保存完整現代平假名的第三輪原創 center-line source；`さ／ち` 下段分離，`の` 使用斜入、左回環與右側長收筆。`proofs/quanfangwei-hiragana-redesign-proof.png` 以 120 px 字格與 48 px 歌詞行驗收辨識度。
 - Japanese kanji 目前沿用 shared Unicode code point 的既有辰宇落雁 glyph；不建立大規模 `locl JAN`。
-- U+5965 `奥` 保留官方 `uni5965` source drawing，並以 U+5967 `奧` 為主要 reference，映射到 uniform 0.895、dx +10.5、dy +34 的 derived optical copy，再套用 4-unit boundary embolden 微量恢復筆重；advance 790，derived LSB／RSB 均為 129。以 `analyze_oku_optical_alignment.py`、`verify_oku_optical_alignment.py`、`render_oku_optical_alignment_proof.py`、`render_oku_diagnostic_proof.py` 與 `oku-browser-proof.html` 驗收。
+- U+5965 `奥` 保留官方 `uni5965` source drawing，並以 U+5967 `奧` 為 authoritative browser reference，映射到 non-uniform `scale_x 0.921976`、`scale_y 0.855348`、dx +9、dy +34.5 的 derived optical copy，再套用 4-unit boundary embolden；advance 790，final LSB／RSB 122／122。以 `analyze_oku_optical_alignment.py`、`verify_oku_optical_alignment.py` 與正式 WOFF2 `oku-browser-proof.html` 驗收。
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical writing、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體。Phase 2 會以實際 TXT／LRC／JSON 歌詞缺字頻率與 regional-variant review 為基礎。
 
@@ -149,7 +149,7 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 ### Version 1.015 Japanese glyph optical alignment
 
 - `す` keeps the authoritative Version 1.014 handwritten branches and point order; only the outer transform widens it from effective `scale_x=1.04` to `1.60`, retains `scale_y=1.04`, and shifts its optical center right and down.
-- Version 1.015 的 `恋／哀／奧／優／寄` 使用各自記錄的等比例 source-derived transform；當時 U+5965 `奥` 尚未調整，Version 1.019 才加入獨立 optical derived copy。
+- Version 1.015 的 `恋／哀／奧／優／寄` 使用各自記錄的等比例 source-derived transform；當時 U+5965 `奥` 尚未調整，Version 1.020 採用獨立 non-uniform optical derived copy。
 - Version 1.016 adds the same source-preserving derived mechanism for `変` U+5909: uniform `0.80` scale around its native ink center, `dx +19.25 / dy +35`, then an `8-unit` boundary embolden on the derived copy to restore the source face's apparent stroke weight.
 - These are shared-cmap derived copies because the current font has no `locl JAN`; no broad language-specific GSUB architecture is introduced.
 - Proof: `proofs/quanfangwei-japanese-optical-alignment-proof.png` at 16／20／24／32／48／72 px.
@@ -181,9 +181,9 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - 不修改其他 Han，也不重新生成或改動 `USER_HANDWRITING_REFINED` 46 平假名 topology。
 - Proof：`proofs/quanfangwei-yong-alignment-proof.png`（16／20／24／32／48／72 px）；Stage B verifier：`python tools/font/verify_yong_alignment.py`。
 
-### Version 1.019 奥 optical alignment
+### Version 1.020 奥 optical alignment
 
 - U+5965 `奥` 使用現有 shared-Han derived-copy 架構；官方 source glyph `uni5965` 保留且 drawing identity 不變。
 - U+5967 `奧` 是 authoritative primary reference：bounds `(122,-53,668,761)`、ink `546×814`、center `(395,354)`、advance 790、LSB／RSB 122／122；`目写影深身` 與既有 alignment sample 只作 secondary context。原始 `奥` 為 bounds `(91,-153,678,793)`、ink `587×946`、center `(384.5,320)`、advance 798。
-- Uniform scale 0.895 取 `奥`→`奧` width ratio 與 height ratio 的幾何平均（等效 ink area），避免非等比扭曲；`dx +10.5`／`dy +34` 將中心對齊 `(395,354)`。4-unit boundary embolden 的 ink density 為 0.12003，與 `奧` 的 0.12015 差異約 0.1%，且較 6-unit 版本更細。Advance 改為 790；final bounds 約 `(129.8,-71,660.1,779.7)`，LSB／RSB 均為 129。
-- Proof：`proofs/quanfangwei-oku-optical-alignment-proof.png` 與 `proofs/quanfangwei-oku-optical-diagnostic-proof.png`；measurement report：`reports/oku-optical-alignment.json`；verification：`python tools/font/verify_oku_optical_alignment.py`。
+- Browser-native E-family QA confirmed that the source aspect ratio cannot match both reference dimensions with a uniform scale. The accepted derived copy uses `scale_x=0.921976`、`scale_y=0.855348`、`dx=+9`、`dy=+34.5` and the approved 4-unit boundary embolden. Advance is 790; final bounds are about `(122.75,-53,668,760.75)`, ink `545.25×813.75`, center `(395.375,353.875)`, and LSB／RSB 122／122.
+- 正式 WOFF2 browser proof `oku-browser-proof.html` 是視覺驗收依據；Pillow proof 僅作 rasterizer diagnostics。Measurement report：`reports/oku-optical-alignment.json`；verification：`python tools/font/verify_oku_optical_alignment.py`。

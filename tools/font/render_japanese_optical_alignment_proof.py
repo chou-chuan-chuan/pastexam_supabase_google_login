@@ -116,7 +116,7 @@ def main() -> int:
         y = draw_text_row(draw, args.before_font, args.after_font, y, size, "哀しみを抱いて　奧深い森を歩く")
         y = draw_text_row(draw, args.before_font, args.after_font, y, size, "優しい風が吹く　寄り添う二人")
 
-    draw.text((45, 3275), "Review codepoints: す U+3059 / 恋 U+604B / 哀 U+54C0 / 奧 U+5967 / 優 U+512A / 寄 U+5BC4 — 奥 U+5965 unchanged", font=face(args.after_font, 19), fill=MUTED)
+    draw.text((45, 3275), "Review codepoints: す U+3059 / 恋 U+604B / 哀 U+54C0 / 奧 U+5967 / 優 U+512A / 寄 U+5BC4 — 奥 U+5965 verified separately with its Version 1.020 optical copy", font=face(args.after_font, 19), fill=MUTED)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     image.save(args.output)
     print(args.output)

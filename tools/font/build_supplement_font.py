@@ -52,11 +52,11 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.019"
-BUILD_DATE = "2026-08-29"
-UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260829"
+VERSION = "1.020"
+BUILD_DATE = "2026-08-30"
+UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260830"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
-BUILD_TIMESTAMP = int((datetime(2026, 8, 29, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
+BUILD_TIMESTAMP = int((datetime(2026, 8, 30, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
 
 # These anchors reproduce the existing Ccedilla component transform exactly.
 # The cedilla top-center (95, 91) attaches to C at (221, 91), yielding the
@@ -405,11 +405,11 @@ def write_modifications() -> None:
 - 假名輪廓：46 個現代基本平假名以維護者本人手寫結構為骨架，再交由 repository 原有 variable-width handwriting renderer 產生最終 TrueType 輪廓；target center-line width 為 42–50 units，renderer 再加入 deterministic pressure/taper/handwritten terminals。小平假名從 refined base 確定性縮放，濁音／半濁音仍共用 base + mark components
 - Stroke-weight harmonization（Version 1.017）：只在已驗收 center-line 與 optical transform 之後比例調整 `width` / `start_width` / `end_width`；大平假名 ×1.10，小平假名繼承 ×1.10，片假名 ×1.14，dakuten ×1.10，handakuten ×1.20，長音 `ー` ×1.10。`USER_HANDWRITING_REFINED` points／stroke topology 與逐字 optical scale/dx/dy 完全不變；iteration marks、`々`、`・`、`〆` 與 source-derived Han 不加粗
 - 容 optical alignment（Version 1.018）：U+5BB9 `容` 保留官方來源 drawing，以 shared-Han derived copy 機制套用 scale_x/scale_y 1.00、dx +19.45、dy +35；advance 不變，不修改其他 Han 或 46 個 `USER_HANDWRITING_REFINED` 平假名 topology
-- 奥 optical alignment（Version 1.019）：U+5965 `奥` 保留官方來源 drawing，以 U+5967 `奧` 為主要 reference，套用 uniform scale 0.895、dx +10.5、dy +34，再加 4-unit boundary embolden 微量補回縮放損失的筆重；advance 設為 790，derived outline 的 LSB／RSB 均為 129，不修改其他 Han 或假名
+- 奥 optical alignment（Version 1.020）：U+5965 `奥` 保留官方來源 drawing，以 U+5967 `奧` 為主要 browser reference，derived copy 套用 non-uniform scale_x 0.921976、scale_y 0.855348、dx +9、dy +34.5，再加 4-unit boundary embolden；advance 790，final ink 約 545.25 × 813.75、center 約 (395.375,353.875)，LSB／RSB 122／122，不修改其他 Han 或假名
 - 濁點：兩個不等寬、略有壓力與角度差的短筆，視覺參考原字型 apostrophe、quotation-like strokes、semicolon 與中文點筆；未複製其他日本字型
 - 半濁點：以不完全幾何、寬度與曲率略變的封閉手寫小圈重畫，視覺參考原字型 U+3002、口、日等圓／框形筆勢；未複製其他日本字型
 - Japanese combining：U+3099 `uni3099` 與 U+309A `uni309A` advance 均為 0，加入 GDEF mark class 與 GPOS MarkBasePos；預組合與分解形式共用同一 mark contour 與 anchor delta
-- Japanese special glyphs：Version 1.014 的 U+61D0 `懐` 結合原生 `懷` 上／左結構與等比例縮放定位的原生 `衣` 下部；U+3005 `々` 使用 project-local center-lines 並將右側缺口連成連續筆勢；U+5915 `夕` 完全不改。U+6C17 `気` 與 U+4ED8 `付` 仍只建立保留原來源輪廓的垂直 optical transform copy。Version 1.015 另為 U+604B `恋`、U+54C0 `哀`、U+5967 `奧`、U+512A `優`、U+5BC4 `寄` 建立保留 source drawing 的縮放／置中 derived copy；Version 1.016 以同機制將 U+5909 `変` 等比縮至 0.80、dx +19.25、dy +35，再對 derived outline 套用 8-unit boundary embolden 補償縮小後筆重。Version 1.018 為 U+5BB9 `容` 建立不縮放的 source-preserving copy，只平移 +19.45 x / +35 y；Version 1.019 為 U+5965 `奥` 建立 uniform 0.895 source-preserving copy，平移 +10.5 x / +34 y、套用 4-unit boundary embolden，並將 advance 設為 790 以匹配 `奧`
+- Japanese special glyphs：Version 1.014 的 U+61D0 `懐` 結合原生 `懷` 上／左結構與等比例縮放定位的原生 `衣` 下部；U+3005 `々` 使用 project-local center-lines 並將右側缺口連成連續筆勢；U+5915 `夕` 完全不改。U+6C17 `気` 與 U+4ED8 `付` 仍只建立保留原來源輪廓的垂直 optical transform copy。Version 1.015 另為 U+604B `恋`、U+54C0 `哀`、U+5967 `奧`、U+512A `優`、U+5BC4 `寄` 建立保留 source drawing 的縮放／置中 derived copy；Version 1.016 以同機制將 U+5909 `変` 等比縮至 0.80、dx +19.25、dy +35，再對 derived outline 套用 8-unit boundary embolden 補償縮小後筆重。Version 1.018 為 U+5BB9 `容` 建立不縮放的 source-preserving copy，只平移 +19.45 x / +35 y；Version 1.020 為 U+5965 `奥` 建立 non-uniform source-preserving optical copy，以 0.921976 x / 0.855348 y 配合 +9 x / +34.5 y 與 4-unit boundary embolden 匹配 `奧`，advance 設為 790
 - Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical typesetting、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體；一般現代日文歌曲的假名部分應完整顯示
 - Future Phase 2：依本機 TXT／LRC／JSON 歌詞的缺字頻率補足實際漢字，並個別審查 Japanese regional glyph variants；不抓取網路歌詞
 - 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`
@@ -470,7 +470,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.019
+        font["head"].fontRevision = 1.020
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]
