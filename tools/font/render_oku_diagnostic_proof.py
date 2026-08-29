@@ -118,7 +118,7 @@ def main() -> int:
     draw.text((55, 95), "Blue: advance box   Pink: ink bounds   Green: ink center   Orange: authoritative 奧 center y=354", font=face(args.after_font, 22), fill=MUTED)
     panel(draw, args.before_font, measure(args.before_font, "奥"), 55, "Before 奥 — origin/main 1.018")
     panel(draw, args.after_font, measure(args.after_font, "奧"), 1260, "Reference 奧 — authoritative target")
-    panel(draw, args.after_font, measure(args.after_font, "奥"), 2465, "After 奥 — optical derived copy 1.019")
+    panel(draw, args.after_font, measure(args.after_font, "奥"), 2465, "After 奥 — optical derived copy 1.020")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     image.save(args.output)
     print(args.output)

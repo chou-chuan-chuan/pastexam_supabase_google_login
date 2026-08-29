@@ -3,51 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>U+5965 奥 vs U+5967 奧 Optical Proof</title>
+  <title>U+5965 奥 Official Browser Proof</title>
+  <link rel="stylesheet" href="../../assets/style.css?proof=1.020">
   <style>
-    @font-face {
-      font-family: "Oku Before Proof";
-      src: url("/.codex-quanfangwei-1.018-oku-before.ttf") format("truetype");
-      font-weight: 400;
-    }
-    @font-face {
-      font-family: "Oku Built Proof";
-      src:
-        url("../../assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2?v=1.019-oku-weight8") format("woff2"),
-        url("../../assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf?v=1.019-oku-weight8") format("truetype");
-      font-weight: 400;
-    }
-    :root { color: #251c36; background: #f5eef8; font-synthesis: none; }
-    body { margin: 0; font-family: system-ui, sans-serif; }
-    main { width: min(1180px, calc(100% - 32px)); margin: 32px auto; padding: 28px; border-radius: 20px; background: #fffdf9; }
-    h1, .meta { margin: 0 0 12px; }
-    .meta { color: #72677e; }
-    .grid { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 0; border-top: 1px solid #ddd5e7; border-left: 1px solid #ddd5e7; }
-    .cell { min-width: 0; padding: 12px; border-right: 1px solid #ddd5e7; border-bottom: 1px solid #ddd5e7; overflow: hidden; white-space: nowrap; }
-    .pair { display: grid; gap: 8px; }
-    .row { display: grid; grid-template-columns: 64px minmax(max-content, 1fr); align-items: baseline; overflow-x: auto; }
-    .glyph { line-height: 1.35; }
-    .source { font-family: "Oku Before Proof"; }
-    .built { font-family: "Oku Built Proof"; }
-    .label { color: #72677e; font: 14px/1.4 system-ui, sans-serif; }
+    .proof-page { width: min(1180px, calc(100% - 28px)); margin: 28px auto 60px; }
+    .proof-heading { margin: 0 0 8px; font: 650 28px/1.25 system-ui, sans-serif; letter-spacing: normal; }
+    .proof-note { max-width: 1000px; margin: 0 0 20px; color: #687386; font: 15px/1.55 system-ui, sans-serif; letter-spacing: normal; }
+    .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 16px; }
+    .proof-card { min-width: 0; overflow: hidden; border: 1px solid #dce2ea; border-radius: 14px; background: #fff; }
+    .proof-card.primary { border-color: #8e6bc5; box-shadow: 0 7px 24px rgba(84, 36, 159, .11); }
+    .proof-header { display: flex; justify-content: space-between; gap: 12px; padding: 11px 12px; border-bottom: 1px solid #dce2ea; font: 600 14px/1.35 system-ui, sans-serif; letter-spacing: normal; }
+    .proof-header span:last-child { color: #687386; font-weight: 450; }
+    .proof-card .lyric-line { grid-template-columns: 1fr; gap: 0; cursor: default; border-bottom: 1px solid #edf0f4; border-radius: 0; overflow-x: auto; }
+    .proof-card .lyric-line:last-child { border-bottom: 0; }
+    .proof-card .lyric-time { display: none; }
+    .proof-card .lyric-text { white-space: nowrap; }
+    .diagnostics { margin-top: 20px; padding: 16px; border: 1px solid #dce2ea; border-radius: 14px; background: #fff; font: 14px/1.55 system-ui, sans-serif; letter-spacing: normal; }
+    .diagnostics h2 { margin: 0 0 10px; font: 650 19px/1.3 system-ui, sans-serif; letter-spacing: normal; }
+    .diagnostics dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0; }
+    .diagnostics dt { color: #687386; }
+    .diagnostics dd { margin: 0; overflow-wrap: anywhere; }
   </style>
 </head>
 <body>
-  <main>
-    <h1>U+5965 奥 vs U+5967 奧 — before / after</h1>
-    <p class="meta">U+5967 奧 is the authoritative reference. After preserves the original 奥 drawing, applies uniform scale 0.895, dx +10.5, dy +34, plus an 8-unit boundary embolden to restore stroke weight; advance 790.</p>
-    <div class="grid" id="proof"></div>
+  <main class="proof-page">
+    <h1 class="proof-heading">U+5965 奥 — official Version 1.020 browser proof</h1>
+    <p class="proof-note">
+      This page loads the official production WOFF2 through the exact production stylesheet and family stack.
+      U+5965 uses the approved E1 derived transform; U+5967 奧 and all other glyphs are unchanged. Browser rendering is authoritative.
+    </p>
+    <section class="proof-grid" id="proof-grid" aria-label="Official browser proof sizes"></section>
+    <section class="diagnostics" aria-label="Runtime diagnostics">
+      <h2>Runtime diagnostics</h2>
+      <dl id="runtime-list"><dt>Status</dt><dd>Loading official WOFF2…</dd></dl>
+    </section>
   </main>
   <script>
-    const sizes = [16, 20, 24, 32, 48, 72];
-    const lines = ["奥", "奧", "奥奧", "目の奥奧に", "目の奥奧にずっと写るシルエット"];
-    const proof = document.querySelector("#proof");
-    proof.innerHTML = '<div class="cell label">Size</div><div class="cell label">Before origin/main 1.018 / After optical derived copy 1.019</div>';
-    for (const size of sizes) {
-      for (const [index, text] of lines.entries()) {
-        proof.insertAdjacentHTML("beforeend", `<div class="cell label">${index === 0 ? `${size}px` : ""}</div><div class="cell pair"><div class="row"><span class="label">Before</span><span class="source glyph" style="font-size:${size}px">${text}</span></div><div class="row"><span class="label">After</span><span class="built glyph" style="font-size:${size}px">${text}</span></div></div>`);
-      }
+    const proofLines = ["奧", "奥", "奥奧", "目の奥奧に", "目の奥にずっと写るシルエット"];
+    const sizes = [16, 20, 24, 32];
+    const grid = document.querySelector("#proof-grid");
+
+    function lyricLine(text) {
+      const button = document.createElement("button");
+      button.className = "lyric-line";
+      button.type = "button";
+      button.tabIndex = -1;
+      const lyric = document.createElement("span");
+      lyric.className = "lyric-text";
+      lyric.textContent = text;
+      button.append(lyric);
+      return button;
     }
+
+    for (const size of sizes) {
+      const card = document.createElement("article");
+      card.className = `proof-card${size === 16 ? " primary" : ""}`;
+      card.style.fontSize = `${size}px`;
+      const header = document.createElement("div");
+      header.className = "proof-header";
+      header.innerHTML = `<span>${size}px${size === 16 ? " — primary acceptance" : ""}</span><span>Official WOFF2 v1.020</span>`;
+      card.append(header, ...proofLines.map(lyricLine));
+      grid.append(card);
+    }
+
+    async function updateDiagnostics() {
+      await document.fonts.load('400 16px "QuanFangwei Supplement Web"', proofLines.join(""));
+      await document.fonts.ready;
+      const lyric = document.querySelector(".lyric-text");
+      const line = lyric.closest(".lyric-line");
+      const textStyle = getComputedStyle(lyric);
+      const lineStyle = getComputedStyle(line);
+      const resources = performance.getEntriesByType("resource").map(entry => entry.name);
+      const woff2Url = resources.find(url => /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.020/.test(url));
+      const ttfUrl = resources.find(url => /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.020/.test(url));
+      const values = [
+        ["Primary CSS font-size", textStyle.fontSize],
+        ["Computed font-family", textStyle.fontFamily],
+        ["font-weight / synthesis", `${textStyle.fontWeight} / ${textStyle.fontSynthesis}`],
+        ["Production letter-spacing", lineStyle.letterSpacing],
+        ["Production line-height", lineStyle.lineHeight],
+        ["devicePixelRatio / viewport scale", `${devicePixelRatio} / ${visualViewport ? visualViewport.scale : 1}`],
+        ["Official WOFF2", woff2Url ? `Loaded — ${woff2Url}` : "Not detected"],
+        ["TTF fallback requested", ttfUrl ? `Yes — ${ttfUrl}` : "No"],
+        ["Accepted transform", "scale_x .921976 / scale_y .855348 / dx +9 / dy +34.5 / embolden 4 / advance 790"],
+      ];
+      document.querySelector("#runtime-list").innerHTML = values.map(([key, value]) => `<dt>${key}</dt><dd>${value}</dd>`).join("");
+    }
+
+    updateDiagnostics();
   </script>
 </body>
 </html>

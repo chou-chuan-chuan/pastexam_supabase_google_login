@@ -14,7 +14,8 @@
     "optical_center_y": 320.0,
     "advance": 798,
     "lsb": 91,
-    "rsb": 120.0
+    "rsb": 120,
+    "outline_rsb": 120.0
   },
   "reference_characters": "目写影深身平仮名片君愛声夢春心明日夜空",
   "required_reference_characters": "目写影深身",
@@ -34,7 +35,8 @@
       "optical_center_y": 350.0,
       "advance": 534,
       "lsb": 121,
-      "rsb": 109.0
+      "rsb": 109,
+      "outline_rsb": 109.0
     },
     {
       "character": "写",
@@ -50,7 +52,8 @@
       "optical_center_y": 320.032,
       "advance": 910,
       "lsb": 88,
-      "rsb": 124.0
+      "rsb": 124,
+      "outline_rsb": 124.0
     },
     {
       "character": "影",
@@ -66,7 +69,8 @@
       "optical_center_y": 359.5,
       "advance": 980,
       "lsb": 99,
-      "rsb": 141.25
+      "rsb": 139,
+      "outline_rsb": 141.25
     },
     {
       "character": "深",
@@ -82,7 +86,8 @@
       "optical_center_y": 370.308,
       "advance": 1033,
       "lsb": 89,
-      "rsb": 75.0
+      "rsb": 75,
+      "outline_rsb": 75.0
     },
     {
       "character": "身",
@@ -98,7 +103,8 @@
       "optical_center_y": 350.0,
       "advance": 569,
       "lsb": 85,
-      "rsb": 73.0
+      "rsb": 73,
+      "outline_rsb": 73.0
     },
     {
       "character": "平",
@@ -114,7 +120,8 @@
       "optical_center_y": 320.0,
       "advance": 716,
       "lsb": 87,
-      "rsb": 124.0
+      "rsb": 124,
+      "outline_rsb": 124.0
     },
     {
       "character": "仮",
@@ -130,7 +137,8 @@
       "optical_center_y": 320.0,
       "advance": 1061,
       "lsb": 80,
-      "rsb": 128.952
+      "rsb": 123,
+      "outline_rsb": 128.952
     },
     {
       "character": "名",
@@ -146,7 +154,8 @@
       "optical_center_y": 340.0,
       "advance": 794,
       "lsb": 90,
-      "rsb": 125.0
+      "rsb": 125,
+      "outline_rsb": 125.0
     },
     {
       "character": "片",
@@ -162,7 +171,8 @@
       "optical_center_y": 350.0,
       "advance": 572,
       "lsb": 90,
-      "rsb": 91.0
+      "rsb": 91,
+      "outline_rsb": 91.0
     },
     {
       "character": "君",
@@ -178,7 +188,8 @@
       "optical_center_y": 320.0,
       "advance": 775,
       "lsb": 89,
-      "rsb": 129.0
+      "rsb": 129,
+      "outline_rsb": 129.0
     },
     {
       "character": "愛",
@@ -194,7 +205,8 @@
       "optical_center_y": 350.0,
       "advance": 882,
       "lsb": 87,
-      "rsb": 124.0
+      "rsb": 124,
+      "outline_rsb": 124.0
     },
     {
       "character": "声",
@@ -210,7 +222,8 @@
       "optical_center_y": 319.711,
       "advance": 653,
       "lsb": 86,
-      "rsb": 128.0
+      "rsb": 128,
+      "outline_rsb": 128.0
     },
     {
       "character": "夢",
@@ -226,7 +239,8 @@
       "optical_center_y": 359.733,
       "advance": 708,
       "lsb": 80,
-      "rsb": 128.962
+      "rsb": 121,
+      "outline_rsb": 128.962
     },
     {
       "character": "春",
@@ -242,7 +256,8 @@
       "optical_center_y": 350.05,
       "advance": 699,
       "lsb": 90,
-      "rsb": 72.0
+      "rsb": 72,
+      "outline_rsb": 72.0
     },
     {
       "character": "心",
@@ -258,7 +273,8 @@
       "optical_center_y": 350.5,
       "advance": 1092,
       "lsb": 91,
-      "rsb": 120.0
+      "rsb": 120,
+      "outline_rsb": 120.0
     },
     {
       "character": "明",
@@ -274,7 +290,8 @@
       "optical_center_y": 350.0,
       "advance": 778,
       "lsb": 95,
-      "rsb": 93.0
+      "rsb": 93,
+      "outline_rsb": 93.0
     },
     {
       "character": "日",
@@ -290,7 +307,8 @@
       "optical_center_y": 349.5,
       "advance": 535,
       "lsb": 97,
-      "rsb": 133.0
+      "rsb": 133,
+      "outline_rsb": 133.0
     },
     {
       "character": "夜",
@@ -306,7 +324,8 @@
       "optical_center_y": 320.0,
       "advance": 1014,
       "lsb": 106,
-      "rsb": 72.0
+      "rsb": 72,
+      "outline_rsb": 72.0
     },
     {
       "character": "空",
@@ -322,7 +341,8 @@
       "optical_center_y": 399.9,
       "advance": 915,
       "lsb": 84,
-      "rsb": 77.5
+      "rsb": 76,
+      "outline_rsb": 77.5
     }
   ],
   "reference_median": {
@@ -336,7 +356,7 @@
     "optical_center_y": 350.0,
     "advance": 778.0,
     "lsb": 89.0,
-    "rsb": 124.0
+    "rsb": 121.0
   },
   "authoritative_reference": {
     "character": "奧",
@@ -352,35 +372,39 @@
     "optical_center_y": 354.0,
     "advance": 790,
     "lsb": 122,
-    "rsb": 122.0
+    "rsb": 122,
+    "outline_rsb": 122.0,
+    "ink_density_16px_em2": 0.12004
   },
-  "matching_ratios": {
-    "width_scale": 0.93,
-    "height_scale": 0.86,
-    "uniform_ink_area_scale": 0.895
+  "source_to_reference_ratios": {
+    "raw_width_ratio": 0.93,
+    "raw_height_ratio": 0.86,
+    "geometric_mean_diagnostic_only": 0.895
   },
   "transform": {
-    "scale_x": 0.895,
-    "scale_y": 0.895,
-    "dx": 10.5,
-    "dy": 34.0,
-    "embolden": 8.0,
+    "scale_x": 0.921976,
+    "scale_y": 0.855348,
+    "dx": 9.0,
+    "dy": 34.5,
+    "embolden": 4.0,
     "advance": 790
   },
   "current_output": {
     "character": "奥",
     "codepoint": "U+5965",
     "glyph_name": "uni5965.qfwJaOptical",
-    "xMin": 127.8,
-    "xMax": 662.0,
-    "yMin": -73.0,
-    "yMax": 781.692,
-    "ink_width": 534.2,
-    "ink_height": 854.692,
-    "optical_center_x": 394.9,
-    "optical_center_y": 354.346,
+    "xMin": 122.75,
+    "xMax": 668.0,
+    "yMin": -53.0,
+    "yMax": 760.75,
+    "ink_width": 545.25,
+    "ink_height": 813.75,
+    "optical_center_x": 395.375,
+    "optical_center_y": 353.875,
     "advance": 790,
-    "lsb": 127,
-    "rsb": 128.8
+    "lsb": 122,
+    "rsb": 122,
+    "outline_rsb": 122.75,
+    "ink_density_16px_em2": 0.118085
   }
 }

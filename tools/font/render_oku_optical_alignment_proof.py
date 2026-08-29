@@ -39,12 +39,12 @@ def main() -> int:
     draw.text((55, 34), "U+5965 奥 — optical alignment", font=face(args.after_font, 42), fill=INK)
     draw.text(
         (55, 92),
-        "U+5967 奧 is the primary reference | scale 0.895 | dx +10.5 | dy +34 | 8-unit weight compensation",
+        "U+5967 奧 is the primary reference | scale_x 0.921976 | scale_y 0.855348 | dx +9 | dy +34.5 | embolden 4",
         font=face(args.after_font, 22),
         fill=MUTED,
     )
     draw.text((190, 150), "Before (origin/main 1.018)", font=face(args.after_font, 27), fill=MUTED)
-    draw.text((1410, 150), "After (optical derived copy 1.019)", font=face(args.after_font, 27), fill=ACCENT)
+    draw.text((1410, 150), "After (optical derived copy 1.020)", font=face(args.after_font, 27), fill=ACCENT)
     draw.line((55, 200, 2545, 200), fill=GRID, width=2)
 
     y = 235

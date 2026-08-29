@@ -48,6 +48,7 @@ ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.04
 ALIGNMENT_SCALE_CLAMP = (0.88, 1.04)
 ALIGNMENT_OPTICAL_Y = {"気": 30.0, "付": 6.0}
 OPTICAL_ALIGNMENT_SUFFIX = ".qfwJaOptical"
+OKU_REFERENCE_CENTER = (395.0, 354.0)
 
 
 @dataclass(frozen=True)
@@ -66,7 +67,7 @@ class SourceOpticalTransform:
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
-    "奥": SourceOpticalTransform(0.895, 0.895, 10.5, 34.0, 8.0, advance=790),
+    "奥": SourceOpticalTransform(0.921976, 0.855348, 9.0, 34.5, 4.0, advance=790),
     "容": SourceOpticalTransform(1.00, 1.00, 19.45, 35.0),
     "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),
     "恋": SourceOpticalTransform(0.98, 0.98, 17.5, 35.0),
@@ -271,17 +272,61 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
         if source_name is None:
             raise RuntimeError(f"Source font is missing U+{codepoint:04X} {character}")
         source_bounds = glyph_bounds(font, source_name)
-        matrix = centered_optical_transform(source_bounds, optical)
         target_name = f"{source_name}{OPTICAL_ALIGNMENT_SUFFIX}"
-        glyph = (
-            transformed_emboldened_glyph(font, source_name, matrix, optical.embolden)
-            if optical.embolden
-            else transformed_glyph(font, source_name, matrix)
-        )
-        glyph.recalcBounds(font["glyf"])
         source_advance, _ = font["hmtx"].metrics[source_name]
         advance = optical.advance if optical.advance is not None else source_advance
-        install(font, target_name, glyph, advance, glyph.xMin, source_name)
+        if character == "奥":
+            # PathOps boundary expansion is slightly sensitive to sub-unit
+            # translation. Build at the authoritative reference center first,
+            # then translate the completed outline until its measured center
+            # matches the browser-approved E1 copy. The recorded dx/dy remain
+            # the final effective translation after scaling and emboldening.
+            source_center_x = (source_bounds[0] + source_bounds[2]) / 2
+            source_center_y = (source_bounds[1] + source_bounds[3]) / 2
+            effective_dx = OKU_REFERENCE_CENTER[0] - source_center_x
+            effective_dy = OKU_REFERENCE_CENTER[1] - source_center_y
+            initial = SourceOpticalTransform(
+                optical.scale_x,
+                optical.scale_y,
+                effective_dx,
+                effective_dy,
+                optical.embolden,
+                optical.advance,
+            )
+            matrix = centered_optical_transform(source_bounds, initial)
+            glyph = transformed_emboldened_glyph(font, source_name, matrix, optical.embolden)
+            glyph.recalcBounds(font["glyf"])
+            install(font, target_name, glyph, advance, glyph.xMin, source_name)
+            for _iteration in range(4):
+                actual_bounds = glyph_bounds(font, target_name)
+                actual_center_x = (actual_bounds[0] + actual_bounds[2]) / 2
+                actual_center_y = (actual_bounds[1] + actual_bounds[3]) / 2
+                correction_x = OKU_REFERENCE_CENTER[0] - actual_center_x
+                correction_y = OKU_REFERENCE_CENTER[1] - actual_center_y
+                if abs(correction_x) <= 0.001 and abs(correction_y) <= 0.001:
+                    break
+                glyph = transformed_glyph(
+                    font,
+                    target_name,
+                    Transform(1, 0, 0, 1, correction_x, correction_y),
+                )
+                glyph.recalcBounds(font["glyf"])
+                install(font, target_name, glyph, advance, glyph.xMin, source_name)
+                effective_dx += correction_x
+                effective_dy += correction_y
+            if abs(effective_dx - optical.dx) > 0.001 or abs(effective_dy - optical.dy) > 0.001:
+                raise RuntimeError(
+                    f"U+5965 final centering changed: dx={effective_dx}, dy={effective_dy}"
+                )
+        else:
+            matrix = centered_optical_transform(source_bounds, optical)
+            glyph = (
+                transformed_emboldened_glyph(font, source_name, matrix, optical.embolden)
+                if optical.embolden
+                else transformed_glyph(font, source_name, matrix)
+            )
+            glyph.recalcBounds(font["glyf"])
+            install(font, target_name, glyph, advance, glyph.xMin, source_name)
         add_mapping(font, codepoint, target_name)
         metadata["optical_alignment"][character] = {
             "source_glyph": source_name,

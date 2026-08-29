@@ -18,15 +18,16 @@ SOURCE_PATH = REPO_ROOT / "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf"
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 CHARACTER = "奥"
-EXPECTED_TRANSFORM = (0.895, 0.895, 10.5, 34.0, 8.0, 790)
+PARITY_CHARACTERS = tuple(dict.fromkeys("奥奧目のにずっと写るシルエット"))
+EXPECTED_TRANSFORM = (0.921976, 0.855348, 9.0, 34.5, 4.0, 790)
 EXPECTED_SOURCE_BOUNDS = (91.0, -153.0, 678.0, 793.0)
 EXPECTED_REFERENCE_BOUNDS = (122.0, -53.0, 668.0, 761.0)
-EXPECTED_TARGET_BOUNDS = (127.8, -73.0, 662.0, 781.692)
+EXPECTED_TARGET_BOUNDS = (122.75, -53.0, 668.0, 760.75)
 EXPECTED_ADVANCE = 790
 EXPECTED_SOURCE_METRICS = (798, 91, 120)
 EXPECTED_REFERENCE_METRICS = (790, 122, 122)
-EXPECTED_TARGET_LSB = 127
-EXPECTED_TARGET_RSB = 128
+EXPECTED_TARGET_LSB = 122
+EXPECTED_TARGET_RSB = 122
 REFERENCE_CENTER = (395.0, 354.0)
 
 
@@ -61,7 +62,7 @@ def main() -> int:
     if transform:
         actual = (transform.scale_x, transform.scale_y, transform.dx, transform.dy, transform.embolden, transform.advance)
         require(actual == EXPECTED_TRANSFORM, f"Unexpected U+5965 transform: {actual}")
-        require(transform.scale_x == transform.scale_y, "U+5965 optical scale must remain uniform")
+        require(transform.scale_x != transform.scale_y, "U+5965 must use the approved independent X/Y optical scales")
 
     source = TTFont(SOURCE_PATH, recalcTimestamp=False)
     ttf = TTFont(TTF_PATH, recalcTimestamp=False)
@@ -87,6 +88,18 @@ def main() -> int:
         require(target_lsb == EXPECTED_TARGET_LSB, f"Unexpected derived LSB: {target_lsb}")
         require(target_rsb == EXPECTED_TARGET_RSB, f"Unexpected derived RSB: {target_rsb}")
         require(side_bearings(woff2, target_name) == side_bearings(ttf, target_name), "TTF/WOFF2 U+5965 metrics differ")
+        ttf_cmap = ttf.getBestCmap()
+        woff2_cmap = woff2.getBestCmap()
+        for character in PARITY_CHARACTERS:
+            ttf_name = ttf_cmap.get(ord(character))
+            woff2_name = woff2_cmap.get(ord(character))
+            require(ttf_name is not None, f"TTF is missing parity character {character}")
+            require(woff2_name is not None, f"WOFF2 is missing parity character {character}")
+            if ttf_name is None or woff2_name is None:
+                continue
+            require(ttf_name == woff2_name, f"TTF/WOFF2 cmap differs for {character}")
+            require(bounds(ttf, ttf_name) == bounds(woff2, woff2_name), f"TTF/WOFF2 bounds differ for {character}")
+            require(ttf["hmtx"].metrics[ttf_name] == woff2["hmtx"].metrics[woff2_name], f"TTF/WOFF2 metrics differ for {character}")
         center_x = (target_bounds[0] + target_bounds[2]) / 2
         center_y = (target_bounds[1] + target_bounds[3]) / 2
         require(abs(center_x - EXPECTED_ADVANCE / 2) <= 0.5, f"U+5965 is not centered in its advance: {center_x}")
@@ -101,7 +114,9 @@ def main() -> int:
             print("FAIL:", error, file=sys.stderr)
         return 1
     print("PASS: U+5965 keeps the official source drawing and maps to a derived optical copy")
-    print("PASS: scale_x=0.895 scale_y=0.895 dx=10.5 dy=34.0 embolden=8.0; advance=790")
+    print("PASS: scale_x=0.921976 scale_y=0.855348 dx=9.0 dy=34.5 embolden=4.0; advance=790")
+    parity_codepoints = ", ".join(f"U+{ord(character):04X}" for character in PARITY_CHARACTERS)
+    print(f"PASS: TTF/WOFF2 bounds and metrics agree for browser proof characters: {parity_codepoints}")
     return 0
 
 
