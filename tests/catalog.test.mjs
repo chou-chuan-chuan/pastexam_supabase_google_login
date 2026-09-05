@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 
 import {
   compareDefaultSongOrder,
@@ -143,6 +144,14 @@ test("filtering preserves the configured public display order and tag behavior",
   ]);
   assert.deepEqual(filterSongs(displaySongs, { tags: ["live"] }).map((song) => song.id), ["island"]);
   assert.deepEqual(filterSongs(displaySongs, { query: "i" }).map((song) => song.id), ["island", "moon"]);
+});
+
+test("admin management list uses the shared language comparator without public positions", async () => {
+  const adminSource = await readFile(new URL("../assets/admin.js", import.meta.url), "utf8");
+  assert.match(adminSource, /import \{[^}]*compareDefaultSongOrder[^}]*\} from "\.\/catalog\.js"/);
+  assert.match(adminSource, /songs\.filter\(matches\)\.sort\(compareDefaultSongOrder\)/);
+  assert.doesNotMatch(adminSource, /song_display_order/);
+  assert.doesNotMatch(adminSource, /\.order\("created_at", \{ ascending: false \}\)/);
 });
 
 test("submission payload always forces pending status", () => {
