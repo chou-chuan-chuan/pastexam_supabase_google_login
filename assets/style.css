@@ -93,8 +93,8 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 .tag-filter-list, .tag-choice-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag-choice { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #d8def7; border-radius: 999px; padding: 7px 11px; color: #5665a6; background: #eef2ff; font-size: .86rem; }
 .tag-choice:hover { background: #e4e9ff; }
-.tag-choice:has(input:checked) { border-color: #9eaae0; background: #e4e9ff; }
-.tag-choice input { width: auto; margin: 0; accent-color: var(--primary); }
+.tag-choice:has(input:checked) { border-color: #9eaae0; background: #eef2ff; }
+.tag-choice input { width: auto; margin: 0; accent-color: #4f7fd9; }
 
 .list-heading { display: flex; align-items: flex-end; justify-content: space-between; margin: 34px 2px 15px; gap: 20px; }
 .list-heading h2, .list-heading p, .panel-heading h2, .panel-heading p { margin: 0; }
