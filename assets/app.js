@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
-import { filterSongs, pendingSongPayload, songTagObjects, uploaderDisplayName } from "./catalog.js";
+import { filterSongs, pendingSongPayload, songTagObjects, sortSongsForDisplay, uploaderDisplayName } from "./catalog.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
 
@@ -24,6 +24,8 @@ let currentUser = null;
 let isAdmin = false;
 let songs = [];
 let tags = [];
+let displayOrderAvailable = false;
+let orderMoveBusy = false;
 let authQueue = Promise.resolve();
 let appliedAuthUserId;
 let messageTimer;
@@ -169,10 +171,6 @@ function songCard(song) {
   if (song.language) badges.append(node("span", "badge type", song.language));
   if (song.genre) badges.append(node("span", "badge genre", song.genre));
   if (song.status !== "approved") badges.append(node("span", `badge status-${song.status}`, statusLabel(song.status)));
-  body.append(badges, node("h3", "", song.title), node("p", "song-artist", song.artist));
-  body.append(node("p", "card-meta", [song.album, song.release_year].filter(Boolean).join(" · ") || "未提供專輯／年份"));
-
-  const tagRow = node("div", "tag-row");
   for (const tag of songTagObjects(song)) {
     const chip = node("button", "tag-chip", `#${tag.name}`);
     chip.type = "button";
@@ -185,9 +183,32 @@ function songCard(song) {
         window.scrollTo({ top: el.search.offsetTop, behavior: reducedMotion ? "auto" : "smooth" });
       }
     });
-    tagRow.append(chip);
+    badges.append(chip);
   }
-  body.append(tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "card-meta", `上傳者：${uploaderDisplayName(song)}`), node("p", "filename", song.original_filename));
+  const top = node("div", "card-top-row");
+  top.append(badges);
+  if (isAdmin && displayOrderAvailable && song.status === "approved") {
+    const approvedSongs = songs.filter((item) => item.status === "approved");
+    const index = approvedSongs.findIndex((item) => item.id === song.id);
+    const controls = node("div", "song-order-controls");
+    const orderButton = (label, symbol, direction, boundaryDisabled) => {
+      const button = node("button", "song-order-button", symbol);
+      button.type = "button";
+      button.setAttribute("aria-label", label);
+      button.title = label;
+      button.disabled = orderMoveBusy || boundaryDisabled;
+      button.addEventListener("click", () => moveSongInPublicOrder(song.id, direction));
+      return button;
+    };
+    controls.append(
+      orderButton("將歌曲往前移", "↑", -1, index <= 0),
+      orderButton("將歌曲往後移", "↓", 1, index === approvedSongs.length - 1)
+    );
+    top.append(controls);
+  }
+  body.append(top, node("h3", "", song.title), node("p", "song-artist", song.artist));
+  body.append(node("p", "card-meta", [song.album, song.release_year].filter(Boolean).join(" · ") || "未提供專輯／年份"));
+  body.append(node("p", "card-notes", song.notes || "尚無備註"), node("p", "card-meta", `上傳者：${uploaderDisplayName(song)}`), node("p", "filename", song.original_filename));
 
   const actions = node("div", "card-actions");
   const read = node("a", "button primary", "播放與閱讀");
@@ -202,6 +223,22 @@ function songCard(song) {
   }
   card.append(thumbnail, body, actions);
   return card;
+}
+
+async function moveSongInPublicOrder(songId, direction) {
+  if (orderMoveBusy || !isAdmin || !displayOrderAvailable) return;
+  orderMoveBusy = true;
+  render();
+  try {
+    const { error } = await supabase.rpc("move_song_in_public_order", { p_song_id: songId, p_direction: direction });
+    if (error) throw error;
+    await loadSongs();
+  } catch (error) {
+    showMessage(errorMessage(error, "無法調整公開歌曲順序。"), "error", 0);
+  } finally {
+    orderMoveBusy = false;
+    render();
+  }
 }
 
 async function downloadSongPdf(song) {
@@ -227,16 +264,19 @@ function render() {
 async function loadSongs() {
   if (!configured) { songs = []; tags = []; setLoading(false); render(); return; }
   setLoading(true);
-  const [songsResult, tagsResult] = await Promise.all([
+  const [songsResult, tagsResult, orderResult] = await Promise.all([
     supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
-    supabase.from("tags").select("id,name,slug").order("name")
+    supabase.from("tags").select("id,name,slug").order("name"),
+    supabase.from("song_display_order").select("song_id,position")
   ]);
   setLoading(false);
   if (songsResult.error || tagsResult.error) {
     showMessage(errorMessage(songsResult.error || tagsResult.error, "無法載入歌曲資料。"), "error", 0);
     songs = []; tags = []; render(); return;
   }
-  songs = songsResult.data || [];
+  displayOrderAvailable = !orderResult.error;
+  if (orderResult.error) console.warn("Public song ordering is unavailable; using created_at order.", orderResult.error);
+  songs = sortSongsForDisplay(songsResult.data || [], displayOrderAvailable ? orderResult.data : []);
   tags = tagsResult.data || [];
   rebuildSelect(el.language, songs.map((song) => song.language), "所有語言");
   rebuildSelect(el.genre, songs.map((song) => song.genre), "所有曲風");

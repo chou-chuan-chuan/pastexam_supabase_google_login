@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const setup = await readFile(new URL("../supabase/setup.sql", import.meta.url), "utf8");
 const migration = await readFile(new URL("../supabase/lyrics_library_migration.sql", import.meta.url), "utf8");
+const displayOrderMigration = await readFile(new URL("../supabase/song_display_order_migration.sql", import.meta.url), "utf8");
 
 test("setup defines the lyrics tables, constraints, indexes, RLS, and private bucket", () => {
   for (const table of ["songs", "lyric_cues", "tags", "song_tags"]) {
@@ -32,4 +33,26 @@ test("migration is self-contained and does not drop legacy exams or past-exams",
   assert.match(migration, /create table if not exists public\.songs/);
   assert.doesNotMatch(migration, /drop table[^;]*exams/i);
   assert.doesNotMatch(migration, /delete from storage\.buckets[^;]*past-exams/i);
+});
+
+test("public song ordering migration backfills current order and enables read-only RLS", () => {
+  assert.match(displayOrderMigration, /create table if not exists public\.song_display_order/);
+  assert.match(displayOrderMigration, /row_number\(\) over \(order by created_at desc, id\) \* 1024/);
+  assert.match(displayOrderMigration, /alter table public\.song_display_order enable row level security/);
+  assert.match(displayOrderMigration, /revoke all on table public\.song_display_order from anon, authenticated/);
+  assert.match(displayOrderMigration, /grant select on table public\.song_display_order to anon, authenticated/);
+  assert.match(displayOrderMigration, /s\.status = 'approved'/);
+  assert.match(displayOrderMigration, /on delete cascade/);
+});
+
+test("public song ordering can only be moved through an admin-protected RPC", () => {
+  assert.match(displayOrderMigration, /function public\.move_song_in_public_order/);
+  assert.match(displayOrderMigration, /if not public\.is_admin\(\) then/);
+  assert.match(displayOrderMigration, /security definer/);
+  assert.match(displayOrderMigration, /p_direction not in \(-1, 1\)/);
+  assert.match(displayOrderMigration, /lag\(song_order\.song_id\)/);
+  assert.match(displayOrderMigration, /lead\(song_order\.song_id\)/);
+  assert.match(displayOrderMigration, /grant execute on function public\.move_song_in_public_order\(uuid, integer\) to authenticated/);
+  assert.match(displayOrderMigration, /after insert or update of status on public\.songs/);
+  assert.match(displayOrderMigration, /on conflict \(song_id\) do nothing/);
 });

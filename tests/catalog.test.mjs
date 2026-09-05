@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { filterSongs, matchesSong, pendingSongPayload, uploaderDisplayName } from "../assets/catalog.js";
+import { filterSongs, matchesSong, pendingSongPayload, sortSongsForDisplay, uploaderDisplayName } from "../assets/catalog.js";
 
 const songs = [
   {
@@ -40,6 +40,50 @@ test("combines language, genre, year, and multiple tag filters", () => {
     tags: ["live"]
   }).map((song) => song.title), ["島嶼天光"]);
   assert.equal(matchesSong(songs[1], { tags: ["live", "movie"] }), false);
+});
+
+test("sorts approved songs by persistent public display position", () => {
+  const orderedSongs = [
+    { id: "newer", status: "approved", created_at: "2026-03-01T00:00:00Z" },
+    { id: "older", status: "approved", created_at: "2025-03-01T00:00:00Z" },
+    { id: "middle", status: "approved", created_at: "2026-02-01T00:00:00Z" }
+  ];
+  const displayOrder = [
+    { song_id: "older", position: 1024 },
+    { song_id: "middle", position: 2048 },
+    { song_id: "newer", position: 3072 }
+  ];
+  assert.deepEqual(sortSongsForDisplay(orderedSongs, displayOrder).map((song) => song.id), ["older", "middle", "newer"]);
+});
+
+test("falls back deterministically to created_at descending when display order is missing", () => {
+  const unorderedSongs = [
+    { id: "old", status: "approved", created_at: "2025-01-01T00:00:00Z" },
+    { id: "same-b", status: "approved", created_at: "2026-01-01T00:00:00Z" },
+    { id: "same-a", status: "approved", created_at: "2026-01-01T00:00:00Z" }
+  ];
+  assert.deepEqual(sortSongsForDisplay(unorderedSongs).map((song) => song.id), ["same-a", "same-b", "old"]);
+});
+
+test("uses created_at descending as the deterministic tie-breaker for equal positions", () => {
+  const tiedSongs = [
+    { id: "older", status: "approved", created_at: "2025-01-01T00:00:00Z" },
+    { id: "newer", status: "approved", created_at: "2026-01-01T00:00:00Z" }
+  ];
+  const tiedOrder = tiedSongs.map((song) => ({ song_id: song.id, position: 1024 }));
+  assert.deepEqual(sortSongsForDisplay(tiedSongs, tiedOrder).map((song) => song.id), ["newer", "older"]);
+});
+
+test("filtering preserves the configured public display order and tag behavior", () => {
+  const displaySongs = sortSongsForDisplay([
+    { ...songs[0], id: "moon", status: "approved", created_at: "2026-02-01T00:00:00Z" },
+    { ...songs[1], id: "island", status: "approved", created_at: "2026-01-01T00:00:00Z" }
+  ], [
+    { song_id: "island", position: 1024 },
+    { song_id: "moon", position: 2048 }
+  ]);
+  assert.deepEqual(filterSongs(displaySongs, { tags: ["live"] }).map((song) => song.id), ["island"]);
+  assert.deepEqual(filterSongs(displaySongs, { query: "i" }).map((song) => song.id), ["island", "moon"]);
 });
 
 test("submission payload always forces pending status", () => {
