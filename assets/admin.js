@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
-import { songTagObjects, uploaderDisplayName } from "./catalog.js";
+import { compareDefaultSongOrder, songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { parseLrc } from "./lrc.js";
 import { formatCueTime, prepareCuesForSave, validateCueRows } from "./lyrics-sync.js";
@@ -91,7 +91,7 @@ function adminSongCard(song) {
 }
 
 function renderSongs() {
-  const visible = songs.filter(matches);
+  const visible = songs.filter(matches).sort(compareDefaultSongOrder);
   el.grid.replaceChildren(...visible.map(adminSongCard)); el.grid.classList.toggle("hidden", visible.length === 0); el.empty.classList.toggle("hidden", visible.length !== 0);
   el.description.textContent = `${el.status.value ? statusLabel(el.status.value) : "所有狀態"}：${visible.length} 首歌曲。`;
 }
@@ -117,7 +117,7 @@ async function loadData() {
   if (!isAdmin) return;
   setLoading(true);
   const [songsResult, tagsResult] = await Promise.all([
-    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,reviewed_at,reviewed_by,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
+    supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,reviewed_at,reviewed_by,song_tags(tags(id,name,slug))"),
     supabase.from("tags").select("id,name,slug,created_at").order("name")
   ]);
   setLoading(false);
