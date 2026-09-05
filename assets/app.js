@@ -3,6 +3,7 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_B
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
 import { filterSongs, pendingSongPayload, songTagObjects, sortSongsForDisplay, uploaderDisplayName } from "./catalog.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
+import { PdfViewer } from "./pdf-viewer.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
@@ -15,10 +16,13 @@ const el = {
   search: $("#searchInput"), language: $("#languageFilter"), genre: $("#genreFilter"), year: $("#yearFilter"),
   tagFilters: $("#tagFilterList"), clearFilters: $("#clearFiltersButton"), refresh: $("#refreshButton"), total: $("#totalCount"), description: $("#listDescription"),
   loading: $("#loadingState"), grid: $("#songGrid"), empty: $("#emptyState"),
-  previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"), previewFrame: $("#pdfPreviewFrame"), closePreview: $("#closePreviewButton"), closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"), downloadPdf: $("#downloadPdfButton"),
+  previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"), previewViewer: $("#pdfPreviewViewer"), closePreview: $("#closePreviewButton"), closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"), downloadPdf: $("#downloadPdfButton"),
   uploadDialog: $("#uploadDialog"), uploadForm: $("#uploadForm"), uploadTitle: $("#uploadTitle"), uploadArtist: $("#uploadArtist"), uploadAlbum: $("#uploadAlbum"), uploadYear: $("#uploadYear"), uploadLanguage: $("#uploadLanguage"), uploadGenre: $("#uploadGenre"), uploadYoutube: $("#uploadYoutube"), uploadYoutubeStatus: $("#uploadYoutubeStatus"), uploadYoutubePreview: $("#uploadYoutubePreview"), uploadYoutubeThumbnail: $("#uploadYoutubeThumbnail"), uploadYoutubeVideoId: $("#uploadYoutubeVideoId"), uploadTags: $("#uploadTagChoices"), uploadNotes: $("#uploadNotes"), uploadPdf: $("#uploadPdf"), maxFileSize: $("#maxFileSizeLabel"), uploadProgress: $("#uploadProgress"), submitUpload: $("#submitUploadButton"),
   editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editPdf: $("#editPdf"), editCurrentPdf: $("#editCurrentPdf"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton")
 };
+
+const VIEWER_SIGNED_URL_TTL_SECONDS = 1800;
+const pdfPreview = new PdfViewer(el.previewViewer, { label: "歌詞 PDF 預覽" });
 
 let currentUser = null;
 let isAdmin = false;
@@ -134,21 +138,24 @@ function canEdit(song) {
   return Boolean(currentUser && song.uploader_id === currentUser.id && song.status === "pending");
 }
 
-async function signedPdfUrl(path, downloadName = null) {
+async function signedPdfUrl(path, downloadName = null, expiresIn = 300) {
   const options = downloadName ? { download: downloadName } : undefined;
-  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(path, 300, options);
+  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(path, expiresIn, options);
   if (error) throw error;
   return data.signedUrl;
 }
 
 async function openPdf(song) {
   try {
-    const url = await signedPdfUrl(song.pdf_path);
+    const [url, downloadUrl] = await Promise.all([
+      signedPdfUrl(song.pdf_path, null, VIEWER_SIGNED_URL_TTL_SECONDS),
+      signedPdfUrl(song.pdf_path, song.original_filename)
+    ]);
     el.previewTitle.textContent = `${song.title} — ${song.artist}`;
-    el.previewFrame.src = `${url}#view=FitH&toolbar=1&navpanes=0`;
     el.openPdf.href = url;
-    el.downloadPdf.href = await signedPdfUrl(song.pdf_path, song.original_filename);
+    el.downloadPdf.href = downloadUrl;
     el.previewDialog.showModal();
+    await pdfPreview.load(url);
   } catch (error) {
     showMessage(errorMessage(error, "無法建立 PDF 預覽連結。"), "error", 0);
   }
@@ -445,9 +452,11 @@ function bind() {
   el.refresh.addEventListener("click", loadSongs);
   [el.search, el.language, el.genre, el.year].forEach((control) => { control.addEventListener("input", render); control.addEventListener("change", render); });
   el.clearFilters.addEventListener("click", () => { el.search.value = ""; el.language.value = ""; el.genre.value = ""; el.year.value = ""; el.tagFilters.querySelectorAll('input[type="checkbox"]').forEach((input) => { input.checked = false; }); render(); });
-  el.closePreview.addEventListener("click", closePdf); el.closePreviewFooter.addEventListener("click", closePdf); el.previewDialog.addEventListener("close", () => { el.previewFrame.removeAttribute("src"); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
+  el.closePreview.addEventListener("click", closePdf); el.closePreviewFooter.addEventListener("click", closePdf); el.previewDialog.addEventListener("close", () => { void pdfPreview.destroy(); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
   document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.close)?.close()));
 }
+
+window.addEventListener("beforeunload", () => { void pdfPreview.dispose(); });
 
 async function init() {
   bind(); el.maxFileSize.textContent = maximumFileSizeText(); updateYoutubePreview();

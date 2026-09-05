@@ -141,7 +141,11 @@ test("preview and download flows use the current row path and filename", async (
     readFile(new URL("../assets/song.js", import.meta.url), "utf8")
   ]);
   assert.match(app, /signedPdfUrl\(song\.pdf_path, song\.original_filename\)/);
-  assert.match(admin, /createSignedUrl\(song\.pdf_path, 300, options\)/);
-  assert.match(detail, /createSignedUrl\(song\.pdf_path, 600, options\)/);
+  assert.match(admin, /createSignedUrl\(song\.pdf_path, expiresIn, options\)/);
+  assert.match(detail, /createSignedUrl\(song\.pdf_path, expiresIn, options\)/);
   assert.match(detail, /download \? \{ download: song\.original_filename \}/);
+  for (const source of [app, admin, detail]) {
+    assert.match(source, /VIEWER_SIGNED_URL_TTL_SECONDS = 1800/);
+    assert.match(source, /PdfViewer/);
+  }
 });

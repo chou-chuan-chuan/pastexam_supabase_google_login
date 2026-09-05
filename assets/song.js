@@ -3,6 +3,7 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET } from "../confi
 import { SUPABASE_CLIENT_OPTIONS } from "./auth.js";
 import { songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { findActiveCue, formatCueTime } from "./lyrics-sync.js";
+import { PdfViewer } from "./pdf-viewer.js";
 import { YouTubePlayer } from "./youtube-player.js";
 import { youtubeWatchUrl } from "./youtube.js";
 
@@ -12,8 +13,11 @@ const el = {
   message: $("#songMessage"), loading: $("#songLoading"), content: $("#songContent"), title: $("#songTitle"), artist: $("#songArtist"), meta: $("#songMeta"), uploader: $("#songUploader"), tags: $("#songTags"),
   fallback: $("#youtubeFallbackLink"), playerHost: $("#youtubePlayer"), playerStatus: $("#playerStatus"), playerError: $("#playerError"), time: $("#currentTimeLabel"),
   autoScroll: $("#autoScrollToggle"), lyricsEmpty: $("#lyricsEmpty"), lyrics: $("#lyricsList"),
-  filename: $("#pdfFilename"), pdfFrame: $("#songPdfFrame"), openPdf: $("#openSongPdf"), downloadPdf: $("#downloadSongPdf")
+  filename: $("#pdfFilename"), pdfViewer: $("#songPdfViewer"), openPdf: $("#openSongPdf"), downloadPdf: $("#downloadSongPdf")
 };
+
+const VIEWER_SIGNED_URL_TTL_SECONDS = 1800;
+const pdfViewer = new PdfViewer(el.pdfViewer, { label: "歌詞 PDF" });
 
 let song;
 let cues = [];
@@ -39,9 +43,9 @@ function songIdFromUrl() {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id) ? id : null;
 }
 
-async function signedPdfUrl(download = false) {
+async function signedPdfUrl(download = false, expiresIn = 600) {
   const options = download ? { download: song.original_filename } : undefined;
-  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(song.pdf_path, 600, options);
+  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(song.pdf_path, expiresIn, options);
   if (error) throw error;
   return data.signedUrl;
 }
@@ -124,14 +128,14 @@ async function load() {
   cues = cueResult.data || [];
   renderSong(); renderLyrics();
   try {
-    el.openPdf.href = await signedPdfUrl(false);
-    el.downloadPdf.href = await signedPdfUrl(true);
-    el.pdfFrame.src = `${el.openPdf.href}#view=FitH&toolbar=1&navpanes=0`;
+    [el.openPdf.href, el.downloadPdf.href] = await Promise.all([signedPdfUrl(false, VIEWER_SIGNED_URL_TTL_SECONDS), signedPdfUrl(true)]);
   } catch (error) { showError(error.message || "無法建立 PDF 連結。"); return; }
   el.loading.classList.add("hidden"); el.content.classList.remove("hidden");
+  try { await pdfViewer.load(el.openPdf.href); }
+  catch (error) { showError(error.message || "無法載入 PDF，請使用另開或下載。"); }
   await setupPlayer();
 }
 
-window.addEventListener("beforeunload", () => { clearInterval(syncTimer); player?.destroy(); });
+window.addEventListener("beforeunload", () => { clearInterval(syncTimer); player?.destroy(); void pdfViewer.dispose(); });
 
 load();
