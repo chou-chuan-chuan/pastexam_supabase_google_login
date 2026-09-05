@@ -38,8 +38,22 @@ export function filterSongs(songs, filters = {}) {
   return (Array.isArray(songs) ? songs : []).filter((song) => matchesSong(song, filters));
 }
 
-function compareCreatedAtDescending(left, right) {
-  const createdDifference = Date.parse(right?.created_at || 0) - Date.parse(left?.created_at || 0);
+function normalizedLanguage(song) {
+  return String(song?.language || "").trim().toLocaleLowerCase();
+}
+
+export function compareDefaultSongOrder(left, right) {
+  const leftLanguage = normalizedLanguage(left);
+  const rightLanguage = normalizedLanguage(right);
+  if (!leftLanguage && rightLanguage) return 1;
+  if (leftLanguage && !rightLanguage) return -1;
+
+  const languageDifference = leftLanguage.localeCompare(rightLanguage);
+  if (languageDifference) return languageDifference;
+
+  const leftCreatedAt = Date.parse(left?.created_at || 0) || 0;
+  const rightCreatedAt = Date.parse(right?.created_at || 0) || 0;
+  const createdDifference = rightCreatedAt - leftCreatedAt;
   if (createdDifference) return createdDifference;
   return String(left?.id || "").localeCompare(String(right?.id || ""));
 }
@@ -60,9 +74,9 @@ export function sortSongsForDisplay(songs, displayOrder = []) {
 
   approvedWithOrder.sort((left, right) => {
     const positionDifference = orderBySongId.get(left.id) - orderBySongId.get(right.id);
-    return positionDifference || compareCreatedAtDescending(left, right);
+    return positionDifference || compareDefaultSongOrder(left, right);
   });
-  fallbackSongs.sort(compareCreatedAtDescending);
+  fallbackSongs.sort(compareDefaultSongOrder);
   return [...approvedWithOrder, ...fallbackSongs];
 }
 

@@ -1,7 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { filterSongs, matchesSong, pendingSongPayload, sortSongsForDisplay, uploaderDisplayName } from "../assets/catalog.js";
+import {
+  compareDefaultSongOrder,
+  filterSongs,
+  matchesSong,
+  pendingSongPayload,
+  sortSongsForDisplay,
+  uploaderDisplayName
+} from "../assets/catalog.js";
 
 const songs = [
   {
@@ -56,13 +63,39 @@ test("sorts approved songs by persistent public display position", () => {
   assert.deepEqual(sortSongsForDisplay(orderedSongs, displayOrder).map((song) => song.id), ["older", "middle", "newer"]);
 });
 
-test("falls back deterministically to created_at descending when display order is missing", () => {
+test("groups fallback songs by language with blank and null languages last", () => {
   const unorderedSongs = [
-    { id: "old", status: "approved", created_at: "2025-01-01T00:00:00Z" },
-    { id: "same-b", status: "approved", created_at: "2026-01-01T00:00:00Z" },
-    { id: "same-a", status: "approved", created_at: "2026-01-01T00:00:00Z" }
+    { id: "blank", status: "approved", language: "  ", created_at: "2026-05-01T00:00:00Z" },
+    { id: "spanish", status: "approved", language: "Spanish", created_at: "2026-01-01T00:00:00Z" },
+    { id: "french-old", status: "approved", language: "French", created_at: "2025-01-01T00:00:00Z" },
+    { id: "null", status: "approved", language: null, created_at: "2026-04-01T00:00:00Z" },
+    { id: "japanese", status: "approved", language: "Japanese", created_at: "2026-02-01T00:00:00Z" },
+    { id: "french-new", status: "approved", language: "French", created_at: "2026-03-01T00:00:00Z" }
   ];
-  assert.deepEqual(sortSongsForDisplay(unorderedSongs).map((song) => song.id), ["same-a", "same-b", "old"]);
+  assert.deepEqual(sortSongsForDisplay(unorderedSongs).map((song) => song.id), [
+    "french-new",
+    "french-old",
+    "japanese",
+    "spanish",
+    "blank",
+    "null"
+  ]);
+});
+
+test("compares language case-insensitively, then newest first", () => {
+  const sameLanguage = [
+    { id: "older", language: "French", created_at: "2025-01-01T00:00:00Z" },
+    { id: "newer", language: " french ", created_at: "2026-01-01T00:00:00Z" }
+  ];
+  assert.deepEqual(sameLanguage.sort(compareDefaultSongOrder).map((song) => song.id), ["newer", "older"]);
+});
+
+test("uses song id as the final deterministic default tie-break", () => {
+  const tiedSongs = [
+    { id: "song-b", language: "French", created_at: "2026-01-01T00:00:00Z" },
+    { id: "song-a", language: "french", created_at: "2026-01-01T00:00:00Z" }
+  ];
+  assert.deepEqual(tiedSongs.sort(compareDefaultSongOrder).map((song) => song.id), ["song-a", "song-b"]);
 });
 
 test("uses created_at descending as the deterministic tie-breaker for equal positions", () => {
@@ -72,6 +105,32 @@ test("uses created_at descending as the deterministic tie-breaker for equal posi
   ];
   const tiedOrder = tiedSongs.map((song) => ({ song_id: song.id, position: 1024 }));
   assert.deepEqual(sortSongsForDisplay(tiedSongs, tiedOrder).map((song) => song.id), ["newer", "older"]);
+});
+
+test("persistent admin positions override the language default", () => {
+  const orderedSongs = [
+    { id: "french", status: "approved", language: "French", created_at: "2026-01-01T00:00:00Z" },
+    { id: "japanese", status: "approved", language: "Japanese", created_at: "2026-01-01T00:00:00Z" }
+  ];
+  const displayOrder = [
+    { song_id: "japanese", position: 1024 },
+    { song_id: "french", position: 2048 }
+  ];
+  assert.deepEqual(sortSongsForDisplay(orderedSongs, displayOrder).map((song) => song.id), ["japanese", "french"]);
+});
+
+test("songs missing order rows use the language default without disturbing persisted rows", () => {
+  const partiallyOrderedSongs = [
+    { id: "missing-japanese", status: "approved", language: "Japanese", created_at: "2026-02-01T00:00:00Z" },
+    { id: "persisted-spanish", status: "approved", language: "Spanish", created_at: "2026-01-01T00:00:00Z" },
+    { id: "missing-french", status: "approved", language: "French", created_at: "2026-03-01T00:00:00Z" }
+  ];
+  const displayOrder = [{ song_id: "persisted-spanish", position: 1024 }];
+  assert.deepEqual(sortSongsForDisplay(partiallyOrderedSongs, displayOrder).map((song) => song.id), [
+    "persisted-spanish",
+    "missing-french",
+    "missing-japanese"
+  ]);
 });
 
 test("filtering preserves the configured public display order and tag behavior", () => {
