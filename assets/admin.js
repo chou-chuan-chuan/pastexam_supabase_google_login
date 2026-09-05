@@ -74,12 +74,11 @@ async function openPdf(song) {
 function adminSongCard(song) {
   const card = node("article", "admin-song-card");
   const content = node("div", "admin-card-content");
-  const top = node("div", "card-top"); top.append(node("span", `badge status-${song.status}`, statusLabel(song.status))); if (song.language) top.append(node("span", "badge type", song.language)); if (song.genre) top.append(node("span", "badge genre", song.genre));
+  const top = node("div", "card-top"); top.append(node("span", `badge status-${song.status}`, statusLabel(song.status))); if (song.language) top.append(node("span", "badge type", song.language)); if (song.genre) top.append(node("span", "badge genre", song.genre)); songTagObjects(song).forEach((tag) => top.append(node("span", "tag-chip", `#${tag.name}`)));
   const details = document.createElement("dl"); details.className = "admin-details";
   const detail = (term, value) => { details.append(node("dt", "", term), node("dd", "", value || "—")); };
   detail("歌手", song.artist); detail("專輯／年份", [song.album, song.release_year].filter(Boolean).join(" · ")); detail("YouTube ID", song.youtube_video_id); detail("上傳者", uploaderDisplayName(song)); detail("建立時間", formatDate(song.created_at));
-  const tagRow = node("div", "tag-row"); songTagObjects(song).forEach((tag) => tagRow.append(node("span", "tag-chip", `#${tag.name}`)));
-  content.append(top, node("h3", "", song.title), details, tagRow, node("p", "card-notes", song.notes || "尚無備註"), node("p", "filename", song.original_filename));
+  content.append(top, node("h3", "", song.title), details, node("p", "card-notes", song.notes || "尚無備註"), node("p", "filename", song.original_filename));
   const actions = node("div", "admin-card-actions");
   const button = (label, className, handler) => { const item = node("button", `button ${className}`, label); item.type = "button"; item.addEventListener("click", handler); return item; };
   const read = node("a", "button secondary", "播放與閱讀"); read.href = `./song.html?id=${encodeURIComponent(song.id)}`;

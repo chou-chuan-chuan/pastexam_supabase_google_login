@@ -38,6 +38,34 @@ export function filterSongs(songs, filters = {}) {
   return (Array.isArray(songs) ? songs : []).filter((song) => matchesSong(song, filters));
 }
 
+function compareCreatedAtDescending(left, right) {
+  const createdDifference = Date.parse(right?.created_at || 0) - Date.parse(left?.created_at || 0);
+  if (createdDifference) return createdDifference;
+  return String(left?.id || "").localeCompare(String(right?.id || ""));
+}
+
+export function sortSongsForDisplay(songs, displayOrder = []) {
+  const orderBySongId = new Map(
+    (Array.isArray(displayOrder) ? displayOrder : [])
+      .filter((row) => row?.song_id && Number.isFinite(Number(row.position)))
+      .map((row) => [row.song_id, Number(row.position)])
+  );
+  const approvedWithOrder = [];
+  const fallbackSongs = [];
+
+  for (const song of Array.isArray(songs) ? songs : []) {
+    if (song?.status === "approved" && orderBySongId.has(song.id)) approvedWithOrder.push(song);
+    else fallbackSongs.push(song);
+  }
+
+  approvedWithOrder.sort((left, right) => {
+    const positionDifference = orderBySongId.get(left.id) - orderBySongId.get(right.id);
+    return positionDifference || compareCreatedAtDescending(left, right);
+  });
+  fallbackSongs.sort(compareCreatedAtDescending);
+  return [...approvedWithOrder, ...fallbackSongs];
+}
+
 export function pendingSongPayload(fields, uploaderId) {
   return {
     title: String(fields.title || "").trim(),

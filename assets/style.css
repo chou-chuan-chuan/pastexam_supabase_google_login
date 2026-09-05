@@ -91,7 +91,9 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 .tag-filter-fieldset { grid-column: 1 / -1; margin: 0; border: 0; padding: 4px 0 0; }
 .tag-filter-fieldset legend, .tag-choice-fieldset legend { margin-bottom: 8px; font-weight: 400; }
 .tag-filter-list, .tag-choice-list { display: flex; flex-wrap: wrap; gap: 8px; }
-.tag-choice { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: 999px; padding: 7px 11px; background: #faf8ff; font-size: .86rem; }
+.tag-choice { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #d8def7; border-radius: 999px; padding: 7px 11px; color: #5665a6; background: #eef2ff; font-size: .86rem; }
+.tag-choice:hover { background: #e4e9ff; }
+.tag-choice:has(input:checked) { border-color: #9eaae0; background: #e4e9ff; }
 .tag-choice input { width: auto; margin: 0; accent-color: var(--primary); }
 
 .list-heading { display: flex; align-items: flex-end; justify-content: space-between; margin: 34px 2px 15px; gap: 20px; }
@@ -104,15 +106,21 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 .song-card-body { display: flex; flex: 1; flex-direction: column; padding: 19px 19px 10px; }
 .song-card h3 { margin: 13px 0 4px; font-size: 1.25rem; }
 .song-artist { margin: 0 0 8px; color: var(--primary); font-weight: 400; }
-.card-top, .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.card-top-row { display: flex; min-width: 0; align-items: flex-start; gap: 8px; }
+.card-top { display: flex; min-width: 0; flex: 1; flex-wrap: wrap; gap: 7px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
 .badge, .tag-chip { display: inline-flex; width: fit-content; border: 0; border-radius: 999px; padding: 5px 9px; font-size: .76rem; font-weight: 400; text-decoration: none; }
 .badge.type { color: #5d2ca4; background: #f0e6ff; }
 .badge.genre { color: #9f3158; background: #ffe8f0; }
+.tag-chip { color: #5665a6; background: #eef2ff; }
 .badge.status-pending { color: #854d0e; background: #fef3c7; }
 .badge.status-approved { color: var(--success); background: #dcfae6; }
 .badge.status-rejected { color: var(--danger); background: #feeceb; }
-.tag-chip { color: #4d2a7f; background: #f3effa; }
-button.tag-chip:hover { background: #e6daf7; }
+button.tag-chip:hover { background: #e4e9ff; }
+.song-order-controls { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 3px; }
+button.song-order-button { min-width: 18px; border: 0; padding: 1px 2px; color: #98a2b3; background: transparent; box-shadow: none; font-size: .9rem; line-height: 1.2; }
+button.song-order-button:not(:disabled):hover { color: #667085; background: transparent; }
+button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .card-meta { margin: 3px 0; color: var(--muted); }
 .card-notes { flex: 1; margin: 14px 0; color: #475467; white-space: pre-wrap; }
 .filename { margin: 0; overflow: hidden; color: #7a8495; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
