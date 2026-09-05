@@ -108,7 +108,9 @@ input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible
 .card-top { display: flex; min-width: 0; flex: 1; flex-wrap: wrap; gap: 7px; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
 .badge, .tag-chip { display: inline-flex; width: fit-content; border: 0; border-radius: 999px; padding: 5px 9px; font-size: .76rem; font-weight: 400; text-decoration: none; }
-.badge.type, .badge.genre, .tag-chip { color: #5665a6; background: #eef2ff; }
+.badge.type { color: #5d2ca4; background: #f0e6ff; }
+.badge.genre { color: #9f3158; background: #ffe8f0; }
+.tag-chip { color: #5665a6; background: #eef2ff; }
 .badge.status-pending { color: #854d0e; background: #fef3c7; }
 .badge.status-approved { color: var(--success); background: #dcfae6; }
 .badge.status-rejected { color: var(--danger); background: #feeceb; }
