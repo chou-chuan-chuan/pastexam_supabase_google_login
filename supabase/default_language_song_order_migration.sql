@@ -1,41 +1,34 @@
 begin;
 
-create table if not exists public.song_display_order (
-  song_id uuid primary key references public.songs(id) on delete cascade,
-  position bigint not null,
-  updated_at timestamptz not null default now(),
-  updated_by uuid references auth.users(id) on delete set null
-);
+-- This migration intentionally resets the existing public display positions
+-- once to establish the new language-based default. Manual ordering performed
+-- before this migration will therefore be replaced.
+do $$
+begin
+  if to_regclass('public.song_display_order') is null then
+    raise exception 'public.song_display_order must exist before applying this migration';
+  end if;
+end;
+$$;
 
-insert into public.song_display_order (song_id, position)
-select id, row_number() over (
-  order by
-    case when language is null or btrim(language) = '' then 1 else 0 end,
-    lower(btrim(language)),
-    created_at desc,
-    id
-) * 1024
+insert into public.song_display_order (song_id, position, updated_at, updated_by)
+select
+  id,
+  row_number() over (
+    order by
+      case when language is null or btrim(language) = '' then 1 else 0 end,
+      lower(btrim(language)),
+      created_at desc,
+      id
+  ) * 1024,
+  now(),
+  null
 from public.songs
 where status = 'approved'
-on conflict (song_id) do nothing;
-
-alter table public.song_display_order enable row level security;
-
-revoke all on table public.song_display_order from anon, authenticated;
-grant select on table public.song_display_order to anon, authenticated;
-
-drop policy if exists "Public song order is readable" on public.song_display_order;
-create policy "Public song order is readable"
-on public.song_display_order for select
-to anon, authenticated
-using (
-  exists (
-    select 1
-    from public.songs s
-    where s.id = song_id
-      and s.status = 'approved'
-  )
-);
+on conflict (song_id) do update
+set position = excluded.position,
+    updated_at = excluded.updated_at,
+    updated_by = excluded.updated_by;
 
 create or replace function public.append_approved_song_to_display_order()
 returns trigger
@@ -67,9 +60,8 @@ begin
     return new;
   end if;
 
-  -- Prefer the point immediately after the last currently displayed song in
-  -- the same normalized language group. This preserves all existing manual
-  -- ordering while choosing a language-aware default position for the new row.
+  -- Place a newly approved song after the last currently displayed song in
+  -- the same normalized language group, without re-sorting existing rows.
   select song_order.song_id
   into predecessor_song_id
   from public.song_display_order song_order
@@ -101,8 +93,8 @@ begin
     from ordered
     where song_id = predecessor_song_id;
   else
-    -- For a new language group, use the first currently displayed song whose
-    -- normalized language belongs after the new language in the default order.
+    -- If the language is new, insert before the first displayed group that
+    -- follows it in the canonical language order (blank languages are last).
     select song_order.song_id
     into successor_song_id
     from public.song_display_order song_order
@@ -149,7 +141,6 @@ begin
     from public.song_display_order
     where song_id = predecessor_song_id;
   end if;
-
   if successor_song_id is not null then
     select position into successor_position
     from public.song_display_order
@@ -171,8 +162,8 @@ begin
   );
 
   if needs_renumber then
-    -- Restore spacing without changing the current displayed (and possibly
-    -- manually arranged) order.
+    -- Restore gaps while preserving the current displayed order, including
+    -- any cross-language arrangement previously chosen with admin controls.
     with ranked as (
       select
         song_order.song_id,
@@ -220,90 +211,5 @@ end;
 $$;
 
 revoke all on function public.append_approved_song_to_display_order() from public;
-
-drop trigger if exists songs_append_public_display_order on public.songs;
-create trigger songs_append_public_display_order
-after insert or update of status on public.songs
-for each row execute function public.append_approved_song_to_display_order();
-
-create or replace function public.move_song_in_public_order(
-  p_song_id uuid,
-  p_direction integer
-)
-returns void
-language plpgsql
-security definer
-set search_path = ''
-as $$
-declare
-  neighbor_song_id uuid;
-  current_position bigint;
-  neighbor_position bigint;
-begin
-  if not public.is_admin() then
-    raise exception 'Administrator access required' using errcode = '42501';
-  end if;
-
-  if p_direction not in (-1, 1) then
-    raise exception 'Direction must be -1 or 1' using errcode = '22023';
-  end if;
-
-  if not exists (
-    select 1 from public.songs
-    where id = p_song_id and status = 'approved'
-  ) then
-    raise exception 'Approved song not found' using errcode = 'P0002';
-  end if;
-
-  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext('public.song_display_order'));
-
-  with ordered as (
-    select
-      song_order.song_id,
-      lag(song_order.song_id) over (
-        order by song_order.position, song.created_at desc, song.id
-      ) as previous_song_id,
-      lead(song_order.song_id) over (
-        order by song_order.position, song.created_at desc, song.id
-      ) as next_song_id
-    from public.song_display_order song_order
-    join public.songs song on song.id = song_order.song_id
-    where song.status = 'approved'
-  )
-  select case when p_direction = -1 then previous_song_id else next_song_id end
-  into neighbor_song_id
-  from ordered
-  where song_id = p_song_id;
-
-  if neighbor_song_id is null then
-    return;
-  end if;
-
-  perform 1
-  from public.song_display_order
-  where song_id in (p_song_id, neighbor_song_id)
-  for update;
-
-  select position into current_position
-  from public.song_display_order
-  where song_id = p_song_id;
-
-  select position into neighbor_position
-  from public.song_display_order
-  where song_id = neighbor_song_id;
-
-  update public.song_display_order
-  set position = case
-        when song_id = p_song_id then neighbor_position
-        else current_position
-      end,
-      updated_at = now(),
-      updated_by = (select auth.uid())
-  where song_id in (p_song_id, neighbor_song_id);
-end;
-$$;
-
-revoke all on function public.move_song_in_public_order(uuid, integer) from public;
-grant execute on function public.move_song_in_public_order(uuid, integer) to authenticated;
 
 commit;
