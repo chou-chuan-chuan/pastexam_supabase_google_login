@@ -1,5 +1,5 @@
--- Admin User Management v1: protected user listing and role management RPCs.
--- Run separately after the frontend is merged. This file does not change memberships.
+-- Keep admin user search aligned with the identity UI by excluding internal UUIDs.
+-- Run once after this frontend update is merged. This file does not change memberships.
 
 begin;
 
@@ -134,52 +134,5 @@ $$;
 
 revoke all on function public.admin_list_users(text, text, integer, integer) from public;
 grant execute on function public.admin_list_users(text, text, integer, integer) to authenticated;
-
-create or replace function public.admin_set_user_role(
-  p_user_id uuid,
-  p_is_admin boolean
-)
-returns void
-language plpgsql
-security definer
-set search_path = ''
-as $$
-declare
-  admin_count bigint;
-begin
-  if not public.is_admin() then
-    raise exception 'Administrator access required' using errcode = '42501';
-  end if;
-
-  if p_user_id is null or p_is_admin is null then
-    raise exception 'User id and administrator role are required' using errcode = '22023';
-  end if;
-
-  if not exists (select 1 from auth.users as u where u.id = p_user_id) then
-    raise exception 'User not found' using errcode = 'P0002';
-  end if;
-
-  if not p_is_admin and p_user_id = (select auth.uid()) then
-    raise exception 'You cannot remove your own administrator role' using errcode = '42501';
-  end if;
-
-  lock table public.admin_users in share row exclusive mode;
-
-  if p_is_admin then
-    insert into public.admin_users (user_id)
-    values (p_user_id)
-    on conflict (user_id) do nothing;
-  elsif exists (select 1 from public.admin_users as au where au.user_id = p_user_id) then
-    select count(*) into admin_count from public.admin_users;
-    if admin_count <= 1 then
-      raise exception 'Cannot remove the last administrator' using errcode = '23514';
-    end if;
-    delete from public.admin_users as au where au.user_id = p_user_id;
-  end if;
-end;
-$$;
-
-revoke all on function public.admin_set_user_role(uuid, boolean) from public;
-grant execute on function public.admin_set_user_role(uuid, boolean) to authenticated;
 
 commit;

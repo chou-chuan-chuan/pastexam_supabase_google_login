@@ -523,7 +523,6 @@ begin
       normalized_query is null
       or lower(coalesce(su.email, '')) like '%' || lower(normalized_query) || '%'
       or lower(su.display_name) like '%' || lower(normalized_query) || '%'
-      or lower(su.user_id::text) like '%' || lower(normalized_query) || '%'
       or lower(su.provider) like '%' || lower(normalized_query) || '%'
     )
     and (
