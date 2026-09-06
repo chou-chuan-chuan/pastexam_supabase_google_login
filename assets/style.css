@@ -228,18 +228,14 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .user-admin-panel .panel-heading p.muted { margin-top: 6px; }
 .user-admin-toolbar { display: grid; grid-template-columns: minmax(240px,1fr) 180px auto auto; align-items: center; margin-top: 18px; gap: 10px; }
 .user-admin-panel > .notice { margin: 16px 0 0; }
-.user-admin-list { display: table; width: 100%; table-layout: auto; margin-top: 18px; overflow: hidden; border: 1px solid var(--border); border-spacing: 0; border-radius: 14px; }
-.user-admin-row { display: table-row; }
+.user-admin-list { --user-admin-columns: minmax(120px,1fr) minmax(220px,1.45fr) minmax(72px,.55fr) minmax(130px,1fr) minmax(130px,1fr) repeat(4,minmax(44px,.32fr)) minmax(92px,.7fr) minmax(112px,.9fr); width: 100%; margin-top: 18px; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; }
+.user-admin-row { display: grid; grid-template-columns: var(--user-admin-columns); align-items: stretch; border-top: 1px solid var(--border); }
+.user-admin-row:first-child { border-top: 0; }
 .user-admin-header { color: #475467; background: #f5f7fa; font-size: .72rem; font-weight: 400; }
-.user-admin-header > div, .user-admin-cell { display: table-cell; min-width: 0; vertical-align: middle; border-top: 1px solid var(--border); border-left: 1px solid var(--border); padding: 10px 8px; overflow-wrap: anywhere; }
-.user-admin-row:first-child > * { border-top: 0; }
+.user-admin-header > div, .user-admin-cell { display: flex; min-width: 0; align-items: center; border-left: 1px solid var(--border); padding: 10px 8px; overflow-wrap: anywhere; }
 .user-admin-header > div:first-child, .user-admin-cell:first-child { border-left: 0; }
 .user-admin-cell { color: #475467; font-size: .78rem; }
 .user-admin-cell-label { display: none; color: var(--muted); font-size: .7rem; }
-.user-admin-cell:nth-child(1) { width: 1%; min-width: 110px; max-width: 180px; }
-.user-admin-cell:nth-child(2) { min-width: 170px; max-width: 300px; }
-.user-admin-cell:nth-child(3), .user-admin-cell:nth-child(n+6) { width: 1%; white-space: nowrap; }
-.user-admin-cell:nth-child(4), .user-admin-cell:nth-child(5) { width: 1%; min-width: 104px; white-space: nowrap; }
 .user-admin-primary { color: var(--text); }
 .user-admin-identity { min-width: 0; }
 .user-admin-identity strong { overflow-wrap: anywhere; }
@@ -282,9 +278,9 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
   .detail-pdf { height: min(720px, 72dvh); min-height: 520px; }
   .editor-dialog { height: calc(100vh - 16px); }
   .editor-metadata-panel, .cue-editor-panel { max-height: none; }
-  .user-admin-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); overflow: visible; border: 0; border-radius: 0; gap: 12px; }
+  .user-admin-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); grid-auto-flow: row; grid-auto-rows: auto; overflow: visible; border: 0; border-radius: 0; column-gap: 12px; row-gap: 0; }
   .user-admin-header { display: none; }
-  .user-admin-row:not(.user-admin-header) { display: grid; height: 100%; grid-template-columns: repeat(4, minmax(0,1fr)); grid-template-rows: minmax(76px,auto) minmax(76px,auto) minmax(64px,auto) minmax(64px,auto) minmax(64px,auto) minmax(68px,auto); align-content: start; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 7px 22px rgba(31,24,58,.05); }
+  .user-admin-row:not(.user-admin-header) { display: grid; grid-row: span 6; grid-template-columns: repeat(4, minmax(0,1fr)); grid-template-rows: subgrid; align-content: start; overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 7px 22px rgba(31,24,58,.05); }
   .user-admin-row:not(.user-admin-header) > .user-admin-cell { display: flex; width: auto; min-width: 0; max-width: none; flex-direction: column; align-items: flex-start; justify-content: flex-start; border: 0; border-top: 1px solid var(--border); padding: 10px; gap: 5px; white-space: normal; }
   .user-admin-cell-label { display: block; }
   .user-admin-cell:nth-child(1), .user-admin-cell:nth-child(2), .user-admin-cell:nth-child(5) { grid-column: 1 / -1; }
