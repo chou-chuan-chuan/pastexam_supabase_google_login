@@ -13,6 +13,7 @@ import {
 
 const adminHtml = await readFile(new URL("../admin.html", import.meta.url), "utf8");
 const adminJs = await readFile(new URL("../assets/admin.js", import.meta.url), "utf8");
+const styleCss = await readFile(new URL("../assets/style.css", import.meta.url), "utf8");
 const browserSources = await Promise.all([
   "app.js", "admin.js", "admin-users.js", "song.js"
 ].map((file) => readFile(new URL(`../assets/${file}`, import.meta.url), "utf8")));
@@ -54,11 +55,25 @@ test("admin page exposes search, server role filter, states, and pagination cont
     "userAdminList", "userAdminEmptyState", "userAdminPagination",
     "userAdminPreviousButton", "userAdminNextButton"
   ]) assert.match(adminHtml, new RegExp(`id=["']${id}["']`), id);
+  assert.match(adminHtml, /placeholder="搜尋名稱、Email 或登入方式"/);
+  assert.doesNotMatch(adminHtml, /搜尋[^"<]*UUID/);
   assert.match(adminHtml, /使用者管理功能尚未完成資料庫部署/);
   assert.match(adminJs, /supabase\.rpc\("admin_list_users"/);
   assert.match(adminJs, /supabase\.rpc\("admin_set_user_role"/);
   assert.match(adminJs, /userRoleFilter = el\.userRole\.value;\s*userPage = 1/);
   assert.match(adminJs, /目前帳號/);
+});
+
+test("user identity keeps the current-account badge beside the name without rendering UUID", () => {
+  assert.match(adminJs, /const nameLine = node\("div", "user-admin-name-line"\)/);
+  assert.match(adminJs, /nameLine\.append\(node\("strong", "", userDisplayName\(user\)\)\)/);
+  assert.match(adminJs, /if \(current\) nameLine\.append\(node\("span", "user-current-badge", "目前帳號"\)\)/);
+  assert.doesNotMatch(adminJs, /user-admin-uuid/);
+  assert.doesNotMatch(adminJs, /node\("code"[^\n]*user\.user_id/);
+  assert.match(adminJs, /isCurrentAccount\(user, currentUser\?\.id\)/);
+  assert.match(adminJs, /p_user_id: user\.user_id/);
+  assert.match(styleCss, /\.user-admin-name-line\s*\{[^}]*display:\s*flex[^}]*align-items:\s*center[^}]*flex-wrap:\s*wrap[^}]*gap:\s*6px/s);
+  assert.doesNotMatch(styleCss, /\.user-admin-uuid/);
 });
 
 test("browser code cannot access privileged auth or admin membership tables directly", () => {

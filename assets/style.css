@@ -237,9 +237,9 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .user-admin-cell { color: #475467; font-size: .78rem; }
 .user-admin-cell-label { display: none; color: var(--muted); font-size: .7rem; }
 .user-admin-primary { color: var(--text); }
-.user-admin-identity { display: grid; min-width: 0; gap: 4px; }
-.user-admin-identity strong { overflow-wrap: anywhere; }
-.user-admin-uuid { color: var(--muted); font: 400 .68rem/1.35 ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; }
+.user-admin-identity { min-width: 0; }
+.user-admin-name-line { display: flex; min-width: 0; align-items: center; flex-wrap: wrap; gap: 6px; }
+.user-admin-name-line strong { min-width: 0; overflow-wrap: anywhere; }
 .user-current-badge, .user-role-badge { display: inline-flex; width: max-content; align-items: center; border-radius: 999px; padding: 4px 8px; font-size: .7rem; white-space: nowrap; }
 .user-current-badge { color: #1849a9; background: #eff4ff; }
 .user-role-badge.is-admin { color: #6941c6; background: #f4f0ff; }

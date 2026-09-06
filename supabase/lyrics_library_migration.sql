@@ -488,7 +488,7 @@ begin
             nullif(btrim(u.raw_user_meta_data ->> 'display_name'), ''),
             nullif(btrim(u.raw_user_meta_data ->> 'preferred_username'), ''),
             nullif(btrim(u.email), ''),
-            u.id::text
+            '未命名使用者'
           ),
           '[[:cntrl:]]',
           '',
@@ -523,7 +523,6 @@ begin
       normalized_query is null
       or lower(coalesce(su.email, '')) like '%' || lower(normalized_query) || '%'
       or lower(su.display_name) like '%' || lower(normalized_query) || '%'
-      or lower(su.user_id::text) like '%' || lower(normalized_query) || '%'
       or lower(su.provider) like '%' || lower(normalized_query) || '%'
     )
     and (
