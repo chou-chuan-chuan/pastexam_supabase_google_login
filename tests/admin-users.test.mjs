@@ -92,6 +92,16 @@ test("desktop user columns share a content-aware table layout with compact actio
   assert.match(styleCss, /@media \(max-width: 1000px\)[\s\S]*\.user-admin-row:not\(\.user-admin-header\) > \.user-admin-cell\s*\{[^}]*display:\s*flex[^}]*width:\s*auto/);
 });
 
+test("responsive cards align logical rows while retaining only the final two separators", () => {
+  const responsiveStart = styleCss.indexOf("@media (max-width: 1000px)");
+  const responsiveEnd = styleCss.indexOf("@media (max-width: 850px)", responsiveStart);
+  const responsiveCss = styleCss.slice(responsiveStart, responsiveEnd);
+  assert.match(responsiveCss, /\.user-admin-row:not\(\.user-admin-header\)\s*\{[^}]*height:\s*100%[^}]*grid-template-rows:\s*minmax\(76px,auto\) minmax\(76px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(68px,auto\)/s);
+  assert.match(responsiveCss, /> \.user-admin-cell\s*\{[^}]*justify-content:\s*flex-start[^}]*border-top:\s*1px solid var\(--border\)/s);
+  assert.match(responsiveCss, /> \.user-admin-cell:nth-child\(-n\+5\)\s*\{\s*border-top:\s*0/);
+  assert.doesNotMatch(responsiveCss, /grid-template-areas|grid-template-columns:\s*1fr\s+1fr/);
+});
+
 test("browser code cannot access privileged auth or admin membership tables directly", () => {
   for (const source of browserSources) {
     assert.doesNotMatch(source, /supabase\.auth\.admin/);

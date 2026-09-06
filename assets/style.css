@@ -284,11 +284,11 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
   .editor-metadata-panel, .cue-editor-panel { max-height: none; }
   .user-admin-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); overflow: visible; border: 0; border-radius: 0; gap: 12px; }
   .user-admin-header { display: none; }
-  .user-admin-row:not(.user-admin-header) { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); align-content: start; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 7px 22px rgba(31,24,58,.05); }
-  .user-admin-row:not(.user-admin-header) > .user-admin-cell { display: flex; width: auto; min-width: 0; max-width: none; flex-direction: column; align-items: flex-start; justify-content: center; border: 0; border-top: 1px solid var(--border); padding: 10px; gap: 5px; white-space: normal; }
+  .user-admin-row:not(.user-admin-header) { display: grid; height: 100%; grid-template-columns: repeat(4, minmax(0,1fr)); grid-template-rows: minmax(76px,auto) minmax(76px,auto) minmax(64px,auto) minmax(64px,auto) minmax(64px,auto) minmax(68px,auto); align-content: start; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 7px 22px rgba(31,24,58,.05); }
+  .user-admin-row:not(.user-admin-header) > .user-admin-cell { display: flex; width: auto; min-width: 0; max-width: none; flex-direction: column; align-items: flex-start; justify-content: flex-start; border: 0; border-top: 1px solid var(--border); padding: 10px; gap: 5px; white-space: normal; }
   .user-admin-cell-label { display: block; }
   .user-admin-cell:nth-child(1), .user-admin-cell:nth-child(2), .user-admin-cell:nth-child(5) { grid-column: 1 / -1; }
-  .user-admin-cell:nth-child(1) { border-top: 0; }
+  .user-admin-row:not(.user-admin-header) > .user-admin-cell:nth-child(-n+5) { border-top: 0; }
   .user-admin-cell:nth-child(3), .user-admin-cell:nth-child(4), .user-admin-cell:nth-child(10), .user-admin-cell:nth-child(11) { grid-column: span 2; }
   .user-admin-stat { align-items: center; padding-inline: 4px; }
   .user-admin-action { width: 100%; }
