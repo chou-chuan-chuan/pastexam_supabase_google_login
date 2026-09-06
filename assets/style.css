@@ -166,7 +166,8 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .pdf-viewer-tool-button:disabled { cursor: default; opacity: .42; }
 .pdf-viewer-page-input { width: 48px; height: 30px; border: 1px solid rgba(255,255,255,.3); border-radius: 6px; padding: 3px 4px; color: #172033; background: #fff; text-align: center; font: 400 .8rem/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; }
 .pdf-viewer-page-total, .pdf-viewer-zoom-label { min-width: 38px; color: #f8fafc; text-align: center; font: 400 .78rem/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pdf-viewer-status { display: flex; min-height: 24px; flex: 0 0 auto; align-items: center; justify-content: center; border-bottom: 1px solid #d7dde6; padding: 3px 10px; color: var(--muted); background: rgba(255,255,255,.82); font-size: .72rem; font-variant-numeric: tabular-nums; }
+.pdf-viewer-status { display: none; }
+.pdf-viewer-status.is-loading, .pdf-viewer-status.is-error { display: flex; min-height: 24px; flex: 0 0 auto; align-items: center; justify-content: center; border-bottom: 1px solid #d7dde6; padding: 3px 10px; color: var(--muted); background: rgba(255,255,255,.82); font-size: .72rem; font-variant-numeric: tabular-nums; }
 .pdf-viewer-status.is-error { color: var(--danger); background: #fef3f2; }
 .pdf-viewer-scroll { flex: 1; min-height: 0; overflow: auto; overflow-anchor: none; overscroll-behavior: contain; padding: 12px; scrollbar-gutter: stable; }
 .pdf-viewer-scroll:focus-visible { outline: 3px solid rgba(109,53,197,.18); outline-offset: -3px; }
@@ -302,7 +303,7 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
   .pdf-viewer-toolbar { min-height: 39px; gap: 5px; padding: 4px 6px; }
   .pdf-viewer-toolbar-group + .pdf-viewer-toolbar-group { padding-left: 5px; }
   .pdf-viewer-tool-button { min-width: 30px; min-height: 29px; padding: 3px 7px; }
-  .pdf-viewer-status { min-height: 21px; padding: 2px 8px; }
+  .pdf-viewer-status.is-loading, .pdf-viewer-status.is-error { min-height: 21px; padding: 2px 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
