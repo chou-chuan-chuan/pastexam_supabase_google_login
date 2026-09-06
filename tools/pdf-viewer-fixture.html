@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shared PDF Viewer Toolbar QA</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body { padding: 16px; }
+    .fixture-shell { display: flex; width: min(1100px, 100%); height: calc(100dvh - 32px); margin: auto; overflow: hidden; border: 1px solid #cbd3df; border-radius: 16px; background: #eef1f5; }
+  </style>
+</head>
+<body>
+  <main class="fixture-shell">
+    <div id="fixtureViewer" class="pdf-viewer" aria-label="12 頁 PDF toolbar 測試"></div>
+  </main>
+  <script type="module" src="./pdf-viewer-fixture.js"></script>
+</body>
+</html>

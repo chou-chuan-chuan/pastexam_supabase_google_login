@@ -7,12 +7,15 @@
 - Google OAuth PKCE、session persistence、安全 callback 清理與首頁／管理頁 redirect。
 - `pending`、`approved`、`rejected` 審核流程與 RLS 權限邊界。
 - 私有 `lyrics-pdfs` bucket、短效 signed URL PDF 預覽與下載。
+- 共用 PDF.js 多頁閱讀器，提供頁碼、縮放、整頁／頁寬、旋轉與原檔列印控制。
 - 歌曲名稱、歌手、專輯、年份、語言、曲風、備註與多標籤搜尋／篩選。
 - YouTube watch、`youtu.be`、embed、shorts URL 正規化，只儲存 11 字元 video ID。
 - YouTube IFrame Player API；不自動播放、不下載影音、不使用 Data API key。
 - 同步歌詞依 cue 原始時間高亮，支援 seek 與自動捲動。
 - 管理員 LRC 匯入、逐行手動打點、metadata 與 tags 管理。
 - 34 個 Node 內建 test runner 測試；沒有網站 build step 或大型 framework。
+
+PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，交由瀏覽器的 PDF 列印功能處理全部頁面與原始品質；若瀏覽器阻擋 iframe 內列印，閱讀器會改以新分頁開啟同一份暫時 PDF，讓使用者使用瀏覽器列印。暫時 iframe 與 Object URL 會在重試、關閉閱讀器或延遲清理時釋放。
 
 ## 荃方位補寫體
 
