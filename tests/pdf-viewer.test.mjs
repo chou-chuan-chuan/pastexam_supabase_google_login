@@ -132,8 +132,13 @@ test("shared viewer pins matching PDF.js main and worker versions and owns lifec
   assert.match(viewer, /capturePosition\(\)/);
   assert.match(viewer, /atStart: scrollTop < 2/);
   assert.match(viewer, /scrollTop >= maxScrollTop - 1/);
-  assert.match(viewer, /this\.viewMode = "fit-page"/);
+  assert.match(viewer, /DEFAULT_VIEW_MODE = "fit-width"/);
+  assert.equal(viewer.match(/this\.viewMode = DEFAULT_VIEW_MODE/g)?.length, 3);
+  assert.match(viewer, /this\.setViewMode\("fit-page"\)/);
+  assert.match(viewer, /this\.setViewMode\("fit-width"\)/);
   assert.match(viewer, /this\.viewMode = "custom"/);
+  assert.match(viewer, /this\.setStatus\("正在載入 PDF…", "loading"\)/);
+  assert.match(viewer, /this\.setStatus\("PDF 載入失敗，請使用另開或下載。", "error"\)/);
   assert.match(viewer, /this\.rotation = normalizeRotation/);
   assert.match(viewer, /new Blob\(\[this\.pdfBytes\.slice\(\)\], \{ type: "application\/pdf" \}\)/);
   assert.match(viewer, /URL\.revokeObjectURL/);
@@ -151,6 +156,9 @@ test("toolbar styles stay viewer-scoped and mobile-scrollable", async () => {
   assert.match(css, /\.pdf-viewer-toolbar[^}]+overflow-x: auto/);
   assert.match(css, /\.pdf-viewer-toolbar::\-webkit-scrollbar[^}]+display: none/);
   assert.match(css, /\.pdf-viewer-pages[^}]+width: max-content/);
+  assert.match(css, /\.pdf-viewer-status \{ display: none; \}/);
+  assert.match(css, /\.pdf-viewer-status\.is-loading, \.pdf-viewer-status\.is-error \{ display: flex;/);
+  assert.doesNotMatch(css, /\.pdf-viewer-status \{[^}]*min-height/);
 });
 
 test("public, admin, and song surfaces share the viewer and contain no native PDF iframe", async () => {

@@ -17,6 +17,7 @@ let pdfJsPromise;
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.1;
+const DEFAULT_VIEW_MODE = "fit-width";
 
 async function loadPdfJs() {
   if (!pdfJsPromise) {
@@ -113,7 +114,7 @@ export class PdfViewer {
     this.scrollFrame = 0;
     this.generation = 0;
     this.lastSize = { width: 0, height: 0 };
-    this.viewMode = "fit-page";
+    this.viewMode = DEFAULT_VIEW_MODE;
     this.customZoom = 1;
     this.rotation = 0;
     this.currentPage = 1;
@@ -299,7 +300,7 @@ export class PdfViewer {
   async load(url) {
     await this.destroy();
     const generation = ++this.generation;
-    this.viewMode = "fit-page";
+    this.viewMode = DEFAULT_VIEW_MODE;
     this.customZoom = 1;
     this.rotation = 0;
     this.currentPage = 1;
@@ -599,7 +600,7 @@ export class PdfViewer {
     this.pagesHost.replaceChildren();
     this.scroll.scrollTop = 0;
     this.scroll.scrollLeft = 0;
-    this.viewMode = "fit-page";
+    this.viewMode = DEFAULT_VIEW_MODE;
     this.customZoom = 1;
     this.rotation = 0;
     this.currentPage = 1;
