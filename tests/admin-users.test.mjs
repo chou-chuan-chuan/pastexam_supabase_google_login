@@ -82,10 +82,10 @@ test("user identity contains only the name while actions show the appropriate co
   assert.doesNotMatch(styleCss, /\.user-admin-uuid/);
 });
 
-test("desktop user columns share a content-aware table layout with compact actions", () => {
-  assert.match(styleCss, /\.user-admin-list\s*\{[^}]*display:\s*table[^}]*width:\s*100%[^}]*table-layout:\s*auto/s);
-  assert.match(styleCss, /\.user-admin-row\s*\{[^}]*display:\s*table-row/s);
-  assert.match(styleCss, /\.user-admin-header > div, \.user-admin-cell\s*\{[^}]*display:\s*table-cell/s);
+test("desktop user columns share one balanced full-width grid template", () => {
+  assert.match(styleCss, /\.user-admin-list\s*\{[^}]*--user-admin-columns:\s*minmax\(120px,1fr\) minmax\(220px,1\.45fr\)[^}]*minmax\(112px,\.9fr\)[^}]*width:\s*100%/s);
+  assert.match(styleCss, /\.user-admin-row\s*\{[^}]*display:\s*grid[^}]*grid-template-columns:\s*var\(--user-admin-columns\)/s);
+  assert.doesNotMatch(styleCss, /table-layout:\s*auto|display:\s*table-row|display:\s*table-cell/);
   assert.match(styleCss, /\.user-admin-action \.button\s*\{[^}]*width:\s*auto/s);
   assert.doesNotMatch(styleCss, /minmax\(170px,\s*1\.55fr\)/);
   assert.match(styleCss, /@media \(max-width: 1000px\)[\s\S]*\.user-admin-list\s*\{[^}]*display:\s*grid/);
@@ -96,7 +96,9 @@ test("responsive cards align logical rows while retaining only the final two sep
   const responsiveStart = styleCss.indexOf("@media (max-width: 1000px)");
   const responsiveEnd = styleCss.indexOf("@media (max-width: 850px)", responsiveStart);
   const responsiveCss = styleCss.slice(responsiveStart, responsiveEnd);
-  assert.match(responsiveCss, /\.user-admin-row:not\(\.user-admin-header\)\s*\{[^}]*height:\s*100%[^}]*grid-template-rows:\s*minmax\(76px,auto\) minmax\(76px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(68px,auto\)/s);
+  assert.match(responsiveCss, /\.user-admin-list\s*\{[^}]*grid-auto-rows:\s*auto[^}]*column-gap:\s*12px[^}]*row-gap:\s*0/s);
+  assert.match(responsiveCss, /\.user-admin-row:not\(\.user-admin-header\)\s*\{[^}]*grid-row:\s*span 6[^}]*grid-template-rows:\s*subgrid[^}]*margin-bottom:\s*12px/s);
+  assert.doesNotMatch(responsiveCss, /grid-template-rows:\s*minmax|height:\s*100%/);
   assert.match(responsiveCss, /> \.user-admin-cell\s*\{[^}]*justify-content:\s*flex-start[^}]*border-top:\s*1px solid var\(--border\)/s);
   assert.match(responsiveCss, /> \.user-admin-cell:nth-child\(-n\+5\)\s*\{\s*border-top:\s*0/);
   assert.doesNotMatch(responsiveCss, /grid-template-areas|grid-template-columns:\s*1fr\s+1fr/);
