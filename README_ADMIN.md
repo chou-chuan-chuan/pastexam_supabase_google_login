@@ -18,6 +18,8 @@ https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/admin.html
 
 非管理員完成 Google 登入後會看到明確 Access denied。這代表 authentication 成功、authorization 被 RLS 正確拒絕。
 
+`admin_setup.sql` 只用於建立第一位管理員。網站更新並另行執行 `supabase/admin_user_management_migration.sql` 後，既有管理員可在管理頁的「使用者管理」區查看安全的帳號欄位與投稿統計，並升級或移除其他管理員。該區只透過受保護的 RPC 操作；migration 未部署時會顯示提示，不影響既有歌曲與標籤管理。
+
 ## 審核歌曲
 
 歌曲卡可預覽 private PDF、開啟播放閱讀頁、編輯 metadata／同步歌詞，以及切換 pending、approved、rejected。只有 approved songs、cues、tags 與 PDF 對公開使用者可見。

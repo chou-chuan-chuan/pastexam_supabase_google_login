@@ -6,6 +6,16 @@ const setup = await readFile(new URL("../supabase/setup.sql", import.meta.url), 
 const migration = await readFile(new URL("../supabase/lyrics_library_migration.sql", import.meta.url), "utf8");
 const displayOrderMigration = await readFile(new URL("../supabase/song_display_order_migration.sql", import.meta.url), "utf8");
 const defaultLanguageOrderMigration = await readFile(new URL("../supabase/default_language_song_order_migration.sql", import.meta.url), "utf8");
+const adminUserManagementMigration = await readFile(new URL("../supabase/admin_user_management_migration.sql", import.meta.url), "utf8");
+
+function adminUserManagementDefinitions(sql) {
+  const start = sql.indexOf("create or replace function public.admin_list_users(");
+  const endMarker = "grant execute on function public.admin_set_user_role(uuid, boolean) to authenticated;";
+  const end = sql.indexOf(endMarker, start);
+  assert.notEqual(start, -1, "admin_list_users definition is present");
+  assert.notEqual(end, -1, "admin_set_user_role grant is present");
+  return sql.slice(start, end + endMarker.length);
+}
 
 test("setup defines the lyrics tables, constraints, indexes, RLS, and private bucket", () => {
   for (const table of ["songs", "lyric_cues", "tags", "song_tags"]) {
@@ -86,4 +96,48 @@ test("public song ordering can only be moved through an admin-protected RPC", ()
   assert.match(displayOrderMigration, /grant execute on function public\.move_song_in_public_order\(uuid, integer\) to authenticated/);
   assert.match(displayOrderMigration, /after insert or update of status on public\.songs/);
   assert.match(displayOrderMigration, /on conflict \(song_id\) do nothing/);
+});
+
+test("admin user management RPC definitions stay identical across setup and migrations", () => {
+  const canonical = adminUserManagementDefinitions(adminUserManagementMigration);
+  assert.equal(adminUserManagementDefinitions(setup), canonical);
+  assert.equal(adminUserManagementDefinitions(migration), canonical);
+  assert.match(adminUserManagementMigration, /^--[\s\S]*?begin;/);
+  assert.match(adminUserManagementMigration, /commit;\s*$/);
+});
+
+test("admin user listing exposes only safe fields and server-side aggregate pagination", () => {
+  const sql = adminUserManagementDefinitions(adminUserManagementMigration);
+  assert.match(sql, /returns table \([\s\S]*user_id uuid,[\s\S]*email text,[\s\S]*display_name text,[\s\S]*provider text,[\s\S]*total_count bigint/);
+  assert.match(sql, /if not public\.is_admin\(\) then[\s\S]*Administrator access required/);
+  assert.match(sql, /from auth\.users as u/);
+  assert.match(sql, /with submission_stats as \([\s\S]*count\(\*\) filter \(where s\.status = 'pending'\)/);
+  assert.match(sql, /count\(\*\) over\(\)::bigint as total_count/);
+  assert.match(sql, /greatest\(1, least\(coalesce\(p_limit, 25\), 100\)\)/);
+  assert.match(sql, /normalized_role not in \('', 'admin', 'user'\)/);
+  assert.match(sql, /\(fu\.user_id = \(select auth\.uid\(\)\)\) desc,[\s\S]*fu\.is_admin desc,[\s\S]*fu\.last_sign_in_at desc nulls last/);
+  assert.doesNotMatch(sql.slice(0, sql.indexOf("create or replace function public.admin_set_user_role")), /encrypted_password|confirmation_token|recovery_token|refresh_token/);
+});
+
+test("admin role mutation is guarded, validates targets, and protects the final administrator", () => {
+  const sql = adminUserManagementDefinitions(adminUserManagementMigration);
+  const mutation = sql.slice(sql.indexOf("create or replace function public.admin_set_user_role"));
+  assert.match(mutation, /security definer\s+set search_path = ''/);
+  assert.match(mutation, /if not public\.is_admin\(\) then/);
+  assert.match(mutation, /not exists \(select 1 from auth\.users as u where u\.id = p_user_id\)/);
+  assert.match(mutation, /p_user_id = \(select auth\.uid\(\)\)/);
+  assert.match(mutation, /lock table public\.admin_users in share row exclusive mode/);
+  assert.match(mutation, /if admin_count <= 1 then[\s\S]*Cannot remove the last administrator/);
+  assert.match(mutation, /insert into public\.admin_users \(user_id\)[\s\S]*on conflict \(user_id\) do nothing/);
+  assert.match(mutation, /delete from public\.admin_users as au where au\.user_id = p_user_id/);
+});
+
+test("admin user management RPCs are executable only by authenticated clients", () => {
+  for (const signature of [
+    "public.admin_list_users\\(text, text, integer, integer\\)",
+    "public.admin_set_user_role\\(uuid, boolean\\)"
+  ]) {
+    assert.match(adminUserManagementMigration, new RegExp(`revoke all on function ${signature} from public;`));
+    assert.match(adminUserManagementMigration, new RegExp(`grant execute on function ${signature} to authenticated;`));
+  }
 });

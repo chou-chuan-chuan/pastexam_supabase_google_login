@@ -31,6 +31,25 @@
         <p class="muted">名稱輸入時會自動建議 slug；可手動調整。刪除已使用標籤前會顯示影響歌曲數。</p>
         <div id="tagAdminList" class="tag-admin-list"></div>
       </section>
+
+      <section class="user-admin-panel" aria-labelledby="userAdminTitle">
+        <div class="panel-heading"><div><p class="eyebrow">Accounts</p><h2 id="userAdminTitle">使用者管理</h2><p class="muted">查看已登入使用者、投稿統計與管理員權限。</p></div></div>
+        <form id="userAdminSearchForm" class="user-admin-toolbar">
+          <input id="userAdminSearchInput" type="search" placeholder="搜尋名稱、Email 或 UUID" aria-label="搜尋使用者">
+          <select id="userAdminRoleFilter" aria-label="依使用者角色篩選"><option value="">全部角色</option><option value="admin">管理員</option><option value="user">一般使用者</option></select>
+          <button class="button primary" type="submit">搜尋</button>
+          <button id="userAdminRefreshButton" class="button secondary" type="button">重新整理</button>
+        </form>
+        <p id="userAdminDeploymentNotice" class="notice warning hidden">使用者管理功能尚未完成資料庫部署</p>
+        <div id="userAdminLoadingState" class="user-admin-state hidden"><div class="spinner"></div><p>正在載入使用者…</p></div>
+        <div id="userAdminList" class="user-admin-list" role="table" aria-label="使用者與投稿統計" aria-live="polite"></div>
+        <div id="userAdminEmptyState" class="user-admin-state hidden"><p>沒有符合條件的使用者</p></div>
+        <nav id="userAdminPagination" class="user-admin-pagination" aria-label="使用者分頁">
+          <button id="userAdminPreviousButton" class="button secondary" type="button">上一頁</button>
+          <span id="userAdminPageLabel">第 1 / 1 頁</span>
+          <button id="userAdminNextButton" class="button secondary" type="button">下一頁</button>
+        </nav>
+      </section>
     </div>
   </main>
 

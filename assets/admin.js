@@ -2,6 +2,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_BYTES } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
 import { compareDefaultSongOrder, songTagObjects, uploaderDisplayName } from "./catalog.js";
+import { USER_PAGE_SIZE, adminListParams, isCurrentAccount, userManagementUnavailable, userPageCount, userRoleLabel } from "./admin-users.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { PdfViewer } from "./pdf-viewer.js";
 import { parseLrc } from "./lrc.js";
@@ -18,6 +19,7 @@ const el = {
   search: $("#adminSearchInput"), status: $("#adminStatusFilter"), refresh: $("#adminRefreshButton"), description: $("#adminListDescription"), loading: $("#adminLoadingState"), grid: $("#adminSongGrid"), empty: $("#adminEmptyState"), pending: $("#pendingCount"), approved: $("#approvedCount"), rejected: $("#rejectedCount"),
   preview: $("#adminPreviewDialog"), previewTitle: $("#adminPreviewTitle"), previewViewer: $("#adminPdfPreviewViewer"), closePreview: $("#adminClosePreviewButton"), closePreviewFooter: $("#adminClosePreviewFooterButton"), openPdf: $("#adminOpenPdfButton"), downloadPdf: $("#adminDownloadPdfButton"),
   tagSearch: $("#tagSearchInput"), tagForm: $("#createTagForm"), newTagName: $("#newTagName"), newTagSlug: $("#newTagSlug"), createTag: $("#createTagButton"), tagList: $("#tagAdminList"),
+  userSearchForm: $("#userAdminSearchForm"), userSearch: $("#userAdminSearchInput"), userRole: $("#userAdminRoleFilter"), userRefresh: $("#userAdminRefreshButton"), userDeploy: $("#userAdminDeploymentNotice"), userLoading: $("#userAdminLoadingState"), userList: $("#userAdminList"), userEmpty: $("#userAdminEmptyState"), userPagination: $("#userAdminPagination"), userPrevious: $("#userAdminPreviousButton"), userNext: $("#userAdminNextButton"), userPageLabel: $("#userAdminPageLabel"),
   editor: $("#songEditorDialog"), closeEditor: $("#closeSongEditorButton"), editorTitleHeading: $("#songEditorTitle"), metadataForm: $("#songMetadataForm"), title: $("#editorTitle"), artist: $("#editorArtist"), album: $("#editorAlbum"), year: $("#editorYear"), language: $("#editorLanguage"), genre: $("#editorGenre"), youtube: $("#editorYoutube"), youtubeStatus: $("#editorYoutubeStatus"), tagChoices: $("#editorTagChoices"), notes: $("#editorNotes"), pdf: $("#editorPdf"), currentPdf: $("#editorCurrentPdf"), saveMetadata: $("#saveMetadataButton"), playerShell: $(".admin-player-shell"), currentTime: $("#editorCurrentTime"), playerStatus: $("#editorPlayerStatus"), fallback: $("#editorYoutubeFallback"),
   lrcFile: $("#lrcFileInput"), lrcText: $("#lrcTextInput"), previewLrc: $("#previewLrcButton"), lrcSummary: $("#lrcSummary"), lrcErrors: $("#lrcErrorList"), plainLyrics: $("#plainLyricsInput"), createLines: $("#createCueLinesButton"), addCue: $("#addCueButton"), markCue: $("#markCueButton"), moveUp: $("#moveCueUpButton"), moveDown: $("#moveCueDownButton"), deleteCue: $("#deleteCueButton"), cueRows: $("#cueRows"), cueValidation: $("#cueValidationList"), saveCues: $("#saveCuesButton")
 };
@@ -29,6 +31,14 @@ let currentUser = null;
 let isAdmin = false;
 let songs = [];
 let tags = [];
+let users = [];
+let userQuery = "";
+let userRoleFilter = "";
+let userPage = 1;
+let userTotal = 0;
+let userLoading = false;
+let userMutationBusy = false;
+let userManagementAvailable = true;
 let currentSong = null;
 let cueRows = [];
 let selectedCueIndex = -1;
@@ -43,6 +53,7 @@ function showMessage(text, kind = "info", timeout = 7000) { clearTimeout(message
 function errorMessage(error, fallback) { console.error(error); return error?.message || fallback; }
 function statusLabel(status) { return status === "approved" ? "已通過" : status === "rejected" ? "已退回" : "待審核"; }
 function formatDate(value) { return value ? new Intl.DateTimeFormat("zh-TW", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value)) : "—"; }
+function userDisplayName(user) { return user.display_name || user.email || user.user_id; }
 
 function updateAccessUI() {
   const signedIn = Boolean(currentUser);
@@ -117,6 +128,136 @@ function renderTags() {
   }));
 }
 
+function userCell(label, content, className = "") {
+  const cell = node("div", `user-admin-cell${className ? ` ${className}` : ""}`);
+  cell.setAttribute("role", "cell");
+  cell.append(node("span", "user-admin-cell-label", label), content instanceof Node ? content : node("span", "", content));
+  return cell;
+}
+
+function userRow(user) {
+  const current = isCurrentAccount(user, currentUser?.id);
+  const row = node("div", "user-admin-row");
+  row.setAttribute("role", "row");
+
+  const identity = node("div", "user-admin-identity");
+  identity.append(node("strong", "", userDisplayName(user)));
+  if (current) identity.append(node("span", "user-current-badge", "目前帳號"));
+  identity.append(node("code", "user-admin-uuid", user.user_id));
+
+  const role = node("span", `user-role-badge ${user.is_admin ? "is-admin" : "is-user"}`, userRoleLabel(user));
+  const action = node("div", "user-admin-action");
+  if (current) {
+    action.append(node("span", "muted", "目前帳號"));
+  } else {
+    const button = node("button", `button ${user.is_admin ? "danger" : "secondary"}`, user.is_admin ? "移除管理員" : "設為管理員");
+    button.type = "button";
+    button.disabled = userMutationBusy;
+    button.addEventListener("click", () => setUserRole(user, !user.is_admin));
+    action.append(button);
+  }
+
+  row.append(
+    userCell("使用者", identity, "user-admin-primary"),
+    userCell("Email", user.email || "—", "user-admin-email"),
+    userCell("登入方式", user.provider || "unknown"),
+    userCell("加入時間", formatDate(user.created_at)),
+    userCell("最後登入", formatDate(user.last_sign_in_at)),
+    userCell("投稿", String(user.submission_count || 0), "user-admin-stat"),
+    userCell("待審", String(user.pending_count || 0), "user-admin-stat"),
+    userCell("通過", String(user.approved_count || 0), "user-admin-stat"),
+    userCell("退回", String(user.rejected_count || 0), "user-admin-stat"),
+    userCell("角色", role),
+    userCell("操作", action)
+  );
+  return row;
+}
+
+function renderUsers() {
+  const unavailable = !userManagementAvailable;
+  const empty = !userLoading && userManagementAvailable && users.length === 0;
+  el.userDeploy.classList.toggle("hidden", !unavailable);
+  el.userLoading.classList.toggle("hidden", !userLoading);
+  el.userList.classList.toggle("hidden", userLoading || unavailable || empty);
+  el.userEmpty.classList.toggle("hidden", !empty);
+  el.userPagination.classList.toggle("hidden", userLoading || unavailable);
+  el.userSearch.disabled = userLoading || unavailable;
+  el.userRole.disabled = userLoading || unavailable;
+  el.userRefresh.disabled = userLoading;
+
+  const pages = userPageCount(userTotal, USER_PAGE_SIZE);
+  el.userPageLabel.textContent = `第 ${userPage} / ${pages} 頁（共 ${userTotal} 位）`;
+  el.userPrevious.disabled = userLoading || userPage <= 1;
+  el.userNext.disabled = userLoading || userPage >= pages;
+
+  if (userLoading || unavailable || empty) {
+    el.userList.replaceChildren();
+    return;
+  }
+
+  const header = node("div", "user-admin-row user-admin-header");
+  header.setAttribute("role", "row");
+  for (const label of ["使用者", "Email", "登入方式", "加入時間", "最後登入", "投稿", "待審", "通過", "退回", "角色", "操作"]) {
+    const heading = node("div", "", label);
+    heading.setAttribute("role", "columnheader");
+    header.append(heading);
+  }
+  el.userList.replaceChildren(header, ...users.map(userRow));
+}
+
+async function loadUsers() {
+  if (!isAdmin || userLoading) return;
+  userLoading = true;
+  renderUsers();
+  const { data, error } = await supabase.rpc("admin_list_users", adminListParams({
+    query: userQuery,
+    role: userRoleFilter,
+    page: userPage,
+    pageSize: USER_PAGE_SIZE
+  }));
+  userLoading = false;
+
+  if (error) {
+    users = [];
+    userTotal = 0;
+    userManagementAvailable = !userManagementUnavailable(error);
+    renderUsers();
+    if (!userManagementAvailable) return;
+    showMessage(errorMessage(error, "無法載入使用者。"), "error", 0);
+    return;
+  }
+
+  userManagementAvailable = true;
+  users = data || [];
+  if (!users.length && userPage > 1) {
+    userPage -= 1;
+    renderUsers();
+    return loadUsers();
+  }
+  userTotal = Number(users[0]?.total_count || 0);
+  renderUsers();
+}
+
+async function setUserRole(user, nextIsAdmin) {
+  if (userMutationBusy || (isCurrentAccount(user, currentUser?.id) && !nextIsAdmin)) return;
+  const message = nextIsAdmin
+    ? `確定將「${userDisplayName(user)}」設為管理員？`
+    : `確定移除「${userDisplayName(user)}」的管理員權限？`;
+  if (!confirm(message)) return;
+
+  userMutationBusy = true;
+  renderUsers();
+  const { error } = await supabase.rpc("admin_set_user_role", { p_user_id: user.user_id, p_is_admin: nextIsAdmin });
+  userMutationBusy = false;
+  if (error) {
+    renderUsers();
+    showMessage(errorMessage(error, "無法更新使用者角色。"), "error", 0);
+    return;
+  }
+  showMessage(nextIsAdmin ? "已設為管理員。" : "已移除管理員權限。", "success");
+  await loadUsers();
+}
+
 async function loadData() {
   if (!isAdmin) return;
   setLoading(true);
@@ -126,7 +267,7 @@ async function loadData() {
   ]);
   setLoading(false);
   if (songsResult.error || tagsResult.error) { showMessage(errorMessage(songsResult.error || tagsResult.error, "無法載入管理資料。"), "error", 0); return; }
-  songs = songsResult.data || []; tags = tagsResult.data || []; updateCounts(); renderSongs(); renderTags();
+  songs = songsResult.data || []; tags = tagsResult.data || []; updateCounts(); renderSongs(); renderTags(); await loadUsers();
 }
 
 async function changeStatus(song, status) {
@@ -273,13 +414,18 @@ async function deleteTag(tag, count) {
 async function checkAdmin() { isAdmin = false; if (!currentUser) return; const { data, error } = await supabase.rpc("is_admin"); if (error) showMessage(errorMessage(error, "無法驗證管理員權限。"), "error", 0); else isAdmin = data === true; }
 async function signIn() { if (!configured) return showMessage("請先設定有效的 Supabase project。", "error", 0); el.headerSignIn.disabled = true; el.panelSignIn.disabled = true; try { await verifyGoogleAuthConfiguration(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY); const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: oauthRedirectUrl(window.location.href, "admin") } }); if (error) throw error; } catch (error) { showMessage(errorMessage(error, "無法開始 Google 登入。"), "error", 0); } finally { el.headerSignIn.disabled = false; el.panelSignIn.disabled = false; } }
 async function signOut() { const { error } = await supabase.auth.signOut({ scope: "local" }); if (error) return showMessage(errorMessage(error, "無法登出。"), "error"); await queueSession(null, "SIGNED_OUT"); showMessage("已登出。", "success"); }
-async function applySession(session) { currentUser = session?.user || null; await checkAdmin(); updateAccessUI(); if (isAdmin) await loadData(); else { songs = []; tags = []; updateCounts(); renderSongs(); renderTags(); } }
+async function applySession(session) { currentUser = session?.user || null; await checkAdmin(); updateAccessUI(); if (isAdmin) await loadData(); else { songs = []; tags = []; users = []; userTotal = 0; userPage = 1; userManagementAvailable = true; updateCounts(); renderSongs(); renderTags(); renderUsers(); } }
 function queueSession(session, event) { authQueue = authQueue.catch(console.error).then(async () => { const id = session?.user?.id || null; if (id === appliedAuthUserId && event !== "USER_UPDATED") { currentUser = session?.user || null; updateAccessUI(); return; } await applySession(session); appliedAuthUserId = id; }); return authQueue; }
 
 function bind() {
   el.headerSignIn.addEventListener("click", signIn); el.panelSignIn.addEventListener("click", signIn); el.signOut.addEventListener("click", signOut); el.deniedSignOut.addEventListener("click", signOut); el.refresh.addEventListener("click", loadData); el.search.addEventListener("input", renderSongs); el.status.addEventListener("change", renderSongs);
   el.closePreview.addEventListener("click", () => el.preview.close()); el.closePreviewFooter.addEventListener("click", () => el.preview.close()); el.preview.addEventListener("close", () => { void pdfPreview.destroy(); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
   el.tagSearch.addEventListener("input", renderTags); el.tagForm.addEventListener("submit", createTag); el.newTagName.addEventListener("input", () => { if (document.activeElement !== el.newTagSlug) el.newTagSlug.value = slugify(el.newTagName.value); });
+  el.userSearchForm.addEventListener("submit", (event) => { event.preventDefault(); userQuery = el.userSearch.value.trim(); userPage = 1; void loadUsers(); });
+  el.userRole.addEventListener("change", () => { userRoleFilter = el.userRole.value; userPage = 1; void loadUsers(); });
+  el.userRefresh.addEventListener("click", () => { void loadUsers(); });
+  el.userPrevious.addEventListener("click", () => { if (userPage <= 1) return; userPage -= 1; void loadUsers(); });
+  el.userNext.addEventListener("click", () => { if (userPage >= userPageCount(userTotal, USER_PAGE_SIZE)) return; userPage += 1; void loadUsers(); });
   el.closeEditor.addEventListener("click", closeEditor); el.editor.addEventListener("close", () => { clearInterval(editorTimer); editorPlayer?.destroy(); editorPlayer = null; currentSong = null; }); el.metadataForm.addEventListener("submit", saveMetadata); el.youtube.addEventListener("input", validateEditorYoutube);
   el.lrcFile.addEventListener("change", async () => {
     const file = el.lrcFile.files[0];
