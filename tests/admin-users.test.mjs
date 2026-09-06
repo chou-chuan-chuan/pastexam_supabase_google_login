@@ -64,16 +64,42 @@ test("admin page exposes search, server role filter, states, and pagination cont
   assert.match(adminJs, /目前帳號/);
 });
 
-test("user identity keeps the current-account badge beside the name without rendering UUID", () => {
-  assert.match(adminJs, /const nameLine = node\("div", "user-admin-name-line"\)/);
-  assert.match(adminJs, /nameLine\.append\(node\("strong", "", userDisplayName\(user\)\)\)/);
-  assert.match(adminJs, /if \(current\) nameLine\.append\(node\("span", "user-current-badge", "目前帳號"\)\)/);
+test("user identity contains only the name while actions show the appropriate control", () => {
+  const identityStart = adminJs.indexOf('const identity = node("div", "user-admin-identity")');
+  const roleStart = adminJs.indexOf('const role = node("span"', identityStart);
+  const identitySource = adminJs.slice(identityStart, roleStart);
+  assert.match(identitySource, /identity\.append\(node\("strong", "", userDisplayName\(user\)\)\)/);
+  assert.doesNotMatch(identitySource, /user-current-badge|目前帳號/);
+  assert.match(adminJs, /if \(current\) \{\s*action\.append\(node\("span", "user-current-badge", "目前帳號"\)\)/);
+  assert.doesNotMatch(adminJs, /node\("span", "muted", "目前帳號"\)/);
+  assert.match(adminJs, /user\.is_admin \? "移除管理員" : "設為管理員"/);
+  assert.match(adminJs, /userRoleLabel\(user\)/);
   assert.doesNotMatch(adminJs, /user-admin-uuid/);
   assert.doesNotMatch(adminJs, /node\("code"[^\n]*user\.user_id/);
   assert.match(adminJs, /isCurrentAccount\(user, currentUser\?\.id\)/);
   assert.match(adminJs, /p_user_id: user\.user_id/);
-  assert.match(styleCss, /\.user-admin-name-line\s*\{[^}]*display:\s*flex[^}]*align-items:\s*center[^}]*flex-wrap:\s*wrap[^}]*gap:\s*6px/s);
+  assert.doesNotMatch(styleCss, /\.user-admin-name-line/);
   assert.doesNotMatch(styleCss, /\.user-admin-uuid/);
+});
+
+test("desktop user columns share a content-aware table layout with compact actions", () => {
+  assert.match(styleCss, /\.user-admin-list\s*\{[^}]*display:\s*table[^}]*width:\s*100%[^}]*table-layout:\s*auto/s);
+  assert.match(styleCss, /\.user-admin-row\s*\{[^}]*display:\s*table-row/s);
+  assert.match(styleCss, /\.user-admin-header > div, \.user-admin-cell\s*\{[^}]*display:\s*table-cell/s);
+  assert.match(styleCss, /\.user-admin-action \.button\s*\{[^}]*width:\s*auto/s);
+  assert.doesNotMatch(styleCss, /minmax\(170px,\s*1\.55fr\)/);
+  assert.match(styleCss, /@media \(max-width: 1000px\)[\s\S]*\.user-admin-list\s*\{[^}]*display:\s*grid/);
+  assert.match(styleCss, /@media \(max-width: 1000px\)[\s\S]*\.user-admin-row:not\(\.user-admin-header\) > \.user-admin-cell\s*\{[^}]*display:\s*flex[^}]*width:\s*auto/);
+});
+
+test("responsive cards align logical rows while retaining only the final two separators", () => {
+  const responsiveStart = styleCss.indexOf("@media (max-width: 1000px)");
+  const responsiveEnd = styleCss.indexOf("@media (max-width: 850px)", responsiveStart);
+  const responsiveCss = styleCss.slice(responsiveStart, responsiveEnd);
+  assert.match(responsiveCss, /\.user-admin-row:not\(\.user-admin-header\)\s*\{[^}]*height:\s*100%[^}]*grid-template-rows:\s*minmax\(76px,auto\) minmax\(76px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(64px,auto\) minmax\(68px,auto\)/s);
+  assert.match(responsiveCss, /> \.user-admin-cell\s*\{[^}]*justify-content:\s*flex-start[^}]*border-top:\s*1px solid var\(--border\)/s);
+  assert.match(responsiveCss, /> \.user-admin-cell:nth-child\(-n\+5\)\s*\{\s*border-top:\s*0/);
+  assert.doesNotMatch(responsiveCss, /grid-template-areas|grid-template-columns:\s*1fr\s+1fr/);
 });
 
 test("browser code cannot access privileged auth or admin membership tables directly", () => {

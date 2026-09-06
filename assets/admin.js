@@ -141,15 +141,12 @@ function userRow(user) {
   row.setAttribute("role", "row");
 
   const identity = node("div", "user-admin-identity");
-  const nameLine = node("div", "user-admin-name-line");
-  nameLine.append(node("strong", "", userDisplayName(user)));
-  if (current) nameLine.append(node("span", "user-current-badge", "目前帳號"));
-  identity.append(nameLine);
+  identity.append(node("strong", "", userDisplayName(user)));
 
   const role = node("span", `user-role-badge ${user.is_admin ? "is-admin" : "is-user"}`, userRoleLabel(user));
   const action = node("div", "user-admin-action");
   if (current) {
-    action.append(node("span", "muted", "目前帳號"));
+    action.append(node("span", "user-current-badge", "目前帳號"));
   } else {
     const button = node("button", `button ${user.is_admin ? "danger" : "secondary"}`, user.is_admin ? "移除管理員" : "設為管理員");
     button.type = "button";
