@@ -64,7 +64,7 @@ begin
             nullif(btrim(u.raw_user_meta_data ->> 'display_name'), ''),
             nullif(btrim(u.raw_user_meta_data ->> 'preferred_username'), ''),
             nullif(btrim(u.email), ''),
-            u.id::text
+            '未命名使用者'
           ),
           '[[:cntrl:]]',
           '',

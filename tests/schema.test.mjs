@@ -135,6 +135,8 @@ test("admin user listing exposes only safe fields and server-side aggregate pagi
   assert.match(sql, /lower\(su\.display_name\) like/);
   assert.match(sql, /lower\(su\.provider\) like/);
   assert.doesNotMatch(sql, /lower\(su\.user_id::text\) like/);
+  assert.match(sql, /nullif\(btrim\(u\.email\), ''\),\s*'未命名使用者'/);
+  assert.doesNotMatch(sql, /nullif\(btrim\(u\.email\), ''\),\s*u\.id::text/);
   assert.match(sql, /\(fu\.user_id = \(select auth\.uid\(\)\)\) desc,[\s\S]*fu\.is_admin desc,[\s\S]*fu\.last_sign_in_at desc nulls last/);
   assert.doesNotMatch(sql.slice(0, sql.indexOf("create or replace function public.admin_set_user_role")), /encrypted_password|confirmation_token|recovery_token|refresh_token/);
 });
