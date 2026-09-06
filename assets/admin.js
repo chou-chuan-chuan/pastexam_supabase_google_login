@@ -3,6 +3,7 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, STORAGE_BUCKET, MAX_FILE_SIZE_B
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
 import { compareDefaultSongOrder, songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
+import { PdfViewer } from "./pdf-viewer.js";
 import { parseLrc } from "./lrc.js";
 import { formatCueTime, prepareCuesForSave, validateCueRows } from "./lyrics-sync.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeWatchUrl } from "./youtube.js";
@@ -15,11 +16,14 @@ const $ = (selector) => document.querySelector(selector);
 const el = {
   setup: $("#adminSetupNotice"), message: $("#adminMessageBox"), user: $("#adminUserLabel"), headerSignIn: $("#adminGoogleSignInButton"), panelSignIn: $("#adminPanelSignInButton"), signOut: $("#adminSignOutButton"), deniedSignOut: $("#adminDeniedSignOutButton"), signedOut: $("#adminSignedOutState"), denied: $("#adminDeniedState"), deniedText: $("#adminDeniedDescription"), dashboard: $("#adminDashboard"),
   search: $("#adminSearchInput"), status: $("#adminStatusFilter"), refresh: $("#adminRefreshButton"), description: $("#adminListDescription"), loading: $("#adminLoadingState"), grid: $("#adminSongGrid"), empty: $("#adminEmptyState"), pending: $("#pendingCount"), approved: $("#approvedCount"), rejected: $("#rejectedCount"),
-  preview: $("#adminPreviewDialog"), previewTitle: $("#adminPreviewTitle"), previewFrame: $("#adminPdfPreviewFrame"), closePreview: $("#adminClosePreviewButton"), closePreviewFooter: $("#adminClosePreviewFooterButton"), openPdf: $("#adminOpenPdfButton"), downloadPdf: $("#adminDownloadPdfButton"),
+  preview: $("#adminPreviewDialog"), previewTitle: $("#adminPreviewTitle"), previewViewer: $("#adminPdfPreviewViewer"), closePreview: $("#adminClosePreviewButton"), closePreviewFooter: $("#adminClosePreviewFooterButton"), openPdf: $("#adminOpenPdfButton"), downloadPdf: $("#adminDownloadPdfButton"),
   tagSearch: $("#tagSearchInput"), tagForm: $("#createTagForm"), newTagName: $("#newTagName"), newTagSlug: $("#newTagSlug"), createTag: $("#createTagButton"), tagList: $("#tagAdminList"),
   editor: $("#songEditorDialog"), closeEditor: $("#closeSongEditorButton"), editorTitleHeading: $("#songEditorTitle"), metadataForm: $("#songMetadataForm"), title: $("#editorTitle"), artist: $("#editorArtist"), album: $("#editorAlbum"), year: $("#editorYear"), language: $("#editorLanguage"), genre: $("#editorGenre"), youtube: $("#editorYoutube"), youtubeStatus: $("#editorYoutubeStatus"), tagChoices: $("#editorTagChoices"), notes: $("#editorNotes"), pdf: $("#editorPdf"), currentPdf: $("#editorCurrentPdf"), saveMetadata: $("#saveMetadataButton"), playerShell: $(".admin-player-shell"), currentTime: $("#editorCurrentTime"), playerStatus: $("#editorPlayerStatus"), fallback: $("#editorYoutubeFallback"),
   lrcFile: $("#lrcFileInput"), lrcText: $("#lrcTextInput"), previewLrc: $("#previewLrcButton"), lrcSummary: $("#lrcSummary"), lrcErrors: $("#lrcErrorList"), plainLyrics: $("#plainLyricsInput"), createLines: $("#createCueLinesButton"), addCue: $("#addCueButton"), markCue: $("#markCueButton"), moveUp: $("#moveCueUpButton"), moveDown: $("#moveCueDownButton"), deleteCue: $("#deleteCueButton"), cueRows: $("#cueRows"), cueValidation: $("#cueValidationList"), saveCues: $("#saveCuesButton")
 };
+
+const VIEWER_SIGNED_URL_TTL_SECONDS = 1800;
+const pdfPreview = new PdfViewer(el.previewViewer, { label: "待審歌詞 PDF" });
 
 let currentUser = null;
 let isAdmin = false;
@@ -57,17 +61,17 @@ function matches(song) {
   return (!query || haystack.includes(query)) && (!el.status.value || song.status === el.status.value);
 }
 
-async function signedPdfUrl(song, download = false) {
+async function signedPdfUrl(song, download = false, expiresIn = 300) {
   const options = download ? { download: song.original_filename } : undefined;
-  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(song.pdf_path, 300, options);
+  const { data, error } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(song.pdf_path, expiresIn, options);
   if (error) throw error;
   return data.signedUrl;
 }
 
 async function openPdf(song) {
   try {
-    const url = await signedPdfUrl(song);
-    el.previewTitle.textContent = `${song.title} — ${song.artist}`; el.previewFrame.src = `${url}#view=FitH&toolbar=1&navpanes=0`; el.openPdf.href = url; el.downloadPdf.href = await signedPdfUrl(song, true); el.preview.showModal();
+    const [url, downloadUrl] = await Promise.all([signedPdfUrl(song, false, VIEWER_SIGNED_URL_TTL_SECONDS), signedPdfUrl(song, true)]);
+    el.previewTitle.textContent = `${song.title} — ${song.artist}`; el.openPdf.href = url; el.downloadPdf.href = downloadUrl; el.preview.showModal(); await pdfPreview.load(url);
   } catch (error) { showMessage(errorMessage(error, "無法建立 PDF 預覽連結。"), "error", 0); }
 }
 
@@ -274,7 +278,7 @@ function queueSession(session, event) { authQueue = authQueue.catch(console.erro
 
 function bind() {
   el.headerSignIn.addEventListener("click", signIn); el.panelSignIn.addEventListener("click", signIn); el.signOut.addEventListener("click", signOut); el.deniedSignOut.addEventListener("click", signOut); el.refresh.addEventListener("click", loadData); el.search.addEventListener("input", renderSongs); el.status.addEventListener("change", renderSongs);
-  el.closePreview.addEventListener("click", () => el.preview.close()); el.closePreviewFooter.addEventListener("click", () => el.preview.close()); el.preview.addEventListener("close", () => { el.previewFrame.removeAttribute("src"); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
+  el.closePreview.addEventListener("click", () => el.preview.close()); el.closePreviewFooter.addEventListener("click", () => el.preview.close()); el.preview.addEventListener("close", () => { void pdfPreview.destroy(); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
   el.tagSearch.addEventListener("input", renderTags); el.tagForm.addEventListener("submit", createTag); el.newTagName.addEventListener("input", () => { if (document.activeElement !== el.newTagSlug) el.newTagSlug.value = slugify(el.newTagName.value); });
   el.closeEditor.addEventListener("click", closeEditor); el.editor.addEventListener("close", () => { clearInterval(editorTimer); editorPlayer?.destroy(); editorPlayer = null; currentSong = null; }); el.metadataForm.addEventListener("submit", saveMetadata); el.youtube.addEventListener("input", validateEditorYoutube);
   el.lrcFile.addEventListener("change", async () => {
@@ -294,6 +298,8 @@ function bind() {
   el.previewLrc.addEventListener("click", parseLrcIntoRows); el.createLines.addEventListener("click", createPlainCueRows); el.addCue.addEventListener("click", addCue); el.markCue.addEventListener("click", markCue); el.moveUp.addEventListener("click", () => moveCue(-1)); el.moveDown.addEventListener("click", () => moveCue(1)); el.deleteCue.addEventListener("click", deleteCue); el.saveCues.addEventListener("click", saveCues);
   document.addEventListener("keydown", (event) => { if (!el.editor.open) return; const target = event.target; if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement || target.isContentEditable) return; if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); saveCues(); } else if (event.key === "Enter") { event.preventDefault(); markCue(); } else if (event.key === "ArrowUp") { event.preventDefault(); selectedCueIndex = Math.max(0, selectedCueIndex - 1); renderCueRows(); } else if (event.key === "ArrowDown") { event.preventDefault(); selectedCueIndex = Math.min(cueRows.length - 1, selectedCueIndex + 1); renderCueRows(); } });
 }
+
+window.addEventListener("beforeunload", () => { void pdfPreview.dispose(); });
 
 async function init() {
   bind(); if (!configured) { el.setup.classList.remove("hidden"); updateAccessUI(); return; }
