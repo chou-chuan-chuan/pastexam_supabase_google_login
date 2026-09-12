@@ -56,6 +56,7 @@ export class YouTubePlayer {
           this.handlers.onReady?.(event);
         },
         onStateChange: (event) => this.handlers.onStateChange?.(event.data, event),
+        onAutoplayBlocked: (event) => this.handlers.onAutoplayBlocked?.(event),
         onError: (event) => this.handlers.onError?.(event.data, youtubeWatchUrl(this.videoId))
       }
     });
@@ -77,6 +78,18 @@ export class YouTubePlayer {
 
   pause() {
     if (this.ready) this.player.pauseVideo();
+  }
+
+  mute() {
+    if (this.ready) this.player?.mute?.();
+  }
+
+  unMute() {
+    if (this.ready) this.player?.unMute?.();
+  }
+
+  isMuted() {
+    return Boolean(this.player?.isMuted?.());
   }
 
   destroy() {

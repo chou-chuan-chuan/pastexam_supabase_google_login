@@ -7,10 +7,12 @@ async function source(path) {
 }
 
 test("playlist pages and their expected modules exist", async () => {
-  const [listPage, detailPage] = await Promise.all([source("playlists.html"), source("playlist.html")]);
+  const [listPage, detailPage, listScript, fixture] = await Promise.all([source("playlists.html"), source("playlist.html"), source("assets/playlists-page.js"), source("tools/playlist-fixture.html")]);
   assert.match(listPage, /assets\/playlists-page\.js/);
   assert.match(detailPage, /assets\/playlist-page\.js/);
   assert.match(detailPage, /playlistDetailEmpty/);
+  assert.match(listScript, /node\("button", "button secondary", "編輯"\)/);
+  assert.doesNotMatch(`${listScript}\n${fixture}`, /重新命名 \/ 編輯/);
 });
 
 test("public song cards expose the add-to-playlist action without eager membership loading", async () => {
@@ -34,6 +36,8 @@ test("song page recognizes playlist context and advances on YouTube ENDED", asyn
   assert.match(song, /aria-current/);
   assert.match(song, /\{ autoplay: Boolean\(playlist\) \}/);
   assert.match(song, /if \(playlist\)[\s\S]*player\.play\(\)/);
+  assert.match(song, /onAutoplayBlocked:[\s\S]*playlistMutedAutoplayFallbackAttempted[\s\S]*player\.mute\(\)[\s\S]*player\.play\(\)/);
+  assert.match(song, /if \(playlistMutedAutoplayFallbackAttempted\)[\s\S]*自動播放受瀏覽器限制，請按播放/);
 });
 
 test("current playlist styling uses a soft symmetric highlight without an inset left rail", async () => {
