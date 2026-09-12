@@ -224,9 +224,8 @@ function songCard(song) {
   const actions = node("div", "card-actions");
   const read = node("a", "button primary", "播放與閱讀");
   read.href = `./song.html?id=${encodeURIComponent(song.id)}`;
-  const preview = node("button", "button secondary", "預覽 PDF"); preview.type = "button"; preview.addEventListener("click", () => openPdf(song));
-  const download = node("button", "button secondary", "下載 PDF"); download.type = "button"; download.addEventListener("click", () => downloadSongPdf(song));
-  actions.append(read, preview, download);
+  const preview = node("button", "button secondary", "預覽 / 下載 PDF"); preview.type = "button"; preview.addEventListener("click", () => openPdf(song));
+  actions.append(read, preview);
   if (song.status === "approved") {
     const addToPlaylist = node("button", "button secondary playlist-add-button", "加入播放清單");
     addToPlaylist.type = "button";
@@ -321,18 +320,6 @@ async function moveSongInPublicOrder(songId, direction) {
   } finally {
     orderMoveBusy = false;
     render();
-  }
-}
-
-async function downloadSongPdf(song) {
-  try {
-    const anchor = document.createElement("a");
-    anchor.href = await signedPdfUrl(song.pdf_path, song.original_filename);
-    anchor.target = "_blank";
-    anchor.rel = "noopener noreferrer";
-    anchor.click();
-  } catch (error) {
-    showMessage(errorMessage(error, "無法建立 PDF 下載連結。"), "error", 0);
   }
 }
 

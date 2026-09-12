@@ -15,7 +15,11 @@ test("playlist pages and their expected modules exist", async () => {
 
 test("public song cards expose the add-to-playlist action without eager membership loading", async () => {
   const app = await source("assets/app.js");
+  const songCard = app.slice(app.indexOf("function songCard"), app.indexOf("function playlistChoice"));
   assert.match(app, /加入播放清單/);
+  assert.match(songCard, /預覽 \/ 下載 PDF/);
+  assert.doesNotMatch(songCard, /node\("button", "button secondary", "下載 PDF"\)/);
+  assert.doesNotMatch(app, /function downloadSongPdf/);
   assert.match(app, /openAddPlaylist\(song\)/);
   assert.match(app, /from\("playlist_items"\)\.select\("playlist_id"\)\.eq\("song_id", song\.id\)/);
   assert.doesNotMatch(app.slice(0, app.indexOf("async function openAddPlaylist")), /from\("playlist_items"\)\.select\("playlist_id"\)/);
@@ -28,6 +32,16 @@ test("song page recognizes playlist context and advances on YouTube ENDED", asyn
   assert.match(song, /state === 0[\s\S]*playlistNavigation\.next[\s\S]*navigatePlaylistItem\(playlistNavigation\.next\)/);
   assert.match(song, /播放清單已播放完畢/);
   assert.match(song, /aria-current/);
+  assert.match(song, /\{ autoplay: Boolean\(playlist\) \}/);
+  assert.match(song, /if \(playlist\)[\s\S]*player\.play\(\)/);
+});
+
+test("current playlist styling uses a soft symmetric highlight without an inset left rail", async () => {
+  const style = await source("assets/style.css");
+  const rule = style.match(/\.playlist-panel-item\.is-current\s*\{[^}]+\}/)?.[0] || "";
+  assert.match(rule, /background:\s*#f0e8fb/);
+  assert.match(rule, /border-color:/);
+  assert.doesNotMatch(rule, /inset|border-left|::before/);
 });
 
 test("playlist clients contain no service role or YouTube Data API integration", async () => {

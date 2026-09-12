@@ -27,12 +27,13 @@ export function loadYouTubeIframeAPI(browserWindow = window) {
 }
 
 export class YouTubePlayer {
-  constructor(container, videoId, handlers = {}) {
+  constructor(container, videoId, handlers = {}, options = {}) {
     if (!container) throw new TypeError("YouTube player container is required.");
     if (!isValidYouTubeVideoId(videoId)) throw new TypeError("Invalid YouTube video ID.");
     this.container = container;
     this.videoId = videoId;
     this.handlers = handlers;
+    this.autoplay = options.autoplay === true;
     this.player = null;
     this.ready = false;
   }
@@ -43,7 +44,7 @@ export class YouTubePlayer {
     this.player = new YT.Player(this.container, {
       videoId: this.videoId,
       playerVars: {
-        autoplay: 0,
+        autoplay: this.autoplay ? 1 : 0,
         controls: 1,
         playsinline: 1,
         rel: 0,
