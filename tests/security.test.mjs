@@ -19,9 +19,10 @@ test("public submission code forces pending and never accepts status from the fo
   assert.match(catalog, /status:\s*["']pending["']/);
 });
 
-test("YouTube integration uses the official iframe API without autoplay or downloads", async () => {
+test("YouTube integration uses the official iframe API with opt-in autoplay and no downloads", async () => {
   const player = await readFile(new URL("../assets/youtube-player.js", import.meta.url), "utf8");
   assert.match(player, /https:\/\/www\.youtube\.com\/iframe_api/);
-  assert.match(player, /autoplay:\s*0/);
+  assert.match(player, /this\.autoplay = options\.autoplay === true/);
+  assert.match(player, /autoplay:\s*this\.autoplay \? 1 : 0/);
   assert.doesNotMatch(player, /fetch\([^)]*youtube|download.*youtube|captions/i);
 });

@@ -143,7 +143,16 @@ function startSync() {
 
 async function setupPlayer() {
   player = new YouTubePlayer(el.playerHost, song.youtube_video_id, {
-    onReady: () => { el.playerStatus.textContent = "播放器已就緒，請按播放。"; startSync(); },
+    onReady: () => {
+      startSync();
+      if (playlist) {
+        el.playerStatus.textContent = "正在嘗試自動播放…";
+        try { player.play(); }
+        catch (error) { console.warn("Playlist autoplay was blocked; manual playback remains available.", error); el.playerStatus.textContent = "自動播放受瀏覽器限制，請按播放。"; }
+      } else {
+        el.playerStatus.textContent = "播放器已就緒，請按播放。";
+      }
+    },
     onStateChange: (state) => {
       if (state === 1) el.playerStatus.textContent = "播放中";
       else if (state === 2) el.playerStatus.textContent = "已暫停";
@@ -161,7 +170,7 @@ async function setupPlayer() {
       else if (state === 3) el.playerStatus.textContent = "緩衝中…";
     },
     onError: () => { el.playerError.classList.remove("hidden"); el.playerStatus.textContent = "影片無法嵌入"; }
-  });
+  }, { autoplay: Boolean(playlist) });
   try { await player.create(); }
   catch (error) { el.playerError.classList.remove("hidden"); el.playerStatus.textContent = error.message; }
 }
