@@ -16,11 +16,14 @@ test("playlist pages and their expected modules exist", async () => {
 });
 
 test("public song cards expose the add-to-playlist action without eager membership loading", async () => {
-  const app = await source("assets/app.js");
+  const [app, style] = await Promise.all([source("assets/app.js"), source("assets/style.css")]);
   const songCard = app.slice(app.indexOf("function songCard"), app.indexOf("function playlistChoice"));
   assert.match(app, /加入播放清單/);
   assert.match(songCard, /預覽 \/ 下載 PDF/);
   assert.doesNotMatch(songCard, /node\("button", "button secondary", "下載 PDF"\)/);
+  assert.match(songCard, /node\("button", "button danger pending-song-delete-button", "刪除"\)/);
+  assert.match(style, /\.card-actions \.pending-song-delete-button\s*\{\s*grid-column:\s*1 \/ -1;\s*\}/);
+  assert.doesNotMatch(style, /\.card-actions \.danger\s*\{[^}]*grid-column/);
   assert.doesNotMatch(app, /function downloadSongPdf/);
   assert.match(app, /openAddPlaylist\(song\)/);
   assert.match(app, /from\("playlist_items"\)\.select\("playlist_id"\)\.eq\("song_id", song\.id\)/);
