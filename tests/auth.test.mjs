@@ -13,6 +13,7 @@ const LOCAL_HOME = "http://localhost:8000/";
 const LOCAL_ADMIN = "http://localhost:8000/admin.html";
 const PRODUCTION_HOME = "https://chou-chuan-chuan.github.io/pastexam_supabase_google_login/";
 const PRODUCTION_ADMIN = `${PRODUCTION_HOME}admin.html`;
+const PRODUCTION_PLAYLISTS = `${PRODUCTION_HOME}playlists.html`;
 
 test("computes exact localhost redirect URLs", () => {
   assert.equal(oauthRedirectUrl(LOCAL_HOME, "home"), LOCAL_HOME);
@@ -22,6 +23,7 @@ test("computes exact localhost redirect URLs", () => {
 test("computes exact GitHub Pages redirect URLs and preserves the repository path", () => {
   assert.equal(oauthRedirectUrl(PRODUCTION_HOME, "home"), PRODUCTION_HOME);
   assert.equal(oauthRedirectUrl(PRODUCTION_ADMIN, "admin"), PRODUCTION_ADMIN);
+  assert.equal(oauthRedirectUrl(PRODUCTION_HOME, "playlists"), PRODUCTION_PLAYLISTS);
 });
 
 test("ignores current query and hash when computing a redirect", () => {
@@ -34,7 +36,7 @@ test("ignores current query and hash when computing a redirect", () => {
 test("rejects arbitrary or external return-to destinations", () => {
   assert.throws(
     () => oauthRedirectUrl(PRODUCTION_HOME, "https://evil.example/steal"),
-    /home or admin/
+    /home, admin, or playlists/
   );
   assert.throws(
     () => oauthRedirectUrl("javascript:alert(1)", "home"),

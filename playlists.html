@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="建立與管理私人歌曲播放清單">
+  <title>我的播放清單｜歌曲歌詞 PDF 資料庫</title>
+  <link rel="icon" type="image/png" sizes="256x256" href="./assets/branding/favicon.png">
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./"><span class="brand-logo" aria-hidden="true"><img src="./assets/branding/logo-retro.png" width="1024" height="1024" alt=""></span><span><strong>歌曲歌詞 PDF 資料庫</strong><small>我的播放清單</small></span></a>
+      <div class="account-area">
+        <span id="userLabel" class="user-label">訪客模式</span>
+        <button id="googleSignInButton" class="button google-button" type="button">使用 Google 登入</button>
+        <button id="signOutButton" class="button secondary hidden" type="button">登出</button>
+        <a class="button secondary" href="./">返回歌曲資料庫</a>
+      </div>
+    </div>
+  </header>
+  <main class="page playlist-page">
+    <section id="playlistMessage" class="notice hidden" role="status" aria-live="polite"></section>
+    <section class="playlist-page-heading">
+      <div><p class="eyebrow">Private library</p><h1>我的播放清單</h1><p class="muted">只有你能查看與管理這些播放清單。</p></div>
+      <button id="createPlaylistButton" class="button primary hidden" type="button">＋ 建立播放清單</button>
+    </section>
+    <section id="signedOutState" class="state-panel hidden"><h2>登入後即可建立與管理播放清單。</h2><button id="stateSignInButton" class="button google-button" type="button">使用 Google 登入</button></section>
+    <section id="playlistLoading" class="state-panel hidden"><div class="spinner"></div><p>載入播放清單中…</p></section>
+    <section id="playlistGrid" class="playlist-grid hidden" aria-live="polite"></section>
+    <section id="playlistEmpty" class="state-panel hidden"><h2>尚未建立播放清單</h2><button id="createFirstPlaylistButton" class="button primary" type="button">建立第一個播放清單</button></section>
+  </main>
+
+  <dialog id="playlistEditorDialog" class="dialog form-dialog" aria-labelledby="playlistEditorTitle">
+    <form id="playlistEditorForm" class="dialog-body">
+      <div class="dialog-heading"><div><p class="eyebrow">Private playlist</p><h2 id="playlistEditorTitle">建立播放清單</h2></div><button id="closePlaylistEditorButton" type="button" class="icon-button" aria-label="關閉播放清單編輯視窗">×</button></div>
+      <input id="playlistEditorId" type="hidden">
+      <label class="field"><span>名稱 *</span><input id="playlistName" required maxlength="120"></label>
+      <label class="field"><span>描述（選填）</span><textarea id="playlistDescription" rows="4" maxlength="1000"></textarea></label>
+      <div class="dialog-actions"><button id="cancelPlaylistEditorButton" type="button" class="button secondary">取消</button><button id="savePlaylistButton" type="submit" class="button primary">儲存</button></div>
+    </form>
+  </dialog>
+  <script type="module" src="./assets/playlists-page.js"></script>
+</body>
+</html>

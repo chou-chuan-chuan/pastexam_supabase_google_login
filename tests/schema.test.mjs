@@ -8,6 +8,7 @@ const displayOrderMigration = await readFile(new URL("../supabase/song_display_o
 const defaultLanguageOrderMigration = await readFile(new URL("../supabase/default_language_song_order_migration.sql", import.meta.url), "utf8");
 const adminUserManagementMigration = await readFile(new URL("../supabase/admin_user_management_migration.sql", import.meta.url), "utf8");
 const removeUuidSearchMigration = await readFile(new URL("../supabase/admin_user_management_remove_uuid_search_migration.sql", import.meta.url), "utf8");
+const playlistMigration = await readFile(new URL("../supabase/user_playlists_migration.sql", import.meta.url), "utf8");
 
 function adminUserListDefinition(sql) {
   const start = sql.indexOf("create or replace function public.admin_list_users(");
@@ -162,4 +163,49 @@ test("admin user management RPCs are executable only by authenticated clients", 
     assert.match(adminUserManagementMigration, new RegExp(`revoke all on function ${signature} from public;`));
     assert.match(adminUserManagementMigration, new RegExp(`grant execute on function ${signature} to authenticated;`));
   }
+});
+
+test("private playlist schema is present in production and fresh-install SQL", () => {
+  for (const sql of [playlistMigration, setup, migration]) {
+    assert.match(sql, /create table if not exists public\.playlists/);
+    assert.match(sql, /owner_id uuid not null default auth\.uid\(\) references auth\.users\(id\) on delete cascade/);
+    assert.match(sql, /name text not null check \(length\(btrim\(name\)\) between 1 and 120\)/);
+    assert.match(sql, /create table if not exists public\.playlist_items/);
+    assert.match(sql, /song_id uuid not null references public\.songs\(id\) on delete cascade/);
+    assert.match(sql, /primary key \(playlist_id, song_id\)/);
+    assert.match(sql, /playlist_items_playlist_position/);
+    assert.match(sql, /playlist_items_song_id/);
+    assert.match(sql, /alter table public\.playlists enable row level security/);
+    assert.match(sql, /alter table public\.playlist_items enable row level security/);
+  }
+  assert.match(playlistMigration, /^--[\s\S]*?begin;/);
+  assert.match(playlistMigration, /commit;\s*$/);
+});
+
+test("playlist RLS policies enforce owner access and approved-song insertion", () => {
+  assert.match(playlistMigration, /on public\.playlists for select to authenticated\s+using \(owner_id = \(select auth\.uid\(\)\)\)/);
+  assert.match(playlistMigration, /on public\.playlists for insert to authenticated\s+with check \(owner_id = \(select auth\.uid\(\)\)\)/);
+  assert.match(playlistMigration, /on public\.playlists for update to authenticated[\s\S]*using \(owner_id = \(select auth\.uid\(\)\)\)[\s\S]*with check \(owner_id = \(select auth\.uid\(\)\)\)/);
+  assert.match(playlistMigration, /on public\.playlists for delete to authenticated\s+using \(owner_id = \(select auth\.uid\(\)\)\)/);
+  assert.match(playlistMigration, /on public\.playlist_items for (?:select|insert|update|delete)[\s\S]*p\.owner_id = \(select auth\.uid\(\)\)/);
+  assert.match(playlistMigration, /s\.status = 'approved'/);
+  assert.match(playlistMigration, /revoke all on table public\.playlists, public\.playlist_items from anon/);
+});
+
+test("playlist append and reorder RPCs are guarded, atomic, and authenticated-only", () => {
+  for (const sql of [playlistMigration, setup, migration]) {
+    assert.match(sql, /function public\.add_song_to_playlist/);
+    assert.match(sql, /coalesce\(max\(pi\.position\), 0\) \+ 1024/);
+    assert.match(sql, /on conflict \(playlist_id, song_id\) do nothing/);
+    assert.match(sql, /function public\.move_playlist_item/);
+    assert.match(sql, /security definer\s+set search_path = ''/);
+    assert.match(sql, /p_direction not in \(-1, 1\)/);
+    assert.match(sql, /p\.owner_id = \(select auth\.uid\(\)\)/);
+    assert.match(sql, /pg_advisory_xact_lock/);
+    assert.match(sql, /for update/);
+    assert.match(sql, /unique \(playlist_id, position\) deferrable initially deferred/);
+    assert.match(sql, /revoke all on function public\.move_playlist_item\(uuid, uuid, integer\) from public/);
+    assert.match(sql, /grant execute on function public\.move_playlist_item\(uuid, uuid, integer\) to authenticated/);
+  }
+  assert.doesNotMatch(playlistMigration, /service_role/i);
 });
