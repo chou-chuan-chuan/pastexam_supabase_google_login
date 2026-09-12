@@ -59,7 +59,7 @@ function playlistCard(playlist) {
   const actions = node("div", "playlist-card-actions");
   const open = node("a", "button primary", "開啟");
   open.href = `./playlist.html?id=${encodeURIComponent(playlist.id)}`;
-  const edit = node("button", "button secondary", "重新命名 / 編輯");
+  const edit = node("button", "button secondary", "編輯");
   edit.type = "button";
   edit.addEventListener("click", () => openEditor(playlist));
   const remove = node("button", "button danger", "刪除");

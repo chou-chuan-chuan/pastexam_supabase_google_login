@@ -43,12 +43,19 @@ test("YouTube player keeps normal playback manual and opts playlist playback int
   const originalWindow = globalThis.window;
   const configurations = [];
   let playCalls = 0;
+  let muted = false;
+  let autoplayBlockedCalls = 0;
   globalThis.window = {
     location: { origin: "https://example.test" },
     YT: {
       Player: function (_container, configuration) {
         configurations.push(configuration);
-        return { playVideo: () => { playCalls += 1; } };
+        return {
+          playVideo: () => { playCalls += 1; },
+          mute: () => { muted = true; },
+          unMute: () => { muted = false; },
+          isMuted: () => muted
+        };
       }
     }
   };
@@ -59,11 +66,20 @@ test("YouTube player keeps normal playback manual and opts playlist playback int
     assert.equal(configurations[0].playerVars.autoplay, 0);
 
     let playlistPlayer;
-    playlistPlayer = new YouTubePlayer({}, ID, { onReady: () => playlistPlayer.play() }, { autoplay: true });
+    playlistPlayer = new YouTubePlayer({}, ID, {
+      onReady: () => playlistPlayer.play(),
+      onAutoplayBlocked: () => { autoplayBlockedCalls += 1; }
+    }, { autoplay: true });
     await playlistPlayer.create();
     assert.equal(configurations[1].playerVars.autoplay, 1);
     configurations[1].events.onReady({});
     assert.equal(playCalls, 1);
+    configurations[1].events.onAutoplayBlocked({});
+    assert.equal(autoplayBlockedCalls, 1);
+    playlistPlayer.mute();
+    assert.equal(playlistPlayer.isMuted(), true);
+    playlistPlayer.unMute();
+    assert.equal(playlistPlayer.isMuted(), false);
   } finally {
     if (originalWindow === undefined) delete globalThis.window;
     else globalThis.window = originalWindow;

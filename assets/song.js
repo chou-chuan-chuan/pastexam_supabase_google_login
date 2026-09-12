@@ -29,6 +29,7 @@ let activeCueId = null;
 let playlist = null;
 let playlistItems = [];
 let playlistNavigation = { index: -1, total: 0, previous: null, next: null };
+let playlistMutedAutoplayFallbackAttempted = false;
 
 function node(tag, className, text) {
   const item = document.createElement(tag);
@@ -154,7 +155,11 @@ async function setupPlayer() {
       }
     },
     onStateChange: (state) => {
-      if (state === 1) el.playerStatus.textContent = "播放中";
+      if (state === 1) {
+        el.playerStatus.textContent = playlistMutedAutoplayFallbackAttempted && player.isMuted()
+          ? "瀏覽器限制有聲自動播放，已改為靜音播放；可在播放器開啟聲音。"
+          : "播放中";
+      }
       else if (state === 2) el.playerStatus.textContent = "已暫停";
       else if (state === 0) {
         updateSync();
@@ -168,6 +173,22 @@ async function setupPlayer() {
         }
       }
       else if (state === 3) el.playerStatus.textContent = "緩衝中…";
+    },
+    onAutoplayBlocked: () => {
+      if (!playlist) return;
+      if (playlistMutedAutoplayFallbackAttempted) {
+        el.playerStatus.textContent = "自動播放受瀏覽器限制，請按播放。";
+        return;
+      }
+      playlistMutedAutoplayFallbackAttempted = true;
+      el.playerStatus.textContent = "瀏覽器限制有聲自動播放，正在改為靜音播放…";
+      try {
+        player.mute();
+        player.play();
+      } catch (error) {
+        console.warn("Muted playlist autoplay fallback failed; manual playback remains available.", error);
+        el.playerStatus.textContent = "自動播放受瀏覽器限制，請按播放。";
+      }
     },
     onError: () => { el.playerError.classList.remove("hidden"); el.playerStatus.textContent = "影片無法嵌入"; }
   }, { autoplay: Boolean(playlist) });
