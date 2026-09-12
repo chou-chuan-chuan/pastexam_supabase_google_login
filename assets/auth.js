@@ -57,8 +57,11 @@ export function oauthRedirectUrl(currentUrl, destination) {
   if (destination === "admin") {
     return new URL("admin.html", baseUrl).href;
   }
+  if (destination === "playlists") {
+    return new URL("playlists.html", baseUrl).href;
+  }
 
-  throw new TypeError("OAuth destination must be either home or admin.");
+  throw new TypeError("OAuth destination must be home, admin, or playlists.");
 }
 
 function hashParams(url) {

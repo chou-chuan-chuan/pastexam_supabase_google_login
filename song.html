@@ -25,6 +25,12 @@
           <div class="youtube-player-shell"><div id="youtubePlayer" aria-label="YouTube 歌曲播放器"></div></div>
           <div id="playerError" class="notice error hidden">此影片無法在網站內播放，請前往 YouTube 觀看。</div>
 
+          <section id="playlistPlayerPanel" class="playlist-player-panel hidden" aria-labelledby="playlistPanelName">
+            <div class="panel-heading"><div><p class="eyebrow">Playlist</p><h2 id="playlistPanelName"></h2></div><span id="playlistPosition" class="playlist-count"></span></div>
+            <div class="playlist-navigation"><button id="previousSongButton" class="button secondary" type="button" aria-label="播放上一首">上一首</button><button id="nextSongButton" class="button primary" type="button" aria-label="播放下一首">下一首</button></div>
+            <ol id="playlistPanelItems" class="playlist-panel-items"></ol>
+          </section>
+
           <div class="lyrics-panel">
             <div class="panel-heading"><div><p class="eyebrow">Synchronized lyrics</p><h2>同步歌詞</h2></div><span id="currentTimeLabel" class="time-readout">00:00.000</span></div>
             <div class="sync-controls">

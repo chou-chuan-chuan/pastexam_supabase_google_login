@@ -15,6 +15,7 @@
       <div class="account-area">
         <span id="userLabel" class="user-label">訪客模式</span>
         <button id="googleSignInButton" class="button google-button" type="button">使用 Google 登入</button>
+        <a id="playlistsPageLink" class="button secondary hidden" href="./playlists.html">我的播放清單</a>
         <a id="adminPageLink" class="button secondary hidden" href="./admin.html">管理後台</a>
         <button id="signOutButton" class="button secondary hidden" type="button">登出</button>
         <button id="openUploadButton" class="button primary" type="button" disabled>上傳歌詞</button>
@@ -88,6 +89,20 @@
       <div id="editProgress" class="upload-progress hidden"><div class="spinner"></div><span>儲存中…</span></div>
       <div class="dialog-actions"><button type="button" class="button secondary" data-close="editDialog">取消</button><button id="saveEditButton" type="submit" class="button primary">儲存</button></div>
     </form>
+  </dialog>
+
+  <dialog id="addPlaylistDialog" class="dialog playlist-add-dialog" aria-labelledby="addPlaylistDialogTitle">
+    <div class="dialog-body">
+      <div class="dialog-heading"><div><p class="eyebrow">Private playlists</p><h2 id="addPlaylistDialogTitle">加入播放清單</h2></div><button id="closeAddPlaylistButton" type="button" class="icon-button" aria-label="關閉加入播放清單視窗">×</button></div>
+      <p id="addPlaylistSong" class="playlist-dialog-song"></p>
+      <div id="playlistChoiceList" class="playlist-choice-list"></div>
+      <form id="inlinePlaylistForm" class="playlist-inline-form">
+        <h3>＋ 建立新播放清單</h3>
+        <label class="field"><span>名稱 *</span><input id="inlinePlaylistName" required maxlength="120"></label>
+        <label class="field"><span>描述（選填）</span><textarea id="inlinePlaylistDescription" rows="2" maxlength="1000"></textarea></label>
+        <button id="createAndAddPlaylistButton" class="button primary" type="submit">建立並加入歌曲</button>
+      </form>
+    </div>
   </dialog>
 
   <footer class="site-footer">本網站只使用 YouTube 官方嵌入播放器，不下載影片、音訊、字幕或 captions。僅上傳你有權使用的歌詞內容。</footer>

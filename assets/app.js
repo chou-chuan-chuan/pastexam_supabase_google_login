@@ -4,6 +4,7 @@ import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUr
 import { filterSongs, pendingSongPayload, songTagObjects, sortSongsForDisplay, uploaderDisplayName } from "./catalog.js";
 import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacement.js";
 import { PdfViewer } from "./pdf-viewer.js";
+import { loadUserPlaylists, normalizePlaylistMembership, playlistSchemaUnavailable } from "./playlists.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
@@ -12,13 +13,14 @@ const $ = (selector) => document.querySelector(selector);
 
 const el = {
   setupNotice: $("#setupNotice"), messageBox: $("#messageBox"), userLabel: $("#userLabel"),
-  signIn: $("#googleSignInButton"), signOut: $("#signOutButton"), adminLink: $("#adminPageLink"), openUpload: $("#openUploadButton"),
+  signIn: $("#googleSignInButton"), signOut: $("#signOutButton"), playlistsLink: $("#playlistsPageLink"), adminLink: $("#adminPageLink"), openUpload: $("#openUploadButton"),
   search: $("#searchInput"), language: $("#languageFilter"), genre: $("#genreFilter"), year: $("#yearFilter"),
   tagFilters: $("#tagFilterList"), clearFilters: $("#clearFiltersButton"), refresh: $("#refreshButton"), total: $("#totalCount"), description: $("#listDescription"),
   loading: $("#loadingState"), grid: $("#songGrid"), empty: $("#emptyState"),
   previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"), previewViewer: $("#pdfPreviewViewer"), closePreview: $("#closePreviewButton"), closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"), downloadPdf: $("#downloadPdfButton"),
   uploadDialog: $("#uploadDialog"), uploadForm: $("#uploadForm"), uploadTitle: $("#uploadTitle"), uploadArtist: $("#uploadArtist"), uploadAlbum: $("#uploadAlbum"), uploadYear: $("#uploadYear"), uploadLanguage: $("#uploadLanguage"), uploadGenre: $("#uploadGenre"), uploadYoutube: $("#uploadYoutube"), uploadYoutubeStatus: $("#uploadYoutubeStatus"), uploadYoutubePreview: $("#uploadYoutubePreview"), uploadYoutubeThumbnail: $("#uploadYoutubeThumbnail"), uploadYoutubeVideoId: $("#uploadYoutubeVideoId"), uploadTags: $("#uploadTagChoices"), uploadNotes: $("#uploadNotes"), uploadPdf: $("#uploadPdf"), maxFileSize: $("#maxFileSizeLabel"), uploadProgress: $("#uploadProgress"), submitUpload: $("#submitUploadButton"),
-  editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editPdf: $("#editPdf"), editCurrentPdf: $("#editCurrentPdf"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton")
+  editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editPdf: $("#editPdf"), editCurrentPdf: $("#editCurrentPdf"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton"),
+  addPlaylistDialog: $("#addPlaylistDialog"), addPlaylistSong: $("#addPlaylistSong"), playlistChoices: $("#playlistChoiceList"), closeAddPlaylist: $("#closeAddPlaylistButton"), inlinePlaylistForm: $("#inlinePlaylistForm"), inlinePlaylistName: $("#inlinePlaylistName"), inlinePlaylistDescription: $("#inlinePlaylistDescription"), createAndAddPlaylist: $("#createAndAddPlaylistButton")
 };
 
 const VIEWER_SIGNED_URL_TTL_SECONDS = 1800;
@@ -34,6 +36,7 @@ let authQueue = Promise.resolve();
 let appliedAuthUserId;
 let messageTimer;
 let initialTagSlug = new URL(window.location.href).searchParams.get("tag");
+let addPlaylistSong = null;
 
 function node(tag, className, text) {
   const item = document.createElement(tag);
@@ -102,6 +105,7 @@ function accountUI() {
   el.userLabel.textContent = signedIn ? (currentUser.user_metadata?.full_name || currentUser.email || "已登入") : "訪客模式";
   el.signIn.classList.toggle("hidden", signedIn);
   el.signOut.classList.toggle("hidden", !signedIn);
+  el.playlistsLink.classList.toggle("hidden", !signedIn);
   el.adminLink.classList.toggle("hidden", !signedIn || !isAdmin);
   el.openUpload.disabled = !signedIn || !configured;
   el.description.textContent = signedIn ? "顯示已通過審核，以及你自己的待審核／退回歌曲。" : "顯示已通過審核的歌曲。";
@@ -223,6 +227,13 @@ function songCard(song) {
   const preview = node("button", "button secondary", "預覽 PDF"); preview.type = "button"; preview.addEventListener("click", () => openPdf(song));
   const download = node("button", "button secondary", "下載 PDF"); download.type = "button"; download.addEventListener("click", () => downloadSongPdf(song));
   actions.append(read, preview, download);
+  if (song.status === "approved") {
+    const addToPlaylist = node("button", "button secondary playlist-add-button", "加入播放清單");
+    addToPlaylist.type = "button";
+    addToPlaylist.setAttribute("aria-label", `將「${song.title}」加入播放清單`);
+    addToPlaylist.addEventListener("click", () => openAddPlaylist(song));
+    actions.append(addToPlaylist);
+  }
   if (canEdit(song)) {
     const edit = node("button", "button secondary", "編輯"); edit.type = "button"; edit.addEventListener("click", () => openEdit(song));
     const remove = node("button", "button danger", "刪除"); remove.type = "button"; remove.addEventListener("click", () => deletePendingSong(song));
@@ -230,6 +241,71 @@ function songCard(song) {
   }
   card.append(thumbnail, body, actions);
   return card;
+}
+
+function playlistChoice(playlist, selected) {
+  const label = node("label", "playlist-choice");
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.checked = selected;
+  input.dataset.playlistId = playlist.id;
+  input.addEventListener("change", async () => {
+    input.disabled = true;
+    const result = input.checked
+      ? await supabase.rpc("add_song_to_playlist", { p_playlist_id: playlist.id, p_song_id: addPlaylistSong.id })
+      : await supabase.from("playlist_items").delete().eq("playlist_id", playlist.id).eq("song_id", addPlaylistSong.id);
+    input.disabled = false;
+    if (result.error) {
+      input.checked = !input.checked;
+      showMessage(playlistSchemaUnavailable(result.error) ? "播放清單功能尚未完成資料庫部署。" : (result.error.message || "無法更新播放清單。"), "error", 0);
+      return;
+    }
+    const state = input.checked ? "已加入" : "已移除";
+    label.querySelector(".playlist-choice-state").textContent = state;
+    showMessage(`${state}「${playlist.name}」。`, "success");
+  });
+  label.append(input, node("span", "playlist-choice-name", playlist.name), node("span", "playlist-choice-state", selected ? "已加入" : ""));
+  return label;
+}
+
+async function openAddPlaylist(song) {
+  if (!currentUser) return showMessage("請先登入以使用播放清單。", "info");
+  addPlaylistSong = song;
+  el.addPlaylistSong.textContent = `${song.title} — ${song.artist}`;
+  el.playlistChoices.replaceChildren(node("div", "spinner"));
+  if (!el.addPlaylistDialog.open) el.addPlaylistDialog.showModal();
+  const [playlistResult, membershipResult] = await Promise.all([
+    loadUserPlaylists(supabase),
+    supabase.from("playlist_items").select("playlist_id").eq("song_id", song.id)
+  ]);
+  const error = playlistResult.error || membershipResult.error;
+  if (error) {
+    el.playlistChoices.replaceChildren(node("p", "muted", playlistSchemaUnavailable(error) ? "播放清單功能尚未完成資料庫部署。" : "無法載入播放清單。"));
+    return;
+  }
+  const selected = new Set(normalizePlaylistMembership(membershipResult.data || []));
+  const choices = (playlistResult.data || []).map((playlist) => playlistChoice(playlist, selected.has(playlist.id)));
+  el.playlistChoices.replaceChildren(...(choices.length ? choices : [node("p", "muted", "尚未建立播放清單。請在下方建立第一個清單。")]));
+}
+
+async function createPlaylistAndAdd(event) {
+  event.preventDefault();
+  if (!currentUser || !addPlaylistSong) return;
+  const name = el.inlinePlaylistName.value.trim();
+  const description = el.inlinePlaylistDescription.value.trim() || null;
+  if (!name) return showMessage("播放清單名稱不可為空。", "error");
+  el.createAndAddPlaylist.disabled = true;
+  const { data: playlist, error: createError } = await supabase.from("playlists").insert({ owner_id: currentUser.id, name, description }).select("id,name,description").single();
+  if (createError) {
+    el.createAndAddPlaylist.disabled = false;
+    return showMessage(playlistSchemaUnavailable(createError) ? "播放清單功能尚未完成資料庫部署。" : (createError.message || "無法建立播放清單。"), "error", 0);
+  }
+  const { error: addError } = await supabase.rpc("add_song_to_playlist", { p_playlist_id: playlist.id, p_song_id: addPlaylistSong.id });
+  el.createAndAddPlaylist.disabled = false;
+  if (addError) return showMessage(addError.message || "播放清單已建立，但歌曲加入失敗。", "error", 0);
+  el.inlinePlaylistForm.reset();
+  showMessage(`已建立「${playlist.name}」並加入歌曲。`, "success");
+  await openAddPlaylist(addPlaylistSong);
 }
 
 async function moveSongInPublicOrder(songId, direction) {
@@ -453,6 +529,7 @@ function bind() {
   [el.search, el.language, el.genre, el.year].forEach((control) => { control.addEventListener("input", render); control.addEventListener("change", render); });
   el.clearFilters.addEventListener("click", () => { el.search.value = ""; el.language.value = ""; el.genre.value = ""; el.year.value = ""; el.tagFilters.querySelectorAll('input[type="checkbox"]').forEach((input) => { input.checked = false; }); render(); });
   el.closePreview.addEventListener("click", closePdf); el.closePreviewFooter.addEventListener("click", closePdf); el.previewDialog.addEventListener("close", () => { void pdfPreview.destroy(); el.openPdf.href = "#"; el.downloadPdf.href = "#"; });
+  el.closeAddPlaylist.addEventListener("click", () => el.addPlaylistDialog.close()); el.inlinePlaylistForm.addEventListener("submit", createPlaylistAndAdd);
   document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.close)?.close()));
 }
 
