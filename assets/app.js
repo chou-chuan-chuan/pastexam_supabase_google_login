@@ -235,7 +235,7 @@ function songCard(song) {
   }
   if (canEdit(song)) {
     const edit = node("button", "button secondary", "編輯"); edit.type = "button"; edit.addEventListener("click", () => openEdit(song));
-    const remove = node("button", "button danger", "刪除"); remove.type = "button"; remove.addEventListener("click", () => deletePendingSong(song));
+    const remove = node("button", "button danger pending-song-delete-button", "刪除"); remove.type = "button"; remove.addEventListener("click", () => deletePendingSong(song));
     actions.append(edit, remove);
   }
   card.append(thumbnail, body, actions);

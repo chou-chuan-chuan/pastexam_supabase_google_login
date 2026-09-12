@@ -126,6 +126,7 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .filename { margin: 0; overflow: hidden; color: #7a8495; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
 .card-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 19px 19px; }
 .card-actions .primary { grid-column: 1 / -1; }
+.card-actions .pending-song-delete-button { grid-column: 1 / -1; }
 
 .state-panel { display: grid; min-height: 240px; place-items: center; align-content: center; border: 1px dashed #cbd4e1; border-radius: 18px; padding: 30px; color: var(--muted); text-align: center; background: rgba(255,255,255,.68); }
 .state-panel h2, .state-panel p { margin: 5px; }
