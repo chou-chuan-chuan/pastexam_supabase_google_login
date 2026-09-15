@@ -7,8 +7,10 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-08-30
-- 版本：Version 1.020
+- 修改日期：2026-09-15
+- 版本：Version 1.021
+- French OE ligatures（Version 1.021）：新增 U+0152 `OE`（`Œ`）與 U+0153 `oe`（`œ`），分別只由原始 `O`／`E` 與 `o`／`e` 手寫輪廓組成；來源 components 維持原生比例與 baseline，E/e 依 O/o 實際 ink width 的 10% 向左 tuck，advance 由 final ink bounds 加上來源 side bearing 確定性計算。兩者皆為衍生補寫字元，不是原版辰宇落雁體字形，也未使用任何外部字型輪廓
+- Maintainer-handwritten き（Version 1.021）：依維護者新提供的 U+304D `き` PNG 結構參考，明確授權只替換 `き` source topology；12 個舊 fragmented branches 改為兩個斜升橫筆、一個長下行斜筆與一個分離下方 hook-to-horizontal 的 4-stroke center-line source。混排 QA 保留 0.96 scale 並將 optical transform 右移 24 units。Raster 不直接進入字型，final outline 仍由既有 variable-width renderer 產生；U+304E `ぎ` 自動以新版 `uni304D` + 原有 `uni3099` 組成，未重畫 dakuten 或修改全域 anchor
 - Japanese Phase 1：完整現代平假名、片假名、小假名、預組合濁音／半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、iteration marks、middle dot、長音與常用標點
 - Kana legibility revision：重畫容易誤認的現代假名骨架，尤其讓 U+306E `の` 保持清楚開口，並強化 `お`／`ぬ`／`め`／`る` 及 `シ`／`ツ`／`ソ`／`ン` 的識別差異；仍未載入或複製外部字型輪廓
 - Kana template/alignment revision：Version 1.011 不再把掃描表格中的 cell 位置當成字型 metrics；46 個基本平假名 center-line 各自重新置中到 (480,500)，結構 x/y 分別作 1.10／1.28 optical scale，再沿用 -145 units 的共同 build-time baseline shift。最終 verifier 直接比較平假名與來源中文字的 median optical center
@@ -25,7 +27,9 @@
 - Japanese special glyphs：Version 1.014 的 U+61D0 `懐` 結合原生 `懷` 上／左結構與等比例縮放定位的原生 `衣` 下部；U+3005 `々` 使用 project-local center-lines 並將右側缺口連成連續筆勢；U+5915 `夕` 完全不改。U+6C17 `気` 與 U+4ED8 `付` 仍只建立保留原來源輪廓的垂直 optical transform copy。Version 1.015 另為 U+604B `恋`、U+54C0 `哀`、U+5967 `奧`、U+512A `優`、U+5BC4 `寄` 建立保留 source drawing 的縮放／置中 derived copy；Version 1.016 以同機制將 U+5909 `変` 等比縮至 0.80、dx +19.25、dy +35，再對 derived outline 套用 8-unit boundary embolden 補償縮小後筆重。Version 1.018 為 U+5BB9 `容` 建立不縮放的 source-preserving copy，只平移 +19.45 x / +35 y；Version 1.020 為 U+5965 `奥` 建立 non-uniform source-preserving optical copy，以 0.921976 x / 0.855348 y 配合 +9 x / +34.5 y 與 4-unit boundary embolden 匹配 `奧`，advance 設為 790
 - Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical typesetting、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體；一般現代日文歌曲的假名部分應完整顯示
 - Future Phase 2：依本機 TXT／LRC／JSON 歌詞的缺字頻率補足實際漢字，並個別審查 Japanese regional glyph variants；不抓取網路歌詞
-- 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`
+- 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
+- U+0152 `OE`（`Œ`）：Version 1.021 新增的法文大寫連字，只以原字型大寫 `O` 與 `E` identity components 建構；`E` 依來源 bounds 向左重疊約 10% `O` ink width，維持來源 cap-height、baseline、stroke weight 與手寫節奏。用途包含 `Œuvre`／`ŒUVRE`，不再依賴瀏覽器 fallback
+- U+0153 `oe`（`œ`）：Version 1.021 新增的法文小寫連字，只以原字型小寫 `o` 與 `e` identity components 建構；`e` 依來源 bounds 向左重疊約 10% `o` ink width，縮短一般 `o`→`e` 間距並保留兩個手寫 form 的可讀性。用途包含 `cœur`、`sœur`、`œuvre`、`bœuf`、`vœu`；未使用外部 outline、CSS fallback 或 JavaScript 文字替換
 - German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，其 cmap、輪廓、components、metrics、GDEF 與 GPOS 錨點均原封不動保留
 - U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
 - U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>

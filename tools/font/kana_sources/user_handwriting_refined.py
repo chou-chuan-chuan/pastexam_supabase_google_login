@@ -1,6 +1,8 @@
-"""User-handwriting Hiragana refined center-line sources, Version 1.011.
+"""User-handwriting Hiragana refined center-line sources.
 
 The maintainer's own handwritten SVGs define glyph identity and proportions.
+Version 1.021 explicitly replaces only U+304D き from a newer maintainer PNG
+structural reference; its four clean center-lines supersede the older branches.
 The SVG filled outlines are NOT installed directly.  They are reduced to
 project-local center-line branches, optically normalized, and rendered through
 the existing variable-width handwriting stroke engine so Japanese kana shares
@@ -65,18 +67,14 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((287.5, 544.8), (280.9, 491.0), (250.1, 429.6), (214.9, 304.2), width=50.0, start=46.0, end=35.0),
     ),
     'き': (
-        S((406.3, 690.7), (412.9, 613.9), width=49.2, start=45.3, end=34.4),
-        S((410.7, 611.4), (397.5, 596.0), (234.7, 590.9), width=49.2, start=45.3, end=34.4),
-        S((289.7, 381.0), (274.3, 357.9), width=49.2, start=45.3, end=34.4),
-        S((577.9, 611.4), (560.3, 624.2), (522.9, 606.2), (470.1, 603.7), (461.3, 593.4), width=49.2, start=45.3, end=34.4),
-        S((507.5, 465.4), (443.7, 432.2), (408.5, 424.5), width=49.2, start=45.3, end=34.4),
-        S((320.5, 841.8), (360.1, 770.1), (366.7, 718.9), width=49.2, start=45.3, end=34.4),
-        S((368.9, 716.3), (404.1, 693.3), width=49.2, start=45.3, end=34.4),
-        S((415.1, 611.4), (459.1, 593.4), width=49.2, start=45.3, end=34.4),
-        S((274.3, 355.4), (307.3, 283.7), (393.1, 186.4), (434.9, 160.8), (505.3, 158.2), (558.1, 176.2), (608.7, 206.9), (701.1, 232.5), (727.5, 214.6), width=49.2, start=45.3, end=34.4),
-        S((461.3, 590.9), (472.3, 547.4), (498.7, 511.5), (507.5, 470.6), width=49.2, start=45.3, end=34.4),
-        S((232.5, 718.9), (245.7, 708.6), (364.5, 716.3), width=49.2, start=45.3, end=34.4),
-        S((408.5, 693.3), (516.3, 706.1), (549.3, 693.3), width=49.2, start=45.3, end=34.4),
+        # Version 1.021: authoritative maintainer handwriting. The reference
+        # has two rising crossbars, one long descending diagonal, and a
+        # detached lower hook-to-horizontal stroke. The raster supplies only
+        # structure/proportion; these are clean project-local center-lines.
+        S((250.0, 640.0), (355.0, 675.0), (470.0, 725.0), (610.0, 785.0), width=49.2, start=45.3, end=34.4),
+        S((270.0, 480.0), (390.0, 520.0), (515.0, 570.0), (660.0, 625.0), width=49.2, start=45.3, end=34.4),
+        S((320.0, 840.0), (350.0, 805.0), (398.0, 710.0), (445.0, 610.0), (485.0, 505.0), (525.0, 390.0), width=49.2, start=45.3, end=34.4),
+        S((325.0, 355.0), (285.0, 320.0), (270.0, 275.0), (305.0, 225.0), (375.0, 195.0), (520.0, 195.0), (695.0, 205.0), width=49.2, start=45.3, end=34.4),
     ),
     'く': (
         S((573.5, 712.5), (624.1, 692.0), width=50.0, start=46.0, end=35.0),
