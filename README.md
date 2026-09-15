@@ -26,12 +26,15 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.020 支援：
+衍生版 Version 1.021 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
 - `ç` U+00E7 LATIN SMALL LETTER C WITH CEDILLA：由完全未改形的原始 U+0063 `c` 與同一精修 U+00B8 `cedilla` 組成；cedilla 位移 `+81 x / +10 y`，保持原始 c 的 advance 與 side bearings。
 - `◌̧` U+0327 COMBINING CEDILLA（glyph name：`uni0327`）：identity component 共享 U+00B8 `cedilla` 的精修輪廓，advance width 為 0。保留原始 GPOS/GDEF，並在既有 `mark` feature 附加 MarkBasePos lookup；C/c base anchors 分別為 `<221 91>`／`<176 101>`，mark anchor `<95 91>`，重現預組合 `Ç`／`ç` 的位置與 26-unit gap。因此字型同時原生支援 `Ç`／`Ç` 及 `ç`／`ç`，不需全域 NFC normalization。
+- `Œ` U+0152 LATIN CAPITAL LIGATURE OE（glyph name：`OE`）：Version 1.021 新增的衍生補寫字元，只以原始大寫 `O`／`E` identity components 建構。兩者保持原生 cap-height、baseline 與 stroke weight，`E` 依 `O` 實測 ink width 向左重疊 10%；`Œuvre`／`ŒUVRE` 不再依賴 serif/system fallback。
+- `œ` U+0153 LATIN SMALL LIGATURE OE（glyph name：`oe`）：同版新增，只以原始小寫 `o`／`e` identity components 建構。兩個來源輪廓維持原生比例與 baseline，`e` 依 `o` 的實測 ink width 向左重疊 10%，advance 由 final ink bounds 與來源 side bearings 決定；針對 `cœur`、`sœur`、`œuvre`、`bœuf`、`vœu` 做光學間距驗收。兩個 OE 連字皆沒有使用外部字型 outline，也沒有 CSS fallback 或 JavaScript 文字替換。
+- `き` U+304D HIRAGANA LETTER KI：Version 1.021 依維護者新提供的手寫 PNG 作為 authoritative structural reference，明確替換舊 12-branch source topology，改為兩個 crossing crossbars、一個長下行斜筆與一個分離下方曲橫筆的 4-stroke center-line；混排 QA 後保留 0.96 scale 並光學右移 24 units。Raster 不直接安裝，final outline 仍由既有 variable-width renderer 產生；`ぎ` U+304E 自動繼承新版 `き` + 原有 dakuten，未使用外部日本字型 outline。
 
 第一版的 `¿` 是未做視覺校正的機械旋轉，第一版 cedilla 則只是將逗號向下移，因此分別有句首高度偏高、點距僵硬，以及 cedilla 偏小、像黏上的逗號等問題。現在的建置腳本把 optical correction 寫成固定 font-unit 參數，可從官方原始 TTF 重現；自動測試會檢查留白、中心、間距、碰撞與裁切，但筆勢是否自然仍需配合多尺寸 proof 人工判斷。
 
@@ -47,6 +50,8 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `tools/font/build_supplement_font.py`
 - `tools/font/verify_supplement_font.py`
 - `tools/font/render_proof.py`
+- `tools/font/render_oe_proof.py`
+- `tools/font/render_ki_proof.py`
 - `tools/font/analyze_glyphs.py`
 - `tools/font/glyph_manifest.json`
 - `tools/font/proofs/quanfangwei-supplement-proof.png`
@@ -59,6 +64,8 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `tools/font/proofs/quanfangwei-german-proof.png`
 - `tools/font/proofs/quanfangwei-german-proof.txt`
 - `tools/font/proofs/quanfangwei-sharp-s-proof.png`
+- `tools/font/proofs/quanfangwei-oe-proof.png`
+- `tools/font/proofs/quanfangwei-ki-proof.png`
 - `tools/font/proofs/quanfangwei-kana-master-proof.png`
 - `tools/font/proofs/quanfangwei-hiragana-proof.png`
 - `tools/font/proofs/quanfangwei-katakana-proof.png`
@@ -75,6 +82,8 @@ python -m pip install -r tools/font/requirements.txt
 python tools/font/build_supplement_font.py
 python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
+python tools/font/render_oe_proof.py
+python tools/font/render_ki_proof.py
 python tools/font/analyze_glyphs.py
 python tools/font/audit_japanese_coverage.py
 python tools/font/audit_japanese_kanji.py
@@ -86,7 +95,7 @@ python tools/font/verify_japanese_weight.py
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-### Japanese Phase 1 Support（Version 1.020）
+### Japanese Phase 1 Support（current font Version 1.021）
 
 同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
 
@@ -108,9 +117,9 @@ U+61D0 `懐` 結合辰宇落雁體原生 `懷` 的上／左結構與原生 `衣`
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體、vertical Japanese typesetting、ruby annotation typography、complete Ainu katakana extensions、historical kana、half-width katakana 或每一種 Japanese punctuation variant；但一般現代日文歌曲的假名部分應完整顯示。Phase 2 將依本機 TXT／LRC／JSON 歌詞 audit 的頻率補足實際缺少漢字，並評估 regional variants。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.020 一致的穩定 `?v=1.020` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.021 一致的穩定 `?v=1.021` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.020` 回覆 200，且 console 沒有 OTS／decode error；再檢查 Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.021` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `Personne ne fait battre mon cœur`、Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 
 ## 品牌圖像
 

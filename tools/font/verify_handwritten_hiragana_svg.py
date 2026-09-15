@@ -33,11 +33,14 @@ SOURCE_COMPLETE = REFERENCE_DIR / "user-hiragana-template-source-complete.png"
 MANIFEST_PATH = REFERENCE_DIR / "user-hiragana-template-manifest.json"
 SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 WA_CENTERLINE_PATH = SVG_DIR / "U+308F-v1.016-centerline.svg"
+KI_REFERENCE_PATH = REFERENCE_DIR / "U+304D-ki-maintainer-handwritten.png"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.020"
+EXPECTED_FONT_VERSION = "1.021"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
+EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
+EXPECTED_KI_SOURCE_SHA256 = "08c489c59ffdd4377eb91f09b31518a2d920f72f64945ae3db9ee8a434599d0f"
 KANA_ADVANCE = 960
 
 
@@ -77,7 +80,7 @@ def main() -> int:
         if not condition:
             errors.append(message)
 
-    for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, FONT_PATH):
+    for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, KI_REFERENCE_PATH, FONT_PATH):
         require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
@@ -86,6 +89,8 @@ def main() -> int:
 
     require(sha256(SOURCE_COMPLETE) == EXPECTED_COMPLETE_SHA256,
             "The complete maintainer handwriting source image hash changed")
+    require(sha256(KI_REFERENCE_PATH) == EXPECTED_KI_REFERENCE_SHA256,
+            "The Version 1.021 maintainer-handwritten き reference image hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     require(manifest.get("font_version") == EXPECTED_REFERENCE_VERSION,
             f"Template manifest version is not {EXPECTED_REFERENCE_VERSION}")
@@ -130,6 +135,11 @@ def main() -> int:
             "ぬ and め refined sources unexpectedly became identical")
     require(repr(USER_HANDWRITING_REFINED["き"]) != repr(USER_HANDWRITING_REFINED["さ"]),
             "き and さ refined sources unexpectedly became identical")
+    ki_source = USER_HANDWRITING_REFINED["き"]
+    require(hashlib.sha256(repr(ki_source).encode("utf-8")).hexdigest() == EXPECTED_KI_SOURCE_SHA256,
+            "Version 1.021 authoritative き center-line source changed")
+    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [4, 4, 6, 7],
+            "Version 1.021 き must retain two crossbars, one descending stroke, and one detached lower stroke")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
     require(canonical_text_sha256(WA_CENTERLINE_PATH) == EXPECTED_WA_CENTERLINE_SHA256,
@@ -218,8 +228,9 @@ def main() -> int:
 
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
+    print("PASS: Version 1.021 き reference hash and four-stroke center-line topology are authoritative")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.020 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.021 metadata, and CJK optical alignment are valid")
     return 0
 
 

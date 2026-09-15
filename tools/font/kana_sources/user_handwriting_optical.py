@@ -1,6 +1,7 @@
 """Optical transforms around the accepted user-handwriting Hiragana source.
 
-The accepted Version 1.013 ``USER_HANDWRITING_REFINED`` center-lines are authoritative.
+The accepted ``USER_HANDWRITING_REFINED`` center-lines are authoritative,
+including the explicit Version 1.021 topology replacement for U+304D き.
 This module never substitutes an older kana source and never changes branch or
 point topology.  It only applies conservative per-glyph scale and translation
 transforms after the accepted source has been installed. Axis-specific scaling
@@ -72,7 +73,9 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "え": OpticalTransform(),
     "お": OpticalTransform(),
     "か": OpticalTransform(),
-    "き": OpticalTransform(0.96),
+    # Version 1.021: keep the reviewed 0.96 size and move the new four-stroke
+    # source 24 units right to balance its visual weight in mixed kana text.
+    "き": OpticalTransform(0.96, 24.0, 0.0),
     "く": OpticalTransform(),
     # Version 1.016: retain size and move the accepted drawing right/down.
     "け": OpticalTransform(1.0, 28.0, -26.0, scale_x=1.06, scale_y=1.0),

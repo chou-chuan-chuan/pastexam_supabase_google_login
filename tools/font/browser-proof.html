@@ -6,7 +6,15 @@
   <title>荃方位補寫體 Browser Proof</title>
   <link rel="stylesheet" href="../../assets/style.css">
   <style>
-    .font-proof { width: min(100% - 32px, 1040px); margin: 40px auto; padding: 32px; border-radius: 24px; background: #fff; box-shadow: var(--shadow); }
+    @font-face {
+      font-family: "QuanFangwei OE Proof";
+      src: url("../../assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2?proof=1.021-oe-ki-centered") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+    }
+    .font-proof { width: min(100% - 32px, 1040px); margin: 40px auto; padding: 32px; border-radius: 24px; background: #fff; box-shadow: var(--shadow); font-family: "QuanFangwei OE Proof"; }
+    .font-proof h1, .font-proof h2, .font-proof p { font-family: "QuanFangwei OE Proof"; }
     .font-proof p { margin: 14px 0; padding-inline-end: .5em; font-size: clamp(1.5rem, 5vw, 3.5rem); line-height: 1.45; overflow-wrap: anywhere; }
     .font-proof code { display: block; margin: 8px 0; white-space: pre-wrap; font: 1rem/1.5 ui-monospace, monospace; }
     .comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -41,7 +49,19 @@
     <p>Ich weiß, dass du schön bist. Grüße aus München!</p>
     <p>Heute bin ich müde｜今天有點累</p>
     <p>Über den Wolken｜在雲層之上</p>
+    <h2>French Œ / œ — Version 1.021</h2>
+    <div class="comparison">
+      <section class="sample" id="uppercase-oe"><code>U+0152 → OE</code><p>Œ</p></section>
+      <section class="sample" id="lowercase-oe"><code>U+0153 → oe</code><p>œ</p></section>
+      <section class="sample" id="uppercase-oe-spacing"><code>uppercase spacing</code><p>O E · OE · Œ</p></section>
+      <section class="sample" id="lowercase-oe-spacing"><code>lowercase spacing</code><p>o e · oe · œ</p></section>
+    </div>
+    <p>cœur · sœur · œuvre · bœuf · vœu</p>
+    <p>Lorsque s'éteignent les projecteurs</p>
+    <p>Personne ne fait battre mon cœur</p>
+    <p>Œuvre / œuvre</p>
     <h2>Japanese Phase 1</h2>
+    <p id="ki-gi-proof">き · ぎ · きき · ぎき · ぎん · きれい · 好き · 大きい</p>
     <p id="hiragana-proof">あいうえお かきくけこ がぎぐげご ぱぴぷぺぽ ゃゅょっ</p>
     <p id="katakana-proof">アイウエオ カキクケコ ガギグゲゴ パピプペポ ャュョッ</p>
     <div class="comparison">
@@ -64,7 +84,7 @@
   </main>
   <script>
     const describe = (value) => [...value].map((character) => `U+${character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")}`).join(" ");
-    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}\n[…"ÄÖÜäöü"] = ${describe("ÄÖÜäöü")}\n[…"A\\u0308O\\u0308U\\u0308 a\\u0308o\\u0308u\\u0308"] = ${describe("A\u0308O\u0308U\u0308 a\u0308o\u0308u\u0308")}\n[…"ßẞ"] = ${describe("ßẞ")}\n[…"が / か\\u3099"] = ${describe("が")} / ${describe("か\u3099")}\n[…"パ / ハ\\u309A"] = ${describe("パ")} / ${describe("ハ\u309A")}\n[…"¨"] = ${describe("¨")}`;
+    document.querySelector("#code-points").textContent = `[…"Ç"] = ${describe("Ç")}\n[…"C\\u0327"] = ${describe("C\u0327")}\n[…"ç"] = ${describe("ç")}\n[…"c\\u0327"] = ${describe("c\u0327")}\n[…"ÄÖÜäöü"] = ${describe("ÄÖÜäöü")}\n[…"A\\u0308O\\u0308U\\u0308 a\\u0308o\\u0308u\\u0308"] = ${describe("A\u0308O\u0308U\u0308 a\u0308o\u0308u\u0308")}\n[…"ßẞ"] = ${describe("ßẞ")}\n[…"Œœ"] = ${describe("Œœ")}\n[…"Œuvre / œuvre"] = ${describe("Œuvre / œuvre")}\n[…"cœur"] = ${describe("cœur")}\n[…"が / か\\u3099"] = ${describe("が")} / ${describe("か\u3099")}\n[…"パ / ハ\\u309A"] = ${describe("パ")} / ${describe("ハ\u309A")}\n[…"¨"] = ${describe("¨")}`;
   </script>
 </body>
 </html>

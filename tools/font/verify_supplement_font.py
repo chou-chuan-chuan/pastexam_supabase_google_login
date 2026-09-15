@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import sys
 from io import BytesIO
@@ -11,9 +12,11 @@ from pathlib import Path
 from statistics import median
 
 import uharfbuzz as hb
+import pathops
 from fontTools.misc.testTools import getXML
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.recordingPen import RecordingPen
+from fontTools.pens.transformPen import TransformPen
 from fontTools.ttLib import TTFont
 
 from kana_sources.legibility_overrides import LEGIBLE_KANA
@@ -27,14 +30,15 @@ OUTPUT_DIR = REPO_ROOT / "assets/fonts/quanfangwei-supplement"
 TTF_PATH = OUTPUT_DIR / "QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = OUTPUT_DIR / "QuanFangweiSupplementScript-Regular.woff2"
 OFL_PATH = OUTPUT_DIR / "OFL.txt"
+MANIFEST_PATH = REPO_ROOT / "tools/font/glyph_manifest.json"
 
 FAMILY_EN = "QuanFangwei Supplement Script"
 FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.020"
-UNIQUE_ID = "1.020;QFW;QuanFangweiSupplementScript-Regular;20260830"
+VERSION = "1.021"
+UNIQUE_ID = "1.021;QFW;QuanFangweiSupplementScript-Regular;20260915"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -92,6 +96,16 @@ def drawing(font: TTFont, glyph_name: str):
     pen = RecordingPen()
     font.getGlyphSet()[glyph_name].draw(pen)
     return pen.value
+
+
+def outlines_intersect(font: TTFont, base_name: str, mark_name: str, transform: tuple[int, int]) -> bool:
+    base_path = pathops.Path()
+    font.getGlyphSet()[base_name].draw(base_path.getPen())
+    mark_path = pathops.Path()
+    dx, dy = transform
+    font.getGlyphSet()[mark_name].draw(TransformPen(mark_path.getPen(), (1, 0, 0, 1, dx, dy)))
+    intersection = pathops.op(base_path, mark_path, pathops.PathOp.INTERSECTION)
+    return bool(list(intersection))
 
 
 def contour_bounds(font: TTFont, glyph_name: str) -> list[tuple[int, int, int, int]]:
@@ -210,6 +224,8 @@ def verify() -> list[str]:
         0x00E7: "ccedilla",
         0x00F6: "odieresis",
         0x00FC: "udieresis",
+        0x0152: "OE",
+        0x0153: "oe",
         0x0308: "uni0308",
         0x0327: "uni0327",
         0x1E9E: "uni1E9E",
@@ -240,6 +256,69 @@ def verify() -> list[str]:
 
     require(ttf_cmap.get(0x00B8) == "cedilla", "TTF supporting U+00B8 cedilla mapping is missing")
     require(woff2_cmap.get(0x00B8) == "cedilla", "WOFF2 supporting U+00B8 cedilla mapping is missing")
+    def validate_oe_ligature(codepoint: int, glyph_name: str, o_codepoint: int, e_codepoint: int, label: str) -> None:
+        require(ttf_cmap.get(codepoint) != ".notdef", f"TTF U+{codepoint:04X} must not map to .notdef")
+        require(woff2_cmap.get(codepoint) != ".notdef", f"WOFF2 U+{codepoint:04X} must not map to .notdef")
+        require({cp for cp, name in ttf_cmap.items() if name == glyph_name} == {codepoint},
+                f"{glyph_name} must not alias unrelated Unicode code points")
+        if glyph_name not in ttf["glyf"].glyphs:
+            return
+        ligature = ttf["glyf"][glyph_name]
+        component_info = [component.getComponentInfo() for component in ligature.components] if ligature.isComposite() else []
+        o_name = source_cmap.get(o_codepoint)
+        e_name = source_cmap.get(e_codepoint)
+        require(o_name is not None and e_name is not None, f"Official source lacks required {label} O/E")
+        if o_name and e_name:
+            o_bounds = bounds(source, o_name)
+            e_bounds = bounds(source, e_name)
+            overlap = max(1, round((o_bounds[2] - o_bounds[0]) * 0.10))
+            e_dx = round(o_bounds[2] - e_bounds[0] - overlap)
+            expected_components = [
+                (o_name, (1, 0, 0, 1, 0, 0)),
+                (e_name, (1, 0, 0, 1, e_dx, 0)),
+            ]
+            require(component_info == expected_components,
+                    f"{glyph_name} must depend only on identity {o_name}/{e_name} components: {component_info}")
+            ligature_bounds = bounds(ttf, glyph_name)
+            expected_bounds = (
+                min(o_bounds[0], e_bounds[0] + e_dx),
+                min(o_bounds[1], e_bounds[1]),
+                max(o_bounds[2], e_bounds[2] + e_dx),
+                max(o_bounds[3], e_bounds[3]),
+            )
+            require(ligature_bounds == expected_bounds,
+                    f"{glyph_name} bounds do not match its authorized source construction: {ligature_bounds}")
+            expected_advance = expected_bounds[2] + (source["hmtx"].metrics[e_name][0] - e_bounds[2])
+            advance, lsb = ttf["hmtx"].metrics[glyph_name]
+            rsb = advance - ligature_bounds[2]
+            require((advance, lsb) == (expected_advance, expected_bounds[0]),
+                    f"{glyph_name} metrics are not derived from final bounds/source bearings: {(advance, lsb)}")
+            require(lsb >= 0 and rsb >= 0, f"{glyph_name} has negative side bearings: lsb={lsb}, rsb={rsb}")
+            require(0 < advance < source["hmtx"].metrics[o_name][0] + source["hmtx"].metrics[e_name][0],
+                    f"{glyph_name} advance is not compact relative to its source pair: {advance}")
+            require(ligature_bounds[1] == min(o_bounds[1], e_bounds[1]) and ligature_bounds[3] == max(o_bounds[3], e_bounds[3]),
+                    f"{glyph_name} is outside the source {label} height family: {ligature_bounds}")
+            require(drawing(ttf, o_name) == drawing(source, o_name), f"Original {o_name} outline changed")
+            require(drawing(ttf, e_name) == drawing(source, e_name), f"Original {e_name} outline changed")
+        require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 {glyph_name} bounds differ from TTF")
+        require(ttf["hmtx"].metrics[glyph_name] == woff2["hmtx"].metrics[glyph_name],
+                f"WOFF2 {glyph_name} metrics differ from TTF")
+
+    validate_oe_ligature(0x0152, "OE", 0x004F, 0x0045, "uppercase")
+    validate_oe_ligature(0x0153, "oe", 0x006F, 0x0065, "lowercase")
+
+    try:
+        manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        by_codepoint = {entry.get("codepoint"): entry for entry in manifest.get("glyphs", [])}
+        for codepoint, dependencies in (("U+0152", ["O", "E"]), ("U+0153", ["o", "e"])):
+            entry = by_codepoint.get(codepoint)
+            require(entry is not None, f"Manifest must contain {codepoint}")
+            if entry:
+                actual_dependencies = [item.get("glyph_name") for item in entry.get("source_glyphs", [])]
+                require(actual_dependencies == dependencies,
+                        f"Manifest {codepoint} dependencies must be only {dependencies}: {actual_dependencies}")
+    except Exception as error:
+        require(False, f"Glyph manifest could not be validated: {error}")
     if "Ccedilla" in ttf["glyf"].glyphs:
         ccedilla = ttf["glyf"]["Ccedilla"]
         components = [component.glyphName for component in ccedilla.components] if ccedilla.isComposite() else []
@@ -326,6 +405,7 @@ def verify() -> list[str]:
                 f"{character} main stroke must fall clearly toward the left: {start} -> {end}")
 
     for base_cp, mark_cp, precomposed_cp in (
+        (0x304D, 0x3099, 0x304E),
         (0x304B, 0x3099, 0x304C), (0x306F, 0x309A, 0x3071),
         (0x30AB, 0x3099, 0x30AC), (0x30CF, 0x309A, 0x30D1),
     ):
@@ -338,6 +418,12 @@ def verify() -> list[str]:
         components = [component.getComponentInfo() for component in glyph.components] if glyph.isComposite() else []
         require(len(components) == 2 and components[0][0] == base_name and components[1][0] == mark_name,
                 f"{precomposed_name} does not share the reviewed base and mark components: {components}")
+        if base_cp == 0x304D and len(components) == 2:
+            mark_transform = components[1][1]
+            require(not outlines_intersect(ttf, base_name, mark_name, mark_transform[4:6]),
+                    "U+304E gi dakuten collides with the revised U+304D ki outline")
+            require(bounds(ttf, base_name) == bounds(woff2, base_name), "WOFF2 revised ki bounds differ from TTF")
+            require(bounds(ttf, precomposed_name) == bounds(woff2, precomposed_name), "WOFF2 gi bounds differ from TTF")
         if anchor_info and len(components) == 2:
             base_anchor, mark_anchor, _ = anchor_info
             delta = (base_anchor[0] - mark_anchor[0], base_anchor[1] - mark_anchor[1])
@@ -513,7 +599,7 @@ def verify() -> list[str]:
     compared_glyphs = (
         "questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327",
         "dieresis", "uni0308", "Adieresis", "Odieresis", "Udieresis",
-        "adieresis", "odieresis", "udieresis", "germandbls", "uni1E9E",
+        "adieresis", "odieresis", "udieresis", "germandbls", "OE", "oe", "uni1E9E",
     )
     for glyph_name in compared_glyphs:
         require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 bounds differ from TTF for {glyph_name}")
@@ -525,7 +611,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 207, "Derived glyph count did not increase by exactly 207")
+    require(len(ttf_order) == len(source_order) + 209, "Derived glyph count did not increase by exactly 209")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
@@ -598,10 +684,12 @@ def main() -> int:
     print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
     print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
     print("PASS: germandbls/uni1E9E use continuous beta-like source outlines with distinct German cmaps")
+    print("PASS: U+0152 OE and U+0153 oe are real TTF/WOFF2 glyphs derived only from unchanged source O/E/o/e")
     print("PASS: complete Phase 1 Hiragana, Katakana, Japanese punctuation, and iteration marks are mapped")
     print("PASS: hiragana no and the shi/tsu/so/n directional pairs retain recognizable source geometry")
     print("PASS: Hiragana and Katakana optical centers align with the source Chinese sample")
     print("PASS: uni3099/uni309A have zero advance, GDEF mark class, and GPOS anchors matching precomposed kana")
+    print("PASS: U+304E gi inherits the current U+304D ki component with its bounds-derived dakuten placement")
     print("PASS: original cmap mappings are preserved except twelve documented Japanese overrides; original glyph order remains a prefix")
     print("PASS: names, OFL metadata, metrics, bounds, and advances are valid")
     print("PASS: optical metric checks cover side bearings, centers, gaps, collision, and clipping")
