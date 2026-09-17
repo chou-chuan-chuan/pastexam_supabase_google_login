@@ -15,6 +15,7 @@ python tools/font/verify_supplement_font.py
 python tools/font/render_proof.py
 python tools/font/render_oe_proof.py
 python tools/font/render_ki_proof.py
+python tools/font/render_ya_proof.py
 python tools/font/analyze_glyphs.py
 python tools/font/audit_japanese_coverage.py
 python tools/font/audit_japanese_kanji.py [optional TXT/LRC/JSON paths]
@@ -34,11 +35,13 @@ python tools/font/verify_oku_optical_alignment.py
 - `references/U+00BF-questiondown.png`：`¿` 身分參考圖。
 - `references/U+00C7-Ccedilla.png`：`Ç` 身分參考圖。
 - `references/U+304D-ki-maintainer-handwritten.png`：Version 1.021 維護者新提供的 `き` 結構參考；不直接作為 filled outline 安裝。
+- `references/U+3084-ya-maintainer-handwritten.png`：Version 1.022 維護者新提供的 `や` 結構參考；不直接作為 filled outline 安裝。
 - `build_supplement_font.py`：建立 TTF、WOFF2、OFL 與修改紀錄。
 - `verify_supplement_font.py`：驗證 cmap、glyph、metadata、授權與來源保存。
 - `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
 - `render_oe_proof.py`：確認 U+0152／U+0153 cmap 後，以目前輸出 TTF 產生 `Œ`／`œ`、法文單字、production phrase，以及 `O E`／`OE`／`Œ` 和 `o e`／`oe`／`œ` 多尺寸 proof。
 - `render_ki_proof.py`：將 `origin/main` 舊版與 Version 1.021 新版 `き`／`ぎ` 並列，並輸出 24／32／48／72 px 的 `きき`、`ぎき`、`ぎん`、`きれい`、`好き`、`大きい`。
+- `render_ya_proof.py`：並列維護者 raster reference、`origin/main` 舊版 `や` 與 Version 1.022 新版 `や`／`ゃ`，並驗收常見 yōon 與自然文字組合。
 - `analyze_glyphs.py`：列出 TTF／WOFF2 指定 cmap、advance、bounds、components、glyph count 與 cedilla anchors。
 - `browser-proof.html`：本機瀏覽器 Rendered Fonts 驗收頁。
 - `kana_sources/master_data.py`／`full_data.py`：可版本控制、可重建的原創假名 center-line source。
@@ -66,6 +69,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 ## 字形建構
 
 - `き`／`ぎ`：Version 1.021 將維護者新提供的 U+304D PNG 視為 authoritative structural reference，只替換 `USER_HANDWRITING_REFINED["き"]`。舊 12 branches 改成 4 個 clean center-line strokes；reviewed optical transform 保留 0.96 scale，並依混排 QA 增加 `dx +24` 修正視覺偏左。PNG 不直接安裝或盲目 autotrace；final outline 經既有 variable-width renderer。U+304E `ぎ` 仍是 `uni304D` + `uni3099` composite，bounds-derived anchor 隨新版 `き` 自動更新，無手動或全域 dakuten 修改。
+- `や`／`ゃ`：Version 1.022 將維護者新提供的 U+3084 PNG 視為 authoritative structural reference，只替換 `USER_HANDWRITING_REFINED["や"]`。舊 7 branches 改成 compact hooked cross-stroke、分離 upper mark 與長斜下行筆的 3 個 clean center-lines；新 source 使用 identity optical transform。`ゃ` 仍由 normalized `や` 以 0.72 scale 及 shared -12 y shift 衝生，無獨立 topology。PNG 不直接安裝或 autotrace，final outline 經既有 variable-width renderer，未使用外部日文字型輪廓。
 - `OE`：U+0152 LATIN CAPITAL LIGATURE OE，Version 1.021 新增。只組合官方來源中未修改的大寫 `O`／`E` identity components，保持原生 cap-height、stroke weight 與 baseline；`E` 依實測 `O` ink width 的 10% 向左 tuck，並以 final ink xMax 加來源 `E` right side bearing 決定 advance。
 - `oe`：U+0153 LATIN SMALL LIGATURE OE，同版新增。只組合未修改的小寫 `o`／`e` identity components，以相同 bounds-derived 規則形成緊湊連字。`Œ`／`œ` 都是衍生版的法文補寫字元，不是原始辰宇落雁體既有字形；未載入或複製外部 outline，也未用 CSS／JavaScript 改寫 `Œuvre` 或 `cœur`。
 - `questiondown`：第一版是將原字型 `question` 機械式旋轉 180°。本次仍以該輪廓為唯一來源，但旋轉後平移 +3 x／-12 y font units，並將圓點再下移 8 units；這讓上端落在 cap height 內、底部接近其他句首符號，並把點與主筆間距由機械鏡射調成 60 units。原始 `question` 未修改，advance width 仍為 312。
@@ -92,6 +96,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 - `proofs/quanfangwei-sharp-s-proof.png`（144 px ß／ẞ、baseline、x-height、cap-height、ascender、descender 與 advance box）
 - `proofs/quanfangwei-oe-proof.png`（18／28／44／72／120 px 的 `Œ`／`œ`、法文單字、baseline、大小寫 spacing 比較與 production phrase）
 - `proofs/quanfangwei-ki-proof.png`（維護者 raster reference、origin/main 舊版、Version 1.021 新版與 `き`／`ぎ` 多尺寸混排）
+- `proofs/quanfangwei-hiragana-ya-redesign-proof.png`（維護者 raster reference、origin/main 舊版、Version 1.022 `や`／`ゃ`、yōon 與自然文字混排）
 
 ## 新增下一個缺字
 
