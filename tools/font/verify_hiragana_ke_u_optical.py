@@ -30,10 +30,10 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "f915a53246260eceeb2e34ccf76279807bab5866fcefcabffca39f38d47e387e"
-OTHER_45_SOURCE_SHA256 = "bd73f08a671c8ae117e7878d5eae7edfac9fec7c95c9d67502101b3eebaf64f9"
+ALL_SOURCE_SHA256 = "3f5c8685624ef782f3345a62aa8fb8843671afa1628d77cd4980ac3ef2123612"
+OTHER_45_SOURCE_SHA256 = "3387c1353b79f1e760e49a562cb381fe937de3f45bf57450d386be615224fb71"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
-OTHER_TRANSFORM_SHA256 = "1888c79a1a1f0502e3bfdbf161bb6d950a6ed5dc9a761f629185205369337b95"
+OTHER_TRANSFORM_SHA256 = "00e149e70852b0b090c58e5aecf31db0b775a7648b8ee9c90e84566ba89fe95f"
 SOURCE_GATES = {
     "け": ("f3410a8a866046bb7d047f1dec2c045e773d0f37d1cb380c0935bddac4c27969", 7, 25),
     "う": ("432fedfedcca516996088b46771cc8882364d1dc4e7d421523203e4394a71204", 2, 10),
@@ -84,7 +84,7 @@ def main() -> int:
         for character in MODERN_HIRAGANA_ORDER if character != "わ"
     )
     require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_45_SOURCE_SHA256,
-            "A source other than the explicitly rewritten わ changed")
+            "A source outside the accepted current source set changed")
     wa_source = USER_HANDWRITING_REFINED["わ"]
     require(hashlib.sha256(repr(wa_source).encode("utf-8")).hexdigest() == WA_SOURCE_SHA256,
             "The reviewed わ source changed")

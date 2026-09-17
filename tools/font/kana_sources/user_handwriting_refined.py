@@ -3,6 +3,9 @@
 The maintainer's own handwritten SVGs define glyph identity and proportions.
 Version 1.021 explicitly replaces only U+304D き from a newer maintainer PNG
 structural reference; its four clean center-lines supersede the older branches.
+Version 1.022 likewise replaces only U+3084 や from the maintainer's newly
+supplied handwriting, using three clean center-lines for its compact hooked
+cross-stroke, separate upper mark, and long naturally slanted descending stroke.
 The SVG filled outlines are NOT installed directly.  They are reduced to
 project-local center-line branches, optically normalized, and rendered through
 the existing variable-width handwriting stroke engine so Japanese kana shares
@@ -355,13 +358,17 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((434.9, 690.7), (432.7, 631.8), width=42.0, start=38.6, end=29.4),
     ),
     'や': (
-        S((595.5, 433.4), (597.7, 410.4), width=48.4, start=44.5, end=33.9),
-        S((481.1, 820.0), (648.3, 720.2), width=48.4, start=44.5, end=33.9),
-        S((597.7, 405.3), (577.9, 379.7), width=48.4, start=44.5, end=33.9),
-        S((375.5, 558.9), (516.3, 589.6), (654.9, 581.9), (683.5, 558.9), (683.5, 492.3), (674.7, 464.2), (639.5, 415.5), (599.9, 407.8), width=48.4, start=44.5, end=33.9),
-        S((368.9, 551.2), (296.3, 543.5), (276.5, 528.2), width=48.4, start=44.5, end=33.9),
-        S((344.7, 743.2), (357.9, 727.8), (364.5, 571.7), (373.3, 558.9), width=48.4, start=44.5, end=33.9),
-        S((371.1, 548.6), (434.9, 208.2), (448.1, 185.1), (461.3, 180.0), width=48.4, start=44.5, end=33.9),
+        # Version 1.022: authoritative maintainer handwriting.  These are
+        # inferred center-lines, not an autotrace of the raster edge.
+        S((230.0, 620.0), (330.0, 650.0), (445.0, 680.0), (565.0, 710.0),
+          (655.0, 720.0), (710.0, 710.0), (742.0, 680.0), (744.0, 640.0),
+          (720.0, 575.0), (685.0, 505.0), (635.0, 440.0), (580.0, 405.0),
+          width=46.0, start=39.0, end=32.0),
+        S((455.0, 820.0), (478.0, 760.0), (510.0, 685.0),
+          width=43.0, start=37.0, end=30.0),
+        S((305.0, 790.0), (325.0, 725.0), (350.0, 650.0), (380.0, 565.0),
+          (415.0, 470.0), (452.0, 365.0), (490.0, 260.0), (515.0, 180.0),
+          width=47.0, start=41.0, end=31.0),
     ),
     'ゆ': (
         S((455.8, 419.4), (477.8, 416.8), width=49.2, start=45.3, end=34.4),

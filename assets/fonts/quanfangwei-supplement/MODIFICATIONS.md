@@ -7,8 +7,9 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-09-15
-- 版本：Version 1.021
+- 修改日期：2026-09-17
+- 版本：Version 1.022
+- Maintainer-handwritten や（Version 1.022）：依維護者新提供的 U+3084 `や` PNG 結構參考，明確授權只替換 `や` source topology；舊 7 branches 改為 compact hooked cross-stroke、分離的 upper mark 與長斜下行筆的 3-stroke center-line source。U+3083 `ゃ` 從新版 normalized `や` 以 0.72 scale 衝生，yōon 組合已驗證。Raster 不直接安裝，也未使用外部日文字型輪廓
 - French OE ligatures（Version 1.021）：新增 U+0152 `OE`（`Œ`）與 U+0153 `oe`（`œ`），分別只由原始 `O`／`E` 與 `o`／`e` 手寫輪廓組成；來源 components 維持原生比例與 baseline，E/e 依 O/o 實際 ink width 的 10% 向左 tuck，advance 由 final ink bounds 加上來源 side bearing 確定性計算。兩者皆為衍生補寫字元，不是原版辰宇落雁體字形，也未使用任何外部字型輪廓
 - Maintainer-handwritten き（Version 1.021）：依維護者新提供的 U+304D `き` PNG 結構參考，明確授權只替換 `き` source topology；12 個舊 fragmented branches 改為兩個斜升橫筆、一個長下行斜筆與一個分離下方 hook-to-horizontal 的 4-stroke center-line source。混排 QA 保留 0.96 scale 並將 optical transform 右移 24 units。Raster 不直接進入字型，final outline 仍由既有 variable-width renderer 產生；U+304E `ぎ` 自動以新版 `uni304D` + 原有 `uni3099` 組成，未重畫 dakuten 或修改全域 anchor
 - Japanese Phase 1：完整現代平假名、片假名、小假名、預組合濁音／半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、iteration marks、middle dot、長音與常用標點

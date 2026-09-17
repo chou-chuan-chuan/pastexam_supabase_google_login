@@ -49,12 +49,12 @@ from kana_sources.user_handwriting_refined import (
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-EXPECTED_POINT_HASH = "c21b34ac3f8ccbbac3c3065619e0c5f9810049e43dfb524cfcbce68d0cf0d1ff"
-EXPECTED_TOPOLOGY_HASH = "12628b5acb30b083570d79435880d4dae45937f506198ef3e1723a7e7b380538"
-EXPECTED_SOURCE_STROKE_HASH = "864dd149905722d695d1f969c45ac12c4d78829499d08244ecfbe015e5fb3161"
-EXPECTED_OPTICAL_HASH = "9e4cc1aef97f6f380f8cbf1a98e3fcc244408df97f24ae2d52b80e80e9f76829"
-EXPECTED_STROKE_COUNT = 310
-EXPECTED_POINT_COUNT = 1261
+EXPECTED_POINT_HASH = "e8a8e5a512ad46b2e59cda433e4aa4d03d96f6c0fce7a1e1fb7ee01893bf0e91"
+EXPECTED_TOPOLOGY_HASH = "de3da725f5f81a41c1936bbd067c0a5c67c8ec1eb4917be9102217040f07e111"
+EXPECTED_SOURCE_STROKE_HASH = "ba7728ba9aef449ea484e3b905f9b50c08e047593e06065194783a763a8d9bc7"
+EXPECTED_OPTICAL_HASH = "a7b2f55f5ae1278bd372511d49c7c00e0289a5676ac1364ef104972168cd851d"
+EXPECTED_STROKE_COUNT = 298
+EXPECTED_POINT_COUNT = 1239
 EXPECTED_FACTORS = {
     "large_hiragana": 1.10,
     "katakana": 1.14,
@@ -205,7 +205,7 @@ def main() -> int:
             print("FAIL:", error, file=sys.stderr)
         print(f"Japanese weight verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
-    print("PASS: 46-Hiragana point coordinates, stroke counts, topology hash, and optical transforms are unchanged")
+    print("PASS: the Version 1.022 46-Hiragana source snapshot, including authorized や, matches its reviewed hashes")
     print("PASS: pressure multipliers preserve all width taper ratios")
     print("PASS: official source hash and all source CJK drawings are unchanged")
     print("PASS: TTF/WOFF2 cmap, metrics, and bounds agree without clipping")
