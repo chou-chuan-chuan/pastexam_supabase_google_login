@@ -48,13 +48,15 @@ MANIFEST_PATH = TOOLS_DIR / "glyph_manifest.json"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 O_REFERENCE = TOOLS_DIR / "references/U+304A-o-maintainer-handwritten.png"
 O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
+U_REFERENCE = TOOLS_DIR / "references/U+3046-u-maintainer-handwritten.png"
+U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
 FAMILY_EN = "QuanFangwei Supplement Script"
 FAMILY_ZH = "荃方位補寫體"
 SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.023"
+VERSION = "1.024"
 BUILD_DATE = "2026-09-18"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260918"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -414,6 +416,10 @@ def validate_inputs(manifest: dict) -> None:
         fail("The Version 1.023 maintainer-handwritten U+304A reference is missing or changed")
     with Image.open(O_REFERENCE) as image:
         image.verify()
+    if not U_REFERENCE.is_file() or sha256(U_REFERENCE) != U_REFERENCE_SHA256:
+        fail("The Version 1.024 maintainer-handwritten U+3046 reference is missing or changed")
+    with Image.open(U_REFERENCE) as image:
+        image.verify()
 
     for item in manifest.get("glyphs", []):
         character = item["character"]
@@ -445,6 +451,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Focused Japanese repair（Version 1.024）：直接量測維護者權威手寫照片黑色外框的 medial skeleton，重建 U+304A `お` 三筆 center-lines，使 left-biased tall stem、尖銳左下轉折、寬闊不對稱下部、open endpoint 與右上短筆忠實保留，再只由既有 renderer 統一辰宇落雁體筆壓／圓角／收筆；U+3049 `ぉ` 由新版 `お` 以一般小假名 0.72 scale／(0,-12) 路徑重建，仍不使用 yōon offset。U+3059 `す` 保留既有兩筆 topology／optical placement／主幹寬度，只提高局部過細的 crossbar end 與長尾 taper，避免整字過粗；U+305A `ず` 自動繼承並保留 dakuten。維護者新提供的 U+3046 `う` 圖片另被視為權威 source，重建 compact upper mark 與長弧形主筆兩筆 center-lines；U+3045 `ぅ` 維持一般小假名 0.72 scale／(0,-12)，U+3094 `ゔ` 由新版 `う` 與原 dakuten 衍生。U+58C1 `壁`／U+5805 `堅` 保留來源輪廓與 metrics，dy 分別由 +45／+35 調至 +97／+55，使 rendered bottom 同為 -15。沒有全域平假名字重、CJK baseline、line metrics、CSS 或 JavaScript 變更
 - Maintainer-handwritten お（Version 1.023）：以維護者新提供的 U+304A `お` PNG 為 authoritative structural reference，明確替換舊 8-branch source topology，改為 upper cross、連續的 tall vertical/open asymmetric lower body、detached upper-right mark 三筆 clean center-lines。U+3049 `ぉ` 由新 `お` 以一般小平假名 0.72 scale／(0,-12) path 重建，不使用 yōon offset。Raster 只作來源證明，沒有直接安裝、autotrace 或使用外部日文字型輪廓
 - Yōon small-kana optical positioning（Version 1.023）：將 U+3083 `ゃ`、U+3085 `ゅ`、U+3087 `ょ`、U+30E3 `ャ`、U+30E5 `ュ`、U+30E7 `ョ` 以逐字 post-scale translation 移向各自 960-unit full-width glyph cell 的左下光學位置。保留 0.72 scale、advance、來源大字 topology 與其他小假名；沒有 ligature、pair kerning、CSS／JS 位移或外部日文字型輪廓
 - 壁／堅 vertical optical alignment（Version 1.023）：U+58C1 `壁` 與 U+5805 `堅` 各自以 source-identical derived copy 向上平移 45／35 units（dy 0 → +45／+35），使 optical center 分別為 365／354.5，對齊混合 CJK 行文字。輪廓 topology、scale、x 位置、advance、全域 ascent／descent 與 line metrics 不變；無 CSS／JS workaround
@@ -528,7 +535,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.023
+        font["head"].fontRevision = 1.024
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

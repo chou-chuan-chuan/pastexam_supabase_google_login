@@ -66,8 +66,8 @@ def main() -> int:
     draw = ImageDraw.Draw(image)
     title = face(str(FONT_PATH), 44)
     label = face(str(FONT_PATH), 24)
-    draw.text((50, 38), "QuanFangwei 1.023 — 壁 / 堅 vertical optical alignment", font=title, fill=ACCENT)
-    draw.text((50, 100), "Placement-only source copies: 壁 dy 0 → +45; 堅 dy 0 → +35; blue=ink bounds, red=baseline", font=label, fill=MUTED)
+    draw.text((50, 38), "QuanFangwei 1.024 repair — 壁 / 堅 vertical optical alignment", font=title, fill=ACCENT)
+    draw.text((50, 100), "壁 dy +45 → +97; 堅 +35 → +55; aligned bottoms=-15; blue=ink bounds, red=baseline", font=label, fill=MUTED)
     try:
         diagnostic(draw, 90, 165, "壁", before_io, before_font, "BEFORE 壁")
         diagnostic(draw, 600, 165, "壁", str(FONT_PATH), after_font, "AFTER 壁")
@@ -82,8 +82,8 @@ def main() -> int:
     after_text = face(str(FONT_PATH), 62)
     lines = (
         "君のかっこよさは鉄壁のシェイプじゃないとこにだって",
-        "你的堅強，不只存在於那些巍然聳立之上",
-        "鉄壁    壁紙    堅強    中堅    堅持",
+        "你的堅強，不只存在於那光鮮亮麗之上",
+        "鉄 壁 鉄壁    堅 強 堅強    壁紙    中堅    堅持",
     )
     y = 720
     for text in lines:

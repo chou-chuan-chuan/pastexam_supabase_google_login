@@ -28,9 +28,9 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 REFERENCE_PATH = Path(__file__).resolve().parent / "references/U+3084-ya-maintainer-handwritten.png"
 REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
-OTHER_44_SOURCE_SHA256 = "06b7c9f94ecb6a2068f4465fc51b35868ce0c3100f7162a9e3e96d47cdc4018a"
+OTHER_42_SOURCE_SHA256 = "7e23c800ccb7fe7092dce9949fd3bc07a71f5c869df38162028dcc9a9950fbe3"
 YA_SOURCE_SHA256 = "a997191110bda0fae60eb313f3d247e5eb65a020a44281d7dcbd263d2919b0b4"
-EXPECTED_VERSION = "1.023"
+EXPECTED_VERSION = "1.024"
 
 
 def bounds(font: TTFont, glyph_name: str) -> tuple[int, int, int, int] | None:
@@ -72,10 +72,10 @@ def main() -> int:
 
     other_sources = tuple(
         (character, USER_HANDWRITING_REFINED[character])
-        for character in MODERN_HIRAGANA_ORDER if character not in {"や", "お"}
+        for character in MODERN_HIRAGANA_ORDER if character not in {"や", "お", "す", "う"}
     )
-    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_44_SOURCE_SHA256,
-            "A Hiragana source other than the authorized U+304A お and U+3084 や changed")
+    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_42_SOURCE_SHA256,
+            "A Hiragana source outside authorized お/す/う and accepted や changed")
     ya_source = USER_HANDWRITING_REFINED["や"]
     require(hashlib.sha256(repr(ya_source).encode("utf-8")).hexdigest() == YA_SOURCE_SHA256,
             "The reviewed Version 1.022 や source changed")
@@ -138,7 +138,7 @@ def main() -> int:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
-    print("PASS: all authoritative Hiragana sources except separately authorized U+304A/U+3084 match their reviewed snapshots")
+    print("PASS: all non-target Hiragana sources match their snapshots; accepted や remains unchanged")
     print("PASS: U+3083 derives from normalized U+3084 at scale 0.72, then receives only its scoped yōon offset")
     print("PASS: TTF/WOFF2 U+3084 and U+3083 cmap, outlines, bounds, advances, and metadata agree")
     return 0

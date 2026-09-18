@@ -30,13 +30,13 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "936eb1920dab21ada5029cf0dccc7ba725e5d5a2f0f72110e03f742dcb96a940"
-OTHER_45_SOURCE_SHA256 = "48594e28f252ef8023f4d3a92508c459f8c55090304b526ddadf731cbfcf8870"
+ALL_SOURCE_SHA256 = "cb846057290326fc4b9017b09df42ffc9759f5591f527f324f82b668c1a5706a"
+OTHER_45_SOURCE_SHA256 = "2eb8f5993b02855e66c0b9f188e548db18cdbe394a7ec498143838fd53b68d07"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
 OTHER_TRANSFORM_SHA256 = "00e149e70852b0b090c58e5aecf31db0b775a7648b8ee9c90e84566ba89fe95f"
 SOURCE_GATES = {
     "け": ("f3410a8a866046bb7d047f1dec2c045e773d0f37d1cb380c0935bddac4c27969", 7, 25),
-    "う": ("432fedfedcca516996088b46771cc8882364d1dc4e7d421523203e4394a71204", 2, 10),
+    "う": ("baffc7aec8b8f06591aa5de3c4153a913373742d8d46ad7dd8e11546e9848ca5", 2, 14),
     "こ": ("89ed94af8fb7665b4c24cc46b7da00ea50bf0db57eb62ff0ab259e4a00644d7b", 4, 19),
 }
 EXPECTED_TRANSFORMS = {
@@ -138,10 +138,13 @@ def main() -> int:
             "う horizontal point span does not match scale_x 1.12")
     require(abs((u_after_span[1] / u_before_span[1]) - 1.08) <= 0.000001,
             "う vertical point span does not match scale_y 1.08")
-    require(abs(center(u_after)[0] - center(u_before)[0]) <= 0.000001,
-            "う horizontal optical center shifted during scaling")
-    require(abs((center(u_after)[1] - center(u_before)[1]) - (-20.0)) <= 0.000001,
-            "う center did not receive the reviewed 20-unit downward shift")
+    expected_u_center = (
+        480 + (center(u_before)[0] - 480) * 1.12,
+        500 + (center(u_before)[1] - 500) * 1.08 - 20,
+    )
+    require(all(abs(actual - expected) <= 0.000001 for actual, expected in
+                zip(center(u_after), expected_u_center)),
+            "う center does not follow the reviewed center-based scale and -20 y transform")
 
     ko_before = stroke_bounds(USER_HANDWRITING_REFINED["こ"])
     ko_after = stroke_bounds(USER_HANDWRITING_OPTICALLY_NORMALIZED["こ"])
