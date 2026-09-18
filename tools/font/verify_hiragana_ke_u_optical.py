@@ -30,8 +30,8 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "3f5c8685624ef782f3345a62aa8fb8843671afa1628d77cd4980ac3ef2123612"
-OTHER_45_SOURCE_SHA256 = "3387c1353b79f1e760e49a562cb381fe937de3f45bf57450d386be615224fb71"
+ALL_SOURCE_SHA256 = "936eb1920dab21ada5029cf0dccc7ba725e5d5a2f0f72110e03f742dcb96a940"
+OTHER_45_SOURCE_SHA256 = "48594e28f252ef8023f4d3a92508c459f8c55090304b526ddadf731cbfcf8870"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
 OTHER_TRANSFORM_SHA256 = "00e149e70852b0b090c58e5aecf31db0b775a7648b8ee9c90e84566ba89fe95f"
 SOURCE_GATES = {

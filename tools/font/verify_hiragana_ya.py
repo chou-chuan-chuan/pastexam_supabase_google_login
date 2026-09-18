@@ -10,12 +10,17 @@ from pathlib import Path
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 
-from kana_sources.full_data import KANA_STROKES
+from kana_sources.full_data import KANA_STROKES, YOON_SMALL_KANA_OFFSETS
 from kana_sources.user_handwriting_optical import (
     HIRAGANA_OPTICAL_TRANSFORMS,
     USER_HANDWRITING_OPTICALLY_NORMALIZED,
 )
 from kana_sources.user_handwriting_refined import MODERN_HIRAGANA_ORDER, USER_HANDWRITING_REFINED
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -23,9 +28,9 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 REFERENCE_PATH = Path(__file__).resolve().parent / "references/U+3084-ya-maintainer-handwritten.png"
 REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
-OTHER_45_SOURCE_SHA256 = "95aaac73313f4d88c886c643b895fcee0991f6867a4384c644197b6a203fd899"
+OTHER_44_SOURCE_SHA256 = "06b7c9f94ecb6a2068f4465fc51b35868ce0c3100f7162a9e3e96d47cdc4018a"
 YA_SOURCE_SHA256 = "a997191110bda0fae60eb313f3d247e5eb65a020a44281d7dcbd263d2919b0b4"
-EXPECTED_VERSION = "1.022"
+EXPECTED_VERSION = "1.023"
 
 
 def bounds(font: TTFont, glyph_name: str) -> tuple[int, int, int, int] | None:
@@ -67,10 +72,10 @@ def main() -> int:
 
     other_sources = tuple(
         (character, USER_HANDWRITING_REFINED[character])
-        for character in MODERN_HIRAGANA_ORDER if character != "や"
+        for character in MODERN_HIRAGANA_ORDER if character not in {"や", "お"}
     )
-    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_45_SOURCE_SHA256,
-            "A Hiragana source other than the authorized U+3084 や changed")
+    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_44_SOURCE_SHA256,
+            "A Hiragana source other than the authorized U+304A お and U+3084 や changed")
     ya_source = USER_HANDWRITING_REFINED["や"]
     require(hashlib.sha256(repr(ya_source).encode("utf-8")).hexdigest() == YA_SOURCE_SHA256,
             "The reviewed Version 1.022 や source changed")
@@ -91,7 +96,8 @@ def main() -> int:
             "ゃ does not preserve や point topology")
     for large_stroke, small_stroke in zip(large, small):
         for (large_x, large_y), (small_x, small_y) in zip(large_stroke.points, small_stroke.points):
-            expected = (480 + (large_x - 480) * 0.72, 500 + (large_y - 500) * 0.72 - 12)
+            dx, dy = YOON_SMALL_KANA_OFFSETS["ゃ"]
+            expected = (480 + (large_x - 480) * 0.72 + dx, 500 + (large_y - 500) * 0.72 - 12 + dy)
             require(abs(small_x - expected[0]) < 1e-8 and abs(small_y - expected[1]) < 1e-8,
                     "ゃ is not the shared 0.72-scale/-12-y derivation of や")
 
@@ -132,8 +138,8 @@ def main() -> int:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
-    print("PASS: only U+3084 changed among the 46 authoritative Hiragana sources")
-    print("PASS: U+3083 derives from normalized U+3084 at scale 0.72 with shared y shift -12")
+    print("PASS: all authoritative Hiragana sources except separately authorized U+304A/U+3084 match their reviewed snapshots")
+    print("PASS: U+3083 derives from normalized U+3084 at scale 0.72, then receives only its scoped yōon offset")
     print("PASS: TTF/WOFF2 U+3084 and U+3083 cmap, outlines, bounds, advances, and metadata agree")
     return 0
 

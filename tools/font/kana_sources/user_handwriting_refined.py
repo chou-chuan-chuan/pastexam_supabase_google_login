@@ -6,6 +6,9 @@ structural reference; its four clean center-lines supersede the older branches.
 Version 1.022 likewise replaces only U+3084 や from the maintainer's newly
 supplied handwriting, using three clean center-lines for its compact hooked
 cross-stroke, separate upper mark, and long naturally slanted descending stroke.
+Version 1.023 explicitly replaces U+304A お from the maintainer's new
+handwritten reference, using three clean center-lines for its upper cross,
+tall main stroke with an open asymmetric lower body, and detached right mark.
 The SVG filled outlines are NOT installed directly.  They are reduced to
 project-local center-line branches, optically normalized, and rendered through
 the existing variable-width handwriting stroke engine so Japanese kana shares
@@ -51,14 +54,15 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((444.8, 468.0), (418.4, 437.3), (321.6, 240.2), width=46.8, start=43.1, end=32.8),
     ),
     'お': (
-        S((387.6, 717.6), (416.2, 686.9), (425.0, 622.9), width=42.0, start=38.6, end=29.4),
-        S((592.2, 635.7), (579.0, 640.8), (444.8, 612.6), width=42.0, start=38.6, end=29.4),
-        S((427.2, 620.3), (444.8, 612.6), width=42.0, start=38.6, end=29.4),
-        S((634.0, 763.7), (704.4, 720.2), (722.0, 679.2), width=42.0, start=38.6, end=29.4),
-        S((469.0, 474.4), (548.2, 471.8), (605.4, 425.8), (647.2, 372.0), (649.4, 308.0), (629.6, 272.2), (594.4, 236.3), width=42.0, start=38.6, end=29.4),
-        S((460.2, 482.1), (407.4, 477.0), (299.6, 423.2), (271.0, 382.2), (277.6, 333.6), (317.2, 302.9), (394.2, 302.9), (431.6, 318.2), (460.2, 366.9), (466.8, 471.8), width=42.0, start=37.0, end=37.0),
-        S((425.0, 620.3), (416.2, 610.1), (288.6, 607.5), (238.0, 597.3), width=42.0, start=38.6, end=29.4),
-        S((444.8, 612.6), (462.4, 541.0), (462.4, 484.6), width=42.0, start=38.6, end=29.4),
+        # Version 1.023: authoritative maintainer handwriting. The raster is
+        # used only for structure and proportion; the existing variable-width
+        # renderer supplies pressure, taper, terminals, and final contours.
+        S((250.0, 690.0), (410.0, 710.0), (570.0, 735.0), width=48.0, start=44.2, end=33.6),
+        S((430.0, 835.0), (428.0, 705.0), (422.0, 555.0), (416.0, 390.0), (420.0, 180.0),
+          (342.0, 225.0), (278.0, 315.0), (272.0, 430.0), (315.0, 505.0), (405.0, 552.0),
+          (520.0, 590.0), (625.0, 575.0), (700.0, 515.0), (725.0, 425.0), (700.0, 340.0),
+          (630.0, 265.0), (525.0, 205.0), width=52.0, start=47.8, end=29.0),
+        S((650.0, 705.0), (710.0, 665.0), (770.0, 610.0), width=44.0, start=40.5, end=27.0),
     ),
     'か': (
         S((285.3, 547.4), (195.1, 537.1), (170.9, 519.2), width=50.0, start=46.0, end=35.0),
