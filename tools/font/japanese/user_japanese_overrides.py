@@ -45,6 +45,9 @@ USER_MARK_POSITION = (45.0, -120.0)
 USER_MARK_ADVANCE = 960
 ALIGN_OVERRIDE_SUFFIX = ".qfwJaAlign"
 ALIGNMENT_REFERENCE = "け"
+# Immutable Version 1.024 rendered reference. The accepted 気/付 transforms
+# must not follow future kana source revisions (including master sheet v2).
+ALIGNMENT_REFERENCE_BOUNDS = (276, 6, 740, 659)
 ALIGNMENT_TARGET_HEIGHT_FACTOR = 1.04
 ALIGNMENT_SCALE_CLAMP = (0.88, 1.04)
 ALIGNMENT_OPTICAL_Y = {"気": 30.0, "付": 6.0}
@@ -354,7 +357,7 @@ def build_user_japanese_overrides(font: TTFont) -> dict:
     reference_name = cmap.get(ord(ALIGNMENT_REFERENCE))
     if reference_name is None:
         raise RuntimeError("Refined Hiragana reference glyph け is unavailable")
-    ref_bounds = glyph_bounds(font, reference_name)
+    ref_bounds = ALIGNMENT_REFERENCE_BOUNDS
     ref_height = ref_bounds[3] - ref_bounds[1]
     ref_center = (ref_bounds[1] + ref_bounds[3]) / 2
     target_height = ref_height * ALIGNMENT_TARGET_HEIGHT_FACTOR

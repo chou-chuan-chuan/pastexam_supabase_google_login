@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.024"
+VERSION = "1.025"
 BUILD_DATE = "2026-09-18"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260918"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -414,6 +414,12 @@ def remove_truetype_hinting(font: TTFont) -> None:
 def validate_inputs(manifest: dict) -> None:
     if not SOURCE_FONT.is_file() or not SOURCE_LICENSE.is_file():
         fail("The official source TTF or OFL license file is missing")
+    from kana_sources.hiragana_master_v2 import REFERENCE, REFERENCE_SHA256
+    master = TOOLS_DIR / "references" / REFERENCE
+    if not master.is_file() or sha256(master) != REFERENCE_SHA256:
+        fail("Maintainer Hiragana master sheet v2 is missing or changed")
+    with Image.open(master) as image:
+        image.verify()
     if sha256(SOURCE_FONT) != SOURCE_SHA256:
         fail("The official source TTF hash changed; refusing to overwrite or build from an unreviewed source")
     if not O_REFERENCE.is_file() or sha256(O_REFERENCE) != O_REFERENCE_SHA256:
@@ -463,6 +469,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Maintainer Hiragana master sheet v2（Version 1.025）：41 modern Hiragana refreshed from `hiragana-maintainer-master-v2.png`; this latest sheet supersedes every older visual reference for overlapping glyphs. `なにぬねの` are absent and remain unchanged. All small Hiragana regenerate from their new large bases; only `ゃゅょ／ャュョ` use reviewed lower-left yōon positioning. The three Hiragana deltas are recalibrated after derivation to retain ink anchor `(180,24)`; Katakana deltas remain unchanged. Voiced/semi-voiced forms inherit the new bases and existing marks. Katakana topology, all Han (including `壁／堅` and the frozen `気／付` alignment), and Latin/French/German are preserved. Manual center-lines use the unchanged variable-width engine; no external Japanese outline or raster contour is installed.
 - Focused Japanese repair（Version 1.024）：以維護者照片的原始 pixel coordinates 人工標記 U+304A `お`、U+3042 `あ`、U+3044 `い`、U+3046 `う`、U+3055 `さ`、U+304D `き`、U+3068 `と`、U+308A `り` 筆畫，分別使用單一等比例縮放與置中，保留原圖寬高比、筆畫間距、交叉、彎折及開口；八字皆使用 identity optical transform，包括取消舊 `う` 的 axis-specific stretch。最終輪廓仍由既有 variable-width renderer 產生，raster 不進入 production outline。`き` supersede Version 1.021。`ぁ／ぃ／ぅ／ぉ` 維持一般 0.72 scale／(0,-12) 衍生，`ざ／ぎ／ど／ゔ` 繼承 base 與共用 dakuten。`す` 保留兩筆 topology／主幹寬度，只調整局部末端 taper，`ず` 繼承；本次 photo-fidelity follow-up 不再改動 `す／ず`。`壁／堅` 維持 source-identical placement-only dy +97／+55，bottom 同為 -15。只有 `ゃゅょ／ャュョ` 使用 yōon offset；沒有全域 weight、CJK baseline、line metrics、CSS／JS 或外部日文字型輪廓修改。Fidelity proof 使用實際 TTF 與原圖同尺寸疊合，verifier 比較整份 TTF／WOFF2 及 immutable prior-PR glyphs
 - Maintainer-handwritten お（Version 1.023）：以維護者新提供的 U+304A `お` PNG 為 authoritative structural reference，明確替換舊 8-branch source topology，改為 upper cross、連續的 tall vertical/open asymmetric lower body、detached upper-right mark 三筆 clean center-lines。U+3049 `ぉ` 由新 `お` 以一般小平假名 0.72 scale／(0,-12) path 重建，不使用 yōon offset。Raster 只作來源證明，沒有直接安裝、autotrace 或使用外部日文字型輪廓
 - Yōon small-kana optical positioning（Version 1.023）：將 U+3083 `ゃ`、U+3085 `ゅ`、U+3087 `ょ`、U+30E3 `ャ`、U+30E5 `ュ`、U+30E7 `ョ` 以逐字 post-scale translation 移向各自 960-unit full-width glyph cell 的左下光學位置。保留 0.72 scale、advance、來源大字 topology 與其他小假名；沒有 ligature、pair kerning、CSS／JS 位移或外部日文字型輪廓
@@ -547,7 +554,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.024
+        font["head"].fontRevision = 1.025
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

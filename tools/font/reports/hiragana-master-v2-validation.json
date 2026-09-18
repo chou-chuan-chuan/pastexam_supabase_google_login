@@ -1,0 +1,83 @@
+{
+  "font_verifiers": [
+    {
+      "script": "verify_cjk_vertical_alignment.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_handwriting_fidelity.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_handwritten_hiragana_svg.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_ke_u_optical.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_maintainer_batch.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_o.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_su.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_u.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_hiragana_ya.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_japanese_optical_alignment.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_japanese_weight.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_oku_optical_alignment.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_special_japanese_overrides.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_supplement_font.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_yong_alignment.py",
+      "exit_code": 0
+    },
+    {
+      "script": "verify_yoon_position.py",
+      "exit_code": 0
+    }
+  ],
+  "master_v2": {
+    "exit_code": 0,
+    "deterministic_repeat_build": true,
+    "changed_glyphs": 79,
+    "ttf_woff2_full_parity": true
+  },
+  "web_tests": {
+    "passed": 93,
+    "failed": 0
+  },
+  "assets_js_syntax": {
+    "passed": 16,
+    "failed": 0
+  },
+  "git_diff_check": 0
+}

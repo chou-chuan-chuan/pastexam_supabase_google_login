@@ -1,5 +1,42 @@
 # 荃方位補寫體建置工具
 
+## Current authority: Version 1.025 — Maintainer Hiragana master sheet v2
+
+`references/hiragana-maintainer-master-v2.png` is the latest maintainer-owned visual source for exactly 41 Hiragana. SHA256: `779559e9a7f3e7fe914987f882c2029f50881a53b092318db3d356f9792e8db1`. It supersedes **every older individual/sheet reference for overlapping characters**, including the Version 1.024 repairs. Older images and the historical sections below remain provenance, not shape overrides.
+
+`kana_sources/hiragana_master_v2.py` records the explicit ten-row mapping, intentional gaps, glyph crops and manually interpreted pixel-space pen paths. Each drawing receives one uniform scale and translation; the 41 outer optical transforms were re-evaluated and reset to identity. The unchanged variable-width renderer and family pressure factors produce the final outlines. Raster thickness is not literal production weight. No raster outline, autotrace or external Japanese font outline is installed.
+
+`なにぬねの` were absent and retain their exact accepted source hashes, optical transforms and output. Every normal small Hiragana still uses the normal 0.72-scale path (including the existing scoped `ゎ` adjustment). `ゃゅょ` first derive from the new `やゆよ`; only their post-scale deltas are recalibrated to preserve the reviewed `(180,24)` lower-left ink anchor. Katakana sources and `ャュョ` deltas are unchanged. All 26 voiced/semi-voiced Hiragana use the revised base plus the unchanged shared marks; bounds-derived anchors and GPOS are verified, including forced decomposed HarfBuzz shaping and collision checks.
+
+The former live `け` measurement used for `気／付` is frozen at its accepted Version 1.024 bounds `(276,6,740,659)`, preventing unrelated Han movement. All Han output, including `壁／堅`, and all Latin/French/German output remains identical. The global engine, metrics and web code are unchanged.
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/render_hiragana_master_v2_proofs.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_hiragana_master_v2.py
+python tools/font/verify_handwritten_hiragana_svg.py
+python tools/font/verify_yoon_position.py
+python tools/font/verify_japanese_weight.py
+python tools/font/verify_japanese_optical_alignment.py
+```
+
+The master verifier uses the immutable base commit `d89ee8b2b5f4c858e5dade853972194892037f93`, not moving `origin/main`. It pins reviewed source/recipe hashes, rejects changes to the five omitted sources, compares **every** glyph between old/new/TTF/WOFF2, permits exactly 79 changed outputs, independently compares all 41 drawings to reference pixels, and runs a byte-identical canonical rebuild by default. `--skip-rebuild` omits only that last repeat build. Older revision-specific verifier entry points now exercise the shared current contract; their superseded snapshots remain in Git history.
+
+[Complete measurements and validation report](reports/hiragana-master-v2.md). [Source manifest](references/hiragana-master-v2-manifest.json). Current proof files:
+
+- [Original row arrangement](proofs/quanfangwei-hiragana-master-v2-proof.png)
+- [Reference / generated font](proofs/quanfangwei-hiragana-master-v2-comparison.png)
+- [Per-glyph overlays](proofs/quanfangwei-hiragana-master-v2-overlay.png)
+- [Full 46, preserved na-row highlighted](proofs/quanfangwei-hiragana-master-v2-full-46.png)
+- [Family weight](proofs/quanfangwei-hiragana-master-v2-family-weight.png)
+- [Production text and unchanged existing lyric fixtures](proofs/quanfangwei-hiragana-master-v2-production-text.png)
+- [All small, voiced and yōon combinations](proofs/quanfangwei-hiragana-master-v2-derivatives-yoon.png)
+
+Build environment for this revision: Python 3.12, repository-pinned fontTools/Pillow/uharfbuzz/skia-pathops/NumPy/SciPy; Brotli 1.1.0 wheel because 1.0.9 has no Python 3.12 macOS wheel and this machine has no compiler. The repository dependency pins remain unchanged. Determinism is verified within this environment; no cross-Brotli compressed-byte identity is claimed.
+
+## Historical build and revision notes
+
 這套流程從 repository 內未修改的官方 `ChenYuluoyan-2.0-Thin.ttf` 建立獨立命名的「荃方位補寫體 / QuanFangwei Supplement Script」。它依 SIL Open Font License 1.1 製作，並非原作者官方更新版。
 
 目前 Windows 驗證環境沒有 FontForge，因此實際可重複流程使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不依賴 FontForge GUI。輸出是可由 fontTools 與瀏覽器正常開啟的真實 TTF／WOFF2；若未來採用 FontForge，必須保持 manifest、名稱、輪廓建構與驗證條件一致。

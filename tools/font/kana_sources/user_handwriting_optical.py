@@ -63,37 +63,27 @@ def transform_strokes(
     )
 
 
-# Every accepted modern Hiragana is listed so this file doubles as the optical
-# review record. Identity entries were reviewed and intentionally retained.
+# Version 1.025: re-reviewed uniform photo fits need no additional transform.
+# Only the omitted na-row retains its exact previous optical adjustments.
 HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "あ": OpticalTransform(),
     "い": OpticalTransform(),
-    # Photo-space sources already use a uniform fit. Preserve their original
-    # aspect ratio, including the narrow body of the maintainer's う.
     "う": OpticalTransform(),
     "え": OpticalTransform(),
-    # Version 1.024: the repaired three-stroke maintainer source fills the
-    # accepted Hiragana zone with balanced left/right space.
     "お": OpticalTransform(),
     "か": OpticalTransform(),
-    # The latest photo replaces 1.021; its proportions are authoritative.
     "き": OpticalTransform(),
     "く": OpticalTransform(),
-    # Version 1.016: retain size and move the accepted drawing right/down.
-    "け": OpticalTransform(1.0, 28.0, -26.0, scale_x=1.06, scale_y=1.0),
-    # Version 1.016: retain size and move the accepted drawing slightly right.
-    "こ": OpticalTransform(1.0, 28.0, 0.0),
+    "け": OpticalTransform(),
+    "こ": OpticalTransform(),
     "さ": OpticalTransform(),
     "し": OpticalTransform(),
-    # Keep the accepted handwritten structure and reviewed optical body. The
-    # Version 1.024 repair changes only per-stroke pressure in the source; this
-    # established placement remains intentionally unchanged.
-    "す": OpticalTransform(1.04, 59.0, -47.0, scale_x=1.60, scale_y=1.04),
+    "す": OpticalTransform(),
     "せ": OpticalTransform(),
     "そ": OpticalTransform(),
-    "た": OpticalTransform(0.96),
-    "ち": OpticalTransform(0.96),
-    "つ": OpticalTransform(1.07, 0.0, -6.0),
+    "た": OpticalTransform(),
+    "ち": OpticalTransform(),
+    "つ": OpticalTransform(),
     "て": OpticalTransform(),
     "と": OpticalTransform(),
     "な": OpticalTransform(),
@@ -104,25 +94,23 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "は": OpticalTransform(),
     "ひ": OpticalTransform(),
     "ふ": OpticalTransform(),
-    "へ": OpticalTransform(1.08, 0.0, 8.0),
-    "ほ": OpticalTransform(1.04),
-    "ま": OpticalTransform(0.98),
+    "へ": OpticalTransform(),
+    "ほ": OpticalTransform(),
+    "ま": OpticalTransform(),
     "み": OpticalTransform(),
     "む": OpticalTransform(),
     "め": OpticalTransform(),
     "も": OpticalTransform(),
-    # Version 1.022: the new three-stroke source is already proportioned and
-    # centered for the family, so no additional optical transform is needed.
     "や": OpticalTransform(),
     "ゆ": OpticalTransform(),
-    "よ": OpticalTransform(1.04),
-    "ら": OpticalTransform(1.05),
+    "よ": OpticalTransform(),
+    "ら": OpticalTransform(),
     "り": OpticalTransform(),
-    "る": OpticalTransform(1.14),
-    "れ": OpticalTransform(0.95),
-    "ろ": OpticalTransform(1.10),
-    "わ": OpticalTransform(0.94),
-    "を": OpticalTransform(0.84),
+    "る": OpticalTransform(),
+    "れ": OpticalTransform(),
+    "ろ": OpticalTransform(),
+    "わ": OpticalTransform(),
+    "を": OpticalTransform(),
     "ん": OpticalTransform(),
 }
 

@@ -37,7 +37,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_PATH = REPO_ROOT / "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf"
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-SU_SOURCE_SHA256 = "704402b8e089a596558f4ffee9d0e39052fcbfae7d7839c670a4c9868c2a3690"
 EXPECTED_HAN_TRANSFORMS = {
     "壁": (1.00, 1.00, 0.0, 97.0, 0.0),
     "堅": (1.00, 1.00, 0.0, 55.0, 0.0),
@@ -102,34 +101,10 @@ def main() -> int:
                 [len(stroke.points) for stroke in normalized],
                 f"Optical normalization changed point topology for {character}")
 
-    su_source = USER_HANDWRITING_REFINED["す"]
-    require(hashlib.sha256(repr(su_source).encode("utf-8")).hexdigest() == SU_SOURCE_SHA256,
-            "Reviewed す topology/coordinates/pressure changed")
-    require(len(su_source) == 2 and sum(len(stroke.points) for stroke in su_source) == 20,
-            "Authoritative す source stroke/point count changed")
-    su_transform = HIRAGANA_OPTICAL_TRANSFORMS["す"]
-    require((su_transform.scale_x, su_transform.scale_y, su_transform.dx, su_transform.dy) ==
-            (1.60, 1.04, 59.0, -47.0),
-            f"Unexpected す optical transform: {su_transform}")
-    before_su = transform_strokes(su_source, OpticalTransform(1.04, -15.0, -15.0))
-    after_su = USER_HANDWRITING_OPTICALLY_NORMALIZED["す"]
-    before_bounds = stroke_bounds(before_su)
-    after_bounds = stroke_bounds(after_su)
-    before_span = span(before_bounds)
-    after_span = span(after_bounds)
-    before_center = center(before_bounds)
-    after_center = center(after_bounds)
-    actual_span_ratio = after_span[0] / before_span[0]
-    expected_span_ratio = su_transform.scale_x / 1.04
-    require(abs(actual_span_ratio - expected_span_ratio) <= 0.002,
-            "す horizontal visual span does not match its recorded scale_x: "
-            f"ratio={actual_span_ratio:.6f}, expected={expected_span_ratio:.6f}")
-    require(abs(after_span[1] - before_span[1]) <= 0.01,
-            f"す vertical center-line span changed: {before_span[1]} -> {after_span[1]}")
-    require(78.0 <= after_center[0] - before_center[0] <= 85.0,
-            f"す optical center did not receive the reviewed slight right shift: {before_center[0]} -> {after_center[0]}")
-    require(abs((after_center[1] - before_center[1]) - (-32.0)) <= 0.01,
-            f"す optical center did not receive the reviewed 32-unit downward shift: {before_center[1]} -> {after_center[1]}")
+    from verify_hiragana_master_v2 import verify_sources
+    verify_sources("す")
+    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["す"] == USER_HANDWRITING_REFINED["す"],
+            "Master-v2 su must preserve its new proportions with identity optical fit")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
             "Han optical transform set differs from the ten reviewed per-glyph records")
@@ -243,7 +218,7 @@ def main() -> int:
         print(f"Japanese optical-alignment verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
 
-    print("PASS: す retains reviewed topology/coordinates with only scoped terminal-pressure repair")
+    print("PASS: す uses master-v2 source and a freshly reviewed identity optical transform")
     print("PASS: ten reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
