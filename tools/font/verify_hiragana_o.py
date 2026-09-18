@@ -32,7 +32,7 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 BASELINE_GIT_PATH = "origin/main:assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_VERSION = "1.024"
-UNCHANGED_SOURCE_SHA256 = "032231e2ce4615fd6ce6045cf11103f1b9efb811812e7fbfc04b4e0e5ec74bd5"
+UNCHANGED_SOURCE_SHA256 = "358de68e2b5f01fbd559b363de6058ae6edc72a7a5fa07babe016e78d7cb21e1"
 
 
 def source_bounds(strokes) -> tuple[float, float, float, float]:
@@ -79,9 +79,9 @@ def main() -> int:
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == source,
             "お identity optical transform changed source geometry")
     unchanged_sources = tuple((character, USER_HANDWRITING_REFINED[character])
-                              for character in MODERN_HIRAGANA_ORDER if character not in "おすう")
+                              for character in MODERN_HIRAGANA_ORDER if character not in "おすうあいさきとり")
     require(hashlib.sha256(repr(unchanged_sources).encode("utf-8")).hexdigest() == UNCHANGED_SOURCE_SHA256,
-            "A large Hiragana source outside the authorized お/す/う repair changed")
+            "A large Hiragana source outside the authorized Version 1.024 repair set changed")
 
     large, small = KANA_STROKES["お"], KANA_STROKES["ぉ"]
     require(len(large) == len(small) == 3, "ぉ does not preserve the new お stroke topology")
@@ -104,12 +104,12 @@ def main() -> int:
                 f"TTF does not report Version {EXPECTED_VERSION}")
         require(signature(ttf, "uni304A") != signature(before, "uni304A"), "Compiled お did not change")
         require(signature(ttf, "uni3049") != signature(before, "uni3049"), "Derived ぉ did not change")
-        for character in "ぁぃぇ":
+        for character in "ぇ":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Control small vowel {character} changed")
             require(ttf["hmtx"].metrics[name] == before["hmtx"].metrics[name],
                     f"Control small vowel {character} metrics changed")
-        for character in "きや":
+        for character in "や":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Accepted {character} topology changed")
         for character in "おぉ":
@@ -138,7 +138,7 @@ def main() -> int:
         return 1
     print("PASS: U+304A uses the repaired three-stroke maintainer-handwritten source")
     print("PASS: U+3049 derives normally at scale 0.72 with shared shift (0,-12), not a yōon offset")
-    print("PASS: non-target small vowels/Hiragana, accepted き/や, and full-width metrics are unchanged")
+    print("PASS: non-target small vowels/Hiragana, accepted や, and full-width metrics are unchanged")
     print(f"お source_bounds={source_bounds(source)} rendered_bounds={large_bounds} advance=960 transform=identity")
     print(f"ぉ rendered_bounds={small_bounds} advance=960 scale=0.72 position=normal-small-kana")
     return 0

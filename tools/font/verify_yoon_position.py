@@ -30,7 +30,7 @@ TARGET_SOURCES = {
 }
 # U+3049 ぉ is intentionally regenerated from the separately authorized new
 # U+304A お in this same revision and is verified by verify_hiragana_o.py.
-NON_YOON_SMALL = "ぁぃぇっゎゕゖァィゥェォッヮヵヶ"
+NON_YOON_SMALL = "ぇっゎゕゖァィゥェォッヮヵヶ"
 BASE_SHIFTS = {"ゃ": (0, -12), "ゅ": (0, -12), "ょ": (0, -12),
                "ャ": (0, -15), "ュ": (0, -15), "ョ": (0, -15)}
 
@@ -120,7 +120,7 @@ def main() -> int:
             return 1
 
         print("PASS: all six accepted yōon glyph outlines/positions are unchanged from origin/main")
-        print("PASS: large sources and non-target small-kana controls are unchanged; authorized ぉ/ぅ are gated separately")
+        print("PASS: large yōon sources and non-target small-kana controls are unchanged; authorized ぁ/ぃ/ぅ/ぉ are gated separately")
         print("PASS: full-width 960-unit advances, safe sidebearings, and TTF/WOFF2 parity are preserved")
         print("character source scale old_dx/dy new_dx/dy bounds advance lsb rsb")
         for character, source in TARGET_SOURCES.items():

@@ -39,7 +39,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `ゃゅょ`／`ャュョ` yōon small kana：Version 1.023 在現有 0.72-scale 建構完成後，只套用六字專用的 x/y optical translation，使 ink 位於各自 full-width glyph cell 的左下區域。960-unit advance、來源大字 `やゆよ／ヤユヨ` topology 與其他小假名完全不變；沒有 ligature、pair-specific kerning、CSS／JavaScript 位移或外部日文字型 outline。
 - `お` U+304A／`ぉ` U+3049：Version 1.023 以維護者新提供的手寫 PNG 為 authoritative structural reference，將 `お` 舊 8-branch source 替換為三筆 clean center-lines：upper cross、tall vertical/open asymmetric lower body、detached upper-right stroke。`ぉ` 由新 `お` 以一般小平假名 0.72 scale 重建，保留 normal small-kana positioning，明確不使用 yōon lower-left offset。圖片只作來源證明，未直接安裝、autotrace 或使用外部日文字型 outline。
 - `壁` U+58C1／`堅` U+5805：Version 1.023 保留官方來源 drawing 與原 advance，只建立分別向上 `45`／`35 units` 的 source-identical optical copy，將視覺重心調至 `y=365`／`354.5`。無重畫、無全域 CJK baseline／ascent／descent／line-metric 修改，也無 CSS／JavaScript workaround。
-- Version 1.024 focused repair：再次直接以維護者 `お` 手寫照片作為骨架原型，保留照片的 tall stem、尖銳左下轉折、寬闊不對稱下部與右上短筆，只由既有 variable-width renderer 統一為辰宇落雁體筆壓／圓角／收筆；`ぉ` 從新版 `お` 走一般 0.72-scale 小假名路徑。`す` 保留兩筆 topology 與既有 placement，只提高原本局部過細的橫筆末端／長尾 taper，不全字加粗；`ず` 自動繼承。新提供的 `う` 手寫圖同樣作為權威 source，重建成兩筆 center-lines，`ぅ` 走一般小假名路徑，`ゔ` 共用新版 base 與原 dakuten。`壁／堅` 的 dy 分別由 `+45／+35 → +97／+55`，兩字 bottom 同為 `-15`。沒有全域平假名字重或 CJK baseline 變更。
+- Version 1.024 focused repair：直接量測維護者黑色手寫外框的比例、筆寬與 medial skeleton，再由既有 variable-width renderer 統一為辰宇落雁體筆壓／圓角／收筆。除重修 `お`、局部調和 `す`、新 `う` 外，同版以新 reference sheets 明確替換 `あ／い／さ／き／と／り`；新版 `き` 明確 supersede Version 1.021。`ぁ／ぃ／ぅ／ぉ` 走一般 0.72-scale 小假名路徑，`ざ／ぎ／ど／ず／ゔ` 繼承新版 base 與既有 dakuten；只有 `ゃゅょ／ャュョ` 使用 yōon lower-left offset。`壁／堅` 的 dy 分別由 `+45／+35 → +97／+55`，兩字 bottom 同為 `-15`。沒有全域平假名字重、CJK baseline 或外部日文字型 outline 變更。
 
 第一版的 `¿` 是未做視覺校正的機械旋轉，第一版 cedilla 則只是將逗號向下移，因此分別有句首高度偏高、點距僵硬，以及 cedilla 偏小、像黏上的逗號等問題。現在的建置腳本把 optical correction 寫成固定 font-unit 參數，可從官方原始 TTF 重現；自動測試會檢查留白、中心、間距、碰撞與裁切，但筆勢是否自然仍需配合多尺寸 proof 人工判斷。
 
@@ -401,5 +401,6 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 - `ぉ` 從新版 normalized `お` 以 0.72 scale／shared `(0,-12)` 重建，仍不使用 yōon offset。
 - `す` 保留既有兩筆 points 與 optical transform，只將 crossbar end `27 → 32`、main tail `22 → 33`，避免局部過細又不使全字過粗；大平假名共同 ×1.10 weight layer 未改。`ず` 共用新版 `す` 與原 dakuten component placement。
 - `う` 依維護者新手寫圖重建為 `[4,10]` 的兩筆 center-lines，保留 compact upper mark、長弧形下行主筆與自然不對稱；`ぅ` 從新版 normalized `う` 以 0.72 scale／shared `(0,-12)` 重建，不使用 yōon offset；`ゔ` 以新版 `う` identity base 加原 `uni3099`，只讓 bounds-derived dakuten x anchor 隨新形狀由 618 調至 632。
+- `あ／い／さ／き／と／り` 直接以新維護者 reference sheets 的黑色外框作幾何依據，量測外框後建立乾淨 center-lines，再由 renderer 套用專案筆觸。`あ／い／さ／き／と／り` 分別為 3／2／3／4／2／2 strokes，皆使用 identity optical transform；新版 `き` 明確取代 Version 1.021。`ぁ／ぃ` 是普通小假名衍生，`ざ／ぎ／ど` 共用原 dakuten，`きゃ／きゅ／きょ`、`ぎゃ／ぎゅ／ぎょ`、`りゃ／りゅ／りょ` 保留兩個獨立 full-width Unicode cells。
 - `壁／堅` 保留原 drawing、advance 與 x placement，只將 dy `+45／+35 → +97／+55`；final bounds `(90,-15,796,849)`／`(84,-15,742,764)`，bottom 對齊。沒有全域 CJK baseline／line metrics 變更。
-- Proof：`tools/font/proofs/quanfangwei-hiragana-o-proof.png`、`quanfangwei-hiragana-su-proof.png`、`quanfangwei-hiragana-u-proof.png`、`quanfangwei-cjk-vertical-alignment-proof.png`。
+- Proof：`tools/font/proofs/quanfangwei-hiragana-o-proof.png`、`quanfangwei-hiragana-su-proof.png`、`quanfangwei-hiragana-u-proof.png`、`quanfangwei-hiragana-maintainer-batch-proof.png`、`quanfangwei-cjk-vertical-alignment-proof.png`。

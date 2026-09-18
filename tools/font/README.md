@@ -46,6 +46,8 @@ python tools/font/verify_oku_optical_alignment.py
 - `references/U+3084-ya-maintainer-handwritten.png`：Version 1.022 維護者新提供的 `や` 結構參考；不直接作為 filled outline 安裝。
 - `references/U+304A-o-maintainer-handwritten.png`：Version 1.023 維護者新提供的 `お` 結構與比例權威參考；僅作 provenance，不直接安裝、autotrace 或轉成 filled outline。
 - `references/U+3046-u-maintainer-handwritten.png`：Version 1.024 維護者新提供的 `う` 結構與比例權威參考；僅作 provenance，final outline 仍由 project-local center-lines 與既有 renderer 產生。
+- `references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png`：Version 1.024 維護者 `あ／い／さ／き` 權威 reference sheet；黑色外框用於量測比例、筆寬與 medial skeleton，不直接安裝 bitmap contour。
+- `references/U+3068-U+308A-maintainer-handwritten.png`：Version 1.024 維護者 `と／り` 權威 reference sheet；使用相同 center-line → renderer 流程。
 - `build_supplement_font.py`：建立 TTF、WOFF2、OFL 與修改紀錄。
 - `verify_supplement_font.py`：驗證 cmap、glyph、metadata、授權與來源保存。
 - `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
@@ -60,6 +62,8 @@ python tools/font/verify_oku_optical_alignment.py
 - `verify_hiragana_su.py`：驗證 `す` 只作局部 pressure repair、兩筆 center-line／optical placement 不變、`ず` 繼承新版 base 且 dakuten transform 不變。
 - `render_u_proof.py`：並列 maintainer reference、origin/main 舊 `う` 與 Version 1.024 `う／ぅ／ゔ`，並顯示 glyph cells、自然文字與 voiced-vowel sequences。
 - `verify_hiragana_u.py`：驗證 `う` 權威兩筆 source、`ぅ` 一般 0.72-scale 衍生、無 yōon offset、`ゔ` bounds-derived dakuten placement、控制字不變與 TTF／WOFF2 一致。
+- `render_hiragana_maintainer_batch_proof.py`：並列兩張新 reference sheets、origin/main 舊字與新版 `あ／い／さ／き／と／り`，並顯示衍生字、yōon 組合、五十音 family rows 與自然文字。
+- `verify_hiragana_maintainer_batch.py`：驗證六個新 source topology／bounds、identity transforms、`ぁ／ぃ` 普通小假名、`ざ／ぎ／ど` composite、`き／り` yōon composition、非 target source 不變及 TTF／WOFF2 parity。
 - `render_cjk_vertical_alignment_proof.py`：產生 `壁／堅` 個別 glyph box 與日文／中文完整行文字 before/after proof。
 - `verify_cjk_vertical_alignment.py`：驗證 `壁／堅` 只作 `dy +97／+55` source-identical translation，advance、x 位置、topology、全域 line metrics 與 control Han 不變，TTF／WOFF2 一致且無 clipping。
 - `analyze_glyphs.py`：列出 TTF／WOFF2 指定 cmap、advance、bounds、components、glyph count 與 cedilla anchors。
@@ -93,7 +97,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 - `ゃゅょ`／`ャュョ`：Version 1.023 保留現有 0.72-scale construction 與 source topology，只在 scaling 後以 `YOON_SMALL_KANA_OFFSETS` 逐字向左下移動。六字仍各佔獨立 960-unit advance cell；沒有 ligature、kerning pair、negative advance、CSS／JS workaround 或外部日文 outline。`やゆよ`／`ヤユヨ` 與其他小假名不變。
 - `お`／`ぉ`：Version 1.023 另以 maintainer 新手寫 PNG 明確授權替換 U+304A 舊 8-branch topology，重建為 upper cross、連續 tall vertical/open lower body、detached right mark 三筆 center-lines。U+3049 由新 normalized `お` 以 0.72 scale 及 shared `(0,-12)` 重建，不屬於 yōon，不套用 `YOON_SMALL_KANA_OFFSETS`。
 - `壁`／`堅`：Version 1.023 將官方來源輪廓以 identity scale 複製到獨立 `.qfwJaOptical` glyph，只套用 `dy +45／+35`。兩字的 source drawing、topology、x placement、advance 不變；沒有 global CJK baseline／line metrics 或 CSS／JS 位移。
-- Version 1.024 repair：`お` 直接依維護者照片 center-line 比例重修，再由既有 renderer 套用辰宇落雁體筆壓語言；`ぉ` 正常衍生。`す` 僅提高過細的末端 taper，非整體加粗或 global weight 修改；`ず` 自動繼承。`う` 依新維護者手寫圖重建為兩筆 source，`ぅ` 走一般小假名路徑，`ゔ` 使用新版 base 與原 dakuten。`壁／堅` dy 改為 +97／+55，使 bottom 同為 -15。
+- Version 1.024 repair：`お` 直接依維護者照片重修；`す` 僅調和末端 taper；`う／あ／い／さ／き／と／り` 以新維護者黑色外框作權威幾何原型，量測後建立 center-lines，再由既有 renderer 套用辰宇落雁體筆壓。新版 `き` supersede 1.021；`ぁ／ぃ／ぅ／ぉ` 保持普通小假名路徑，`ざ／ぎ／ど／ず／ゔ` 繼承 base。`壁／堅` dy 改為 +97／+55，使 bottom 同為 -15；沒有全域 weight／baseline 修改。
 - `OE`：U+0152 LATIN CAPITAL LIGATURE OE，Version 1.021 新增。只組合官方來源中未修改的大寫 `O`／`E` identity components，保持原生 cap-height、stroke weight 與 baseline；`E` 依實測 `O` ink width 的 10% 向左 tuck，並以 final ink xMax 加來源 `E` right side bearing 決定 advance。
 - `oe`：U+0153 LATIN SMALL LIGATURE OE，同版新增。只組合未修改的小寫 `o`／`e` identity components，以相同 bounds-derived 規則形成緊湊連字。`Œ`／`œ` 都是衍生版的法文補寫字元，不是原始辰宇落雁體既有字形；未載入或複製外部 outline，也未用 CSS／JavaScript 改寫 `Œuvre` 或 `cœur`。
 - `questiondown`：第一版是將原字型 `question` 機械式旋轉 180°。本次仍以該輪廓為唯一來源，但旋轉後平移 +3 x／-12 y font units，並將圓點再下移 8 units；這讓上端落在 cap height 內、底部接近其他句首符號，並把點與主筆間距由機械鏡射調成 60 units。原始 `question` 未修改，advance width 仍為 312。

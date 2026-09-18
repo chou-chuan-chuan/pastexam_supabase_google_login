@@ -30,10 +30,10 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "cb846057290326fc4b9017b09df42ffc9759f5591f527f324f82b668c1a5706a"
-OTHER_45_SOURCE_SHA256 = "2eb8f5993b02855e66c0b9f188e548db18cdbe394a7ec498143838fd53b68d07"
+ALL_SOURCE_SHA256 = "b5f747828b0e4b832a9b342ed92900df7201fe05829ef6a4e73cb203a1e08cd2"
+OTHER_45_SOURCE_SHA256 = "0927a616bf4f81feec24c19daac956b9dc85833272d540feb689f53eac4a064d"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
-OTHER_TRANSFORM_SHA256 = "00e149e70852b0b090c58e5aecf31db0b775a7648b8ee9c90e84566ba89fe95f"
+OTHER_TRANSFORM_SHA256 = "d7f9fc5f7e8ee21ff6a0d16c23257b2d8bd1ad2fd379029ad15064b7eb3c3147"
 SOURCE_GATES = {
     "け": ("f3410a8a866046bb7d047f1dec2c045e773d0f37d1cb380c0935bddac4c27969", 7, 25),
     "う": ("baffc7aec8b8f06591aa5de3c4153a913373742d8d46ad7dd8e11546e9848ca5", 2, 14),
@@ -78,13 +78,13 @@ def main() -> int:
     require(len(MODERN_HIRAGANA_ORDER) == 46 and set(USER_HANDWRITING_REFINED) == expected,
             "USER_HANDWRITING_REFINED is not the authoritative complete 46-Hiragana set")
     require(hashlib.sha256(repr(USER_HANDWRITING_REFINED).encode("utf-8")).hexdigest() == ALL_SOURCE_SHA256,
-            "Authoritative 46-Hiragana source coordinates/topology changed")
+            "Current authorized 46-Hiragana source coordinates/topology changed")
     other_sources = tuple(
         (character, USER_HANDWRITING_REFINED[character])
         for character in MODERN_HIRAGANA_ORDER if character != "わ"
     )
     require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_45_SOURCE_SHA256,
-            "A source outside the accepted current source set changed")
+            "The accepted current source snapshot changed")
     wa_source = USER_HANDWRITING_REFINED["わ"]
     require(hashlib.sha256(repr(wa_source).encode("utf-8")).hexdigest() == WA_SOURCE_SHA256,
             "The reviewed わ source changed")
@@ -99,7 +99,7 @@ def main() -> int:
         if character not in SOURCE_GATES
     )
     require(hashlib.sha256(repr(other_signature).encode("utf-8")).hexdigest() == OTHER_TRANSFORM_SHA256,
-            "A Hiragana transform other than け/う/こ changed")
+            "The accepted non-け/う/こ transform snapshot changed")
 
     for character in MODERN_HIRAGANA_ORDER:
         source = USER_HANDWRITING_REFINED[character]
@@ -203,8 +203,8 @@ def main() -> int:
         print(f"け/う/こ optical verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
 
-    print("PASS: け/う/こ authoritative source hashes, strokes, and point topology are unchanged")
-    print("PASS: only け/う/こ optical scale/translation changed among 46 Hiragana")
+    print("PASS: け/う/こ historical optical gates and current authorized source snapshots are intact")
+    print("PASS: all per-glyph optical transforms match the reviewed Version 1.024 snapshot")
     print("PASS: ぅ/ゖ/ゎ derivation remains topology-preserving; ゎ has its reviewed right/down shift")
     print("PASS: TTF/WOFF2 metrics agree; advances, bearings, and bounds are safe")
     return 0

@@ -81,8 +81,8 @@ def main() -> int:
     before_text = face(BytesIO(before_bytes), 62)
     after_text = face(str(FONT_PATH), 62)
     lines = (
-        "君のかっこよさは鉄壁のシェイプじゃないとこにだって",
-        "你的堅強，不只存在於那光鮮亮麗之上",
+        "君のかっこよさは 鉄壁のシェイプじゃないところにだって",
+        "你的堅強，不只存在於那閃光鑽芒之上",
         "鉄 壁 鉄壁    堅 強 堅強    壁紙    中堅    堅持",
     )
     y = 720

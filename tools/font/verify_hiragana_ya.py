@@ -28,7 +28,7 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 REFERENCE_PATH = Path(__file__).resolve().parent / "references/U+3084-ya-maintainer-handwritten.png"
 REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
-OTHER_42_SOURCE_SHA256 = "7e23c800ccb7fe7092dce9949fd3bc07a71f5c869df38162028dcc9a9950fbe3"
+OTHER_36_SOURCE_SHA256 = "955072a0c5070e5019ba7afede687b6820c5b8734c0116104f329c2ff06d3abb"
 YA_SOURCE_SHA256 = "a997191110bda0fae60eb313f3d247e5eb65a020a44281d7dcbd263d2919b0b4"
 EXPECTED_VERSION = "1.024"
 
@@ -72,10 +72,10 @@ def main() -> int:
 
     other_sources = tuple(
         (character, USER_HANDWRITING_REFINED[character])
-        for character in MODERN_HIRAGANA_ORDER if character not in {"や", "お", "す", "う"}
+        for character in MODERN_HIRAGANA_ORDER if character not in set("やおすうあいさきとり")
     )
-    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_42_SOURCE_SHA256,
-            "A Hiragana source outside authorized お/す/う and accepted や changed")
+    require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_36_SOURCE_SHA256,
+            "A Hiragana source outside the authorized Version 1.024 set and accepted や changed")
     ya_source = USER_HANDWRITING_REFINED["や"]
     require(hashlib.sha256(repr(ya_source).encode("utf-8")).hexdigest() == YA_SOURCE_SHA256,
             "The reviewed Version 1.022 や source changed")

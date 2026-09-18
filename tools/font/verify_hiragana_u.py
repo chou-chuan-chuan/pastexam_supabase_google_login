@@ -111,9 +111,7 @@ def main() -> int:
                 before_components[1][1][5] == after_components[1][1][5] == -125 and
                 after_components[1][1][4] == 632,
                 f"ゔ dakuten anchor is not the reviewed bounds-derived placement: {after_components[1]}")
-        for character in "あいえおきやす":
-            if character in "おす":
-                continue
+        for character in "えや":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Control Hiragana {character} changed")
         u_bounds, small_bounds, vu_bounds = (bounds(ttf, f"uni{ord(c):04X}") for c in "うぅゔ")

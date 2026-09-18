@@ -11,7 +11,10 @@ Its three clean center-lines now follow the photographed proportions more
 closely: a rising upper cross, tall organic main stroke with a pointed left
 turn into a broad asymmetric lower body, and a detached right mark.
 The same revision explicitly replaces U+3046 う from a new maintainer photo
-with a compact upper mark and one long asymmetric descending main stroke.
+with a compact upper mark and one long asymmetric descending main stroke. It
+also replaces U+3042 あ, U+3044 い, U+3055 さ, U+304D き, U+3068 と, and
+U+308A り from two newly supplied maintainer-owned reference sheets. The new
+U+304D source explicitly supersedes the Version 1.021 revision.
 The SVG filled outlines are NOT installed directly.  They are reduced to
 project-local center-line branches, optically normalized, and rendered through
 the existing variable-width handwriting stroke engine so Japanese kana shares
@@ -29,22 +32,25 @@ def S(*points, width=46, start=None, end=None, cap="round") -> Stroke:
 
 USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
     'あ': (
-        S((449.2, 336.2), (449.2, 282.4), width=48.4, start=44.5, end=33.9),
-        S((363.4, 597.3), (345.8, 587.0), (286.4, 581.9), (246.8, 592.2), width=48.4, start=44.5, end=33.9),
-        S((451.4, 279.8), (482.2, 228.6), (504.2, 215.8), width=48.4, start=44.5, end=33.9),
-        S((499.8, 548.6), (504.2, 487.2), width=48.4, start=44.5, end=33.9),
-        S((374.4, 594.7), (387.6, 474.4), width=48.4, start=44.5, end=33.9),
-        S((394.2, 471.8), (403.0, 461.6), (409.6, 395.0), (427.2, 354.1), (447.0, 338.7), width=48.4, start=44.5, end=33.9),
-        S((506.4, 484.6), (576.8, 474.4), (631.8, 443.7), (689.0, 377.1), (713.2, 320.8), (713.2, 277.3), (702.2, 218.4), (693.4, 197.9), (673.6, 182.6), width=48.4, start=44.5, end=33.9),
-        S((557.0, 640.8), (546.0, 615.2), (376.6, 597.3), width=48.4, start=44.5, end=33.9),
-        S((499.8, 482.1), (493.2, 387.4), (471.2, 349.0), (451.4, 338.7), width=48.4, start=44.5, end=33.9),
-        S((350.2, 817.4), (359.0, 789.3), (365.6, 599.8), width=48.4, start=44.5, end=33.9),
-        S((387.6, 471.8), (330.4, 451.4), (275.4, 400.2), (266.6, 369.4), (275.4, 261.9), (286.4, 241.4), (326.0, 221.0), (409.6, 254.2), (447.0, 279.8), width=48.4, start=44.5, end=33.9),
-        S((497.6, 484.6), (409.6, 487.2), (394.2, 471.8), width=48.4, start=44.5, end=33.9),
+        # Version 1.024: three clean center-lines inferred from the maintainer's
+        # new あ sample, preserving its open lower body and strong asymmetry.
+        S((265.0, 675.0), (405.0, 675.0), (575.0, 710.0), width=46.0, start=42.0, end=32.0),
+        S((415.0, 835.0), (405.0, 680.0), (395.0, 500.0), (405.0, 300.0),
+          width=48.0, start=44.0, end=32.0),
+        S((540.0, 610.0), (545.0, 535.0), (500.0, 455.0), (435.0, 385.0),
+          (345.0, 300.0), (275.0, 285.0), (230.0, 330.0), (235.0, 405.0),
+          (275.0, 465.0), (345.0, 500.0), (430.0, 510.0), (535.0, 490.0),
+          (650.0, 450.0), (720.0, 385.0), (730.0, 300.0), (690.0, 235.0),
+          (590.0, 180.0), width=48.0, start=44.0, end=31.0),
     ),
     'い': (
-        S((629.6, 651.0), (675.8, 605.0), (708.8, 523.0), (708.8, 387.4), (684.6, 310.6), width=44.0, start=40.5, end=30.8),
-        S((251.2, 689.4), (275.4, 640.8), (275.4, 553.8), (295.2, 456.5), (323.8, 369.4), (352.4, 328.5), (385.4, 310.6), (416.2, 318.2), (469.0, 392.5), (508.6, 484.6), width=44.0, start=40.5, end=30.8),
+        # Version 1.024: authoritative two-stroke sample with an organic hooked
+        # left terminal and shorter outward-leaning right stroke.
+        S((305.0, 760.0), (305.0, 645.0), (310.0, 525.0), (335.0, 405.0),
+          (375.0, 300.0), (415.0, 250.0), (440.0, 390.0),
+          width=44.0, start=40.0, end=31.0),
+        S((585.0, 735.0), (620.0, 690.0), (655.0, 610.0), (680.0, 510.0),
+          (695.0, 390.0), width=43.0, start=39.0, end=30.0),
     ),
     'う': (
         # Version 1.024: authoritative maintainer handwriting. Center-lines
@@ -86,14 +92,15 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((287.5, 544.8), (280.9, 491.0), (250.1, 429.6), (214.9, 304.2), width=50.0, start=46.0, end=35.0),
     ),
     'き': (
-        # Version 1.021: authoritative maintainer handwriting. The reference
-        # has two rising crossbars, one long descending diagonal, and a
-        # detached lower hook-to-horizontal stroke. The raster supplies only
-        # structure/proportion; these are clean project-local center-lines.
-        S((250.0, 640.0), (355.0, 675.0), (470.0, 725.0), (610.0, 785.0), width=49.2, start=45.3, end=34.4),
-        S((270.0, 480.0), (390.0, 520.0), (515.0, 570.0), (660.0, 625.0), width=49.2, start=45.3, end=34.4),
-        S((320.0, 840.0), (350.0, 805.0), (398.0, 710.0), (445.0, 610.0), (485.0, 505.0), (525.0, 390.0), width=49.2, start=45.3, end=34.4),
-        S((325.0, 355.0), (285.0, 320.0), (270.0, 275.0), (305.0, 225.0), (375.0, 195.0), (520.0, 195.0), (695.0, 205.0), width=49.2, start=45.3, end=34.4),
+        # Version 1.024: the maintainer's latest き explicitly supersedes the
+        # Version 1.021 source. Preserve the two bars, diagonal, and detached
+        # lower curve visible in the new sample.
+        S((245.0, 650.0), (405.0, 680.0), (610.0, 735.0), width=45.0, start=41.0, end=32.0),
+        S((300.0, 490.0), (455.0, 535.0), (675.0, 585.0), width=45.0, start=41.0, end=32.0),
+        S((395.0, 830.0), (430.0, 720.0), (470.0, 595.0), (515.0, 470.0),
+          (585.0, 335.0), width=47.0, start=43.0, end=32.0),
+        S((240.0, 300.0), (245.0, 245.0), (285.0, 205.0), (365.0, 180.0),
+          (485.0, 175.0), (665.0, 180.0), width=45.0, start=41.0, end=31.0),
     ),
     'く': (
         S((573.5, 712.5), (624.1, 692.0), width=50.0, start=46.0, end=35.0),
@@ -118,15 +125,13 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((288.6, 445.0), (260.0, 401.4), (262.2, 324.6), (321.6, 260.6), (374.4, 242.7), (455.8, 242.7), (510.8, 255.5), (700.0, 329.8), width=42.0, start=38.6, end=29.4),
     ),
     'さ': (
-        S((658.2, 238.9), (671.4, 228.6), width=45.1, start=39.7, end=39.7),
-        S((572.4, 686.9), (464.6, 658.7), width=45.1, start=41.5, end=31.6),
-        S((535.0, 448.8), (521.8, 438.6), (477.8, 433.4), width=45.1, start=41.5, end=31.6),
-        S((387.6, 794.4), (416.2, 763.7), (438.2, 671.5), width=45.1, start=41.5, end=31.6),
-        S((416.2, 428.3), (389.8, 446.2), (356.8, 438.6), (343.6, 413.0), (345.8, 361.8), (378.8, 292.6), (438.2, 228.6), (504.2, 205.6), (583.4, 205.6), (656.0, 236.3), width=45.1, start=41.5, end=31.6),
-        S((440.4, 669.0), (462.4, 658.7), width=45.1, start=41.5, end=31.6),
-        S((537.2, 448.8), (565.8, 436.0), width=45.1, start=41.5, end=31.6),
-        S((464.6, 656.2), (473.4, 612.6), (526.2, 494.9), (535.0, 451.4), width=45.1, start=41.5, end=31.6),
-        S((438.2, 669.0), (411.8, 656.2), (288.6, 656.2), width=45.1, start=41.5, end=31.6),
+        # Version 1.024: three-stroke handwritten さ with a loose rising bar,
+        # long crossing diagonal, and clearly detached open lower curve.
+        S((235.0, 610.0), (390.0, 645.0), (615.0, 705.0), width=45.0, start=41.0, end=31.0),
+        S((385.0, 820.0), (430.0, 700.0), (485.0, 570.0), (555.0, 430.0),
+          (635.0, 315.0), width=46.0, start=42.0, end=31.0),
+        S((285.0, 300.0), (280.0, 245.0), (320.0, 205.0), (395.0, 180.0),
+          (500.0, 175.0), (615.0, 185.0), width=44.0, start=40.0, end=30.0),
     ),
     'し': (
         S((279.8, 762.4), (275.4, 741.9), (343.6, 424.5), (398.6, 299.0), (447.0, 242.7), (488.8, 237.6), (537.2, 265.8), (642.8, 368.2), (684.6, 445.0), (680.2, 475.7), (658.2, 496.2), width=50.0, start=46.0, end=35.0),
@@ -209,10 +214,12 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((684.6, 754.7), (587.8, 721.4), width=49.2, start=45.3, end=34.4),
     ),
     'と': (
-        S((421.7, 534.6), (386.5, 447.5), (377.7, 368.2), (401.9, 311.8), (434.9, 281.1), (481.1, 268.3), (597.7, 273.4), (729.7, 304.2), width=45.3, start=41.7, end=31.7),
-        S((423.9, 534.6), (456.9, 506.4), width=45.3, start=41.7, end=31.7),
-        S((547.1, 731.7), (509.7, 670.2), (465.7, 621.6), (423.9, 542.2), width=45.3, start=41.7, end=31.7),
-        S((230.3, 677.9), (368.9, 565.3), (421.7, 542.2), width=45.3, start=41.7, end=31.7),
+        # Version 1.024: two clean strokes from the new maintainer sample. The
+        # second folds through the upper join into a light, open lower bowl.
+        S((250.0, 820.0), (405.0, 650.0), width=45.0, start=41.0, end=32.0),
+        S((705.0, 795.0), (590.0, 720.0), (455.0, 640.0), (345.0, 555.0),
+          (295.0, 465.0), (295.0, 380.0), (345.0, 335.0), (485.0, 305.0),
+          (690.0, 315.0), width=46.0, start=42.0, end=31.0),
     ),
     'な': (
         S((577.9, 328.5), (617.5, 313.1), (729.7, 205.6), width=44.9, start=41.3, end=31.4),
@@ -412,12 +419,13 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((404.1, 779.0), (421.7, 779.0), (531.7, 697.1), width=48.4, start=44.5, end=33.9),
     ),
     'り': (
-        S((330.0, 800.0), (315.0, 665.0), (320.0, 540.0), (355.0, 455.0),
-          width=43.0, start=39.0, end=29.0),
-        # Version 1.012: longer, clearer descending tail based on the maintainer reference.
-        S((600.0, 825.0), (615.0, 690.0), (620.0, 545.0), (610.0, 410.0),
-          (585.0, 295.0), (555.0, 215.0), (520.0, 160.0), (480.0, 125.0),
-          width=45.0, start=41.0, end=22.0),
+        # Version 1.024: authoritative two-stroke rhythm. The short left stroke
+        # ends with a compact hook; the longer right stroke falls organically.
+        S((320.0, 820.0), (305.0, 680.0), (300.0, 545.0), (305.0, 430.0),
+          (330.0, 480.0), width=43.0, start=39.0, end=30.0),
+        S((590.0, 800.0), (605.0, 690.0), (615.0, 560.0), (605.0, 435.0),
+          (575.0, 315.0), (535.0, 230.0), (475.0, 170.0),
+          width=45.0, start=41.0, end=29.0),
     ),
     'る': (
         S((420.6, 560.2), (524.0, 573.0), (570.2, 549.9), (614.2, 498.7), (640.6, 445.0), (640.6, 375.8), (625.2, 357.9), width=44.0, start=40.5, end=30.8),

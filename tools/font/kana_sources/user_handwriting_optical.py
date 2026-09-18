@@ -66,7 +66,7 @@ def transform_strokes(
 # Every accepted modern Hiragana is listed so this file doubles as the optical
 # review record. Identity entries were reviewed and intentionally retained.
 HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
-    "あ": OpticalTransform(0.98),
+    "あ": OpticalTransform(),
     "い": OpticalTransform(),
     # Version 1.024: the new two-stroke maintainer source remains within the
     # previously reviewed う optical body; retain its scoped normalization.
@@ -78,7 +78,7 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "か": OpticalTransform(),
     # Version 1.021: keep the reviewed 0.96 size and move the new four-stroke
     # source 24 units right to balance its visual weight in mixed kana text.
-    "き": OpticalTransform(0.96, 24.0, 0.0),
+    "き": OpticalTransform(),
     "く": OpticalTransform(),
     # Version 1.016: retain size and move the accepted drawing right/down.
     "け": OpticalTransform(1.0, 28.0, -26.0, scale_x=1.06, scale_y=1.0),
@@ -118,7 +118,7 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "ゆ": OpticalTransform(),
     "よ": OpticalTransform(1.04),
     "ら": OpticalTransform(1.05),
-    "り": OpticalTransform(0.97, 12.5, 25.0),
+    "り": OpticalTransform(),
     "る": OpticalTransform(1.14),
     "れ": OpticalTransform(0.95),
     "ろ": OpticalTransform(1.10),

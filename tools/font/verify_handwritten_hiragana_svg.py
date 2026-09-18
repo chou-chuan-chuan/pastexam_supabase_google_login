@@ -37,18 +37,22 @@ KI_REFERENCE_PATH = REFERENCE_DIR / "U+304D-ki-maintainer-handwritten.png"
 YA_REFERENCE_PATH = REFERENCE_DIR / "U+3084-ya-maintainer-handwritten.png"
 O_REFERENCE_PATH = REFERENCE_DIR / "U+304A-o-maintainer-handwritten.png"
 U_REFERENCE_PATH = REFERENCE_DIR / "U+3046-u-maintainer-handwritten.png"
+BATCH_REFERENCE_PATH = REFERENCE_DIR / "U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png"
+TO_RI_REFERENCE_PATH = REFERENCE_DIR / "U+3068-U+308A-maintainer-handwritten.png"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
 EXPECTED_FONT_VERSION = "1.024"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
-EXPECTED_KI_SOURCE_SHA256 = "08c489c59ffdd4377eb91f09b31518a2d920f72f64945ae3db9ee8a434599d0f"
+EXPECTED_KI_SOURCE_SHA256 = "f25d29938ff88e948b13131834abfbe25c8e70d1941f96d1b60e8372e29cdccc"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
 EXPECTED_O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
 EXPECTED_O_SOURCE_SHA256 = "bd3422f862de71d35f0de97ea2eded6a836431a6ea75163a27d264ef0e880524"
 EXPECTED_U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
 EXPECTED_U_SOURCE_SHA256 = "baffc7aec8b8f06591aa5de3c4153a913373742d8d46ad7dd8e11546e9848ca5"
+EXPECTED_BATCH_REFERENCE_SHA256 = "fddcbc948566f1b6f153932477aed5dc21a466d9608be94019692594c90e18c0"
+EXPECTED_TO_RI_REFERENCE_SHA256 = "ebfbc29d18c44bef9523236e0f4997d239c0442579918f312440e8e225558063"
 KANA_ADVANCE = 960
 
 
@@ -89,7 +93,8 @@ def main() -> int:
             errors.append(message)
 
     for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, KI_REFERENCE_PATH,
-                 YA_REFERENCE_PATH, O_REFERENCE_PATH, U_REFERENCE_PATH, FONT_PATH):
+                 YA_REFERENCE_PATH, O_REFERENCE_PATH, U_REFERENCE_PATH,
+                 BATCH_REFERENCE_PATH, TO_RI_REFERENCE_PATH, FONT_PATH):
         require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
@@ -106,6 +111,10 @@ def main() -> int:
             "The Version 1.023 maintainer-handwritten お reference image hash changed")
     require(sha256(U_REFERENCE_PATH) == EXPECTED_U_REFERENCE_SHA256,
             "The Version 1.024 maintainer-handwritten う reference image hash changed")
+    require(sha256(BATCH_REFERENCE_PATH) == EXPECTED_BATCH_REFERENCE_SHA256,
+            "The Version 1.024 あ/い/さ/き reference sheet hash changed")
+    require(sha256(TO_RI_REFERENCE_PATH) == EXPECTED_TO_RI_REFERENCE_SHA256,
+            "The Version 1.024 と/り reference sheet hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     require(manifest.get("font_version") == EXPECTED_REFERENCE_VERSION,
             f"Template manifest version is not {EXPECTED_REFERENCE_VERSION}")
@@ -152,9 +161,9 @@ def main() -> int:
             "き and さ refined sources unexpectedly became identical")
     ki_source = USER_HANDWRITING_REFINED["き"]
     require(hashlib.sha256(repr(ki_source).encode("utf-8")).hexdigest() == EXPECTED_KI_SOURCE_SHA256,
-            "Version 1.021 authoritative き center-line source changed")
-    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [4, 4, 6, 7],
-            "Version 1.021 き must retain two crossbars, one descending stroke, and one detached lower stroke")
+            "Version 1.024 superseding き center-line source changed")
+    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [3, 3, 5, 6],
+            "Version 1.024 き must retain two crossbars, one diagonal, and one detached lower curve")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
     require(canonical_text_sha256(WA_CENTERLINE_PATH) == EXPECTED_WA_CENTERLINE_SHA256,
@@ -258,7 +267,7 @@ def main() -> int:
 
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
-    print("PASS: Version 1.021 き reference hash and four-stroke center-line topology are authoritative")
+    print("PASS: Version 1.024 き source supersedes Version 1.021 and retains four handwritten strokes")
     print("PASS: Version 1.022 や reference hash and three-stroke center-line topology are authoritative")
     print("PASS: Version 1.024 お repair follows the authoritative reference with three center-line strokes")
     print("PASS: Version 1.024 う reference and two-stroke center-line topology are authoritative")

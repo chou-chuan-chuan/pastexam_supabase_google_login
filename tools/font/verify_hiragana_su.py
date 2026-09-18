@@ -93,7 +93,7 @@ def main() -> int:
             require(signature(ttf, name) == signature(woff2, name), f"TTF/WOFF2 differ for {character}")
             require(ttf["hmtx"].metrics[name] == woff2["hmtx"].metrics[name],
                     f"TTF/WOFF2 metrics differ for {character}")
-        for character in "あきやえか":
+        for character in "やえか":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Control Hiragana {character} changed")
     finally:
