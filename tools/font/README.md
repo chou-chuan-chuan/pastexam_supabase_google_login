@@ -1,6 +1,35 @@
 # 荃方位補寫體建置工具
 
-## Current authority: Version 1.025 — Complete Maintainer Hiragana Master v2
+## Current output: Version 1.026 — Kana–Han mixed-script optical balance
+
+Version 1.025 shapes and per-glyph normalization are accepted and unchanged. The current pipeline is:
+
+`Master v2 source → accepted 1.025 normalization/pressure → one script-wide uniform Han-balance scale → small derivation → lower-left yōon translation → marks/composites`.
+
+- A deterministic 59-character Han sample comes from the six requested mixed lines plus all existing lyric and Chinese/Japanese alignment fixtures. All 46 basic kana in each script form the kana sample.
+- Noto Sans CJK JP / Source Han Sans JP supply **kana/Han ratios only**. QuanFangwei's unchanged Han body supplies absolute size. `HIRAGANA_HAN_BALANCE_SCALE = 0.894078195335`, `KATAKANA_HAN_BALANCE_SCALE = 0.946843040146`.
+- `kana_sources/han_balance.py` uniformly scales coordinates and pressure around the accepted ink-box center. No source-point changes, new per-glyph fits or x/y stretching. All ordinary advances stay 960.
+- The 12 small Hiragana inherit the balanced large base once. Existing small-Katakana construction is retained. Six yōon translations are derived from ink bounds to preserve `(180,24)`.
+- Marks retain their design and receive the base script's scale. Two unmapped Katakana mark variants and a narrowly scoped GSUB `ccmp` mark selection preserve precomposed/decomposed equality. GPOS anchors scale with the accepted base-to-mark gap. No kana ligatures or pair-spacing rules.
+- Iteration marks and `ー` follow the relevant script scale. Other punctuation, all Han (including `壁／堅`), Latin/French/German, CSS/JS and database code are unchanged.
+
+[Current metric report and validation](reports/kana-kanji-scale-balance.md), [32 px mixed proof](proofs/quanfangwei-kana-kanji-scale-balance.png), [20 px](proofs/quanfangwei-kana-kanji-scale-balance-small.png), [64 px](proofs/quanfangwei-kana-kanji-scale-balance-large.png), [same-em cells](proofs/quanfangwei-kana-kanji-same-em.png), [derivatives](proofs/quanfangwei-kana-kanji-derivatives.png).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/render_kana_kanji_balance.py
+python tools/font/verify_kana_kanji_scale_balance.py
+```
+
+The new verifier pins immutable base `e19227dbb31666e8373045a2edeb3456d00bd373`, all accepted source files, exact scalar-reference SHA256, all glyphs, advances, both-script shaping and TTF/WOFF2 parity. Exactly 185 kana/related mapped glyphs may change; two unmapped mark-size variants are added. All 9,344 mapped Han glyphs remain identical. Default verification repeats the canonical build byte-for-byte; `--skip-rebuild` skips only that repeat.
+
+The existing verifier entry points remain supported. The master verifier retains 1.025 provenance gates and checks current output through the new balance verifier. The absolute-metric verifier checks its immutable 1.025 intermediate stage, then the current Han-relative ratios. The pressure verifier retains the accepted 1.025 weight gate and compares current kana to its uniformly scaled raster weight with explicit pixel-quantization tolerance. Source and taper hashes are still exact.
+
+External font binaries are analysis-only, outside the repository. `measure_kana_kanji_balance.py --noto /path/to/NotoSansCJKjp-Regular.otf --source-han /path/to/SourceHanSansJP-Regular.otf` reproduces the scalar snapshot; it is not part of normal builds. No external contours or raster autotracing are used.
+
+The following 1.025 discussion and proof links document the **accepted shape stage**, not 1.026 final optical size. Do not rerun its historical proof renderers over 1.026 output; use the current renderer above. The original absolute-metric targets and reference files are intentionally immutable.
+
+## Retained shape authority: Version 1.025 — Complete Maintainer Hiragana Master v2
 
 All 46 modern basic Hiragana are refreshed from the maintainer's complete Master v2 source set. Both authoritative references are maintainer-owned:
 
@@ -32,9 +61,9 @@ python tools/font/verify_japanese_weight.py
 python tools/font/verify_japanese_optical_alignment.py
 ```
 
-The master verifier uses the immutable base commit `d89ee8b2b5f4c858e5dade853972194892037f93`, not moving `origin/main`. It pins both reference hashes and all 46 reviewed source/recipe hashes, rejects unintended legacy basic sources, compares **every** glyph between old/new/TTF/WOFF2, permits exactly 84 changed outputs (46 bases + 12 small + 26 voiced), independently compares all 46 drawings to reference pixels, and runs a byte-identical canonical rebuild by default. `--skip-rebuild` omits only that last repeat build. Older revision-specific verifier entry points now exercise the shared current contract; their superseded snapshots remain in Git history.
+The 1.025 revision was verified against immutable base `d89ee8b2b5f4c858e5dade853972194892037f93`: exactly 84 dependent outputs changed (46 bases + 12 small + 26 voiced), with all 46 drawings independently checked against reference pixels and a byte-identical rebuild. Those source hashes, normalization records and proofs are retained. Current verifier entry points use the 1.026 scale contract described above, with accepted 1.025 geometry as the shape oracle.
 
-[Complete measurements and validation report](reports/hiragana-master-v2.md). [Source manifest](references/hiragana-master-v2-manifest.json). Current proof files:
+[Complete measurements and validation report](reports/hiragana-master-v2.md). [Source manifest](references/hiragana-master-v2-manifest.json). Historical 1.025 proof files:
 
 - [Complete master row arrangement](proofs/quanfangwei-hiragana-master-v2-proof.png)
 - [Reference / generated font](proofs/quanfangwei-hiragana-master-v2-comparison.png)

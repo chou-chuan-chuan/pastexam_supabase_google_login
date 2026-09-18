@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
+from functools import lru_cache
+
+from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable, buildCoverage, buildLookup, buildSingleSubstSubtable
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
@@ -16,7 +18,9 @@ from kana_sources.full_data import (
     ITERATION_STROKES,
     JAPANESE_MARK_STROKES,
     KANA_STROKES,
+    VERSION_1_025_KANA_STROKES,
 )
+from kana_sources.han_balance import balance_strokes, script_scale, uniform_scale
 
 
 KANA_ADVANCE = 960
@@ -67,11 +71,66 @@ def bounds(font: TTFont, name: str) -> tuple[int, int, int, int]:
     return tuple(round(value) for value in pen.bounds)
 
 
+@lru_cache(maxsize=None)
+def accepted_base_bounds(character):
+    strokes = (VERSION_1_025_KANA_STROKES[character] if character in VERSION_1_025_KANA_STROKES
+               else ITERATION_STROKES[character])
+    glyph = build_stroke_glyph(translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT))
+    glyph.recalcBounds({})
+    return glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax
+
+
 def base_anchor(font: TTFont, name: str) -> tuple[int, int]:
-    x_min, _, x_max, _ = bounds(font, name)
-    dy = next((offset for c,offset in HIRAGANA_MARK_ANCHOR_Y_OFFSETS.items()
-               if name == glyph_name(c)), 0)
-    return (min(835, max(710, x_max + 48)), KANA_BASE_ANCHOR_Y + dy)
+    """Scale the accepted anchor with its base, retaining the reviewed gap."""
+    character = chr(int(name[3:], 16))
+    x0, y0, x1, y1 = accepted_base_bounds(character)
+    cx, cy = (x0+x1)/2, (y0+y1)/2
+    old_x = min(835, max(710, x1 + 48))
+    old_y = KANA_BASE_ANCHOR_Y + HIRAGANA_MARK_ANCHOR_Y_OFFSETS.get(character, 0)
+    factor = script_scale(character)
+    return round(cx + (old_x-cx)*factor), round(cy + (old_y-cy)*factor)
+
+
+def mark_name_for(base: str, kind: str) -> str:
+    name = 'uni309A' if kind == 'handakuten' else 'uni3099'
+    return name + ('.katakana' if 0x30A0 <= ord(base) <= 0x30FF else '')
+
+
+def append_katakana_mark_selection(font):
+    """Contextual mark size only; no ligature, new character, or pair spacing.
+
+    The Unicode combining marks use the Hiragana scale. A ccmp rule selects
+    the identically designed Katakana-size marks after any Katakana base.
+    Precomposed forms reference those same glyphs, giving identical output.
+    Existing GSUB lookups/features remain intact.
+    """
+    gsub = font['GSUB'].table
+    lookups = gsub.LookupList.Lookup
+    mapping = {n: n + '.katakana' for n in ('uni3099', 'uni309A')}
+    single_index = len(lookups)
+    lookups.append(buildLookup([buildSingleSubstSubtable(mapping)]))
+    context = otTables.ChainContextSubst()
+    context.Format = 3
+    context.BacktrackGlyphCount = 1
+    context.BacktrackCoverage = [buildCoverage(
+        [glyph_name(c) for c in (*KANA_STROKES, *ITERATION_STROKES) if 0x30A0 <= ord(c) <= 0x30FF],
+        font.getReverseGlyphMap())]
+    context.InputGlyphCount = 1
+    context.InputCoverage = [buildCoverage(list(mapping), font.getReverseGlyphMap())]
+    context.LookAheadGlyphCount = 0
+    context.LookAheadCoverage = []
+    record = otTables.SubstLookupRecord()
+    record.SequenceIndex = 0
+    record.LookupListIndex = single_index
+    context.SubstCount = 1
+    context.SubstLookupRecord = [record]
+    context_index = len(lookups)
+    lookups.append(buildLookup([context]))
+    gsub.LookupList.LookupCount = len(lookups)
+    for record in gsub.FeatureList.FeatureRecord:
+        if record.FeatureTag == 'ccmp':
+            record.Feature.LookupListIndex.append(context_index)
+            record.Feature.LookupCount = len(record.Feature.LookupListIndex)
 
 
 def composite(font: TTFont, base_name: str, mark_name: str, dx: int, dy: int):
@@ -87,6 +146,8 @@ def append_mark_positioning(font: TTFont, anchors: dict[str, tuple[int, int]]) -
     marks = {
         "uni3099": (0, buildAnchor(*DAKUTEN_ANCHOR)),
         "uni309A": (0, buildAnchor(*HANDAKUTEN_ANCHOR)),
+        "uni3099.katakana": (0, buildAnchor(*DAKUTEN_ANCHOR)),
+        "uni309A.katakana": (0, buildAnchor(*HANDAKUTEN_ANCHOR)),
     }
     bases = {name: {0: buildAnchor(*anchor)} for name, anchor in anchors.items()}
     subtable = buildMarkBasePosSubtable(marks, bases, font.getReverseGlyphMap())
@@ -112,6 +173,8 @@ def append_mark_positioning(font: TTFont, anchors: dict[str, tuple[int, int]]) -
         font["GDEF"].table.GlyphClassDef = classes
     classes.classDefs["uni3099"] = 3
     classes.classDefs["uni309A"] = 3
+    classes.classDefs["uni3099.katakana"] = 3
+    classes.classDefs["uni309A.katakana"] = 3
 
 
 def build_japanese_phase1(font: TTFont) -> dict:
@@ -136,6 +199,8 @@ def build_japanese_phase1(font: TTFont) -> dict:
             continue
         name = glyph_name(character)
         vertical_shift = KANA_VERTICAL_SHIFT if character in ITERATION_STROKES else JAPANESE_MARK_VERTICAL_SHIFT
+        if character in ITERATION_STROKES or character == 'ー':
+            strokes = balance_strokes(character, strokes)
         positioned_strokes = translate_strokes(strokes, dy=vertical_shift)
         install(font, name, build_stroke_glyph(positioned_strokes), KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
@@ -145,10 +210,12 @@ def build_japanese_phase1(font: TTFont) -> dict:
     mark_sources = {"uni3099": DAKUTEN_STROKES, "uni309A": HANDAKUTEN_STROKES}
     for name, strokes in mark_sources.items():
         codepoint = int(name[3:], 16)
-        glyph = build_stroke_glyph(strokes)
+        glyph = build_stroke_glyph(uniform_scale(strokes, script_scale('あ'), DAKUTEN_ANCHOR))
         install(font, name, glyph, 0, vertical_source)
         add_mapping(font, codepoint, name)
         added.append(chr(codepoint))
+        variant = build_stroke_glyph(uniform_scale(strokes, script_scale('ア'), DAKUTEN_ANCHOR))
+        install(font, name + '.katakana', variant, 0, vertical_source)
 
     # Spacing forms share exactly the reviewed combining-mark contours.
     for codepoint, mark_name in ((0x309B, "uni3099"), (0x309C, "uni309A")):
@@ -169,7 +236,7 @@ def build_japanese_phase1(font: TTFont) -> dict:
     for target, (base, mark_kind) in COMPOSITES.items():
         target_name = glyph_name(target)
         base_name = glyph_name(base)
-        mark_name = "uni309A" if mark_kind == "handakuten" else "uni3099"
+        mark_name = mark_name_for(base, mark_kind)
         mark_anchor = HANDAKUTEN_ANCHOR if mark_kind == "handakuten" else DAKUTEN_ANCHOR
         anchor = anchors[base_name]
         delta = (anchor[0] - mark_anchor[0], anchor[1] - mark_anchor[1])
@@ -181,11 +248,12 @@ def build_japanese_phase1(font: TTFont) -> dict:
         target_name, base_name = glyph_name(target), glyph_name(base)
         anchor = anchors[base_name]
         delta = (anchor[0] - DAKUTEN_ANCHOR[0], anchor[1] - DAKUTEN_ANCHOR[1])
-        install(font, target_name, composite(font, base_name, "uni3099", *delta), KANA_ADVANCE, vertical_source)
+        install(font, target_name, composite(font, base_name, mark_name_for(base, 'dakuten'), *delta), KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(target), target_name)
         added.append(target)
 
     append_mark_positioning(font, anchors)
+    append_katakana_mark_selection(font)
     return {
         "added_characters": added,
         "base_anchors": anchors,
