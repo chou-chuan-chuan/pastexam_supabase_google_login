@@ -30,18 +30,18 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "b5f747828b0e4b832a9b342ed92900df7201fe05829ef6a4e73cb203a1e08cd2"
-OTHER_45_SOURCE_SHA256 = "0927a616bf4f81feec24c19daac956b9dc85833272d540feb689f53eac4a064d"
+ALL_SOURCE_SHA256 = "3ce2aa516b857bc6ae51604533657d12ed9c6c5289560b9d839d6c166e11cb7b"
+OTHER_45_SOURCE_SHA256 = "8a4ec080fa4103436be7f6f81f526e64928eac3b7a5fdabe2606597710d94ae6"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
 OTHER_TRANSFORM_SHA256 = "d7f9fc5f7e8ee21ff6a0d16c23257b2d8bd1ad2fd379029ad15064b7eb3c3147"
 SOURCE_GATES = {
     "け": ("f3410a8a866046bb7d047f1dec2c045e773d0f37d1cb380c0935bddac4c27969", 7, 25),
-    "う": ("baffc7aec8b8f06591aa5de3c4153a913373742d8d46ad7dd8e11546e9848ca5", 2, 14),
+    "う": ("c0205b71757b649f92cc05974f5b0dd14d8da48899ebc41e5ce76a599b80df1b", 2, 19),
     "こ": ("89ed94af8fb7665b4c24cc46b7da00ea50bf0db57eb62ff0ab259e4a00644d7b", 4, 19),
 }
 EXPECTED_TRANSFORMS = {
     "け": (1.06, 1.0, 28.0, -26.0),
-    "う": (1.12, 1.08, 0.0, -20.0),
+    "う": (1.0, 1.0, 0.0, 0.0),
     "こ": (1.0, 1.0, 28.0, 0.0),
 }
 
@@ -134,17 +134,12 @@ def main() -> int:
     u_after = stroke_bounds(USER_HANDWRITING_OPTICALLY_NORMALIZED["う"])
     u_before_span = span(u_before)
     u_after_span = span(u_after)
-    require(abs((u_after_span[0] / u_before_span[0]) - 1.12) <= 0.000001,
-            "う horizontal point span does not match scale_x 1.12")
-    require(abs((u_after_span[1] / u_before_span[1]) - 1.08) <= 0.000001,
-            "う vertical point span does not match scale_y 1.08")
-    expected_u_center = (
-        480 + (center(u_before)[0] - 480) * 1.12,
-        500 + (center(u_before)[1] - 500) * 1.08 - 20,
-    )
+    require(u_after_span == u_before_span,
+            "Photo-coordinate う must preserve both axes without additional stretching")
+    expected_u_center = center(u_before)
     require(all(abs(actual - expected) <= 0.000001 for actual, expected in
                 zip(center(u_after), expected_u_center)),
-            "う center does not follow the reviewed center-based scale and -20 y transform")
+            "Photo-coordinate う must retain its uniformly fitted position")
 
     ko_before = stroke_bounds(USER_HANDWRITING_REFINED["こ"])
     ko_after = stroke_bounds(USER_HANDWRITING_OPTICALLY_NORMALIZED["こ"])

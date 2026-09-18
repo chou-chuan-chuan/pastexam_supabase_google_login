@@ -34,16 +34,16 @@ WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplem
 BASELINE_GIT_PATH = "origin/main:assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 TARGETS = "あいさきとり"
 EXPECTED_TOPOLOGY = {
-    "あ": [3, 4, 17], "い": [7, 5], "さ": [3, 5, 6],
-    "き": [3, 3, 5, 6], "と": [2, 9], "り": [5, 7],
+    "あ": [6, 9, 30], "い": [11, 7], "さ": [8, 8, 8],
+    "き": [8, 6, 9, 10], "と": [4, 15], "り": [8, 10],
 }
 EXPECTED_SOURCE_BOUNDS = {
-    "あ": (230.0, 180.0, 730.0, 835.0),
-    "い": (305.0, 250.0, 695.0, 760.0),
-    "さ": (235.0, 175.0, 635.0, 820.0),
-    "き": (240.0, 175.0, 675.0, 830.0),
-    "と": (250.0, 305.0, 705.0, 820.0),
-    "り": (300.0, 170.0, 615.0, 820.0),
+    "あ": (210.526, 185.0, 749.474, 825.0),
+    "い": (155.0, 244.13, 805.0, 765.87),
+    "さ": (274.97, 185.0, 685.03, 825.0),
+    "き": (276.023, 185.0, 683.977, 825.0),
+    "と": (257.944, 205.0, 702.056, 745.0),
+    "り": (348.993, 185.0, 611.007, 825.0),
 }
 AUTHORIZED_SOURCES = set("おすうあいさきとり")
 UNCHANGED_SOURCE_SHA256 = "358de68e2b5f01fbd559b363de6058ae6edc72a7a5fa07babe016e78d7cb21e1"
@@ -91,7 +91,7 @@ def main() -> int:
         source = USER_HANDWRITING_REFINED[character]
         require([len(stroke.points) for stroke in source] == EXPECTED_TOPOLOGY[character],
                 f"Unexpected {character} stroke topology")
-        require(source_bounds(source) == EXPECTED_SOURCE_BOUNDS[character],
+        require(tuple(round(v, 3) for v in source_bounds(source)) == EXPECTED_SOURCE_BOUNDS[character],
                 f"Unexpected {character} source bounds: {source_bounds(source)}")
         transform = HIRAGANA_OPTICAL_TRANSFORMS[character]
         require((transform.scale_x or transform.scale, transform.scale_y or transform.scale,

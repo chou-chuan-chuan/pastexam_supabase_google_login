@@ -69,9 +69,9 @@ def main() -> int:
                 "Maintainer お reference image hash changed")
 
     source = USER_HANDWRITING_REFINED["お"]
-    require(len(source) == 3 and [len(stroke.points) for stroke in source] == [3, 16, 3],
-            "お must retain the outline-derived three-stroke [3, 16, 3] topology")
-    require(source_bounds(source) == (209.0, 190.0, 746.0, 835.0),
+    require(len(source) == 3 and [len(stroke.points) for stroke in source] == [6, 29, 4],
+            "お must retain the photo-coordinate three-stroke [6, 29, 4] topology")
+    require(tuple(round(v, 3) for v in source_bounds(source)) == (188.618, 185.0, 771.382, 825.0),
             f"Unexpected お source bounds: {source_bounds(source)}")
     transform = HIRAGANA_OPTICAL_TRANSFORMS["お"]
     require(transform.scale == 1.0 and transform.dx == 0.0 and transform.dy == 0.0,

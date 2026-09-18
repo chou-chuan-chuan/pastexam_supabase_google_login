@@ -348,7 +348,7 @@
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "Version 1.014 preserves every accepted 1.013 stroke branch and point topology. Version 1.015 widens only U+3059 す in the outer transform layer (scale_x 1.60, scale_y 1.04) and shifts its optical center right and down. Version 1.016 adjusts U+3051/U+3046/U+3053 and explicitly rewrites U+308F わ from the user reference. Version 1.017 preserves those sources and changes only pressure. Version 1.021 explicitly authorizes the first U+304D き topology replacement. Version 1.022 explicitly authorizes the U+3084 や topology replacement. Version 1.023 keeps U+304A お on identity optical transform and adds scoped yōon offsets. Version 1.024 keeps all yōon offsets, repairs お proportions, raises only the previously too-thin す terminal taper values, applies the reviewed U+3046 transform to its new source, and gives the newly supplied あ/い/さ/き/と/り sources identity transforms; the new き explicitly supersedes Version 1.021.",
+      "optical_adjustments": "Version 1.024 photo-fidelity follow-up stores manually sampled paths in original maintainer photo coordinates and uses one uniform fit per glyph. お/あ/い/う/さ/き/と/り all use identity optical transforms, superseding the previous う axis-specific stretch and previous approximations. Ordinary small vowels retain the normal 0.72-scale path, voiced bases retain shared marks, and only ゃゅょ/ャュョ use yoon offsets. All unrelated optical metadata and source topology are unchanged.",
       "status": "verified"
     },
     "katakana": {

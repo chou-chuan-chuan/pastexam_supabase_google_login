@@ -3,3 +3,6 @@ brotli==1.0.9
 Pillow==10.2.0
 uharfbuzz==0.40.1
 skia-pathops==0.8.0.post1
+# Reference-photo fidelity proof and pixel-distance diagnostics (not production).
+numpy==1.26.4
+scipy==1.11.4

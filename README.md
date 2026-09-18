@@ -397,10 +397,11 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 
 ### Version 1.024 focused repair
 
-- `お` 直接量測維護者照片黑色外框的 medial skeleton，三筆 topology 保留，主筆使用 16-point center-line 忠實保留 left-biased tall stem、尖銳左下轉折、向右寬展且不對稱的 open lower body，以及短 detached mark；最終輪廓再由專案 variable-width renderer 生成辰宇落雁體筆壓與 terminal。
+- `お／あ／い／う／さ／き／と／り` 以 `maintainer_photo_sources.py` 保存原圖座標的人工筆畫採樣，單一等比例縮放到字格，保留原字比例、間距、交叉與彎折。八字均採 identity optical transform，最終 outline 經既有筆觸 renderer 生成。
 - `ぉ` 從新版 normalized `お` 以 0.72 scale／shared `(0,-12)` 重建，仍不使用 yōon offset。
 - `す` 保留既有兩筆 points 與 optical transform，只將 crossbar end `27 → 32`、main tail `22 → 33`，避免局部過細又不使全字過粗；大平假名共同 ×1.10 weight layer 未改。`ず` 共用新版 `す` 與原 dakuten component placement。
-- `う` 依維護者新手寫圖重建為 `[4,10]` 的兩筆 center-lines，保留 compact upper mark、長弧形下行主筆與自然不對稱；`ぅ` 從新版 normalized `う` 以 0.72 scale／shared `(0,-12)` 重建，不使用 yōon offset；`ゔ` 以新版 `う` identity base 加原 `uni3099`，只讓 bounds-derived dakuten x anchor 隨新形狀由 618 調至 632。
+- `う` 採 `[4,15]` 兩筆 source，保留原圖窄長比例，取消舊 x/y 不同比例光學拉伸；`ぅ` 走一般 0.72 scale／shared `(0,-12)`；`ゔ` 共用新版 base 與原 `uni3099`，bounds-derived dakuten x=618、y=-125。
 - `あ／い／さ／き／と／り` 直接以新維護者 reference sheets 的黑色外框作幾何依據，量測外框後建立乾淨 center-lines，再由 renderer 套用專案筆觸。`あ／い／さ／き／と／り` 分別為 3／2／3／4／2／2 strokes，皆使用 identity optical transform；新版 `き` 明確取代 Version 1.021。`ぁ／ぃ` 是普通小假名衍生，`ざ／ぎ／ど` 共用原 dakuten，`きゃ／きゅ／きょ`、`ぎゃ／ぎゅ／ぎょ`、`りゃ／りゅ／りょ` 保留兩個獨立 full-width Unicode cells。
 - `壁／堅` 保留原 drawing、advance 與 x placement，只將 dy `+45／+35 → +97／+55`；final bounds `(90,-15,796,849)`／`(84,-15,742,764)`，bottom 對齊。沒有全域 CJK baseline／line metrics 變更。
-- Proof：`tools/font/proofs/quanfangwei-hiragana-o-proof.png`、`quanfangwei-hiragana-su-proof.png`、`quanfangwei-hiragana-u-proof.png`、`quanfangwei-hiragana-maintainer-batch-proof.png`、`quanfangwei-cjk-vertical-alignment-proof.png`。
+- 原圖忠實度 proof：`tools/font/proofs/quanfangwei-handwriting-fidelity-proof.png` 並排原圖、前次 PR、新 TTF 與疊圖，僅使用等比例對齊。Ink overlap 是輪廓診斷而非主觀相似度；`verify_handwriting_fidelity.py` 比較八個 base／八個衍生字以外的所有 outlines 和 metrics。
+- 其他 proof：`quanfangwei-hiragana-o-proof.png`、`quanfangwei-hiragana-su-proof.png`、`quanfangwei-hiragana-u-proof.png`、`quanfangwei-hiragana-maintainer-batch-proof.png`、`quanfangwei-cjk-vertical-alignment-proof.png`，位於 `tools/font/proofs/`。

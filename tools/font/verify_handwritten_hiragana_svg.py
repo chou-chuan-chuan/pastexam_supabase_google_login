@@ -45,14 +45,19 @@ EXPECTED_REFERENCE_VERSION = "1.011"
 EXPECTED_FONT_VERSION = "1.024"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
-EXPECTED_KI_SOURCE_SHA256 = "f25d29938ff88e948b13131834abfbe25c8e70d1941f96d1b60e8372e29cdccc"
+EXPECTED_KI_SOURCE_SHA256 = "a1dfe0c73a365096775a05ef67aee8bd54631e5914cfce9333f7fcc2a1b46a14"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
 EXPECTED_O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
-EXPECTED_O_SOURCE_SHA256 = "bd3422f862de71d35f0de97ea2eded6a836431a6ea75163a27d264ef0e880524"
+EXPECTED_O_SOURCE_SHA256 = "86ff0ef0af39ce47347beee3e873a75d6f320662c4b6ffa08df2bd7c6dc5da94"
 EXPECTED_U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
-EXPECTED_U_SOURCE_SHA256 = "baffc7aec8b8f06591aa5de3c4153a913373742d8d46ad7dd8e11546e9848ca5"
+EXPECTED_U_SOURCE_SHA256 = "c0205b71757b649f92cc05974f5b0dd14d8da48899ebc41e5ce76a599b80df1b"
 EXPECTED_BATCH_REFERENCE_SHA256 = "fddcbc948566f1b6f153932477aed5dc21a466d9608be94019692594c90e18c0"
 EXPECTED_TO_RI_REFERENCE_SHA256 = "ebfbc29d18c44bef9523236e0f4997d239c0442579918f312440e8e225558063"
+# Eight photo-coordinate sources use milder pressure to retain photographed
+# counters/terminals. Actual rendered-family weight is independently checked
+# by verify_japanese_weight; all other glyphs keep the historical range.
+PHOTO_PRESSURE_GATES = {"あ": 36.0, "い": 38.0, "う": 33.0, "お": 34.0,
+                        "さ": 36.0, "き": 37.0, "と": 40.0, "り": 38.0}
 KANA_ADVANCE = 960
 
 
@@ -144,7 +149,13 @@ def main() -> int:
         strokes = USER_HANDWRITING_REFINED[character]
         require(bool(strokes), f"No refined strokes for {character}")
         for stroke in strokes:
-            require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
+            if character in PHOTO_PRESSURE_GATES:
+                expected_pressure = PHOTO_PRESSURE_GATES[character]
+                require((stroke.width, stroke.start_width, stroke.end_width) ==
+                        (expected_pressure, expected_pressure, expected_pressure * 0.94),
+                        f"{character} photo-source pressure changed")
+            else:
+                require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
             require(len(stroke.points) >= 2, f"{character} contains an empty stroke")
         normalized = USER_HANDWRITING_OPTICALLY_NORMALIZED[character]
         require(len(normalized) == len(strokes),
@@ -162,7 +173,7 @@ def main() -> int:
     ki_source = USER_HANDWRITING_REFINED["き"]
     require(hashlib.sha256(repr(ki_source).encode("utf-8")).hexdigest() == EXPECTED_KI_SOURCE_SHA256,
             "Version 1.024 superseding き center-line source changed")
-    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [3, 3, 5, 6],
+    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [8, 6, 9, 10],
             "Version 1.024 き must retain two crossbars, one diagonal, and one detached lower curve")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
@@ -179,14 +190,14 @@ def main() -> int:
     o_source = USER_HANDWRITING_REFINED["お"]
     require(hashlib.sha256(repr(o_source).encode("utf-8")).hexdigest() == EXPECTED_O_SOURCE_SHA256,
             "Version 1.024 repaired お center-line source changed")
-    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [3, 16, 3],
+    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [6, 29, 4],
             "Version 1.024 お must retain cross, broad asymmetric lower body, and detached right mark")
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == o_source,
             "Version 1.024 お must retain its reviewed identity optical transform")
     u_source = USER_HANDWRITING_REFINED["う"]
     require(hashlib.sha256(repr(u_source).encode("utf-8")).hexdigest() == EXPECTED_U_SOURCE_SHA256,
             "Version 1.024 authoritative う center-line source changed")
-    require(len(u_source) == 2 and [len(stroke.points) for stroke in u_source] == [4, 10],
+    require(len(u_source) == 2 and [len(stroke.points) for stroke in u_source] == [4, 15],
             "Version 1.024 う must retain its compact upper mark and curved descending main stroke")
     for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
                          "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",

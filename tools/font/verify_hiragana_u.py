@@ -68,17 +68,18 @@ def main() -> int:
         require(hashlib.sha256(REFERENCE_PATH.read_bytes()).hexdigest() == REFERENCE_SHA256,
                 "Maintainer う reference image hash changed")
     source = USER_HANDWRITING_REFINED["う"]
-    require(len(source) == 2 and [len(stroke.points) for stroke in source] == [4, 10],
-            "う must retain the new two-stroke [4,10] topology")
-    require(source_bounds(source) == (325.0, 210.0, 635.0, 760.0),
+    require(len(source) == 2 and [len(stroke.points) for stroke in source] == [4, 15],
+            "う must retain the photo-coordinate two-stroke [4,15] topology")
+    require(tuple(round(v, 3) for v in source_bounds(source)) == (339.091, 195.0, 620.909, 815.0),
             f"Unexpected う source bounds: {source_bounds(source)}")
     transform = HIRAGANA_OPTICAL_TRANSFORMS["う"]
-    require((transform.scale_x, transform.scale_y, transform.dx, transform.dy) == (1.12, 1.08, 0.0, -20.0),
+    require((transform.scale_x or transform.scale, transform.scale_y or transform.scale,
+             transform.dx, transform.dy) == (1.0, 1.0, 0.0, 0.0),
             f"Unexpected う optical transform: {transform}")
     require("ぅ" not in YOON_SMALL_KANA_OFFSETS, "ぅ was incorrectly assigned a yōon offset")
     large, small = KANA_STROKES["う"], KANA_STROKES["ぅ"]
-    require([len(stroke.points) for stroke in large] == [4, 10] and
-            [len(stroke.points) for stroke in small] == [4, 10],
+    require([len(stroke.points) for stroke in large] == [4, 15] and
+            [len(stroke.points) for stroke in small] == [4, 15],
             "ぅ does not preserve the revised う topology")
     for large_stroke, small_stroke in zip(large, small):
         for (large_x, large_y), (small_x, small_y) in zip(large_stroke.points, small_stroke.points):
@@ -109,7 +110,7 @@ def main() -> int:
                 "ゔ no longer uses revised う as an identity base component")
         require(before_components[1][0] == after_components[1][0] == "uni3099" and
                 before_components[1][1][5] == after_components[1][1][5] == -125 and
-                after_components[1][1][4] == 632,
+                after_components[1][1][4] == 618,
                 f"ゔ dakuten anchor is not the reviewed bounds-derived placement: {after_components[1]}")
         for character in "えや":
             name = f"uni{ord(character):04X}"

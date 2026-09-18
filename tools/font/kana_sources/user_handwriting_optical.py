@@ -68,16 +68,15 @@ def transform_strokes(
 HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     "あ": OpticalTransform(),
     "い": OpticalTransform(),
-    # Version 1.024: the new two-stroke maintainer source remains within the
-    # previously reviewed う optical body; retain its scoped normalization.
-    "う": OpticalTransform(1.08, 0.0, -20.0, scale_x=1.12, scale_y=1.08),
+    # Photo-space sources already use a uniform fit. Preserve their original
+    # aspect ratio, including the narrow body of the maintainer's う.
+    "う": OpticalTransform(),
     "え": OpticalTransform(),
     # Version 1.024: the repaired three-stroke maintainer source fills the
     # accepted Hiragana zone with balanced left/right space.
     "お": OpticalTransform(),
     "か": OpticalTransform(),
-    # Version 1.021: keep the reviewed 0.96 size and move the new four-stroke
-    # source 24 units right to balance its visual weight in mixed kana text.
+    # The latest photo replaces 1.021; its proportions are authoritative.
     "き": OpticalTransform(),
     "く": OpticalTransform(),
     # Version 1.016: retain size and move the accepted drawing right/down.
