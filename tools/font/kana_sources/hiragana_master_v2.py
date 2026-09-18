@@ -1,26 +1,32 @@
 """Version 1.025: maintainer master sheet, manually interpreted pen paths.
 
-Coordinates are in the original 859 x 1754 photograph (y down). The explicit
+Coordinates are in the original main or supplementary photograph (y down). The explicit
 row/cell mapping, including gaps, comes from the maintainer, not OCR. Each
 trajectory follows the ink's center, never its filled boundary. PhotoSource
 uniformly fits each character; production contours use the unchanged family
 stroke engine. No raster is consumed by the outline builder.
 
-This sheet supersedes ALL earlier visual references for these 41 characters.
-The absent なにぬねの retain their accepted source and optical transforms.
+The 41-glyph main sheet plus the supplementary na-row sheet form the complete
+46-glyph Maintainer Master v2. Together they supersede ALL earlier references.
+The supplied na-row explicitly supersedes the former preserve-na-row rule.
 """
 
 from kana_sources.maintainer_photo_sources import PhotoSource
 
 REFERENCE = "hiragana-maintainer-master-v2.png"
 REFERENCE_SHA256 = "779559e9a7f3e7fe914987f882c2029f50881a53b092318db3d356f9792e8db1"
-ROWS = ("あいうえお", "かきくけこ", "さしすせそ", "たちつてと", "はひふへほ",
+MAIN_ROWS = ("あいうえお", "かきくけこ", "さしすせそ", "たちつてと", "はひふへほ",
         "まみむめも", "や ゆ よ", "らりるれろ", "わ   を", "ん    ")
+NA_REFERENCE = "hiragana-maintainer-master-v2-na-row.png"
+NA_REFERENCE_SHA256 = "6a85555d562e9e2633b72a2aa4c7567cf5479a3f162b570de3b62039ce81e821"
+NA_ROW = "なにぬねの"
+REFERENCES = {REFERENCE: REFERENCE_SHA256, NA_REFERENCE: NA_REFERENCE_SHA256}
+ROWS = (*MAIN_ROWS[:4], NA_ROW, *MAIN_ROWS[4:])
 TARGETS = "".join(ROWS).replace(" ", "")
 
 
-def source(crop, *paths, span=640.0, center_y=505.0, pressure=40.0):
-    return PhotoSource(REFERENCE, crop, paths, span, center_y, pressure)
+def source(crop, *paths, span=640.0, center_y=505.0, pressure=40.0, reference=REFERENCE):
+    return PhotoSource(reference, crop, paths, span, center_y, pressure)
 
 
 # Stroke order records the inferred pen gesture, including detached terminals.
@@ -109,6 +115,38 @@ MASTER_SOURCES = {
         ((710,624),(719,639),(729,651),(737,658)),
         ((778,623),(768,630),(755,642),(740,653),(729,667),(722,682),(719,694),
          (722,704),(731,709),(751,710),(773,709),(790,707)), span=600.0, center_y=490.0),
+    # Supplementary 906 x 173 na-row reference: manually inferred pen gestures.
+    "な": source((56,16,167,142),
+        ((68,49),(87,49),(104,48),(117,44)),
+        ((96,27),(89,50),(82,78),(72,109)),
+        ((138,45),(144,52),(154,60)),
+        ((124,66),(126,87),(124,109),(119,124),(110,128),(101,126),
+         (95,120),(95,110),(99,103),(107,101),(118,104),(131,111),(144,117)),
+        reference=NA_REFERENCE),
+    "に": source((221,24,345,143),
+        ((242,37),(236,59),(233,83),(234,104),(237,120),(242,131)),
+        ((269,46),(274,49),(295,49),(320,49)),
+        ((265,108),(270,114),(278,122),(293,126),(315,126),(333,125)),
+        reference=NA_REFERENCE),
+    "ぬ": source((394,18,538,140),
+        ((416,30),(422,53),(433,85),(444,108),(455,120)),
+        ((450,36),(451,58),(448,87),(442,109),(434,121),(422,123),(415,119),
+         (409,107),(406,91),(406,79),(413,66),(426,55),(444,48),(462,48),
+         (479,53),(492,61),(501,73),(506,88),(505,105),(499,120),
+         (490,126),(481,127),(477,121),(477,112),(482,105),(492,102),
+         (504,104),(514,110),(525,116)), reference=NA_REFERENCE),
+    "ね": source((571,14,702,141),
+        ((603,25),(604,53),(605,86),(608,126)),
+        ((583,61),(596,58),(611,55),(605,70),(594,93),(583,115),
+         (598,86),(612,69),(628,57),(642,52),(654,52),(665,58),
+         (673,71),(678,88),(676,103),(668,117),(657,126),(647,127),
+         (639,122),(637,114),(639,105),(647,102),(658,103),(672,110),(689,121)),
+        reference=NA_REFERENCE),
+    "の": source((737,30,859,143),
+        ((789,46),(792,65),(794,86),(790,106),(783,118),(773,121),
+         (762,118),(754,108),(749,93),(749,80),(754,66),(762,56),
+         (775,47),(788,43),(804,44),(819,47),(830,54),(838,65),
+         (844,81),(846,98),(842,113),(831,124),(820,130)), reference=NA_REFERENCE),
     "は": source((67,778,183,893),
         ((84,796),(83,811),(83,835),(87,858),(94,871),(101,872)),
         ((116,817),(134,817),(152,816),(164,814)),
@@ -213,4 +251,4 @@ MASTER_SOURCES = {
          (146,1696),(158,1696),(170,1691),(183,1685)), span=640.0),
 }
 
-assert len(TARGETS) == 41 and set(MASTER_SOURCES) == set(TARGETS)
+assert len(TARGETS) == 46 and set(MASTER_SOURCES) == set(TARGETS)

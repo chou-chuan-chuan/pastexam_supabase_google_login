@@ -335,9 +335,10 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "Version 1.025: 41 manually authored photo-coordinate center-line sources from the latest maintainer master sheet; five omitted na-row sources preserved exactly. Uniform per-glyph normalization, existing variable-width engine and pressure layer. Small forms derive from new bases; existing marks compose voiced forms.",
+      "construction_method": "Version 1.025: all 46 modern basic Hiragana refreshed from the maintainer's complete Master v2 source set (main 41-glyph sheet plus supplementary na-row sheet), as manually authored photo-coordinate center-lines. Uniform per-glyph normalization, existing variable-width engine and pressure layer. Small forms derive from new bases; existing marks compose voiced forms. No small na-row forms are introduced.",
       "source_style_references": [
         "references/hiragana-maintainer-master-v2.png",
+        "references/hiragana-maintainer-master-v2-na-row.png",
         "references/user-hiragana-template-source.png",
         "references/user-hiragana-template-source-complete.png",
         "references/U+304D-ki-maintainer-handwritten.png",
@@ -349,9 +350,9 @@
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "All 41 new large sources have freshly reviewed identity outer transforms after uniform photo normalization. Three Hiragana yoon offsets are recalibrated after derivation to retain the reviewed lower-left ink anchor (180,24); Katakana offsets and shapes are unchanged.",
+      "optical_adjustments": "All 46 new large sources use uniform optical scale plus dx/dy fitted to UPM-normalized Noto Sans CJK JP / Source Han Sans JP metrics and production 1.024. No non-uniform exceptions; advance stays 960. Normalize large bases before deriving small forms. Three Hiragana yoon offsets are recalibrated after derivation to retain lower-left ink anchor (180,24); Katakana offsets/shapes are unchanged. The て base mark anchor alone is raised 17 units for で clearance; mark designs stay unchanged.",
       "status": "verified",
-      "reference_precedence": "references/hiragana-maintainer-master-v2.png supersedes all earlier references for its 41 glyphs; previous references are historical provenance only."
+      "reference_precedence": "The main 41-glyph and supplementary na-row sheets together form the complete 46-glyph Maintainer Master v2, superseding all older basic Hiragana sources and the former preserve-na-row rule. Older references are historical provenance only."
     },
     "katakana": {
       "characters": "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶヷヸヹヺ",
@@ -412,9 +413,15 @@
   },
   "hiragana_master_v2": {
     "version": "1.025",
-    "reference_image": "references/hiragana-maintainer-master-v2.png",
     "source": "kana_sources/hiragana_master_v2.py",
     "verification_manifest": "references/hiragana-master-v2-manifest.json",
-    "precedence": "Authoritative for all 41 shown characters; older references historical only; omitted なにぬねの unchanged."
+    "precedence": "The main 41-glyph and supplementary na-row sheets together form the complete 46-glyph Maintainer Master v2, superseding all older basic Hiragana sources and the former preserve-na-row rule. Older references are historical provenance only.",
+    "reference_images": [
+      "references/hiragana-maintainer-master-v2.png",
+      "references/hiragana-maintainer-master-v2-na-row.png"
+    ],
+    "metric_references": "references/hiragana-metric-references.json",
+    "metric_targets": "references/hiragana-metric-targets.json",
+    "metric_report": "reports/hiragana-standard-metrics.md"
   }
 }

@@ -21,6 +21,10 @@
       "exit_code": 0
     },
     {
+      "script": "verify_hiragana_metrics.py",
+      "exit_code": 0
+    },
+    {
       "script": "verify_hiragana_o.py",
       "exit_code": 0
     },
@@ -68,8 +72,29 @@
   "master_v2": {
     "exit_code": 0,
     "deterministic_repeat_build": true,
-    "changed_glyphs": 79,
+    "changed_glyphs": 84,
+    "basic_hiragana_refreshed": 46,
+    "authoritative_reference_images": 2,
     "ttf_woff2_full_parity": true
+  },
+  "standard_metrics": {
+    "exit_code": 0,
+    "upm_normalized": true,
+    "external_upm": 1000,
+    "production_upm": 1024,
+    "advance": 960,
+    "uniform_fits": 46,
+    "non_uniform_exceptions": 0,
+    "height_target_tolerance_units": 1.5,
+    "center_target_tolerance_units": 1,
+    "reviewed_family_outliers": [
+      "う",
+      "く",
+      "り",
+      "つ",
+      "へ"
+    ],
+    "external_binaries_in_repository": false
   },
   "web_tests": {
     "passed": 93,

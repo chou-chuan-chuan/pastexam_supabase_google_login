@@ -103,8 +103,9 @@ def main() -> int:
 
     from verify_hiragana_master_v2 import verify_sources
     verify_sources("す")
-    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["す"] == USER_HANDWRITING_REFINED["す"],
-            "Master-v2 su must preserve its new proportions with identity optical fit")
+    su_transform=HIRAGANA_OPTICAL_TRANSFORMS["す"]
+    require(su_transform.scale_x is None and su_transform.scale_y is None,
+            "Master-v2 su must preserve its handwritten proportions with uniform metric normalization")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
             "Han optical transform set differs from the ten reviewed per-glyph records")
@@ -218,7 +219,7 @@ def main() -> int:
         print(f"Japanese optical-alignment verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
 
-    print("PASS: す uses master-v2 source and a freshly reviewed identity optical transform")
+    print("PASS: す uses master-v2 source and reviewed uniform Japanese metric normalization")
     print("PASS: ten reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")

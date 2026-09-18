@@ -26,6 +26,10 @@ JAPANESE_MARK_VERTICAL_SHIFT = -120
 DAKUTEN_ANCHOR = (92, 815)
 HANDAKUTEN_ANCHOR = (92, 815)
 KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
+# Version 1.025 metric normalization brings て's upper stroke into the old
+# dakuten position. Raise this base anchor only: +5 clears the intersection,
+# +12 more leaves visible separation. Shared mark contours stay unchanged.
+HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 17}
 
 
 def glyph_name(character: str) -> str:
@@ -65,7 +69,9 @@ def bounds(font: TTFont, name: str) -> tuple[int, int, int, int]:
 
 def base_anchor(font: TTFont, name: str) -> tuple[int, int]:
     x_min, _, x_max, _ = bounds(font, name)
-    return (min(835, max(710, x_max + 48)), KANA_BASE_ANCHOR_Y)
+    dy = next((offset for c,offset in HIRAGANA_MARK_ANCHOR_Y_OFFSETS.items()
+               if name == glyph_name(c)), 0)
+    return (min(835, max(710, x_max + 48)), KANA_BASE_ANCHOR_Y + dy)
 
 
 def composite(font: TTFont, base_name: str, mark_name: str, dx: int, dy: int):

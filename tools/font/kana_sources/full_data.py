@@ -217,9 +217,9 @@ for small, large in {"ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ"
 # bases. Preserve the reviewed rendered lower-left anchor (180, 24), rather
 # than retaining deltas tuned for superseded geometry. Katakana deltas unchanged.
 YOON_SMALL_KANA_OFFSETS = {
-    "ゃ": (-74, -74),
-    "ゅ": (-86, -74),
-    "ょ": (-73, -81),
+    "ゃ": (-51, -47),
+    "ゅ": (-80, -47),
+    "ょ": (-67, -70),
     "ャ": (-87, -70),
     "ュ": (-136, -123),
     "ョ": (-148, -120),

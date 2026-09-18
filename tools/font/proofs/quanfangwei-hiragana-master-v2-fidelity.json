@@ -1,166 +1,186 @@
 {
   "あ": {
-    "ink_iou": 0.6887,
-    "mean_ink_distance_photo_px": 0.1822
+    "ink_iou": 0.6828,
+    "mean_ink_distance_photo_px": 0.1878
   },
   "い": {
-    "ink_iou": 0.6644,
-    "mean_ink_distance_photo_px": 0.2299
+    "ink_iou": 0.6492,
+    "mean_ink_distance_photo_px": 0.2386
   },
   "う": {
-    "ink_iou": 0.7666,
-    "mean_ink_distance_photo_px": 0.0832
+    "ink_iou": 0.8304,
+    "mean_ink_distance_photo_px": 0.0493
   },
   "え": {
-    "ink_iou": 0.689,
-    "mean_ink_distance_photo_px": 0.1887
+    "ink_iou": 0.7075,
+    "mean_ink_distance_photo_px": 0.1699
   },
   "お": {
-    "ink_iou": 0.6509,
-    "mean_ink_distance_photo_px": 0.2704
+    "ink_iou": 0.6661,
+    "mean_ink_distance_photo_px": 0.2637
   },
   "か": {
-    "ink_iou": 0.7026,
-    "mean_ink_distance_photo_px": 0.1593
+    "ink_iou": 0.7029,
+    "mean_ink_distance_photo_px": 0.1548
   },
   "き": {
-    "ink_iou": 0.7615,
-    "mean_ink_distance_photo_px": 0.1004
+    "ink_iou": 0.7904,
+    "mean_ink_distance_photo_px": 0.0792
   },
   "く": {
-    "ink_iou": 0.7174,
-    "mean_ink_distance_photo_px": 0.1387
+    "ink_iou": 0.7275,
+    "mean_ink_distance_photo_px": 0.129
   },
   "け": {
-    "ink_iou": 0.823,
-    "mean_ink_distance_photo_px": 0.0528
+    "ink_iou": 0.7904,
+    "mean_ink_distance_photo_px": 0.0691
   },
   "こ": {
-    "ink_iou": 0.8482,
-    "mean_ink_distance_photo_px": 0.0472
+    "ink_iou": 0.8368,
+    "mean_ink_distance_photo_px": 0.0513
   },
   "さ": {
-    "ink_iou": 0.8048,
-    "mean_ink_distance_photo_px": 0.0708
+    "ink_iou": 0.819,
+    "mean_ink_distance_photo_px": 0.0558
   },
   "し": {
-    "ink_iou": 0.8067,
-    "mean_ink_distance_photo_px": 0.07
+    "ink_iou": 0.8031,
+    "mean_ink_distance_photo_px": 0.0688
   },
   "す": {
-    "ink_iou": 0.7856,
-    "mean_ink_distance_photo_px": 0.0733
+    "ink_iou": 0.8448,
+    "mean_ink_distance_photo_px": 0.0425
   },
   "せ": {
-    "ink_iou": 0.8491,
-    "mean_ink_distance_photo_px": 0.0424
+    "ink_iou": 0.8031,
+    "mean_ink_distance_photo_px": 0.0592
   },
   "そ": {
-    "ink_iou": 0.7928,
-    "mean_ink_distance_photo_px": 0.0708
+    "ink_iou": 0.7972,
+    "mean_ink_distance_photo_px": 0.0679
   },
   "た": {
-    "ink_iou": 0.7696,
-    "mean_ink_distance_photo_px": 0.0921
+    "ink_iou": 0.7602,
+    "mean_ink_distance_photo_px": 0.0908
   },
   "ち": {
-    "ink_iou": 0.7876,
-    "mean_ink_distance_photo_px": 0.0734
+    "ink_iou": 0.8307,
+    "mean_ink_distance_photo_px": 0.0492
   },
   "つ": {
-    "ink_iou": 0.7529,
-    "mean_ink_distance_photo_px": 0.0954
+    "ink_iou": 0.7874,
+    "mean_ink_distance_photo_px": 0.0744
   },
   "て": {
-    "ink_iou": 0.8136,
-    "mean_ink_distance_photo_px": 0.0676
+    "ink_iou": 0.8131,
+    "mean_ink_distance_photo_px": 0.0685
   },
   "と": {
-    "ink_iou": 0.8376,
-    "mean_ink_distance_photo_px": 0.0424
+    "ink_iou": 0.8188,
+    "mean_ink_distance_photo_px": 0.0501
+  },
+  "な": {
+    "ink_iou": 0.878,
+    "mean_ink_distance_photo_px": 0.0271
+  },
+  "に": {
+    "ink_iou": 0.8734,
+    "mean_ink_distance_photo_px": 0.0285
+  },
+  "ぬ": {
+    "ink_iou": 0.7738,
+    "mean_ink_distance_photo_px": 0.1252
+  },
+  "ね": {
+    "ink_iou": 0.7591,
+    "mean_ink_distance_photo_px": 0.1152
+  },
+  "の": {
+    "ink_iou": 0.7738,
+    "mean_ink_distance_photo_px": 0.1149
   },
   "は": {
-    "ink_iou": 0.792,
-    "mean_ink_distance_photo_px": 0.0767
+    "ink_iou": 0.7734,
+    "mean_ink_distance_photo_px": 0.0858
   },
   "ひ": {
-    "ink_iou": 0.7166,
-    "mean_ink_distance_photo_px": 0.1727
+    "ink_iou": 0.7034,
+    "mean_ink_distance_photo_px": 0.1793
   },
   "ふ": {
-    "ink_iou": 0.8348,
-    "mean_ink_distance_photo_px": 0.0465
+    "ink_iou": 0.7914,
+    "mean_ink_distance_photo_px": 0.066
   },
   "へ": {
-    "ink_iou": 0.8361,
-    "mean_ink_distance_photo_px": 0.0384
+    "ink_iou": 0.9127,
+    "mean_ink_distance_photo_px": 0.0166
   },
   "ほ": {
-    "ink_iou": 0.8211,
-    "mean_ink_distance_photo_px": 0.0557
+    "ink_iou": 0.8241,
+    "mean_ink_distance_photo_px": 0.0529
   },
   "ま": {
-    "ink_iou": 0.7519,
-    "mean_ink_distance_photo_px": 0.1078
+    "ink_iou": 0.7439,
+    "mean_ink_distance_photo_px": 0.1125
   },
   "み": {
-    "ink_iou": 0.6465,
-    "mean_ink_distance_photo_px": 0.2351
+    "ink_iou": 0.5811,
+    "mean_ink_distance_photo_px": 0.2975
   },
   "む": {
-    "ink_iou": 0.8111,
-    "mean_ink_distance_photo_px": 0.0899
+    "ink_iou": 0.8123,
+    "mean_ink_distance_photo_px": 0.0872
   },
   "め": {
-    "ink_iou": 0.5856,
-    "mean_ink_distance_photo_px": 0.3493
+    "ink_iou": 0.5876,
+    "mean_ink_distance_photo_px": 0.3475
   },
   "も": {
-    "ink_iou": 0.6216,
-    "mean_ink_distance_photo_px": 0.3154
+    "ink_iou": 0.6013,
+    "mean_ink_distance_photo_px": 0.3401
   },
   "や": {
-    "ink_iou": 0.7506,
-    "mean_ink_distance_photo_px": 0.106
+    "ink_iou": 0.7296,
+    "mean_ink_distance_photo_px": 0.119
   },
   "ゆ": {
-    "ink_iou": 0.7276,
-    "mean_ink_distance_photo_px": 0.1831
+    "ink_iou": 0.7306,
+    "mean_ink_distance_photo_px": 0.1773
   },
   "よ": {
-    "ink_iou": 0.7117,
-    "mean_ink_distance_photo_px": 0.1475
+    "ink_iou": 0.709,
+    "mean_ink_distance_photo_px": 0.1474
   },
   "ら": {
-    "ink_iou": 0.7848,
-    "mean_ink_distance_photo_px": 0.0728
+    "ink_iou": 0.8249,
+    "mean_ink_distance_photo_px": 0.0521
   },
   "り": {
-    "ink_iou": 0.6618,
-    "mean_ink_distance_photo_px": 0.1841
+    "ink_iou": 0.717,
+    "mean_ink_distance_photo_px": 0.1378
   },
   "る": {
-    "ink_iou": 0.6882,
-    "mean_ink_distance_photo_px": 0.1914
+    "ink_iou": 0.6742,
+    "mean_ink_distance_photo_px": 0.2017
   },
   "れ": {
-    "ink_iou": 0.7098,
-    "mean_ink_distance_photo_px": 0.1834
+    "ink_iou": 0.7213,
+    "mean_ink_distance_photo_px": 0.1761
   },
   "ろ": {
-    "ink_iou": 0.6939,
-    "mean_ink_distance_photo_px": 0.2055
+    "ink_iou": 0.681,
+    "mean_ink_distance_photo_px": 0.2165
   },
   "わ": {
-    "ink_iou": 0.7815,
-    "mean_ink_distance_photo_px": 0.1139
+    "ink_iou": 0.7887,
+    "mean_ink_distance_photo_px": 0.1162
   },
   "を": {
-    "ink_iou": 0.7799,
-    "mean_ink_distance_photo_px": 0.0897
+    "ink_iou": 0.8199,
+    "mean_ink_distance_photo_px": 0.0624
   },
   "ん": {
-    "ink_iou": 0.6644,
-    "mean_ink_distance_photo_px": 0.1908
+    "ink_iou": 0.6697,
+    "mean_ink_distance_photo_px": 0.1775
   }
 }

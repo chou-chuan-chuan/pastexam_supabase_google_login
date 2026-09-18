@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.025 — Maintainer Hiragana master sheet v2**：以[最新維護者完整手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)重建稿中 41 個現代平假名。這張新稿對所有重疊字元優先於舊單字 reference；舊圖只保留歷史 provenance。未出現的 `なにぬねの` 原始 center-lines、optical transforms 與字型輸出完全不變。普通小假名從新大字走原 0.72-scale 衍生路徑；`ゃゅょ` 從新 base 衍生後重新校準 translation，保留已驗收的左下 ink anchor `(180,24)`，`ャュョ` 的形狀與 offsets 不變。濁音／半濁音繼承新版 base 和原有 marks。沒有使用外部日文字型 outlines、bitmap contours，也沒有更動 Katakana、Han（含 `壁／堅`）、CSS、JS、SQL 或 production DB。
+目前版本 **1.025 — Complete Maintainer Hiragana Master v2**：以維護者擁有的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)和[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)重建全部 46 個現代基本平假名。完整 Master v2 對所有基本字元優先於舊 reference；舊圖只保留歷史 provenance。新的 `なにぬねの` 明確取代先前「保留 na-row」規則，包括曾修正辨識度的 `の`；沒有基本平假名刻意沿用舊的 authoritative source。普通小假名從新大字走原 0.72-scale 衍生路徑；`ゃゅょ` 從新 base 衍生後重新校準 translation，保留已驗收的左下 ink anchor `(180,24)`，`ャュョ` 的形狀與 offsets 不變。濁音／半濁音繼承新版 base 和原有 marks。沒有使用外部日文字型 outlines、bitmap contours，也沒有更動 Katakana、Han（含 `壁／堅`）、CSS、JS、SQL 或 production DB。
+
+全 46 字的絕對大小再以 Noto Sans CJK JP／Source Han Sans JP 的 UPM-normalized metrics 為標準參考、QuanFangwei 1.024 為延續參考，逐字 uniform scale + dx/dy；保留 960 advance，不套用外部輪廓，也不做 x/y 非等比變形。量測資料、family size gate 與 same-em metric-box proof 見[標準字型尺度比較](tools/font/reports/hiragana-standard-metrics.md)。`で` 為避免新 base 與濁點相碰，僅將 `て` 的 mark anchor 上移 17 units。
 
 逐字 branch count、source/rendered bounds、advance、optical transform、na-row hashes、proofs 與驗證結果見[完整 revision report](tools/font/reports/hiragana-master-v2.md)。下列舊版本敘述為歷史紀錄；遇到重疊字元以 Version 1.025 master sheet 為準。
 

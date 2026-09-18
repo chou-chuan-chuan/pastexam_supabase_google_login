@@ -1,13 +1,16 @@
 {
   "version": "1.025",
   "base_main": "d89ee8b2b5f4c858e5dade853972194892037f93",
-  "reference": "hiragana-maintainer-master-v2.png",
-  "reference_sha256": "779559e9a7f3e7fe914987f882c2029f50881a53b092318db3d356f9792e8db1",
+  "references": {
+    "hiragana-maintainer-master-v2.png": "779559e9a7f3e7fe914987f882c2029f50881a53b092318db3d356f9792e8db1",
+    "hiragana-maintainer-master-v2-na-row.png": "6a85555d562e9e2633b72a2aa4c7567cf5479a3f162b570de3b62039ce81e821"
+  },
   "rows": [
     "あいうえお",
     "かきくけこ",
     "さしすせそ",
     "たちつてと",
+    "なにぬねの",
     "はひふへほ",
     "まみむめも",
     "や ゆ よ",
@@ -15,9 +18,10 @@
     "わ   を",
     "ん    "
   ],
-  "precedence": "Latest full sheet supersedes all older references for these 41 glyphs; omitted なにぬねの remain unchanged.",
+  "precedence": "The main 41-glyph sheet and supplementary na-row sheet form the complete 46-glyph Maintainer Master v2; both supersede all older references. The preserve-na-row rule is superseded.",
   "glyphs": {
     "あ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 3,
       "new_branches": 3,
       "point_counts": [
@@ -47,30 +51,31 @@
         825.0
       ],
       "rendered_bounds": [
-        194,
-        22,
-        765,
-        701
+        175,
+        -14,
+        822,
+        757
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.143952,
+        "scale_y": 1.143952,
+        "dx": 19.334,
+        "dy": 9.464
       },
       "uniform_photo_scale": 5.7657657657657655,
       "pressure": 37.0,
       "ink_center": [
-        479.5,
-        361.5
+        498.5,
+        371.5
       ],
       "sidebearings": [
-        194,
-        195
+        175,
+        138
       ]
     },
     "い": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -99,30 +104,31 @@
         760.9375
       ],
       "rendered_bounds": [
-        141,
-        79,
-        815,
-        638
+        118,
+        32,
+        898,
+        679
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.16928,
+        "scale_y": 1.16928,
+        "dx": 29.776,
+        "dy": -3.354
       },
       "uniform_photo_scale": 6.5625,
       "pressure": 40.0,
       "ink_center": [
-        478.0,
-        358.5
+        508.0,
+        355.5
       ],
       "sidebearings": [
-        141,
-        145
+        118,
+        62
       ]
     },
     "う": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -151,30 +157,31 @@
         825.0
       ],
       "rendered_bounds": [
-        311,
-        21,
-        651,
-        701
+        301,
+        -8,
+        675,
+        745
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.113119,
+        "scale_y": 1.113119,
+        "dx": 6.826,
+        "dy": 6.66
       },
       "uniform_photo_scale": 5.289256198347108,
       "pressure": 38.0,
       "ink_center": [
-        481.0,
-        361.0
+        488.0,
+        368.5
       ],
       "sidebearings": [
-        311,
-        309
+        301,
+        285
       ]
     },
     "え": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 4,
       "new_branches": 2,
       "point_counts": [
@@ -203,30 +210,31 @@
         825.0
       ],
       "rendered_bounds": [
-        202,
-        21,
-        758,
-        702
+        209,
+        11,
+        793,
+        728
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.056177,
+        "scale_y": 1.056177,
+        "dx": 21.144,
+        "dy": 7.232
       },
       "uniform_photo_scale": 5.663716814159292,
       "pressure": 40.0,
       "ink_center": [
-        480.0,
-        361.5
+        501.0,
+        369.5
       ],
       "sidebearings": [
-        202,
-        202
+        209,
+        167
       ]
     },
     "お": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 3,
       "new_branches": 3,
       "point_counts": [
@@ -256,30 +264,31 @@
         825.0
       ],
       "rendered_bounds": [
-        165,
-        20,
-        793,
-        701
+        158,
+        -5,
+        861,
+        758
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.128032,
+        "scale_y": 1.128032,
+        "dx": 30.08,
+        "dy": 15.352
       },
       "uniform_photo_scale": 5.714285714285714,
       "pressure": 38.0,
       "ink_center": [
-        479.0,
-        360.5
+        509.5,
+        376.5
       ],
       "sidebearings": [
-        165,
-        167
+        158,
+        99
       ]
     },
     "か": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 7,
       "new_branches": 3,
       "point_counts": [
@@ -309,30 +318,31 @@
         825.0
       ],
       "rendered_bounds": [
-        160,
-        20,
-        799,
-        702
+        195,
+        38,
+        818,
+        704
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 0.973462,
+        "scale_y": 0.973462,
+        "dx": 27.258,
+        "dy": 9.804
       },
       "uniform_photo_scale": 6.153846153846154,
       "pressure": 40.0,
       "ink_center": [
-        479.5,
-        361.0
+        506.5,
+        371.0
       ],
       "sidebearings": [
-        160,
-        161
+        195,
+        142
       ]
     },
     "き": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 4,
       "new_branches": 4,
       "point_counts": [
@@ -363,30 +373,31 @@
         825.0
       ],
       "rendered_bounds": [
-        254,
-        19,
-        704,
-        702
+        247,
+        -14,
+        754,
+        760
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.141468,
+        "scale_y": 1.141468,
+        "dx": 21.614,
+        "dy": 11.25
       },
       "uniform_photo_scale": 5.818181818181818,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        360.5
+        500.5,
+        373.0
       ],
       "sidebearings": [
-        254,
-        256
+        247,
+        206
       ]
     },
     "く": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 5,
       "new_branches": 1,
       "point_counts": [
@@ -414,30 +425,31 @@
         825.0
       ],
       "rendered_bounds": [
-        289,
-        20,
-        665,
-        702
+        284,
+        16,
+        671,
+        720
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.033786,
+        "scale_y": 1.033786,
+        "dx": 0.5713,
+        "dy": 6.684
       },
       "uniform_photo_scale": 6.881720430107527,
       "pressure": 40.0,
       "ink_center": [
-        477.0,
-        361.0
+        477.5,
+        368.0
       ],
       "sidebearings": [
-        289,
-        295
+        284,
+        289
       ]
     },
     "け": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 7,
       "new_branches": 3,
       "point_counts": [
@@ -467,30 +479,31 @@
         825.0
       ],
       "rendered_bounds": [
-        166,
-        20,
-        792,
-        702
+        174,
+        -28,
+        868,
+        729
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.116316,
+        "scale_y": 1.116316,
+        "dx": 41.496,
+        "dy": -11.174
       },
       "uniform_photo_scale": 6.956521739130435,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        361.0
+        521.0,
+        350.5
       ],
       "sidebearings": [
-        166,
-        168
+        174,
+        92
       ]
     },
     "こ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 4,
       "new_branches": 2,
       "point_counts": [
@@ -519,30 +532,31 @@
         805.0
       ],
       "rendered_bounds": [
-        158,
-        39,
-        800,
-        684
+        186,
+        27,
+        833,
+        677
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.009348,
+        "scale_y": 1.009348,
+        "dx": 30.298,
+        "dy": -9.932
       },
       "uniform_photo_scale": 7.0588235294117645,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        361.5
+        509.5,
+        352.0
       ],
       "sidebearings": [
-        158,
-        160
+        186,
+        127
       ]
     },
     "さ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 3,
       "new_branches": 3,
       "point_counts": [
@@ -572,30 +586,31 @@
         825.0
       ],
       "rendered_bounds": [
-        256,
-        20,
-        702,
-        702
+        250,
+        -11,
+        751,
+        758
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.135719,
+        "scale_y": 1.135719,
+        "dx": 21.37,
+        "dy": 11.786
       },
       "uniform_photo_scale": 6.037735849056604,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        361.0
+        500.5,
+        373.5
       ],
       "sidebearings": [
-        256,
-        258
+        250,
+        209
       ]
     },
     "し": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 1,
       "new_branches": 1,
       "point_counts": [
@@ -623,30 +638,31 @@
         825.0
       ],
       "rendered_bounds": [
-        220,
-        15,
-        738,
-        702
+        259,
+        7,
+        800,
+        724
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.046484,
+        "scale_y": 1.046484,
+        "dx": 50.31,
+        "dy": 6.624
       },
       "uniform_photo_scale": 6.808510638297872,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        358.5
+        529.5,
+        365.5
       ],
       "sidebearings": [
-        220,
-        222
+        259,
+        160
       ]
     },
     "す": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -675,30 +691,31 @@
         825.0
       ],
       "rendered_bounds": [
-        227,
-        21,
-        732,
-        701
+        256,
+        -35,
+        831,
+        740
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.148392,
+        "scale_y": 1.148392,
+        "dx": 64.15,
+        "dy": -9.822
       },
       "uniform_photo_scale": 5.289256198347108,
       "pressure": 38.0,
       "ink_center": [
-        479.5,
-        361.0
+        543.5,
+        352.5
       ],
       "sidebearings": [
-        227,
-        228
+        256,
+        129
       ]
     },
     "せ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 7,
       "new_branches": 3,
       "point_counts": [
@@ -728,30 +745,31 @@
         765.0
       ],
       "rendered_bounds": [
-        148,
-        77,
-        810,
-        642
+        83,
+        26,
+        895,
+        717
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.241908,
+        "scale_y": 1.241908,
+        "dx": 9.802,
+        "dy": 10.524
       },
       "uniform_photo_scale": 6.666666666666667,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        359.5
+        489.0,
+        371.5
       ],
       "sidebearings": [
-        148,
-        150
+        83,
+        65
       ]
     },
     "そ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 8,
       "new_branches": 2,
       "point_counts": [
@@ -780,30 +798,31 @@
         825.0
       ],
       "rendered_bounds": [
-        214,
-        20,
-        736,
-        702
+        232,
+        25,
+        752,
+        704
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 0.994174,
+        "scale_y": 0.994174,
+        "dx": 17.374,
+        "dy": 3.0852
       },
       "uniform_photo_scale": 6.4646464646464645,
       "pressure": 40.0,
       "ink_center": [
-        475.0,
-        361.0
+        492.0,
+        364.5
       ],
       "sidebearings": [
-        214,
-        224
+        232,
+        208
       ]
     },
     "た": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 9,
       "new_branches": 4,
       "point_counts": [
@@ -834,30 +853,31 @@
         825.0
       ],
       "rendered_bounds": [
-        235,
-        19,
-        724,
-        702
+        221,
+        -15,
+        773,
+        759
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.142265,
+        "scale_y": 1.142265,
+        "dx": 17.804,
+        "dy": 10.804
       },
       "uniform_photo_scale": 6.213592233009709,
       "pressure": 40.0,
       "ink_center": [
-        479.5,
-        360.5
+        497.0,
+        372.0
       ],
       "sidebearings": [
-        235,
-        236
+        221,
+        187
       ]
     },
     "ち": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 7,
       "new_branches": 2,
       "point_counts": [
@@ -886,30 +906,31 @@
         825.0
       ],
       "rendered_bounds": [
-        221,
-        19,
-        739,
-        702
+        192,
+        -17,
+        778,
+        758
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.142458,
+        "scale_y": 1.142458,
+        "dx": 4.772,
+        "dy": 8.918
       },
       "uniform_photo_scale": 5.714285714285714,
       "pressure": 40.0,
       "ink_center": [
-        480.0,
-        360.5
+        485.0,
+        370.5
       ],
       "sidebearings": [
-        221,
-        221
+        192,
+        182
       ]
     },
     "つ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 1,
       "new_branches": 1,
       "point_counts": [
@@ -937,30 +958,31 @@
         743.0625
       ],
       "rendered_bounds": [
-        153,
-        52,
-        806,
-        621
+        185,
+        80,
+        796,
+        613
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 0.932826,
+        "scale_y": 0.932826,
+        "dx": 11.136,
+        "dy": 8.734
       },
       "uniform_photo_scale": 7.625,
       "pressure": 40.0,
       "ink_center": [
-        479.5,
-        336.5
+        490.5,
+        346.5
       ],
       "sidebearings": [
-        153,
-        154
+        185,
+        164
       ]
     },
     "て": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 5,
       "new_branches": 1,
       "point_counts": [
@@ -989,29 +1011,30 @@
       ],
       "rendered_bounds": [
         200,
-        30,
-        753,
-        696
+        11,
+        775,
+        705
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.04473,
+        "scale_y": 1.04473,
+        "dx": 10.802,
+        "dy": -5.568
       },
       "uniform_photo_scale": 6.888888888888889,
       "pressure": 40.0,
       "ink_center": [
-        476.5,
-        363.0
+        487.5,
+        358.0
       ],
       "sidebearings": [
         200,
-        207
+        185
       ]
     },
     "と": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -1040,30 +1063,298 @@
         790.0
       ],
       "rendered_bounds": [
-        183,
-        25,
-        776,
-        667
+        181,
+        5,
+        831,
+        709
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.10382,
+        "scale_y": 1.10382,
+        "dx": 26.752,
+        "dy": 11.5
       },
       "uniform_photo_scale": 6.896551724137931,
       "pressure": 40.0,
       "ink_center": [
-        479.5,
-        346.0
+        506.0,
+        357.0
       ],
       "sidebearings": [
-        183,
-        184
+        181,
+        129
+      ]
+    },
+    "な": {
+      "reference": "hiragana-maintainer-master-v2-na-row.png",
+      "old_branches": 13,
+      "new_branches": 4,
+      "point_counts": [
+        4,
+        4,
+        3,
+        13
+      ],
+      "old_source_sha256": "6aa958a31e053bb848c9274f142d9876e0e9a8c44acbfcd7414627e15cf03435",
+      "source_sha256": "373824ecb735ed433f45172217eedbcb260fca09658e4aea0164e46b41fb2961",
+      "recipe_sha256": "40be1a6a1e4f68882c5eaf426a1e0b0d1b31228209481e4f8e3c112cefd2847d",
+      "crop": [
+        56,
+        16,
+        167,
+        142
+      ],
+      "photo_bounds": [
+        68,
+        27,
+        154,
+        128
+      ],
+      "source_bounds": [
+        207.5247524752475,
+        185.0,
+        752.4752475247525,
+        825.0
+      ],
+      "rendered_bounds": [
+        180,
+        -4,
+        823,
+        747
+      ],
+      "advance": 960,
+      "optical_transform": {
+        "scale_x": 1.104894,
+        "scale_y": 1.104894,
+        "dx": 22.156,
+        "dy": 11.006
+      },
+      "uniform_photo_scale": 6.336633663366337,
+      "pressure": 40.0,
+      "ink_center": [
+        501.5,
+        371.5
+      ],
+      "sidebearings": [
+        180,
+        137
+      ]
+    },
+    "に": {
+      "reference": "hiragana-maintainer-master-v2-na-row.png",
+      "old_branches": 5,
+      "new_branches": 3,
+      "point_counts": [
+        6,
+        4,
+        6
+      ],
+      "old_source_sha256": "b2042f21e67c3b0012256c3f47053cab690fbd27a06b5b5462a59e735101089b",
+      "source_sha256": "98750f73b868eec14af14b8920ad6269572a166d62d1f5096670f3f4510191a4",
+      "recipe_sha256": "5fb4ec34157dff67175f7acecc3b948d200445031351ca1603d8f2367631bcd7",
+      "crop": [
+        221,
+        24,
+        345,
+        143
+      ],
+      "photo_bounds": [
+        233,
+        37,
+        333,
+        131
+      ],
+      "source_bounds": [
+        160.0,
+        204.2,
+        800.0,
+        805.8
+      ],
+      "rendered_bounds": [
+        138,
+        22,
+        864,
+        705
+      ],
+      "advance": 960,
+      "optical_transform": {
+        "scale_x": 1.066407,
+        "scale_y": 1.066407,
+        "dx": 22.388,
+        "dy": 1.862
+      },
+      "uniform_photo_scale": 6.4,
+      "pressure": 40.0,
+      "ink_center": [
+        501.0,
+        363.5
+      ],
+      "sidebearings": [
+        138,
+        96
+      ]
+    },
+    "ぬ": {
+      "reference": "hiragana-maintainer-master-v2-na-row.png",
+      "old_branches": 12,
+      "new_branches": 2,
+      "point_counts": [
+        5,
+        29
+      ],
+      "old_source_sha256": "510fed8b31b07533325c78417a9bec3ea82efa57266900f299976da072f66523",
+      "source_sha256": "879846fc19187965c0dbe5da48c210667354c09ba10c718d0513aa0dd4505a19",
+      "recipe_sha256": "1fb69785dd746b9cd3cc8e72314e8b4d7101c94b20ffda104f75ce1222a2d63a",
+      "crop": [
+        394,
+        18,
+        538,
+        140
+      ],
+      "photo_bounds": [
+        406,
+        30,
+        525,
+        127
+      ],
+      "source_bounds": [
+        160.0,
+        244.15966386554618,
+        800.0,
+        765.8403361344538
+      ],
+      "rendered_bounds": [
+        107,
+        47,
+        904,
+        706
+      ],
+      "advance": 960,
+      "optical_transform": {
+        "scale_x": 1.17419,
+        "scale_y": 1.17419,
+        "dx": 28.246,
+        "dy": 16.114
+      },
+      "uniform_photo_scale": 5.378151260504202,
+      "pressure": 40.0,
+      "ink_center": [
+        505.5,
+        376.5
+      ],
+      "sidebearings": [
+        107,
+        56
+      ]
+    },
+    "ね": {
+      "reference": "hiragana-maintainer-master-v2-na-row.png",
+      "old_branches": 13,
+      "new_branches": 2,
+      "point_counts": [
+        4,
+        25
+      ],
+      "old_source_sha256": "2996faa5ee5ff765247369d80d0b869fa68492451d51939463c380e0b5e5cbc9",
+      "source_sha256": "149a1d863f19ec7dddae8a3a676d8952693ef022e5fcf5b8230f20d75e30229d",
+      "recipe_sha256": "4cf65aba59540c1b2bffe76f149230ce11fd02c536114df649a35f81ece7cdb1",
+      "crop": [
+        571,
+        14,
+        702,
+        141
+      ],
+      "photo_bounds": [
+        583,
+        25,
+        689,
+        127
+      ],
+      "source_bounds": [
+        160.0,
+        197.07547169811318,
+        800.0,
+        812.9245283018868
+      ],
+      "rendered_bounds": [
+        97,
+        -20,
+        908,
+        766
+      ],
+      "advance": 960,
+      "optical_transform": {
+        "scale_x": 1.20191,
+        "scale_y": 1.20191,
+        "dx": 23.418,
+        "dy": 12.286
+      },
+      "uniform_photo_scale": 6.037735849056604,
+      "pressure": 40.0,
+      "ink_center": [
+        502.5,
+        373.0
+      ],
+      "sidebearings": [
+        97,
+        52
+      ]
+    },
+    "の": {
+      "reference": "hiragana-maintainer-master-v2-na-row.png",
+      "old_branches": 2,
+      "new_branches": 1,
+      "point_counts": [
+        23
+      ],
+      "old_source_sha256": "3a02c92a52f0c9fe46880c2ec67dbeba3dde0b1f17010e86a51a8736ee658a0b",
+      "source_sha256": "93015b0242148ce790b0e35cbe5d50af2cc859d05c6cb5c827e3b6ed38c5e10d",
+      "recipe_sha256": "5dda17527529a1ccde2400104aac60d952a332d1478a18d63b99ca0a54e59daa",
+      "crop": [
+        737,
+        30,
+        859,
+        143
+      ],
+      "photo_bounds": [
+        749,
+        43,
+        846,
+        130
+      ],
+      "source_bounds": [
+        160.0,
+        217.98969072164948,
+        800.0,
+        792.0103092783505
+      ],
+      "rendered_bounds": [
+        165,
+        57,
+        826,
+        651
+      ],
+      "advance": 960,
+      "optical_transform": {
+        "scale_x": 0.959665,
+        "scale_y": 0.959665,
+        "dx": 17.726,
+        "dy": -7.628
+      },
+      "uniform_photo_scale": 6.597938144329897,
+      "pressure": 40.0,
+      "ink_center": [
+        495.5,
+        354.0
+      ],
+      "sidebearings": [
+        165,
+        134
       ]
     },
     "は": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 8,
       "new_branches": 3,
       "point_counts": [
@@ -1093,30 +1384,31 @@
         815.0
       ],
       "rendered_bounds": [
-        145,
-        23,
-        810,
-        692
+        153,
+        4,
+        871,
+        726
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.0844,
+        "scale_y": 1.0844,
+        "dx": 34.39,
+        "dy": 7.154
       },
       "uniform_photo_scale": 7.380952380952381,
       "pressure": 40.0,
       "ink_center": [
-        477.5,
-        357.5
+        512.0,
+        365.0
       ],
       "sidebearings": [
-        145,
-        150
+        153,
+        89
       ]
     },
     "ひ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 5,
       "new_branches": 1,
       "point_counts": [
@@ -1144,30 +1436,31 @@
         754.2307692307693
       ],
       "rendered_bounds": [
-        138,
-        86,
-        820,
-        632
+        87,
+        19,
+        931,
+        691
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.253447,
+        "scale_y": 1.253447,
+        "dx": 29.58,
+        "dy": -5.366
       },
       "uniform_photo_scale": 6.153846153846154,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        359.0
+        509.0,
+        355.0
       ],
       "sidebearings": [
-        138,
-        140
+        87,
+        29
       ]
     },
     "ふ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 10,
       "new_branches": 4,
       "point_counts": [
@@ -1198,30 +1491,31 @@
         784.0
       ],
       "rendered_bounds": [
-        148,
-        59,
-        810,
-        661
+        108,
+        17,
+        883,
+        721
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.18348,
+        "scale_y": 1.18348,
+        "dx": 16.274,
+        "dy": 7.964
       },
       "uniform_photo_scale": 6.888888888888889,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        360.0
+        495.5,
+        369.0
       ],
       "sidebearings": [
-        148,
-        150
+        108,
+        77
       ]
     },
     "へ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 1,
       "point_counts": [
@@ -1249,30 +1543,31 @@
         682.6213592233009
       ],
       "rendered_bounds": [
-        138,
-        133,
-        820,
-        558
+        100,
+        108,
+        895,
+        602
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.177765,
+        "scale_y": 1.177765,
+        "dx": 18.042,
+        "dy": 11.6421
       },
       "uniform_photo_scale": 6.213592233009709,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        345.5
+        497.5,
+        355.0
       ],
       "sidebearings": [
-        138,
-        140
+        100,
+        65
       ]
     },
     "ほ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 10,
       "new_branches": 4,
       "point_counts": [
@@ -1303,30 +1598,31 @@
         771.1052631578948
       ],
       "rendered_bounds": [
-        137,
-        65,
-        820,
-        648
+        140,
+        48,
+        882,
+        681
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.09223,
+        "scale_y": 1.09223,
+        "dx": 32.866,
+        "dy": 7.374
       },
       "uniform_photo_scale": 6.7368421052631575,
       "pressure": 40.0,
       "ink_center": [
-        478.5,
-        356.5
+        511.0,
+        364.5
       ],
       "sidebearings": [
-        137,
-        140
+        140,
+        78
       ]
     },
     "ま": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 12,
       "new_branches": 3,
       "point_counts": [
@@ -1356,30 +1652,31 @@
         825.0
       ],
       "rendered_bounds": [
-        231,
-        19,
-        727,
-        702
+        225,
+        -18,
+        788,
+        760
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.146067,
+        "scale_y": 1.146067,
+        "dx": 27.288,
+        "dy": 9.738
       },
       "uniform_photo_scale": 6.4,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        360.5
+        506.5,
+        371.0
       ],
       "sidebearings": [
-        231,
-        233
+        225,
+        172
       ]
     },
     "み": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 8,
       "new_branches": 2,
       "point_counts": [
@@ -1408,30 +1705,31 @@
         762.159090909091
       ],
       "rendered_bounds": [
-        148,
-        83,
-        810,
-        639
+        96,
+        16,
+        906,
+        696
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.239516,
+        "scale_y": 1.239516,
+        "dx": 21.87,
+        "dy": -6.854
       },
       "uniform_photo_scale": 7.045454545454546,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        361.0
+        501.0,
+        356.0
       ],
       "sidebearings": [
-        148,
-        150
+        96,
+        54
       ]
     },
     "む": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 10,
       "new_branches": 3,
       "point_counts": [
@@ -1461,30 +1759,31 @@
         825.0
       ],
       "rendered_bounds": [
-        210,
-        19,
-        748,
-        702
+        212,
+        5,
+        784,
+        732
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.068027,
+        "scale_y": 1.068027,
+        "dx": 19.084,
+        "dy": 7.756
       },
       "uniform_photo_scale": 6.530612244897959,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        360.5
+        498.0,
+        368.5
       ],
       "sidebearings": [
-        210,
-        212
+        212,
+        176
       ]
     },
     "め": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 9,
       "new_branches": 2,
       "point_counts": [
@@ -1513,30 +1812,31 @@
         825.0
       ],
       "rendered_bounds": [
-        134,
-        14,
-        821,
-        702
+        155,
+        29,
+        832,
+        708
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 0.984943,
+        "scale_y": 0.984943,
+        "dx": 16.702,
+        "dy": 10.178
       },
       "uniform_photo_scale": 7.529411764705882,
       "pressure": 40.0,
       "ink_center": [
-        477.5,
-        358.0
+        493.5,
+        368.5
       ],
       "sidebearings": [
-        134,
-        139
+        155,
+        128
       ]
     },
     "も": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 11,
       "new_branches": 3,
       "point_counts": [
@@ -1566,30 +1866,31 @@
         825.0
       ],
       "rendered_bounds": [
-        224,
-        18,
-        734,
-        702
+        212,
+        -1,
+        762,
+        739
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.085869,
+        "scale_y": 1.085869,
+        "dx": 8.034,
+        "dy": 8.976
       },
       "uniform_photo_scale": 6.881720430107527,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        360.0
+        487.0,
+        369.0
       ],
       "sidebearings": [
-        224,
-        226
+        212,
+        198
       ]
     },
     "や": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 3,
       "new_branches": 3,
       "point_counts": [
@@ -1619,30 +1920,31 @@
         825.0
       ],
       "rendered_bounds": [
-        171,
-        20,
-        789,
-        702
+        141,
+        -17,
+        845,
+        762
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.151094,
+        "scale_y": 1.151094,
+        "dx": 12.588,
+        "dy": 10.03
       },
       "uniform_photo_scale": 6.597938144329897,
       "pressure": 40.0,
       "ink_center": [
-        480.0,
-        361.0
+        493.0,
+        372.5
       ],
       "sidebearings": [
-        171,
-        171
+        141,
+        115
       ]
     },
     "ゆ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 9,
       "new_branches": 2,
       "point_counts": [
@@ -1671,30 +1973,31 @@
         825.0
       ],
       "rendered_bounds": [
-        189,
-        20,
-        771,
-        702
+        181,
+        -17,
+        832,
+        748
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.129014,
+        "scale_y": 1.129014,
+        "dx": 26.234,
+        "dy": 3.874
       },
       "uniform_photo_scale": 6.336633663366337,
       "pressure": 40.0,
       "ink_center": [
-        480.0,
-        361.0
+        506.5,
+        365.5
       ],
       "sidebearings": [
-        189,
-        189
+        181,
+        128
       ]
     },
     "よ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 5,
       "new_branches": 2,
       "point_counts": [
@@ -1723,30 +2026,31 @@
         815.0
       ],
       "rendered_bounds": [
-        171,
-        30,
-        786,
-        692
+        163,
+        15,
+        815,
+        717
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.063839,
+        "scale_y": 1.063839,
+        "dx": 10.386,
+        "dy": 4.934
       },
       "uniform_photo_scale": 6.813186813186813,
       "pressure": 40.0,
       "ink_center": [
-        478.5,
-        361.0
+        489.0,
+        366.0
       ],
       "sidebearings": [
-        171,
-        174
+        163,
+        145
       ]
     },
     "ら": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 4,
       "new_branches": 2,
       "point_counts": [
@@ -1775,30 +2079,31 @@
         825.0
       ],
       "rendered_bounds": [
-        209,
-        20,
-        750,
-        702
+        213,
+        1,
+        796,
+        739
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.08649,
+        "scale_y": 1.08649,
+        "dx": 24.93,
+        "dy": 8.5033
       },
       "uniform_photo_scale": 5.818181818181818,
       "pressure": 40.0,
       "ink_center": [
-        479.5,
-        361.0
+        504.5,
+        370.0
       ],
       "sidebearings": [
-        209,
-        210
+        213,
+        164
       ]
     },
     "り": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -1827,30 +2132,31 @@
         825.0
       ],
       "rendered_bounds": [
-        291,
-        20,
-        665,
-        702
+        288,
+        -15,
+        708,
+        756
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.138791,
+        "scale_y": 1.138791,
+        "dx": 19.524,
+        "dy": 8.952
       },
       "uniform_photo_scale": 5.161290322580645,
       "pressure": 40.0,
       "ink_center": [
-        478.0,
-        361.0
+        498.0,
+        370.5
       ],
       "sidebearings": [
-        291,
-        295
+        288,
+        252
       ]
     },
     "る": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 6,
       "new_branches": 1,
       "point_counts": [
@@ -1878,30 +2184,31 @@
         825.0
       ],
       "rendered_bounds": [
-        226,
-        16,
-        726,
-        706
+        235,
+        12,
+        740,
+        707
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.009113,
+        "scale_y": 1.009113,
+        "dx": 12.058,
+        "dy": -1.484
       },
       "uniform_photo_scale": 6.530612244897959,
       "pressure": 40.0,
       "ink_center": [
-        476.0,
-        361.0
+        487.5,
+        359.5
       ],
       "sidebearings": [
-        226,
-        234
+        235,
+        220
       ]
     },
     "れ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 10,
       "new_branches": 2,
       "point_counts": [
@@ -1930,30 +2237,31 @@
         789.4444444444445
       ],
       "rendered_bounds": [
-        138,
-        56,
-        820,
-        667
+        71,
+        -13,
+        933,
+        759
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.282132,
+        "scale_y": 1.282132,
+        "dx": 22.918,
+        "dy": 10.286
       },
       "uniform_photo_scale": 5.925925925925926,
       "pressure": 40.0,
       "ink_center": [
-        479.0,
-        361.5
+        502.0,
+        373.0
       ],
       "sidebearings": [
-        138,
-        140
+        71,
+        27
       ]
     },
     "ろ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 5,
       "new_branches": 1,
       "point_counts": [
@@ -1981,30 +2289,31 @@
         820.0
       ],
       "rendered_bounds": [
-        223,
-        25,
-        732,
-        697
+        238,
+        29,
+        734,
+        684
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 0.972211,
+        "scale_y": 0.972211,
+        "dx": 7.76,
+        "dy": -4.3511
       },
       "uniform_photo_scale": 6.5625,
       "pressure": 40.0,
       "ink_center": [
-        477.5,
-        361.0
+        486.0,
+        356.5
       ],
       "sidebearings": [
-        223,
-        228
+        238,
+        226
       ]
     },
     "わ": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 2,
       "new_branches": 2,
       "point_counts": [
@@ -2033,30 +2342,31 @@
         820.0
       ],
       "rendered_bounds": [
-        166,
-        25,
-        795,
-        697
+        153,
+        12,
+        847,
+        754
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.111751,
+        "scale_y": 1.111751,
+        "dx": 19.4053,
+        "dy": 21.036
       },
       "uniform_photo_scale": 6.428571428571429,
       "pressure": 40.0,
       "ink_center": [
-        480.5,
-        361.0
+        500.0,
+        383.0
       ],
       "sidebearings": [
-        166,
-        165
+        153,
+        113
       ]
     },
     "を": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 11,
       "new_branches": 3,
       "point_counts": [
@@ -2086,30 +2396,31 @@
         825.0
       ],
       "rendered_bounds": [
-        198,
-        19,
-        763,
-        702
+        159,
+        -30,
+        821,
+        772
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.18494,
+        "scale_y": 1.18494,
+        "dx": 9.862,
+        "dy": 9.018
       },
       "uniform_photo_scale": 5.925925925925926,
       "pressure": 40.0,
       "ink_center": [
-        480.5,
-        360.5
+        490.0,
+        371.0
       ],
       "sidebearings": [
-        198,
-        197
+        159,
+        139
       ]
     },
     "ん": {
+      "reference": "hiragana-maintainer-master-v2.png",
       "old_branches": 3,
       "new_branches": 1,
       "point_counts": [
@@ -2137,42 +2448,42 @@
         825.0
       ],
       "rendered_bounds": [
-        143,
-        13,
-        813,
-        702
+        146,
+        0,
+        858,
+        733
       ],
       "advance": 960,
       "optical_transform": {
-        "scale_x": 1,
-        "scale_y": 1,
-        "dx": 0,
-        "dy": 0
+        "scale_x": 1.068027,
+        "scale_y": 1.068027,
+        "dx": 24.138,
+        "dy": 8.94
       },
       "uniform_photo_scale": 7.191011235955056,
       "pressure": 40.0,
       "ink_center": [
-        478.0,
-        357.5
+        502.0,
+        366.5
       ],
       "sidebearings": [
-        143,
-        147
+        146,
+        102
       ]
     }
   },
   "yoon_offsets": {
     "ゃ": [
-      -74,
-      -74
+      -51,
+      -47
     ],
     "ゅ": [
-      -86,
-      -74
+      -80,
+      -47
     ],
     "ょ": [
-      -73,
-      -81
+      -67,
+      -70
     ],
     "ャ": [
       -87,

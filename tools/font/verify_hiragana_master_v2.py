@@ -17,11 +17,11 @@ import sys
 
 from fontTools.ttLib import TTFont
 from japanese.stroke_engine import build_stroke_glyph, translate_strokes
-from japanese.build_kana import bounds, base_anchor, DAKUTEN_ANCHOR, HANDAKUTEN_ANCHOR
+from japanese.build_kana import bounds, base_anchor, DAKUTEN_ANCHOR, HANDAKUTEN_ANCHOR, HIRAGANA_MARK_ANCHOR_Y_OFFSETS
 from japanese.user_japanese_overrides import SHARED_HAN_OPTICAL_TRANSFORMS, ALIGNMENT_REFERENCE_BOUNDS
-from kana_sources.hiragana_master_v2 import MASTER_SOURCES, TARGETS, ROWS, REFERENCE, REFERENCE_SHA256
+from kana_sources.hiragana_master_v2 import MASTER_SOURCES, TARGETS, ROWS, REFERENCES, REFERENCE, NA_REFERENCE, NA_ROW
 from kana_sources.user_handwriting_refined import USER_HANDWRITING_REFINED, MODERN_HIRAGANA_ORDER
-from kana_sources.user_handwriting_optical import HIRAGANA_OPTICAL_TRANSFORMS, OpticalTransform
+from kana_sources.user_handwriting_optical import HIRAGANA_OPTICAL_TRANSFORMS
 from kana_sources.full_data import (KANA_STROKES, COMPOSITES, scale, YOON_SMALL_KANA_OFFSETS,
                                     SMALL_HIRAGANA_OPTICAL_SHIFTS)
 
@@ -31,7 +31,6 @@ FONT_REL='assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regula
 TTF=ROOT/FONT_REL
 WOFF2=TTF.with_suffix('.woff2')
 MANIFEST=ROOT/'tools/font/references/hiragana-master-v2-manifest.json'
-PRESERVED='なにぬねの'
 SMALL=dict(zip('ぁぃぅぇぉっゃゅょゎゕゖ','あいうえおつやゆよわかけ'))
 VOICED='がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔ'
 YOON=tuple(a+b for a in 'きぎしじちにひびぴみり' for b in 'ゃゅょ')
@@ -56,20 +55,25 @@ def manifest():
 def verify_sources(characters=TARGETS):
     m=manifest()
     assert m['base_main']==BASE_MAIN and m['version']=='1.025'
-    assert len(TARGETS)==41 and set(MASTER_SOURCES)==set(TARGETS)
-    assert list(ROWS)==m['rows'] and set(MODERN_HIRAGANA_ORDER)==set(TARGETS+PRESERVED)
-    assert hashlib.sha256((ROOT/'tools/font/references'/REFERENCE).read_bytes()).hexdigest()==REFERENCE_SHA256==m['reference_sha256']
+    assert len(TARGETS)==46 and set(MASTER_SOURCES)==set(TARGETS)==set(m['glyphs'])
+    assert list(ROWS)==m['rows'] and MODERN_HIRAGANA_ORDER==TARGETS
+    assert REFERENCES==m['references'] and set(REFERENCES)=={REFERENCE,NA_REFERENCE}
+    for reference,expected_hash in REFERENCES.items():
+        assert hashlib.sha256((ROOT/'tools/font/references'/reference).read_bytes()).hexdigest()==expected_hash,reference
+    assert {c for c,s in MASTER_SOURCES.items() if s.reference==NA_REFERENCE}==set(NA_ROW)
+    assert all(s.reference in REFERENCES for s in MASTER_SOURCES.values())
+    assert not set(NA_ROW)&set(SMALL.values()),'No invented small na-row derivatives'
     for c in characters:
         source=USER_HANDWRITING_REFINED[c];record=m['glyphs'][c]
         assert digest(source)==record['source_sha256'],f'{c}: source hash'
         assert digest(source)!=record['old_source_sha256'],f'{c}: source was not replaced'
         assert source==MASTER_SOURCES[c].strokes(),f'{c}: master precedence'
         assert digest(MASTER_SOURCES[c])==record['recipe_sha256'],f'{c}: photo mapping/normalization'
+        assert MASTER_SOURCES[c].reference==record['reference'],f'{c}: reference provenance'
         assert len(source)==record['new_branches'],f'{c}: branches'
-        assert HIRAGANA_OPTICAL_TRANSFORMS[c]==OpticalTransform(),f'{c}: stale optical transform'
-    for c in PRESERVED:
-        assert digest(USER_HANDWRITING_REFINED[c])==m['baseline']['sources'][c]['sha256'],f'STOP: {c} changed'
-        assert vars(HIRAGANA_OPTICAL_TRANSFORMS[c])==m['baseline']['sources'][c]['optical'],f'{c}: optical drift'
+        t=HIRAGANA_OPTICAL_TRANSFORMS[c]
+        assert {'scale_x':t.scale,'scale_y':t.scale,'dx':t.dx,'dy':t.dy}==record['optical_transform'],f'{c}: stale optical transform'
+        assert t.scale_x is None and t.scale_y is None,f'{c}: non-uniform distortion'
     katakana={c:digest(s) for c,s in KANA_STROKES.items() if 0x30a1<=ord(c)<=0x30ff}
     assert katakana==m['baseline']['katakana'],'STOP: Katakana source/pressure/position drift'
     assert {c:vars(t) for c,t in SHARED_HAN_OPTICAL_TRANSFORMS.items()}==m['baseline']['han_optical'],'Han transforms changed'
@@ -77,10 +81,11 @@ def verify_sources(characters=TARGETS):
     assert {c:list(v) for c,v in YOON_SMALL_KANA_OFFSETS.items()}==m['yoon_offsets']
     for c in 'ャュョ':
         assert list(YOON_SMALL_KANA_OFFSETS[c])==m['baseline']['yoon_offsets'][c]
-    print('PASS: master source hashes/precedence; exact na-row, Katakana and Han preservation')
+    print('PASS: complete 46-glyph Master v2 source hashes/precedence; both reference hashes; Katakana and Han preservation')
 
 
 def verify_derivatives():
+    assert HIRAGANA_MARK_ANCHOR_Y_OFFSETS=={'て':17},'Only reviewed で mark clearance adjustment is allowed'
     for small,large in SMALL.items():
         dx,dy=SMALL_HIRAGANA_OPTICAL_SHIFTS.get(small,(0,0))
         expected=scale(KANA_STROKES[large],.72,center=(480,500),shift=(dx,-12+dy))
@@ -151,7 +156,7 @@ def verify_font_scope():
             if current!=signature(old,n):
                 assert n in allowed,f'STOP: unrelated glyph drift: {n}'
                 changed.add(n)
-        assert changed==allowed,('Expected all 79 dependent glyphs to change',allowed-changed)
+        assert changed==allowed,('Expected all 84 dependent glyphs to change',allowed-changed)
         for n in allowed:
             x0,y0,x1,y1=bounds(f,n)
             assert f['hmtx'].metrics[n][0]==960 and 0<=x0<x1<960,(n,'advance/clipping')
@@ -160,7 +165,7 @@ def verify_font_scope():
                             ('OS/2',('sTypoAscender','sTypoDescender','sTypoLineGap','usWinAscent','usWinDescent'))):
             for field in fields:assert getattr(old[table],field)==getattr(f[table],field)==getattr(web[table],field),field
         assert any(r.toUnicode()=='Version 1.025' for r in f['name'].names if r.nameID==5)
-    print('PASS: exactly 41 bases + 12 small + 26 voiced changed; entire TTF/WOFF2 parity, safe bounds and advances')
+    print('PASS: exactly 46 bases + 12 small + 26 voiced changed; entire TTF/WOFF2 parity, safe bounds and advances')
 
 
 def verify_fidelity():
@@ -171,7 +176,7 @@ def verify_fidelity():
         # gates detect wrong cells/structure; the overlays remain the visual QA.
         assert result['ink_iou']>=.55,(c,'ink overlap',result)
         assert result['mean_ink_distance_photo_px']<=.5,(c,'photo mismatch',result)
-    print('PASS: all 41 actual TTF glyphs match independent reference pixels (IoU >= .55; mean gap <= .5 px)')
+    print('PASS: all 46 actual TTF glyphs match independent reference pixels (IoU >= .55; mean gap <= .5 px)')
 
 
 def verify_determinism():
@@ -188,6 +193,8 @@ def main():
     parser.add_argument('--skip-rebuild',action='store_true')
     args=parser.parse_args()
     verify_sources();verify_derivatives();verify_font_scope();verify_fidelity()
+    from verify_hiragana_metrics import verify_metrics
+    verify_metrics()
     if not args.skip_rebuild:verify_determinism()
     print('PASS: all required yoon pairs: '+' '.join(YOON))
     return 0
