@@ -1,0 +1,3074 @@
+{
+  "schema": 1,
+  "measurement": "Actual ink bounding box and its midpoint, normalized by each font UPM; no outline data retained.",
+  "references": {
+    "noto": {
+      "family": "Noto Sans CJK JP",
+      "style": "Regular",
+      "version": "Version 2.004;hotconv 1.0.118;makeotfexe 2.5.65603",
+      "upm": 1000,
+      "sha256": "68a3fc98800b2a27b371f2fb79991daf3633bd89309d4ffaa6946fd587f375b5",
+      "provenance": "https://github.com/notofonts/noto-cjk/blob/main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf",
+      "glyphs": {
+        "あ": {
+          "bounds": [
+            109,
+            -50,
+            905,
+            794
+          ],
+          "bounds_em": [
+            0.109,
+            -0.05,
+            0.905,
+            0.794
+          ],
+          "width_em": 0.796,
+          "height_em": 0.844,
+          "center_x_em": 0.507,
+          "center_y_em": 0.372,
+          "advance_em": 1.0,
+          "width_cell": 0.796,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.794
+        },
+        "い": {
+          "bounds": [
+            126,
+            -9,
+            920,
+            700
+          ],
+          "bounds_em": [
+            0.126,
+            -0.009,
+            0.92,
+            0.7
+          ],
+          "width_em": 0.794,
+          "height_em": 0.709,
+          "center_x_em": 0.523,
+          "center_y_em": 0.3455,
+          "advance_em": 1.0,
+          "width_cell": 0.794,
+          "baseline_bottom_em": -0.009,
+          "baseline_top_em": 0.7
+        },
+        "う": {
+          "bounds": [
+            166,
+            -48,
+            805,
+            783
+          ],
+          "bounds_em": [
+            0.166,
+            -0.048,
+            0.805,
+            0.783
+          ],
+          "width_em": 0.639,
+          "height_em": 0.831,
+          "center_x_em": 0.4855,
+          "center_y_em": 0.3675,
+          "advance_em": 1.0,
+          "width_cell": 0.639,
+          "baseline_bottom_em": -0.048,
+          "baseline_top_em": 0.783
+        },
+        "え": {
+          "bounds": [
+            116,
+            -42,
+            908,
+            789
+          ],
+          "bounds_em": [
+            0.116,
+            -0.042,
+            0.908,
+            0.789
+          ],
+          "width_em": 0.792,
+          "height_em": 0.831,
+          "center_x_em": 0.512,
+          "center_y_em": 0.3735,
+          "advance_em": 1.0,
+          "width_cell": 0.792,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.789
+        },
+        "お": {
+          "bounds": [
+            105,
+            -32,
+            950,
+            799
+          ],
+          "bounds_em": [
+            0.105,
+            -0.032,
+            0.95,
+            0.799
+          ],
+          "width_em": 0.845,
+          "height_em": 0.831,
+          "center_x_em": 0.5275,
+          "center_y_em": 0.3835,
+          "advance_em": 1.0,
+          "width_cell": 0.845,
+          "baseline_bottom_em": -0.032,
+          "baseline_top_em": 0.799
+        },
+        "か": {
+          "bounds": [
+            78,
+            -31,
+            965,
+            790
+          ],
+          "bounds_em": [
+            0.078,
+            -0.031,
+            0.965,
+            0.79
+          ],
+          "width_em": 0.887,
+          "height_em": 0.821,
+          "center_x_em": 0.5215,
+          "center_y_em": 0.3795,
+          "advance_em": 1.0,
+          "width_cell": 0.887,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.79
+        },
+        "き": {
+          "bounds": [
+            160,
+            -48,
+            859,
+            798
+          ],
+          "bounds_em": [
+            0.16,
+            -0.048,
+            0.859,
+            0.798
+          ],
+          "width_em": 0.699,
+          "height_em": 0.846,
+          "center_x_em": 0.5095,
+          "center_y_em": 0.375,
+          "advance_em": 1.0,
+          "width_cell": 0.699,
+          "baseline_bottom_em": -0.048,
+          "baseline_top_em": 0.798
+        },
+        "く": {
+          "bounds": [
+            204.94254873773684,
+            -65,
+            726,
+            804
+          ],
+          "bounds_em": [
+            0.20494254873773685,
+            -0.065,
+            0.726,
+            0.804
+          ],
+          "width_em": 0.5210574512622631,
+          "height_em": 0.869,
+          "center_x_em": 0.4654712743688684,
+          "center_y_em": 0.3695,
+          "advance_em": 1.0,
+          "width_cell": 0.5210574512622631,
+          "baseline_bottom_em": -0.065,
+          "baseline_top_em": 0.804
+        },
+        "け": {
+          "bounds": [
+            119,
+            -59,
+            922,
+            780
+          ],
+          "bounds_em": [
+            0.119,
+            -0.059,
+            0.922,
+            0.78
+          ],
+          "width_em": 0.803,
+          "height_em": 0.839,
+          "center_x_em": 0.5205,
+          "center_y_em": 0.3605,
+          "advance_em": 1.0,
+          "width_cell": 0.803,
+          "baseline_bottom_em": -0.059,
+          "baseline_top_em": 0.78
+        },
+        "こ": {
+          "bounds": [
+            173,
+            -25,
+            835,
+            703
+          ],
+          "bounds_em": [
+            0.173,
+            -0.025,
+            0.835,
+            0.703
+          ],
+          "width_em": 0.662,
+          "height_em": 0.728,
+          "center_x_em": 0.504,
+          "center_y_em": 0.339,
+          "advance_em": 1.0,
+          "width_cell": 0.662,
+          "baseline_bottom_em": -0.025,
+          "baseline_top_em": 0.703
+        },
+        "さ": {
+          "bounds": [
+            158,
+            -42,
+            862,
+            798
+          ],
+          "bounds_em": [
+            0.158,
+            -0.042,
+            0.862,
+            0.798
+          ],
+          "width_em": 0.704,
+          "height_em": 0.84,
+          "center_x_em": 0.51,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.704,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.798
+        },
+        "し": {
+          "bounds": [
+            237,
+            -51,
+            898,
+            780
+          ],
+          "bounds_em": [
+            0.237,
+            -0.051,
+            0.898,
+            0.78
+          ],
+          "width_em": 0.661,
+          "height_em": 0.831,
+          "center_x_em": 0.5675,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.661,
+          "baseline_bottom_em": -0.051,
+          "baseline_top_em": 0.78
+        },
+        "す": {
+          "bounds": [
+            96,
+            -54,
+            929,
+            792
+          ],
+          "bounds_em": [
+            0.096,
+            -0.054,
+            0.929,
+            0.792
+          ],
+          "width_em": 0.833,
+          "height_em": 0.846,
+          "center_x_em": 0.5125,
+          "center_y_em": 0.369,
+          "advance_em": 1.0,
+          "width_cell": 0.833,
+          "baseline_bottom_em": -0.054,
+          "baseline_top_em": 0.792
+        },
+        "せ": {
+          "bounds": [
+            45,
+            -17,
+            922,
+            771
+          ],
+          "bounds_em": [
+            0.045,
+            -0.017,
+            0.922,
+            0.771
+          ],
+          "width_em": 0.877,
+          "height_em": 0.788,
+          "center_x_em": 0.4835,
+          "center_y_em": 0.377,
+          "advance_em": 1.0,
+          "width_cell": 0.877,
+          "baseline_bottom_em": -0.017,
+          "baseline_top_em": 0.771
+        },
+        "そ": {
+          "bounds": [
+            102,
+            -44.03419857540271,
+            877,
+            768
+          ],
+          "bounds_em": [
+            0.102,
+            -0.044034198575402715,
+            0.877,
+            0.768
+          ],
+          "width_em": 0.775,
+          "height_em": 0.8120341985754027,
+          "center_x_em": 0.4895,
+          "center_y_em": 0.36198290071229866,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.044034198575402715,
+          "baseline_top_em": 0.768
+        },
+        "た": {
+          "bounds": [
+            101,
+            -36,
+            908,
+            795
+          ],
+          "bounds_em": [
+            0.101,
+            -0.036,
+            0.908,
+            0.795
+          ],
+          "width_em": 0.807,
+          "height_em": 0.831,
+          "center_x_em": 0.5045,
+          "center_y_em": 0.3795,
+          "advance_em": 1.0,
+          "width_cell": 0.807,
+          "baseline_bottom_em": -0.036,
+          "baseline_top_em": 0.795
+        },
+        "ち": {
+          "bounds": [
+            112,
+            -39.29686215648353,
+            850,
+            788
+          ],
+          "bounds_em": [
+            0.112,
+            -0.03929686215648353,
+            0.85,
+            0.788
+          ],
+          "width_em": 0.738,
+          "height_em": 0.8272968621564835,
+          "center_x_em": 0.481,
+          "center_y_em": 0.37435156892175825,
+          "advance_em": 1.0,
+          "width_cell": 0.738,
+          "baseline_bottom_em": -0.03929686215648353,
+          "baseline_top_em": 0.788
+        },
+        "つ": {
+          "bounds": [
+            73,
+            14,
+            908,
+            650
+          ],
+          "bounds_em": [
+            0.073,
+            0.014,
+            0.908,
+            0.65
+          ],
+          "width_em": 0.835,
+          "height_em": 0.636,
+          "center_x_em": 0.4905,
+          "center_y_em": 0.332,
+          "advance_em": 1.0,
+          "width_cell": 0.835,
+          "baseline_bottom_em": 0.014,
+          "baseline_top_em": 0.65
+        },
+        "て": {
+          "bounds": [
+            85,
+            -31,
+            882,
+            728
+          ],
+          "bounds_em": [
+            0.085,
+            -0.031,
+            0.882,
+            0.728
+          ],
+          "width_em": 0.797,
+          "height_em": 0.759,
+          "center_x_em": 0.4835,
+          "center_y_em": 0.3485,
+          "advance_em": 1.0,
+          "width_cell": 0.797,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.728
+        },
+        "と": {
+          "bounds": [
+            201,
+            -28,
+            841,
+            778
+          ],
+          "bounds_em": [
+            0.201,
+            -0.028,
+            0.841,
+            0.778
+          ],
+          "width_em": 0.64,
+          "height_em": 0.806,
+          "center_x_em": 0.521,
+          "center_y_em": 0.375,
+          "advance_em": 1.0,
+          "width_cell": 0.64,
+          "baseline_bottom_em": -0.028,
+          "baseline_top_em": 0.778
+        },
+        "な": {
+          "bounds": [
+            94,
+            -51,
+            932,
+            802
+          ],
+          "bounds_em": [
+            0.094,
+            -0.051,
+            0.932,
+            0.802
+          ],
+          "width_em": 0.838,
+          "height_em": 0.853,
+          "center_x_em": 0.513,
+          "center_y_em": 0.3755,
+          "advance_em": 1.0,
+          "width_cell": 0.838,
+          "baseline_bottom_em": -0.051,
+          "baseline_top_em": 0.802
+        },
+        "に": {
+          "bounds": [
+            124,
+            -33,
+            899,
+            760
+          ],
+          "bounds_em": [
+            0.124,
+            -0.033,
+            0.899,
+            0.76
+          ],
+          "width_em": 0.775,
+          "height_em": 0.793,
+          "center_x_em": 0.5115,
+          "center_y_em": 0.3635,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.033,
+          "baseline_top_em": 0.76
+        },
+        "ぬ": {
+          "bounds": [
+            75,
+            -14,
+            966,
+            783
+          ],
+          "bounds_em": [
+            0.075,
+            -0.014,
+            0.966,
+            0.783
+          ],
+          "width_em": 0.891,
+          "height_em": 0.797,
+          "center_x_em": 0.5205,
+          "center_y_em": 0.3845,
+          "advance_em": 1.0,
+          "width_cell": 0.891,
+          "baseline_bottom_em": -0.014,
+          "baseline_top_em": 0.783
+        },
+        "ね": {
+          "bounds": [
+            55,
+            -38,
+            973,
+            794
+          ],
+          "bounds_em": [
+            0.055,
+            -0.038,
+            0.973,
+            0.794
+          ],
+          "width_em": 0.918,
+          "height_em": 0.832,
+          "center_x_em": 0.514,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.918,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "の": {
+          "bounds": [
+            88,
+            -31,
+            908,
+            718
+          ],
+          "bounds_em": [
+            0.088,
+            -0.031,
+            0.908,
+            0.718
+          ],
+          "width_em": 0.82,
+          "height_em": 0.749,
+          "center_x_em": 0.498,
+          "center_y_em": 0.3435,
+          "advance_em": 1.0,
+          "width_cell": 0.82,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.718
+        },
+        "は": {
+          "bounds": [
+            115,
+            -37,
+            950,
+            771
+          ],
+          "bounds_em": [
+            0.115,
+            -0.037,
+            0.95,
+            0.771
+          ],
+          "width_em": 0.835,
+          "height_em": 0.808,
+          "center_x_em": 0.5325,
+          "center_y_em": 0.367,
+          "advance_em": 1.0,
+          "width_cell": 0.835,
+          "baseline_bottom_em": -0.037,
+          "baseline_top_em": 0.771
+        },
+        "ひ": {
+          "bounds": [
+            109,
+            -50,
+            946,
+            739
+          ],
+          "bounds_em": [
+            0.109,
+            -0.05,
+            0.946,
+            0.739
+          ],
+          "width_em": 0.837,
+          "height_em": 0.789,
+          "center_x_em": 0.5275,
+          "center_y_em": 0.3445,
+          "advance_em": 1.0,
+          "width_cell": 0.837,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.739
+        },
+        "ふ": {
+          "bounds": [
+            42,
+            -29,
+            962,
+            773
+          ],
+          "bounds_em": [
+            0.042,
+            -0.029,
+            0.962,
+            0.773
+          ],
+          "width_em": 0.92,
+          "height_em": 0.802,
+          "center_x_em": 0.502,
+          "center_y_em": 0.372,
+          "advance_em": 1.0,
+          "width_cell": 0.92,
+          "baseline_bottom_em": -0.029,
+          "baseline_top_em": 0.773
+        },
+        "へ": {
+          "bounds": [
+            56,
+            37,
+            951,
+            635.4301416195923
+          ],
+          "bounds_em": [
+            0.056,
+            0.037,
+            0.951,
+            0.6354301416195923
+          ],
+          "width_em": 0.895,
+          "height_em": 0.5984301416195923,
+          "center_x_em": 0.5035,
+          "center_y_em": 0.3362150708097961,
+          "advance_em": 1.0,
+          "width_cell": 0.895,
+          "baseline_bottom_em": 0.037,
+          "baseline_top_em": 0.6354301416195923
+        },
+        "ほ": {
+          "bounds": [
+            115,
+            -37,
+            946,
+            766
+          ],
+          "bounds_em": [
+            0.115,
+            -0.037,
+            0.946,
+            0.766
+          ],
+          "width_em": 0.831,
+          "height_em": 0.803,
+          "center_x_em": 0.5305,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.831,
+          "baseline_bottom_em": -0.037,
+          "baseline_top_em": 0.766
+        },
+        "ま": {
+          "bounds": [
+            182,
+            -46,
+            866,
+            794
+          ],
+          "bounds_em": [
+            0.182,
+            -0.046,
+            0.866,
+            0.794
+          ],
+          "width_em": 0.684,
+          "height_em": 0.84,
+          "center_x_em": 0.524,
+          "center_y_em": 0.374,
+          "advance_em": 1.0,
+          "width_cell": 0.684,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.794
+        },
+        "み": {
+          "bounds": [
+            72,
+            -60,
+            948,
+            751
+          ],
+          "bounds_em": [
+            0.072,
+            -0.06,
+            0.948,
+            0.751
+          ],
+          "width_em": 0.876,
+          "height_em": 0.811,
+          "center_x_em": 0.51,
+          "center_y_em": 0.3455,
+          "advance_em": 1.0,
+          "width_cell": 0.876,
+          "baseline_bottom_em": -0.06,
+          "baseline_top_em": 0.751
+        },
+        "む": {
+          "bounds": [
+            92,
+            -42,
+            922,
+            793
+          ],
+          "bounds_em": [
+            0.092,
+            -0.042,
+            0.922,
+            0.793
+          ],
+          "width_em": 0.83,
+          "height_em": 0.835,
+          "center_x_em": 0.507,
+          "center_y_em": 0.3755,
+          "advance_em": 1.0,
+          "width_cell": 0.83,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.793
+        },
+        "め": {
+          "bounds": [
+            86,
+            -44,
+            906,
+            782
+          ],
+          "bounds_em": [
+            0.086,
+            -0.044,
+            0.906,
+            0.782
+          ],
+          "width_em": 0.82,
+          "height_em": 0.826,
+          "center_x_em": 0.496,
+          "center_y_em": 0.369,
+          "advance_em": 1.0,
+          "width_cell": 0.82,
+          "baseline_bottom_em": -0.044,
+          "baseline_top_em": 0.782
+        },
+        "も": {
+          "bounds": [
+            94,
+            -46,
+            870,
+            792
+          ],
+          "bounds_em": [
+            0.094,
+            -0.046,
+            0.87,
+            0.792
+          ],
+          "width_em": 0.776,
+          "height_em": 0.838,
+          "center_x_em": 0.482,
+          "center_y_em": 0.373,
+          "advance_em": 1.0,
+          "width_cell": 0.776,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.792
+        },
+        "や": {
+          "bounds": [
+            60,
+            -52,
+            913,
+            807
+          ],
+          "bounds_em": [
+            0.06,
+            -0.052,
+            0.913,
+            0.807
+          ],
+          "width_em": 0.853,
+          "height_em": 0.859,
+          "center_x_em": 0.4865,
+          "center_y_em": 0.3775,
+          "advance_em": 1.0,
+          "width_cell": 0.853,
+          "baseline_bottom_em": -0.052,
+          "baseline_top_em": 0.807
+        },
+        "ゆ": {
+          "bounds": [
+            132,
+            -64,
+            907,
+            793
+          ],
+          "bounds_em": [
+            0.132,
+            -0.064,
+            0.907,
+            0.793
+          ],
+          "width_em": 0.775,
+          "height_em": 0.857,
+          "center_x_em": 0.5195,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.064,
+          "baseline_top_em": 0.793
+        },
+        "よ": {
+          "bounds": [
+            126,
+            -46,
+            855,
+            785
+          ],
+          "bounds_em": [
+            0.126,
+            -0.046,
+            0.855,
+            0.785
+          ],
+          "width_em": 0.729,
+          "height_em": 0.831,
+          "center_x_em": 0.4905,
+          "center_y_em": 0.3695,
+          "advance_em": 1.0,
+          "width_cell": 0.729,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.785
+        },
+        "ら": {
+          "bounds": [
+            178,
+            -39.84648819099211,
+            852,
+            784
+          ],
+          "bounds_em": [
+            0.178,
+            -0.03984648819099211,
+            0.852,
+            0.784
+          ],
+          "width_em": 0.674,
+          "height_em": 0.823846488190992,
+          "center_x_em": 0.515,
+          "center_y_em": 0.37207675590450395,
+          "advance_em": 1.0,
+          "width_cell": 0.674,
+          "baseline_bottom_em": -0.03984648819099211,
+          "baseline_top_em": 0.784
+        },
+        "り": {
+          "bounds": [
+            212,
+            -50,
+            792,
+            792
+          ],
+          "bounds_em": [
+            0.212,
+            -0.05,
+            0.792,
+            0.792
+          ],
+          "width_em": 0.58,
+          "height_em": 0.842,
+          "center_x_em": 0.502,
+          "center_y_em": 0.371,
+          "advance_em": 1.0,
+          "width_cell": 0.58,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.792
+        },
+        "る": {
+          "bounds": [
+            112,
+            -43,
+            856,
+            754
+          ],
+          "bounds_em": [
+            0.112,
+            -0.043,
+            0.856,
+            0.754
+          ],
+          "width_em": 0.744,
+          "height_em": 0.797,
+          "center_x_em": 0.484,
+          "center_y_em": 0.3555,
+          "advance_em": 1.0,
+          "width_cell": 0.744,
+          "baseline_bottom_em": -0.043,
+          "baseline_top_em": 0.754
+        },
+        "れ": {
+          "bounds": [
+            54,
+            -38,
+            974,
+            794
+          ],
+          "bounds_em": [
+            0.054,
+            -0.038,
+            0.974,
+            0.794
+          ],
+          "width_em": 0.92,
+          "height_em": 0.832,
+          "center_x_em": 0.514,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.92,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "ろ": {
+          "bounds": [
+            108,
+            -44.22311417939693,
+            852,
+            745
+          ],
+          "bounds_em": [
+            0.108,
+            -0.04422311417939693,
+            0.852,
+            0.745
+          ],
+          "width_em": 0.744,
+          "height_em": 0.789223114179397,
+          "center_x_em": 0.48,
+          "center_y_em": 0.3503884429103015,
+          "advance_em": 1.0,
+          "width_cell": 0.744,
+          "baseline_bottom_em": -0.04422311417939693,
+          "baseline_top_em": 0.745
+        },
+        "わ": {
+          "bounds": [
+            55,
+            -38,
+            929.0050705405254,
+            794
+          ],
+          "bounds_em": [
+            0.055,
+            -0.038,
+            0.9290050705405254,
+            0.794
+          ],
+          "width_em": 0.8740050705405253,
+          "height_em": 0.832,
+          "center_x_em": 0.49200253527026266,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.8740050705405253,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "を": {
+          "bounds": [
+            95,
+            -45,
+            882,
+            798
+          ],
+          "bounds_em": [
+            0.095,
+            -0.045,
+            0.882,
+            0.798
+          ],
+          "width_em": 0.787,
+          "height_em": 0.843,
+          "center_x_em": 0.4885,
+          "center_y_em": 0.3765,
+          "advance_em": 1.0,
+          "width_cell": 0.787,
+          "baseline_bottom_em": -0.045,
+          "baseline_top_em": 0.798
+        },
+        "ん": {
+          "bounds": [
+            76,
+            -38,
+            947,
+            778
+          ],
+          "bounds_em": [
+            0.076,
+            -0.038,
+            0.947,
+            0.778
+          ],
+          "width_em": 0.871,
+          "height_em": 0.816,
+          "center_x_em": 0.5115,
+          "center_y_em": 0.37,
+          "advance_em": 1.0,
+          "width_cell": 0.871,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.778
+        }
+      }
+    },
+    "source_han": {
+      "family": "Source Han Sans JP",
+      "style": "Regular",
+      "version": "Version 2.005;addfeatures 5.0.0b21",
+      "upm": 1000,
+      "sha256": "40d1b760d1135539f6b6e0ee2b9f415de6d97576f7676840b06306c7c190c074",
+      "provenance": "https://github.com/adobe-fonts/source-han-sans/blob/release/SubsetOTF/JP/SourceHanSansJP-Regular.otf",
+      "glyphs": {
+        "あ": {
+          "bounds": [
+            109,
+            -50,
+            905,
+            794
+          ],
+          "bounds_em": [
+            0.109,
+            -0.05,
+            0.905,
+            0.794
+          ],
+          "width_em": 0.796,
+          "height_em": 0.844,
+          "center_x_em": 0.507,
+          "center_y_em": 0.372,
+          "advance_em": 1.0,
+          "width_cell": 0.796,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.794
+        },
+        "い": {
+          "bounds": [
+            126,
+            -9,
+            920,
+            700
+          ],
+          "bounds_em": [
+            0.126,
+            -0.009,
+            0.92,
+            0.7
+          ],
+          "width_em": 0.794,
+          "height_em": 0.709,
+          "center_x_em": 0.523,
+          "center_y_em": 0.3455,
+          "advance_em": 1.0,
+          "width_cell": 0.794,
+          "baseline_bottom_em": -0.009,
+          "baseline_top_em": 0.7
+        },
+        "う": {
+          "bounds": [
+            166,
+            -48,
+            805,
+            783
+          ],
+          "bounds_em": [
+            0.166,
+            -0.048,
+            0.805,
+            0.783
+          ],
+          "width_em": 0.639,
+          "height_em": 0.831,
+          "center_x_em": 0.4855,
+          "center_y_em": 0.3675,
+          "advance_em": 1.0,
+          "width_cell": 0.639,
+          "baseline_bottom_em": -0.048,
+          "baseline_top_em": 0.783
+        },
+        "え": {
+          "bounds": [
+            116,
+            -42,
+            908,
+            789
+          ],
+          "bounds_em": [
+            0.116,
+            -0.042,
+            0.908,
+            0.789
+          ],
+          "width_em": 0.792,
+          "height_em": 0.831,
+          "center_x_em": 0.512,
+          "center_y_em": 0.3735,
+          "advance_em": 1.0,
+          "width_cell": 0.792,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.789
+        },
+        "お": {
+          "bounds": [
+            105,
+            -32,
+            950,
+            799
+          ],
+          "bounds_em": [
+            0.105,
+            -0.032,
+            0.95,
+            0.799
+          ],
+          "width_em": 0.845,
+          "height_em": 0.831,
+          "center_x_em": 0.5275,
+          "center_y_em": 0.3835,
+          "advance_em": 1.0,
+          "width_cell": 0.845,
+          "baseline_bottom_em": -0.032,
+          "baseline_top_em": 0.799
+        },
+        "か": {
+          "bounds": [
+            78,
+            -31,
+            965,
+            790
+          ],
+          "bounds_em": [
+            0.078,
+            -0.031,
+            0.965,
+            0.79
+          ],
+          "width_em": 0.887,
+          "height_em": 0.821,
+          "center_x_em": 0.5215,
+          "center_y_em": 0.3795,
+          "advance_em": 1.0,
+          "width_cell": 0.887,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.79
+        },
+        "き": {
+          "bounds": [
+            160,
+            -48,
+            859,
+            798
+          ],
+          "bounds_em": [
+            0.16,
+            -0.048,
+            0.859,
+            0.798
+          ],
+          "width_em": 0.699,
+          "height_em": 0.846,
+          "center_x_em": 0.5095,
+          "center_y_em": 0.375,
+          "advance_em": 1.0,
+          "width_cell": 0.699,
+          "baseline_bottom_em": -0.048,
+          "baseline_top_em": 0.798
+        },
+        "く": {
+          "bounds": [
+            204.94254873773684,
+            -65,
+            726,
+            804
+          ],
+          "bounds_em": [
+            0.20494254873773685,
+            -0.065,
+            0.726,
+            0.804
+          ],
+          "width_em": 0.5210574512622631,
+          "height_em": 0.869,
+          "center_x_em": 0.4654712743688684,
+          "center_y_em": 0.3695,
+          "advance_em": 1.0,
+          "width_cell": 0.5210574512622631,
+          "baseline_bottom_em": -0.065,
+          "baseline_top_em": 0.804
+        },
+        "け": {
+          "bounds": [
+            119,
+            -59,
+            922,
+            780
+          ],
+          "bounds_em": [
+            0.119,
+            -0.059,
+            0.922,
+            0.78
+          ],
+          "width_em": 0.803,
+          "height_em": 0.839,
+          "center_x_em": 0.5205,
+          "center_y_em": 0.3605,
+          "advance_em": 1.0,
+          "width_cell": 0.803,
+          "baseline_bottom_em": -0.059,
+          "baseline_top_em": 0.78
+        },
+        "こ": {
+          "bounds": [
+            173,
+            -25,
+            835,
+            703
+          ],
+          "bounds_em": [
+            0.173,
+            -0.025,
+            0.835,
+            0.703
+          ],
+          "width_em": 0.662,
+          "height_em": 0.728,
+          "center_x_em": 0.504,
+          "center_y_em": 0.339,
+          "advance_em": 1.0,
+          "width_cell": 0.662,
+          "baseline_bottom_em": -0.025,
+          "baseline_top_em": 0.703
+        },
+        "さ": {
+          "bounds": [
+            158,
+            -42,
+            862,
+            798
+          ],
+          "bounds_em": [
+            0.158,
+            -0.042,
+            0.862,
+            0.798
+          ],
+          "width_em": 0.704,
+          "height_em": 0.84,
+          "center_x_em": 0.51,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.704,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.798
+        },
+        "し": {
+          "bounds": [
+            237,
+            -51,
+            898,
+            780
+          ],
+          "bounds_em": [
+            0.237,
+            -0.051,
+            0.898,
+            0.78
+          ],
+          "width_em": 0.661,
+          "height_em": 0.831,
+          "center_x_em": 0.5675,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.661,
+          "baseline_bottom_em": -0.051,
+          "baseline_top_em": 0.78
+        },
+        "す": {
+          "bounds": [
+            96,
+            -54,
+            929,
+            792
+          ],
+          "bounds_em": [
+            0.096,
+            -0.054,
+            0.929,
+            0.792
+          ],
+          "width_em": 0.833,
+          "height_em": 0.846,
+          "center_x_em": 0.5125,
+          "center_y_em": 0.369,
+          "advance_em": 1.0,
+          "width_cell": 0.833,
+          "baseline_bottom_em": -0.054,
+          "baseline_top_em": 0.792
+        },
+        "せ": {
+          "bounds": [
+            45,
+            -17,
+            922,
+            771
+          ],
+          "bounds_em": [
+            0.045,
+            -0.017,
+            0.922,
+            0.771
+          ],
+          "width_em": 0.877,
+          "height_em": 0.788,
+          "center_x_em": 0.4835,
+          "center_y_em": 0.377,
+          "advance_em": 1.0,
+          "width_cell": 0.877,
+          "baseline_bottom_em": -0.017,
+          "baseline_top_em": 0.771
+        },
+        "そ": {
+          "bounds": [
+            102,
+            -44.03419857540271,
+            877,
+            768
+          ],
+          "bounds_em": [
+            0.102,
+            -0.044034198575402715,
+            0.877,
+            0.768
+          ],
+          "width_em": 0.775,
+          "height_em": 0.8120341985754027,
+          "center_x_em": 0.4895,
+          "center_y_em": 0.36198290071229866,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.044034198575402715,
+          "baseline_top_em": 0.768
+        },
+        "た": {
+          "bounds": [
+            101,
+            -36,
+            908,
+            795
+          ],
+          "bounds_em": [
+            0.101,
+            -0.036,
+            0.908,
+            0.795
+          ],
+          "width_em": 0.807,
+          "height_em": 0.831,
+          "center_x_em": 0.5045,
+          "center_y_em": 0.3795,
+          "advance_em": 1.0,
+          "width_cell": 0.807,
+          "baseline_bottom_em": -0.036,
+          "baseline_top_em": 0.795
+        },
+        "ち": {
+          "bounds": [
+            112,
+            -39.29686215648353,
+            850,
+            788
+          ],
+          "bounds_em": [
+            0.112,
+            -0.03929686215648353,
+            0.85,
+            0.788
+          ],
+          "width_em": 0.738,
+          "height_em": 0.8272968621564835,
+          "center_x_em": 0.481,
+          "center_y_em": 0.37435156892175825,
+          "advance_em": 1.0,
+          "width_cell": 0.738,
+          "baseline_bottom_em": -0.03929686215648353,
+          "baseline_top_em": 0.788
+        },
+        "つ": {
+          "bounds": [
+            73,
+            14,
+            908,
+            650
+          ],
+          "bounds_em": [
+            0.073,
+            0.014,
+            0.908,
+            0.65
+          ],
+          "width_em": 0.835,
+          "height_em": 0.636,
+          "center_x_em": 0.4905,
+          "center_y_em": 0.332,
+          "advance_em": 1.0,
+          "width_cell": 0.835,
+          "baseline_bottom_em": 0.014,
+          "baseline_top_em": 0.65
+        },
+        "て": {
+          "bounds": [
+            85,
+            -31,
+            882,
+            728
+          ],
+          "bounds_em": [
+            0.085,
+            -0.031,
+            0.882,
+            0.728
+          ],
+          "width_em": 0.797,
+          "height_em": 0.759,
+          "center_x_em": 0.4835,
+          "center_y_em": 0.3485,
+          "advance_em": 1.0,
+          "width_cell": 0.797,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.728
+        },
+        "と": {
+          "bounds": [
+            201,
+            -28,
+            841,
+            778
+          ],
+          "bounds_em": [
+            0.201,
+            -0.028,
+            0.841,
+            0.778
+          ],
+          "width_em": 0.64,
+          "height_em": 0.806,
+          "center_x_em": 0.521,
+          "center_y_em": 0.375,
+          "advance_em": 1.0,
+          "width_cell": 0.64,
+          "baseline_bottom_em": -0.028,
+          "baseline_top_em": 0.778
+        },
+        "な": {
+          "bounds": [
+            94,
+            -51,
+            932,
+            802
+          ],
+          "bounds_em": [
+            0.094,
+            -0.051,
+            0.932,
+            0.802
+          ],
+          "width_em": 0.838,
+          "height_em": 0.853,
+          "center_x_em": 0.513,
+          "center_y_em": 0.3755,
+          "advance_em": 1.0,
+          "width_cell": 0.838,
+          "baseline_bottom_em": -0.051,
+          "baseline_top_em": 0.802
+        },
+        "に": {
+          "bounds": [
+            124,
+            -33,
+            899,
+            760
+          ],
+          "bounds_em": [
+            0.124,
+            -0.033,
+            0.899,
+            0.76
+          ],
+          "width_em": 0.775,
+          "height_em": 0.793,
+          "center_x_em": 0.5115,
+          "center_y_em": 0.3635,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.033,
+          "baseline_top_em": 0.76
+        },
+        "ぬ": {
+          "bounds": [
+            75,
+            -14,
+            966,
+            783
+          ],
+          "bounds_em": [
+            0.075,
+            -0.014,
+            0.966,
+            0.783
+          ],
+          "width_em": 0.891,
+          "height_em": 0.797,
+          "center_x_em": 0.5205,
+          "center_y_em": 0.3845,
+          "advance_em": 1.0,
+          "width_cell": 0.891,
+          "baseline_bottom_em": -0.014,
+          "baseline_top_em": 0.783
+        },
+        "ね": {
+          "bounds": [
+            55,
+            -38,
+            973,
+            794
+          ],
+          "bounds_em": [
+            0.055,
+            -0.038,
+            0.973,
+            0.794
+          ],
+          "width_em": 0.918,
+          "height_em": 0.832,
+          "center_x_em": 0.514,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.918,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "の": {
+          "bounds": [
+            88,
+            -31,
+            908,
+            718
+          ],
+          "bounds_em": [
+            0.088,
+            -0.031,
+            0.908,
+            0.718
+          ],
+          "width_em": 0.82,
+          "height_em": 0.749,
+          "center_x_em": 0.498,
+          "center_y_em": 0.3435,
+          "advance_em": 1.0,
+          "width_cell": 0.82,
+          "baseline_bottom_em": -0.031,
+          "baseline_top_em": 0.718
+        },
+        "は": {
+          "bounds": [
+            115,
+            -37,
+            950,
+            771
+          ],
+          "bounds_em": [
+            0.115,
+            -0.037,
+            0.95,
+            0.771
+          ],
+          "width_em": 0.835,
+          "height_em": 0.808,
+          "center_x_em": 0.5325,
+          "center_y_em": 0.367,
+          "advance_em": 1.0,
+          "width_cell": 0.835,
+          "baseline_bottom_em": -0.037,
+          "baseline_top_em": 0.771
+        },
+        "ひ": {
+          "bounds": [
+            109,
+            -50,
+            946,
+            739
+          ],
+          "bounds_em": [
+            0.109,
+            -0.05,
+            0.946,
+            0.739
+          ],
+          "width_em": 0.837,
+          "height_em": 0.789,
+          "center_x_em": 0.5275,
+          "center_y_em": 0.3445,
+          "advance_em": 1.0,
+          "width_cell": 0.837,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.739
+        },
+        "ふ": {
+          "bounds": [
+            42,
+            -29,
+            962,
+            773
+          ],
+          "bounds_em": [
+            0.042,
+            -0.029,
+            0.962,
+            0.773
+          ],
+          "width_em": 0.92,
+          "height_em": 0.802,
+          "center_x_em": 0.502,
+          "center_y_em": 0.372,
+          "advance_em": 1.0,
+          "width_cell": 0.92,
+          "baseline_bottom_em": -0.029,
+          "baseline_top_em": 0.773
+        },
+        "へ": {
+          "bounds": [
+            56,
+            37,
+            951,
+            635.4301416195923
+          ],
+          "bounds_em": [
+            0.056,
+            0.037,
+            0.951,
+            0.6354301416195923
+          ],
+          "width_em": 0.895,
+          "height_em": 0.5984301416195923,
+          "center_x_em": 0.5035,
+          "center_y_em": 0.3362150708097961,
+          "advance_em": 1.0,
+          "width_cell": 0.895,
+          "baseline_bottom_em": 0.037,
+          "baseline_top_em": 0.6354301416195923
+        },
+        "ほ": {
+          "bounds": [
+            115,
+            -37,
+            946,
+            766
+          ],
+          "bounds_em": [
+            0.115,
+            -0.037,
+            0.946,
+            0.766
+          ],
+          "width_em": 0.831,
+          "height_em": 0.803,
+          "center_x_em": 0.5305,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.831,
+          "baseline_bottom_em": -0.037,
+          "baseline_top_em": 0.766
+        },
+        "ま": {
+          "bounds": [
+            182,
+            -46,
+            866,
+            794
+          ],
+          "bounds_em": [
+            0.182,
+            -0.046,
+            0.866,
+            0.794
+          ],
+          "width_em": 0.684,
+          "height_em": 0.84,
+          "center_x_em": 0.524,
+          "center_y_em": 0.374,
+          "advance_em": 1.0,
+          "width_cell": 0.684,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.794
+        },
+        "み": {
+          "bounds": [
+            72,
+            -60,
+            948,
+            751
+          ],
+          "bounds_em": [
+            0.072,
+            -0.06,
+            0.948,
+            0.751
+          ],
+          "width_em": 0.876,
+          "height_em": 0.811,
+          "center_x_em": 0.51,
+          "center_y_em": 0.3455,
+          "advance_em": 1.0,
+          "width_cell": 0.876,
+          "baseline_bottom_em": -0.06,
+          "baseline_top_em": 0.751
+        },
+        "む": {
+          "bounds": [
+            92,
+            -42,
+            922,
+            793
+          ],
+          "bounds_em": [
+            0.092,
+            -0.042,
+            0.922,
+            0.793
+          ],
+          "width_em": 0.83,
+          "height_em": 0.835,
+          "center_x_em": 0.507,
+          "center_y_em": 0.3755,
+          "advance_em": 1.0,
+          "width_cell": 0.83,
+          "baseline_bottom_em": -0.042,
+          "baseline_top_em": 0.793
+        },
+        "め": {
+          "bounds": [
+            86,
+            -44,
+            906,
+            782
+          ],
+          "bounds_em": [
+            0.086,
+            -0.044,
+            0.906,
+            0.782
+          ],
+          "width_em": 0.82,
+          "height_em": 0.826,
+          "center_x_em": 0.496,
+          "center_y_em": 0.369,
+          "advance_em": 1.0,
+          "width_cell": 0.82,
+          "baseline_bottom_em": -0.044,
+          "baseline_top_em": 0.782
+        },
+        "も": {
+          "bounds": [
+            94,
+            -46,
+            870,
+            792
+          ],
+          "bounds_em": [
+            0.094,
+            -0.046,
+            0.87,
+            0.792
+          ],
+          "width_em": 0.776,
+          "height_em": 0.838,
+          "center_x_em": 0.482,
+          "center_y_em": 0.373,
+          "advance_em": 1.0,
+          "width_cell": 0.776,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.792
+        },
+        "や": {
+          "bounds": [
+            60,
+            -52,
+            913,
+            807
+          ],
+          "bounds_em": [
+            0.06,
+            -0.052,
+            0.913,
+            0.807
+          ],
+          "width_em": 0.853,
+          "height_em": 0.859,
+          "center_x_em": 0.4865,
+          "center_y_em": 0.3775,
+          "advance_em": 1.0,
+          "width_cell": 0.853,
+          "baseline_bottom_em": -0.052,
+          "baseline_top_em": 0.807
+        },
+        "ゆ": {
+          "bounds": [
+            132,
+            -64,
+            907,
+            793
+          ],
+          "bounds_em": [
+            0.132,
+            -0.064,
+            0.907,
+            0.793
+          ],
+          "width_em": 0.775,
+          "height_em": 0.857,
+          "center_x_em": 0.5195,
+          "center_y_em": 0.3645,
+          "advance_em": 1.0,
+          "width_cell": 0.775,
+          "baseline_bottom_em": -0.064,
+          "baseline_top_em": 0.793
+        },
+        "よ": {
+          "bounds": [
+            126,
+            -46,
+            855,
+            785
+          ],
+          "bounds_em": [
+            0.126,
+            -0.046,
+            0.855,
+            0.785
+          ],
+          "width_em": 0.729,
+          "height_em": 0.831,
+          "center_x_em": 0.4905,
+          "center_y_em": 0.3695,
+          "advance_em": 1.0,
+          "width_cell": 0.729,
+          "baseline_bottom_em": -0.046,
+          "baseline_top_em": 0.785
+        },
+        "ら": {
+          "bounds": [
+            178,
+            -39.84648819099211,
+            852,
+            784
+          ],
+          "bounds_em": [
+            0.178,
+            -0.03984648819099211,
+            0.852,
+            0.784
+          ],
+          "width_em": 0.674,
+          "height_em": 0.823846488190992,
+          "center_x_em": 0.515,
+          "center_y_em": 0.37207675590450395,
+          "advance_em": 1.0,
+          "width_cell": 0.674,
+          "baseline_bottom_em": -0.03984648819099211,
+          "baseline_top_em": 0.784
+        },
+        "り": {
+          "bounds": [
+            212,
+            -50,
+            792,
+            792
+          ],
+          "bounds_em": [
+            0.212,
+            -0.05,
+            0.792,
+            0.792
+          ],
+          "width_em": 0.58,
+          "height_em": 0.842,
+          "center_x_em": 0.502,
+          "center_y_em": 0.371,
+          "advance_em": 1.0,
+          "width_cell": 0.58,
+          "baseline_bottom_em": -0.05,
+          "baseline_top_em": 0.792
+        },
+        "る": {
+          "bounds": [
+            112,
+            -43,
+            856,
+            754
+          ],
+          "bounds_em": [
+            0.112,
+            -0.043,
+            0.856,
+            0.754
+          ],
+          "width_em": 0.744,
+          "height_em": 0.797,
+          "center_x_em": 0.484,
+          "center_y_em": 0.3555,
+          "advance_em": 1.0,
+          "width_cell": 0.744,
+          "baseline_bottom_em": -0.043,
+          "baseline_top_em": 0.754
+        },
+        "れ": {
+          "bounds": [
+            54,
+            -38,
+            974,
+            794
+          ],
+          "bounds_em": [
+            0.054,
+            -0.038,
+            0.974,
+            0.794
+          ],
+          "width_em": 0.92,
+          "height_em": 0.832,
+          "center_x_em": 0.514,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.92,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "ろ": {
+          "bounds": [
+            108,
+            -44.22311417939693,
+            852,
+            745
+          ],
+          "bounds_em": [
+            0.108,
+            -0.04422311417939693,
+            0.852,
+            0.745
+          ],
+          "width_em": 0.744,
+          "height_em": 0.789223114179397,
+          "center_x_em": 0.48,
+          "center_y_em": 0.3503884429103015,
+          "advance_em": 1.0,
+          "width_cell": 0.744,
+          "baseline_bottom_em": -0.04422311417939693,
+          "baseline_top_em": 0.745
+        },
+        "わ": {
+          "bounds": [
+            55,
+            -38,
+            929.0050705405254,
+            794
+          ],
+          "bounds_em": [
+            0.055,
+            -0.038,
+            0.9290050705405254,
+            0.794
+          ],
+          "width_em": 0.8740050705405253,
+          "height_em": 0.832,
+          "center_x_em": 0.49200253527026266,
+          "center_y_em": 0.378,
+          "advance_em": 1.0,
+          "width_cell": 0.8740050705405253,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.794
+        },
+        "を": {
+          "bounds": [
+            95,
+            -45,
+            882,
+            798
+          ],
+          "bounds_em": [
+            0.095,
+            -0.045,
+            0.882,
+            0.798
+          ],
+          "width_em": 0.787,
+          "height_em": 0.843,
+          "center_x_em": 0.4885,
+          "center_y_em": 0.3765,
+          "advance_em": 1.0,
+          "width_cell": 0.787,
+          "baseline_bottom_em": -0.045,
+          "baseline_top_em": 0.798
+        },
+        "ん": {
+          "bounds": [
+            76,
+            -38,
+            947,
+            778
+          ],
+          "bounds_em": [
+            0.076,
+            -0.038,
+            0.947,
+            0.778
+          ],
+          "width_em": 0.871,
+          "height_em": 0.816,
+          "center_x_em": 0.5115,
+          "center_y_em": 0.37,
+          "advance_em": 1.0,
+          "width_cell": 0.871,
+          "baseline_bottom_em": -0.038,
+          "baseline_top_em": 0.778
+        }
+      }
+    },
+    "production_1_024": {
+      "family": "QuanFangwei Supplement Script",
+      "style": "Regular",
+      "version": "Version 1.024",
+      "upm": 1024,
+      "sha256": "c32cea769cd285be642b3358a54049ef7f11449de06e3773d3ade4d5cf9548b6",
+      "provenance": "d89ee8b2b5f4c858e5dade853972194892037f93:assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf",
+      "glyphs": {
+        "あ": {
+          "bounds": [
+            190,
+            22,
+            767,
+            700
+          ],
+          "bounds_em": [
+            0.185546875,
+            0.021484375,
+            0.7490234375,
+            0.68359375
+          ],
+          "width_em": 0.5634765625,
+          "height_em": 0.662109375,
+          "center_x_em": 0.46728515625,
+          "center_y_em": 0.3525390625,
+          "advance_em": 0.9375,
+          "width_cell": 0.6010416666666667,
+          "baseline_bottom_em": 0.021484375,
+          "baseline_top_em": 0.68359375
+        },
+        "い": {
+          "bounds": [
+            135,
+            73,
+            825,
+            642
+          ],
+          "bounds_em": [
+            0.1318359375,
+            0.0712890625,
+            0.8056640625,
+            0.626953125
+          ],
+          "width_em": 0.673828125,
+          "height_em": 0.5556640625,
+          "center_x_em": 0.46875,
+          "center_y_em": 0.34912109375,
+          "advance_em": 0.9375,
+          "width_cell": 0.71875,
+          "baseline_bottom_em": 0.0712890625,
+          "baseline_top_em": 0.626953125
+        },
+        "う": {
+          "bounds": [
+            321,
+            34,
+            638,
+            688
+          ],
+          "bounds_em": [
+            0.3134765625,
+            0.033203125,
+            0.623046875,
+            0.671875
+          ],
+          "width_em": 0.3095703125,
+          "height_em": 0.638671875,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.3525390625,
+          "advance_em": 0.9375,
+          "width_cell": 0.3302083333333333,
+          "baseline_bottom_em": 0.033203125,
+          "baseline_top_em": 0.671875
+        },
+        "え": {
+          "bounds": [
+            250,
+            65,
+            704,
+            649
+          ],
+          "bounds_em": [
+            0.244140625,
+            0.0634765625,
+            0.6875,
+            0.6337890625
+          ],
+          "width_em": 0.443359375,
+          "height_em": 0.5703125,
+          "center_x_em": 0.4658203125,
+          "center_y_em": 0.3486328125,
+          "advance_em": 0.9375,
+          "width_cell": 0.47291666666666665,
+          "baseline_bottom_em": 0.0634765625,
+          "baseline_top_em": 0.6337890625
+        },
+        "お": {
+          "bounds": [
+            170,
+            23,
+            788,
+            699
+          ],
+          "bounds_em": [
+            0.166015625,
+            0.0224609375,
+            0.76953125,
+            0.6826171875
+          ],
+          "width_em": 0.603515625,
+          "height_em": 0.66015625,
+          "center_x_em": 0.4677734375,
+          "center_y_em": 0.3525390625,
+          "advance_em": 0.9375,
+          "width_cell": 0.64375,
+          "baseline_bottom_em": 0.0224609375,
+          "baseline_top_em": 0.6826171875
+        },
+        "か": {
+          "bounds": [
+            151,
+            109,
+            808,
+            599
+          ],
+          "bounds_em": [
+            0.1474609375,
+            0.1064453125,
+            0.7890625,
+            0.5849609375
+          ],
+          "width_em": 0.6416015625,
+          "height_em": 0.478515625,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.345703125,
+          "advance_em": 0.9375,
+          "width_cell": 0.684375,
+          "baseline_bottom_em": 0.1064453125,
+          "baseline_top_em": 0.5849609375
+        },
+        "き": {
+          "bounds": [
+            256,
+            20,
+            703,
+            701
+          ],
+          "bounds_em": [
+            0.25,
+            0.01953125,
+            0.6865234375,
+            0.6845703125
+          ],
+          "width_em": 0.4365234375,
+          "height_em": 0.6650390625,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.35205078125,
+          "advance_em": 0.9375,
+          "width_cell": 0.465625,
+          "baseline_bottom_em": 0.01953125,
+          "baseline_top_em": 0.6845703125
+        },
+        "く": {
+          "bounds": [
+            283,
+            98,
+            676,
+            616
+          ],
+          "bounds_em": [
+            0.2763671875,
+            0.095703125,
+            0.66015625,
+            0.6015625
+          ],
+          "width_em": 0.3837890625,
+          "height_em": 0.505859375,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.3486328125,
+          "advance_em": 0.9375,
+          "width_cell": 0.409375,
+          "baseline_bottom_em": 0.095703125,
+          "baseline_top_em": 0.6015625
+        },
+        "け": {
+          "bounds": [
+            276,
+            6,
+            740,
+            659
+          ],
+          "bounds_em": [
+            0.26953125,
+            0.005859375,
+            0.72265625,
+            0.6435546875
+          ],
+          "width_em": 0.453125,
+          "height_em": 0.6376953125,
+          "center_x_em": 0.49609375,
+          "center_y_em": 0.32470703125,
+          "advance_em": 0.9375,
+          "width_cell": 0.48333333333333334,
+          "baseline_bottom_em": 0.005859375,
+          "baseline_top_em": 0.6435546875
+        },
+        "こ": {
+          "bounds": [
+            263,
+            78,
+            744,
+            634
+          ],
+          "bounds_em": [
+            0.2568359375,
+            0.076171875,
+            0.7265625,
+            0.619140625
+          ],
+          "width_em": 0.4697265625,
+          "height_em": 0.54296875,
+          "center_x_em": 0.49169921875,
+          "center_y_em": 0.34765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5010416666666667,
+          "baseline_bottom_em": 0.076171875,
+          "baseline_top_em": 0.619140625
+        },
+        "さ": {
+          "bounds": [
+            256,
+            21,
+            703,
+            700
+          ],
+          "bounds_em": [
+            0.25,
+            0.0205078125,
+            0.6865234375,
+            0.68359375
+          ],
+          "width_em": 0.4365234375,
+          "height_em": 0.6630859375,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.35205078125,
+          "advance_em": 0.9375,
+          "width_cell": 0.465625,
+          "baseline_bottom_em": 0.0205078125,
+          "baseline_top_em": 0.68359375
+        },
+        "し": {
+          "bounds": [
+            248,
+            66,
+            707,
+            650
+          ],
+          "bounds_em": [
+            0.2421875,
+            0.064453125,
+            0.6904296875,
+            0.634765625
+          ],
+          "width_em": 0.4482421875,
+          "height_em": 0.5703125,
+          "center_x_em": 0.46630859375,
+          "center_y_em": 0.349609375,
+          "advance_em": 0.9375,
+          "width_cell": 0.478125,
+          "baseline_bottom_em": 0.064453125,
+          "baseline_top_em": 0.634765625
+        },
+        "す": {
+          "bounds": [
+            311,
+            -16,
+            812,
+            669
+          ],
+          "bounds_em": [
+            0.3037109375,
+            -0.015625,
+            0.79296875,
+            0.6533203125
+          ],
+          "width_em": 0.4892578125,
+          "height_em": 0.6689453125,
+          "center_x_em": 0.54833984375,
+          "center_y_em": 0.31884765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.521875,
+          "baseline_bottom_em": -0.015625,
+          "baseline_top_em": 0.6533203125
+        },
+        "せ": {
+          "bounds": [
+            237,
+            68,
+            728,
+            644
+          ],
+          "bounds_em": [
+            0.2314453125,
+            0.06640625,
+            0.7109375,
+            0.62890625
+          ],
+          "width_em": 0.4794921875,
+          "height_em": 0.5625,
+          "center_x_em": 0.47119140625,
+          "center_y_em": 0.34765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5114583333333333,
+          "baseline_bottom_em": 0.06640625,
+          "baseline_top_em": 0.62890625
+        },
+        "そ": {
+          "bounds": [
+            238,
+            95,
+            727,
+            620
+          ],
+          "bounds_em": [
+            0.232421875,
+            0.0927734375,
+            0.7099609375,
+            0.60546875
+          ],
+          "width_em": 0.4775390625,
+          "height_em": 0.5126953125,
+          "center_x_em": 0.47119140625,
+          "center_y_em": 0.34912109375,
+          "advance_em": 0.9375,
+          "width_cell": 0.509375,
+          "baseline_bottom_em": 0.0927734375,
+          "baseline_top_em": 0.60546875
+        },
+        "た": {
+          "bounds": [
+            226,
+            8,
+            730,
+            706
+          ],
+          "bounds_em": [
+            0.220703125,
+            0.0078125,
+            0.712890625,
+            0.689453125
+          ],
+          "width_em": 0.4921875,
+          "height_em": 0.681640625,
+          "center_x_em": 0.466796875,
+          "center_y_em": 0.3486328125,
+          "advance_em": 0.9375,
+          "width_cell": 0.525,
+          "baseline_bottom_em": 0.0078125,
+          "baseline_top_em": 0.689453125
+        },
+        "ち": {
+          "bounds": [
+            267,
+            8,
+            689,
+            709
+          ],
+          "bounds_em": [
+            0.2607421875,
+            0.0078125,
+            0.6728515625,
+            0.6923828125
+          ],
+          "width_em": 0.412109375,
+          "height_em": 0.6845703125,
+          "center_x_em": 0.466796875,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.4395833333333333,
+          "baseline_bottom_em": 0.0078125,
+          "baseline_top_em": 0.6923828125
+        },
+        "つ": {
+          "bounds": [
+            239,
+            145,
+            719,
+            560
+          ],
+          "bounds_em": [
+            0.2333984375,
+            0.1416015625,
+            0.7021484375,
+            0.546875
+          ],
+          "width_em": 0.46875,
+          "height_em": 0.4052734375,
+          "center_x_em": 0.4677734375,
+          "center_y_em": 0.34423828125,
+          "advance_em": 0.9375,
+          "width_cell": 0.5,
+          "baseline_bottom_em": 0.1416015625,
+          "baseline_top_em": 0.546875
+        },
+        "て": {
+          "bounds": [
+            219,
+            53,
+            740,
+            663
+          ],
+          "bounds_em": [
+            0.2138671875,
+            0.0517578125,
+            0.72265625,
+            0.6474609375
+          ],
+          "width_em": 0.5087890625,
+          "height_em": 0.595703125,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.349609375,
+          "advance_em": 0.9375,
+          "width_cell": 0.5427083333333333,
+          "baseline_bottom_em": 0.0517578125,
+          "baseline_top_em": 0.6474609375
+        },
+        "と": {
+          "bounds": [
+            236,
+            38,
+            722,
+            622
+          ],
+          "bounds_em": [
+            0.23046875,
+            0.037109375,
+            0.705078125,
+            0.607421875
+          ],
+          "width_em": 0.474609375,
+          "height_em": 0.5703125,
+          "center_x_em": 0.4677734375,
+          "center_y_em": 0.322265625,
+          "advance_em": 0.9375,
+          "width_cell": 0.50625,
+          "baseline_bottom_em": 0.037109375,
+          "baseline_top_em": 0.607421875
+        },
+        "な": {
+          "bounds": [
+            208,
+            44,
+            746,
+            673
+          ],
+          "bounds_em": [
+            0.203125,
+            0.04296875,
+            0.728515625,
+            0.6572265625
+          ],
+          "width_em": 0.525390625,
+          "height_em": 0.6142578125,
+          "center_x_em": 0.4658203125,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5604166666666667,
+          "baseline_bottom_em": 0.04296875,
+          "baseline_top_em": 0.6572265625
+        },
+        "に": {
+          "bounds": [
+            181,
+            78,
+            775,
+            633
+          ],
+          "bounds_em": [
+            0.1767578125,
+            0.076171875,
+            0.7568359375,
+            0.6181640625
+          ],
+          "width_em": 0.580078125,
+          "height_em": 0.5419921875,
+          "center_x_em": 0.466796875,
+          "center_y_em": 0.34716796875,
+          "advance_em": 0.9375,
+          "width_cell": 0.61875,
+          "baseline_bottom_em": 0.076171875,
+          "baseline_top_em": 0.6181640625
+        },
+        "ぬ": {
+          "bounds": [
+            150,
+            107,
+            807,
+            610
+          ],
+          "bounds_em": [
+            0.146484375,
+            0.1044921875,
+            0.7880859375,
+            0.595703125
+          ],
+          "width_em": 0.6416015625,
+          "height_em": 0.4912109375,
+          "center_x_em": 0.46728515625,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.684375,
+          "baseline_bottom_em": 0.1044921875,
+          "baseline_top_em": 0.595703125
+        },
+        "ね": {
+          "bounds": [
+            169,
+            -1,
+            790,
+            718
+          ],
+          "bounds_em": [
+            0.1650390625,
+            -0.0009765625,
+            0.771484375,
+            0.701171875
+          ],
+          "width_em": 0.6064453125,
+          "height_em": 0.7021484375,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.646875,
+          "baseline_bottom_em": -0.0009765625,
+          "baseline_top_em": 0.701171875
+        },
+        "の": {
+          "bounds": [
+            201,
+            146,
+            760,
+            566
+          ],
+          "bounds_em": [
+            0.1962890625,
+            0.142578125,
+            0.7421875,
+            0.552734375
+          ],
+          "width_em": 0.5458984375,
+          "height_em": 0.41015625,
+          "center_x_em": 0.46923828125,
+          "center_y_em": 0.34765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5822916666666667,
+          "baseline_bottom_em": 0.142578125,
+          "baseline_top_em": 0.552734375
+        },
+        "は": {
+          "bounds": [
+            209,
+            46,
+            746,
+            663
+          ],
+          "bounds_em": [
+            0.2041015625,
+            0.044921875,
+            0.728515625,
+            0.6474609375
+          ],
+          "width_em": 0.5244140625,
+          "height_em": 0.6025390625,
+          "center_x_em": 0.46630859375,
+          "center_y_em": 0.34619140625,
+          "advance_em": 0.9375,
+          "width_cell": 0.559375,
+          "baseline_bottom_em": 0.044921875,
+          "baseline_top_em": 0.6474609375
+        },
+        "ひ": {
+          "bounds": [
+            185,
+            88,
+            769,
+            625
+          ],
+          "bounds_em": [
+            0.1806640625,
+            0.0859375,
+            0.7509765625,
+            0.6103515625
+          ],
+          "width_em": 0.5703125,
+          "height_em": 0.5244140625,
+          "center_x_em": 0.4658203125,
+          "center_y_em": 0.34814453125,
+          "advance_em": 0.9375,
+          "width_cell": 0.6083333333333333,
+          "baseline_bottom_em": 0.0859375,
+          "baseline_top_em": 0.6103515625
+        },
+        "ふ": {
+          "bounds": [
+            167,
+            64,
+            788,
+            652
+          ],
+          "bounds_em": [
+            0.1630859375,
+            0.0625,
+            0.76953125,
+            0.63671875
+          ],
+          "width_em": 0.6064453125,
+          "height_em": 0.57421875,
+          "center_x_em": 0.46630859375,
+          "center_y_em": 0.349609375,
+          "advance_em": 0.9375,
+          "width_cell": 0.646875,
+          "baseline_bottom_em": 0.0625,
+          "baseline_top_em": 0.63671875
+        },
+        "へ": {
+          "bounds": [
+            206,
+            179,
+            753,
+            555
+          ],
+          "bounds_em": [
+            0.201171875,
+            0.1748046875,
+            0.7353515625,
+            0.5419921875
+          ],
+          "width_em": 0.5341796875,
+          "height_em": 0.3671875,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.3583984375,
+          "advance_em": 0.9375,
+          "width_cell": 0.5697916666666667,
+          "baseline_bottom_em": 0.1748046875,
+          "baseline_top_em": 0.5419921875
+        },
+        "ほ": {
+          "bounds": [
+            195,
+            135,
+            764,
+            578
+          ],
+          "bounds_em": [
+            0.1904296875,
+            0.1318359375,
+            0.74609375,
+            0.564453125
+          ],
+          "width_em": 0.5556640625,
+          "height_em": 0.4326171875,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.34814453125,
+          "advance_em": 0.9375,
+          "width_cell": 0.5927083333333333,
+          "baseline_bottom_em": 0.1318359375,
+          "baseline_top_em": 0.564453125
+        },
+        "ま": {
+          "bounds": [
+            251,
+            11,
+            703,
+            706
+          ],
+          "bounds_em": [
+            0.2451171875,
+            0.0107421875,
+            0.6865234375,
+            0.689453125
+          ],
+          "width_em": 0.44140625,
+          "height_em": 0.6787109375,
+          "center_x_em": 0.4658203125,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.4708333333333333,
+          "baseline_bottom_em": 0.0107421875,
+          "baseline_top_em": 0.689453125
+        },
+        "み": {
+          "bounds": [
+            247,
+            94,
+            712,
+            623
+          ],
+          "bounds_em": [
+            0.2412109375,
+            0.091796875,
+            0.6953125,
+            0.6083984375
+          ],
+          "width_em": 0.4541015625,
+          "height_em": 0.5166015625,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.484375,
+          "baseline_bottom_em": 0.091796875,
+          "baseline_top_em": 0.6083984375
+        },
+        "む": {
+          "bounds": [
+            229,
+            53,
+            725,
+            653
+          ],
+          "bounds_em": [
+            0.2236328125,
+            0.0517578125,
+            0.7080078125,
+            0.6376953125
+          ],
+          "width_em": 0.484375,
+          "height_em": 0.5859375,
+          "center_x_em": 0.4658203125,
+          "center_y_em": 0.3447265625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5166666666666667,
+          "baseline_bottom_em": 0.0517578125,
+          "baseline_top_em": 0.6376953125
+        },
+        "め": {
+          "bounds": [
+            176,
+            103,
+            783,
+            614
+          ],
+          "bounds_em": [
+            0.171875,
+            0.1005859375,
+            0.7646484375,
+            0.599609375
+          ],
+          "width_em": 0.5927734375,
+          "height_em": 0.4990234375,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.6322916666666667,
+          "baseline_bottom_em": 0.1005859375,
+          "baseline_top_em": 0.599609375
+        },
+        "も": {
+          "bounds": [
+            225,
+            47,
+            736,
+            667
+          ],
+          "bounds_em": [
+            0.2197265625,
+            0.0458984375,
+            0.71875,
+            0.6513671875
+          ],
+          "width_em": 0.4990234375,
+          "height_em": 0.60546875,
+          "center_x_em": 0.46923828125,
+          "center_y_em": 0.3486328125,
+          "advance_em": 0.9375,
+          "width_cell": 0.5322916666666667,
+          "baseline_bottom_em": 0.0458984375,
+          "baseline_top_em": 0.6513671875
+        },
+        "や": {
+          "bounds": [
+            209,
+            19,
+            765,
+            696
+          ],
+          "bounds_em": [
+            0.2041015625,
+            0.0185546875,
+            0.7470703125,
+            0.6796875
+          ],
+          "width_em": 0.54296875,
+          "height_em": 0.6611328125,
+          "center_x_em": 0.4755859375,
+          "center_y_em": 0.34912109375,
+          "advance_em": 0.9375,
+          "width_cell": 0.5791666666666667,
+          "baseline_bottom_em": 0.0185546875,
+          "baseline_top_em": 0.6796875
+        },
+        "ゆ": {
+          "bounds": [
+            237,
+            33,
+            724,
+            684
+          ],
+          "bounds_em": [
+            0.2314453125,
+            0.0322265625,
+            0.70703125,
+            0.66796875
+          ],
+          "width_em": 0.4755859375,
+          "height_em": 0.6357421875,
+          "center_x_em": 0.46923828125,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5072916666666667,
+          "baseline_bottom_em": 0.0322265625,
+          "baseline_top_em": 0.66796875
+        },
+        "よ": {
+          "bounds": [
+            239,
+            77,
+            712,
+            632
+          ],
+          "bounds_em": [
+            0.2333984375,
+            0.0751953125,
+            0.6953125,
+            0.6171875
+          ],
+          "width_em": 0.4619140625,
+          "height_em": 0.5419921875,
+          "center_x_em": 0.46435546875,
+          "center_y_em": 0.34619140625,
+          "advance_em": 0.9375,
+          "width_cell": 0.49270833333333336,
+          "baseline_bottom_em": 0.0751953125,
+          "baseline_top_em": 0.6171875
+        },
+        "ら": {
+          "bounds": [
+            275,
+            44,
+            688,
+            676
+          ],
+          "bounds_em": [
+            0.2685546875,
+            0.04296875,
+            0.671875,
+            0.66015625
+          ],
+          "width_em": 0.4033203125,
+          "height_em": 0.6171875,
+          "center_x_em": 0.47021484375,
+          "center_y_em": 0.3515625,
+          "advance_em": 0.9375,
+          "width_cell": 0.43020833333333336,
+          "baseline_bottom_em": 0.04296875,
+          "baseline_top_em": 0.66015625
+        },
+        "り": {
+          "bounds": [
+            329,
+            21,
+            633,
+            701
+          ],
+          "bounds_em": [
+            0.3212890625,
+            0.0205078125,
+            0.6181640625,
+            0.6845703125
+          ],
+          "width_em": 0.296875,
+          "height_em": 0.6640625,
+          "center_x_em": 0.4697265625,
+          "center_y_em": 0.3525390625,
+          "advance_em": 0.9375,
+          "width_cell": 0.31666666666666665,
+          "baseline_bottom_em": 0.0205078125,
+          "baseline_top_em": 0.6845703125
+        },
+        "る": {
+          "bounds": [
+            275,
+            69,
+            684,
+            641
+          ],
+          "bounds_em": [
+            0.2685546875,
+            0.0673828125,
+            0.66796875,
+            0.6259765625
+          ],
+          "width_em": 0.3994140625,
+          "height_em": 0.55859375,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.3466796875,
+          "advance_em": 0.9375,
+          "width_cell": 0.42604166666666665,
+          "baseline_bottom_em": 0.0673828125,
+          "baseline_top_em": 0.6259765625
+        },
+        "れ": {
+          "bounds": [
+            199,
+            13,
+            756,
+            704
+          ],
+          "bounds_em": [
+            0.1943359375,
+            0.0126953125,
+            0.73828125,
+            0.6875
+          ],
+          "width_em": 0.5439453125,
+          "height_em": 0.6748046875,
+          "center_x_em": 0.46630859375,
+          "center_y_em": 0.35009765625,
+          "advance_em": 0.9375,
+          "width_cell": 0.5802083333333333,
+          "baseline_bottom_em": 0.0126953125,
+          "baseline_top_em": 0.6875
+        },
+        "ろ": {
+          "bounds": [
+            278,
+            105,
+            682,
+            606
+          ],
+          "bounds_em": [
+            0.271484375,
+            0.1025390625,
+            0.666015625,
+            0.591796875
+          ],
+          "width_em": 0.39453125,
+          "height_em": 0.4892578125,
+          "center_x_em": 0.46875,
+          "center_y_em": 0.34716796875,
+          "advance_em": 0.9375,
+          "width_cell": 0.42083333333333334,
+          "baseline_bottom_em": 0.1025390625,
+          "baseline_top_em": 0.591796875
+        },
+        "わ": {
+          "bounds": [
+            174,
+            61,
+            816,
+            695
+          ],
+          "bounds_em": [
+            0.169921875,
+            0.0595703125,
+            0.796875,
+            0.6787109375
+          ],
+          "width_em": 0.626953125,
+          "height_em": 0.619140625,
+          "center_x_em": 0.4833984375,
+          "center_y_em": 0.369140625,
+          "advance_em": 0.9375,
+          "width_cell": 0.66875,
+          "baseline_bottom_em": 0.0595703125,
+          "baseline_top_em": 0.6787109375
+        },
+        "を": {
+          "bounds": [
+            276,
+            -14,
+            683,
+            725
+          ],
+          "bounds_em": [
+            0.26953125,
+            -0.013671875,
+            0.6669921875,
+            0.7080078125
+          ],
+          "width_em": 0.3974609375,
+          "height_em": 0.7216796875,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.34716796875,
+          "advance_em": 0.9375,
+          "width_cell": 0.4239583333333333,
+          "baseline_bottom_em": -0.013671875,
+          "baseline_top_em": 0.7080078125
+        },
+        "ん": {
+          "bounds": [
+            172,
+            39,
+            787,
+            671
+          ],
+          "bounds_em": [
+            0.16796875,
+            0.0380859375,
+            0.7685546875,
+            0.6552734375
+          ],
+          "width_em": 0.6005859375,
+          "height_em": 0.6171875,
+          "center_x_em": 0.46826171875,
+          "center_y_em": 0.3466796875,
+          "advance_em": 0.9375,
+          "width_cell": 0.640625,
+          "baseline_bottom_em": 0.0380859375,
+          "baseline_top_em": 0.6552734375
+        }
+      }
+    }
+  },
+  "external_max_metric_difference_em": 0.0,
+  "external_family_policy": "Noto/Source Han form one external metric group; their per-character median is combined with the independent production font, so related designs are not double-weighted."
+}

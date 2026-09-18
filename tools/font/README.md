@@ -1,5 +1,55 @@
 # 荃方位補寫體建置工具
 
+## Current authority: Version 1.025 — Complete Maintainer Hiragana Master v2
+
+All 46 modern basic Hiragana are refreshed from the maintainer's complete Master v2 source set. Both authoritative references are maintainer-owned:
+
+- Main 41-glyph sheet: `references/hiragana-maintainer-master-v2.png`, SHA256 `779559e9a7f3e7fe914987f882c2029f50881a53b092318db3d356f9792e8db1`.
+- Supplementary na-row sheet: `references/hiragana-maintainer-master-v2-na-row.png`, SHA256 `6a85555d562e9e2633b72a2aa4c7567cf5479a3f162b570de3b62039ce81e821`.
+
+Together they supersede every older reference for all 46 basic Hiragana, including the earlier legibility-reviewed `の`. The new na-row explicitly supersedes the previous preserve-na-row rule. No basic Hiragana intentionally remains on an older authoritative source. Older images and historical notes remain provenance only.
+
+`kana_sources/hiragana_master_v2.py` records the explicit eleven-row combined mapping, intentional gaps, glyph crops and manually interpreted pixel-space pen paths. Each drawing first receives an arbitrary uniform source-coordinate fit; absolute production size then comes from standard Japanese metrics through a reviewed uniform optical scale and dx/dy. No aspect distortion is applied. The unchanged variable-width renderer and family pressure factors produce the final outlines. Raster thickness is not literal production weight. No raster outline, autotrace or external Japanese font outline is installed.
+
+`なにぬねの` use new clean center-lines from the supplementary sheet and freshly reviewed uniform metric-based optical transforms. No small na-row forms are introduced. Every normal small Hiragana still uses the normal 0.72-scale path (including the existing scoped `ゎ` adjustment). `ゃゅょ` first derive from the new `やゆよ`; only their post-scale deltas are recalibrated to preserve the reviewed `(180,24)` lower-left ink anchor. Katakana sources and `ャュョ` deltas are unchanged. All 26 voiced/semi-voiced Hiragana use the revised base plus the unchanged shared marks; bounds-derived anchors and GPOS are verified, including forced decomposed HarfBuzz shaping and collision checks.
+
+Noto Sans CJK JP Regular (UPM 1000) and Source Han Sans JP Regular (UPM 1000) were measured from temporary files outside the repository. Their 46 Hiragana metric sets are identical and count as one standard reference; production 1.024 (UPM 1024) is the independent continuity reference. Each target height and box center is their median in em ratios. Width is a sanity envelope, retaining handwritten aspect. All 46 use uniform scale plus dx/dy; advance remains 960. External binaries/outlines are neither committed nor read by the canonical build. See [per-glyph metrics, family size gate and flagged outlier review](reports/hiragana-standard-metrics.md), [full CSV](reports/hiragana-standard-metrics.csv), and [same-em box proof](proofs/quanfangwei-hiragana-standard-metrics.png).
+
+Large normalization precedes all small derivation. After reviewing the normalized bases, only the `て` mark anchor requires an extra +17 y to keep `で` separated; shared dakuten/handakuten contours remain unchanged.
+
+The former live `け` measurement used for `気／付` is frozen at its accepted Version 1.024 bounds `(276,6,740,659)`, preventing unrelated Han movement. All Han output, including `壁／堅`, and all Latin/French/German output remains identical. The global engine, metrics and web code are unchanged.
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/render_hiragana_master_v2_proofs.py
+python tools/font/render_hiragana_metrics_proof.py
+python tools/font/verify_hiragana_metrics.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_hiragana_master_v2.py
+python tools/font/verify_handwritten_hiragana_svg.py
+python tools/font/verify_yoon_position.py
+python tools/font/verify_japanese_weight.py
+python tools/font/verify_japanese_optical_alignment.py
+```
+
+The master verifier uses the immutable base commit `d89ee8b2b5f4c858e5dade853972194892037f93`, not moving `origin/main`. It pins both reference hashes and all 46 reviewed source/recipe hashes, rejects unintended legacy basic sources, compares **every** glyph between old/new/TTF/WOFF2, permits exactly 84 changed outputs (46 bases + 12 small + 26 voiced), independently compares all 46 drawings to reference pixels, and runs a byte-identical canonical rebuild by default. `--skip-rebuild` omits only that last repeat build. Older revision-specific verifier entry points now exercise the shared current contract; their superseded snapshots remain in Git history.
+
+[Complete measurements and validation report](reports/hiragana-master-v2.md). [Source manifest](references/hiragana-master-v2-manifest.json). Current proof files:
+
+- [Complete master row arrangement](proofs/quanfangwei-hiragana-master-v2-proof.png)
+- [Reference / generated font](proofs/quanfangwei-hiragana-master-v2-comparison.png)
+- [Per-glyph overlays](proofs/quanfangwei-hiragana-master-v2-overlay.png)
+- [All 46 from the complete Master v2](proofs/quanfangwei-hiragana-master-v2-full-46.png)
+- [Na-row reference / old / new](proofs/quanfangwei-hiragana-master-v2-na-row.png)
+- [Na-row samples and にゃ/にゅ/にょ](proofs/quanfangwei-hiragana-master-v2-na-text.png)
+- [Family weight](proofs/quanfangwei-hiragana-master-v2-family-weight.png)
+- [Production text and unchanged existing lyric fixtures](proofs/quanfangwei-hiragana-master-v2-production-text.png)
+- [All small, voiced and yōon combinations](proofs/quanfangwei-hiragana-master-v2-derivatives-yoon.png)
+
+Build environment for this revision: Python 3.12, repository-pinned fontTools/Pillow/uharfbuzz/skia-pathops/NumPy/SciPy; Brotli 1.1.0 wheel because 1.0.9 has no Python 3.12 macOS wheel and this machine has no compiler. The repository dependency pins remain unchanged. Determinism is verified within this environment; no cross-Brotli compressed-byte identity is claimed.
+
+## Historical build and revision notes
+
 這套流程從 repository 內未修改的官方 `ChenYuluoyan-2.0-Thin.ttf` 建立獨立命名的「荃方位補寫體 / QuanFangwei Supplement Script」。它依 SIL Open Font License 1.1 製作，並非原作者官方更新版。
 
 目前 Windows 驗證環境沒有 FontForge，因此實際可重複流程使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不依賴 FontForge GUI。輸出是可由 fontTools 與瀏覽器正常開啟的真實 TTF／WOFF2；若未來採用 FontForge，必須保持 manifest、名稱、輪廓建構與驗證條件一致。

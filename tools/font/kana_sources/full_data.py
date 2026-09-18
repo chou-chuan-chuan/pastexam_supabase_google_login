@@ -213,10 +213,13 @@ for small, large in {"ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ"
 # layer only moves their ink toward the lower-left of each glyph's own cell.
 # Per-glyph values align the differently shaped outlines to approximately
 # xMin=180/yMin=24 after the shared -145-unit Kana build translation.
+# Version 1.025: recalibrate only Hiragana translations AFTER deriving the new
+# bases. Preserve the reviewed rendered lower-left anchor (180, 24), rather
+# than retaining deltas tuned for superseded geometry. Katakana deltas unchanged.
 YOON_SMALL_KANA_OFFSETS = {
-    "ゃ": (-104, -74),
-    "ゅ": (-120, -84),
-    "ょ": (-122, -114),
+    "ゃ": (-51, -47),
+    "ゅ": (-80, -47),
+    "ょ": (-67, -70),
     "ャ": (-87, -70),
     "ュ": (-136, -123),
     "ョ": (-148, -120),

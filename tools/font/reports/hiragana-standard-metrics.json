@@ -1,0 +1,1463 @@
+{
+  "version": "1.025",
+  "family_em": {
+    "width_em": {
+      "median": 0.63330078125,
+      "min": 0.365234375,
+      "max": 0.841796875
+    },
+    "height_em": {
+      "median": 0.70263671875,
+      "min": 0.482421875,
+      "max": 0.783203125
+    },
+    "center_x_em": {
+      "median": 0.48876953125,
+      "min": 0.46630859375,
+      "max": 0.53076171875
+    },
+    "center_y_em": {
+      "median": 0.35986328125,
+      "min": 0.33837890625,
+      "max": 0.3740234375
+    }
+  },
+  "glyphs": {
+    "あ": {
+      "metrics": {
+        "bounds": [
+          175,
+          -14,
+          822,
+          757
+        ],
+        "bounds_em": [
+          0.1708984375,
+          -0.013671875,
+          0.802734375,
+          0.7392578125
+        ],
+        "width_em": 0.6318359375,
+        "height_em": 0.7529296875,
+        "center_x_em": 0.48681640625,
+        "center_y_em": 0.36279296875,
+        "advance_em": 0.9375,
+        "width_cell": 0.6739583333333333,
+        "baseline_bottom_em": -0.013671875,
+        "baseline_top_em": 0.7392578125
+      },
+      "deviation_em": {
+        "height_em": -0.00012499999999993072,
+        "center_x_em": -0.0003261718750000031,
+        "center_y_em": 0.0005234375000000013
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "い": {
+      "metrics": {
+        "bounds": [
+          118,
+          32,
+          898,
+          679
+        ],
+        "bounds_em": [
+          0.115234375,
+          0.03125,
+          0.876953125,
+          0.6630859375
+        ],
+        "width_em": 0.76171875,
+        "height_em": 0.6318359375,
+        "center_x_em": 0.49609375,
+        "center_y_em": 0.34716796875,
+        "advance_em": 0.9375,
+        "width_cell": 0.8125,
+        "baseline_bottom_em": 0.03125,
+        "baseline_top_em": 0.6630859375
+      },
+      "deviation_em": {
+        "height_em": -0.0004960937500000373,
+        "center_x_em": 0.00021874999999998979,
+        "center_y_em": -0.00014257812499995914
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "う": {
+      "metrics": {
+        "bounds": [
+          301,
+          -8,
+          675,
+          745
+        ],
+        "bounds_em": [
+          0.2939453125,
+          -0.0078125,
+          0.6591796875,
+          0.7275390625
+        ],
+        "width_em": 0.365234375,
+        "height_em": 0.7353515625,
+        "center_x_em": 0.4765625,
+        "center_y_em": 0.35986328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.38958333333333334,
+        "baseline_bottom_em": -0.0078125,
+        "baseline_top_em": 0.7275390625
+      },
+      "deviation_em": {
+        "height_em": 0.0005156250000000195,
+        "center_x_em": -0.0003183593750000213,
+        "center_y_em": -0.00015624999999996891
+      },
+      "flags": [
+        "narrow relative to family median"
+      ],
+      "review": "Tall narrow main gesture from the handwriting; width remains within the reference envelope."
+    },
+    "え": {
+      "metrics": {
+        "bounds": [
+          209,
+          11,
+          793,
+          728
+        ],
+        "bounds_em": [
+          0.2041015625,
+          0.0107421875,
+          0.7744140625,
+          0.7109375
+        ],
+        "width_em": 0.5703125,
+        "height_em": 0.7001953125,
+        "center_x_em": 0.4892578125,
+        "center_y_em": 0.36083984375,
+        "advance_em": 0.9375,
+        "width_cell": 0.6083333333333333,
+        "baseline_bottom_em": 0.0107421875,
+        "baseline_top_em": 0.7109375
+      },
+      "deviation_em": {
+        "height_em": -0.00046093749999998046,
+        "center_x_em": 0.00034765624999999467,
+        "center_y_em": -0.00022656249999997158
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "お": {
+      "metrics": {
+        "bounds": [
+          158,
+          -5,
+          861,
+          758
+        ],
+        "bounds_em": [
+          0.154296875,
+          -0.0048828125,
+          0.8408203125,
+          0.740234375
+        ],
+        "width_em": 0.6865234375,
+        "height_em": 0.7451171875,
+        "center_x_em": 0.49755859375,
+        "center_y_em": 0.36767578125,
+        "advance_em": 0.9375,
+        "width_cell": 0.7322916666666667,
+        "baseline_bottom_em": -0.0048828125,
+        "baseline_top_em": 0.740234375
+      },
+      "deviation_em": {
+        "height_em": -0.00046093749999998046,
+        "center_x_em": -7.812499999998446e-05,
+        "center_y_em": -0.000343749999999976
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "か": {
+      "metrics": {
+        "bounds": [
+          195,
+          38,
+          818,
+          704
+        ],
+        "bounds_em": [
+          0.1904296875,
+          0.037109375,
+          0.798828125,
+          0.6875
+        ],
+        "width_em": 0.6083984375,
+        "height_em": 0.650390625,
+        "center_x_em": 0.49462890625,
+        "center_y_em": 0.3623046875,
+        "advance_em": 0.9375,
+        "width_cell": 0.6489583333333333,
+        "baseline_bottom_em": 0.037109375,
+        "baseline_top_em": 0.6875
+      },
+      "deviation_em": {
+        "height_em": 0.000632812500000024,
+        "center_x_em": -0.0002519531249999818,
+        "center_y_em": -0.00029687499999997424
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "き": {
+      "metrics": {
+        "bounds": [
+          247,
+          -14,
+          754,
+          760
+        ],
+        "bounds_em": [
+          0.2412109375,
+          -0.013671875,
+          0.736328125,
+          0.7421875
+        ],
+        "width_em": 0.4951171875,
+        "height_em": 0.755859375,
+        "center_x_em": 0.48876953125,
+        "center_y_em": 0.3642578125,
+        "advance_em": 0.9375,
+        "width_cell": 0.528125,
+        "baseline_bottom_em": -0.013671875,
+        "baseline_top_em": 0.7421875
+      },
+      "deviation_em": {
+        "height_em": 0.00033984374999995737,
+        "center_x_em": -0.00011132812499997646,
+        "center_y_em": 0.000732421875
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "く": {
+      "metrics": {
+        "bounds": [
+          284,
+          16,
+          671,
+          720
+        ],
+        "bounds_em": [
+          0.27734375,
+          0.015625,
+          0.6552734375,
+          0.703125
+        ],
+        "width_em": 0.3779296875,
+        "height_em": 0.6875,
+        "center_x_em": 0.46630859375,
+        "center_y_em": 0.359375,
+        "advance_em": 0.9375,
+        "width_cell": 0.403125,
+        "baseline_bottom_em": 0.015625,
+        "baseline_top_em": 0.703125
+      },
+      "deviation_em": {
+        "height_em": 7.031250000000266e-05,
+        "center_x_em": -0.0005579028094342409,
+        "center_y_em": 0.0003085937500000302
+      },
+      "flags": [
+        "narrow relative to family median"
+      ],
+      "review": "Narrow angled handwritten gesture; width remains within the reference envelope."
+    },
+    "け": {
+      "metrics": {
+        "bounds": [
+          174,
+          -28,
+          868,
+          729
+        ],
+        "bounds_em": [
+          0.169921875,
+          -0.02734375,
+          0.84765625,
+          0.7119140625
+        ],
+        "width_em": 0.677734375,
+        "height_em": 0.7392578125,
+        "center_x_em": 0.5087890625,
+        "center_y_em": 0.34228515625,
+        "advance_em": 0.9375,
+        "width_cell": 0.7229166666666667,
+        "baseline_bottom_em": -0.02734375,
+        "baseline_top_em": 0.7119140625
+      },
+      "deviation_em": {
+        "height_em": 0.000910156250000016,
+        "center_x_em": 0.0004921875000000187,
+        "center_y_em": -0.0003183593750000213
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "こ": {
+      "metrics": {
+        "bounds": [
+          186,
+          27,
+          833,
+          677
+        ],
+        "bounds_em": [
+          0.181640625,
+          0.0263671875,
+          0.8134765625,
+          0.6611328125
+        ],
+        "width_em": 0.6318359375,
+        "height_em": 0.634765625,
+        "center_x_em": 0.49755859375,
+        "center_y_em": 0.34375,
+        "advance_em": 0.9375,
+        "width_cell": 0.6739583333333333,
+        "baseline_bottom_em": 0.0263671875,
+        "baseline_top_em": 0.6611328125
+      },
+      "deviation_em": {
+        "height_em": -0.0007187499999999902,
+        "center_x_em": -0.0002910156250000018,
+        "center_y_em": 0.000421875000000016
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "さ": {
+      "metrics": {
+        "bounds": [
+          250,
+          -11,
+          751,
+          758
+        ],
+        "bounds_em": [
+          0.244140625,
+          -0.0107421875,
+          0.7333984375,
+          0.740234375
+        ],
+        "width_em": 0.4892578125,
+        "height_em": 0.7509765625,
+        "center_x_em": 0.48876953125,
+        "center_y_em": 0.36474609375,
+        "advance_em": 0.9375,
+        "width_cell": 0.521875,
+        "baseline_bottom_em": -0.0107421875,
+        "baseline_top_em": 0.740234375
+      },
+      "deviation_em": {
+        "height_em": -0.0005664062499999289,
+        "center_x_em": -0.00036132812500000444,
+        "center_y_em": -0.00027929687500000133
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "し": {
+      "metrics": {
+        "bounds": [
+          259,
+          7,
+          800,
+          724
+        ],
+        "bounds_em": [
+          0.2529296875,
+          0.0068359375,
+          0.78125,
+          0.70703125
+        ],
+        "width_em": 0.5283203125,
+        "height_em": 0.7001953125,
+        "center_x_em": 0.51708984375,
+        "center_y_em": 0.35693359375,
+        "advance_em": 0.9375,
+        "width_cell": 0.5635416666666667,
+        "baseline_bottom_em": 0.0068359375,
+        "baseline_top_em": 0.70703125
+      },
+      "deviation_em": {
+        "height_em": -0.00046093749999998046,
+        "center_x_em": 0.0001855468750000533,
+        "center_y_em": -0.00012109375000002309
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "す": {
+      "metrics": {
+        "bounds": [
+          256,
+          -35,
+          831,
+          740
+        ],
+        "bounds_em": [
+          0.25,
+          -0.0341796875,
+          0.8115234375,
+          0.72265625
+        ],
+        "width_em": 0.5615234375,
+        "height_em": 0.7568359375,
+        "center_x_em": 0.53076171875,
+        "center_y_em": 0.34423828125,
+        "advance_em": 0.9375,
+        "width_cell": 0.5989583333333334,
+        "baseline_bottom_em": -0.0341796875,
+        "baseline_top_em": 0.72265625
+      },
+      "deviation_em": {
+        "height_em": -0.0006367187500000426,
+        "center_x_em": 0.0003417968750000222,
+        "center_y_em": 0.00031445312500000266
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "せ": {
+      "metrics": {
+        "bounds": [
+          83,
+          26,
+          895,
+          717
+        ],
+        "bounds_em": [
+          0.0810546875,
+          0.025390625,
+          0.8740234375,
+          0.7001953125
+        ],
+        "width_em": 0.79296875,
+        "height_em": 0.6748046875,
+        "center_x_em": 0.4775390625,
+        "center_y_em": 0.36279296875,
+        "advance_em": 0.9375,
+        "width_cell": 0.8458333333333333,
+        "baseline_bottom_em": 0.025390625,
+        "baseline_top_em": 0.7001953125
+      },
+      "deviation_em": {
+        "height_em": -0.0004453125000000169,
+        "center_x_em": 0.00019335937499997957,
+        "center_y_em": 0.0004648437499999991
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "そ": {
+      "metrics": {
+        "bounds": [
+          232,
+          25,
+          752,
+          704
+        ],
+        "bounds_em": [
+          0.2265625,
+          0.0244140625,
+          0.734375,
+          0.6875
+        ],
+        "width_em": 0.5078125,
+        "height_em": 0.6630859375,
+        "center_x_em": 0.48046875,
+        "center_y_em": 0.35595703125,
+        "advance_em": 0.9375,
+        "width_cell": 0.5416666666666666,
+        "baseline_bottom_em": 0.0244140625,
+        "baseline_top_em": 0.6875
+      },
+      "deviation_em": {
+        "height_em": 0.0007211819622986448,
+        "center_x_em": 0.0001230468749999769,
+        "center_y_em": 0.0004050340188506696
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "た": {
+      "metrics": {
+        "bounds": [
+          221,
+          -15,
+          773,
+          759
+        ],
+        "bounds_em": [
+          0.2158203125,
+          -0.0146484375,
+          0.7548828125,
+          0.7412109375
+        ],
+        "width_em": 0.5390625,
+        "height_em": 0.755859375,
+        "center_x_em": 0.4853515625,
+        "center_y_em": 0.36328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.575,
+        "baseline_bottom_em": -0.0146484375,
+        "baseline_top_em": 0.7412109375
+      },
+      "deviation_em": {
+        "height_em": -0.00046093749999998046,
+        "center_x_em": -0.00029687499999997424,
+        "center_y_em": -0.0007851562499999742
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ち": {
+      "metrics": {
+        "bounds": [
+          192,
+          -17,
+          778,
+          758
+        ],
+        "bounds_em": [
+          0.1875,
+          -0.0166015625,
+          0.759765625,
+          0.740234375
+        ],
+        "width_em": 0.572265625,
+        "height_em": 0.7568359375,
+        "center_x_em": 0.4736328125,
+        "center_y_em": 0.36181640625,
+        "advance_em": 0.9375,
+        "width_cell": 0.6104166666666667,
+        "baseline_bottom_em": -0.0166015625,
+        "baseline_top_em": 0.740234375
+      },
+      "deviation_em": {
+        "height_em": 0.000902350171758215,
+        "center_x_em": -0.00026562499999999156,
+        "center_y_em": -0.00040820633587912436
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "つ": {
+      "metrics": {
+        "bounds": [
+          185,
+          80,
+          796,
+          613
+        ],
+        "bounds_em": [
+          0.1806640625,
+          0.078125,
+          0.77734375,
+          0.5986328125
+        ],
+        "width_em": 0.5966796875,
+        "height_em": 0.5205078125,
+        "center_x_em": 0.47900390625,
+        "center_y_em": 0.33837890625,
+        "advance_em": 0.9375,
+        "width_cell": 0.6364583333333333,
+        "baseline_bottom_em": 0.078125,
+        "baseline_top_em": 0.5986328125
+      },
+      "deviation_em": {
+        "height_em": -0.0001289062500000604,
+        "center_x_em": -0.00013281249999996803,
+        "center_y_em": 0.0002597656249999636
+      },
+      "flags": [
+        "short relative to family median"
+      ],
+      "review": "Shallow handwritten bowl; its per-character standard/production height target takes precedence over a family median."
+    },
+    "て": {
+      "metrics": {
+        "bounds": [
+          200,
+          11,
+          775,
+          705
+        ],
+        "bounds_em": [
+          0.1953125,
+          0.0107421875,
+          0.7568359375,
+          0.6884765625
+        ],
+        "width_em": 0.5615234375,
+        "height_em": 0.677734375,
+        "center_x_em": 0.47607421875,
+        "center_y_em": 0.349609375,
+        "advance_em": 0.9375,
+        "width_cell": 0.5989583333333334,
+        "baseline_bottom_em": 0.0107421875,
+        "baseline_top_em": 0.6884765625
+      },
+      "deviation_em": {
+        "height_em": 0.0003828125000000515,
+        "center_x_em": 0.00019335937499997957,
+        "center_y_em": 0.000554687499999984
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "と": {
+      "metrics": {
+        "bounds": [
+          181,
+          5,
+          831,
+          709
+        ],
+        "bounds_em": [
+          0.1767578125,
+          0.0048828125,
+          0.8115234375,
+          0.6923828125
+        ],
+        "width_em": 0.634765625,
+        "height_em": 0.6875,
+        "center_x_em": 0.494140625,
+        "center_y_em": 0.3486328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.6770833333333334,
+        "baseline_bottom_em": 0.0048828125,
+        "baseline_top_em": 0.6923828125
+      },
+      "deviation_em": {
+        "height_em": -0.0006562500000000249,
+        "center_x_em": -0.0002460937500000093,
+        "center_y_em": 0.0
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "な": {
+      "metrics": {
+        "bounds": [
+          180,
+          -4,
+          823,
+          747
+        ],
+        "bounds_em": [
+          0.17578125,
+          -0.00390625,
+          0.8037109375,
+          0.7294921875
+        ],
+        "width_em": 0.6279296875,
+        "height_em": 0.7333984375,
+        "center_x_em": 0.48974609375,
+        "center_y_em": 0.36279296875,
+        "advance_em": 0.9375,
+        "width_cell": 0.6697916666666667,
+        "baseline_bottom_em": -0.00390625,
+        "baseline_top_em": 0.7294921875
+      },
+      "deviation_em": {
+        "height_em": -0.00023046874999999023,
+        "center_x_em": 0.0003359374999999942,
+        "center_y_em": -5.8593749999724665e-06
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "に": {
+      "metrics": {
+        "bounds": [
+          138,
+          22,
+          864,
+          705
+        ],
+        "bounds_em": [
+          0.134765625,
+          0.021484375,
+          0.84375,
+          0.6884765625
+        ],
+        "width_em": 0.708984375,
+        "height_em": 0.6669921875,
+        "center_x_em": 0.4892578125,
+        "center_y_em": 0.35498046875,
+        "advance_em": 0.9375,
+        "width_cell": 0.75625,
+        "baseline_bottom_em": 0.021484375,
+        "baseline_top_em": 0.6884765625
+      },
+      "deviation_em": {
+        "height_em": -0.0005039062500000746,
+        "center_x_em": 0.00010937500000002265,
+        "center_y_em": -0.00035351562499996714
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ぬ": {
+      "metrics": {
+        "bounds": [
+          107,
+          47,
+          904,
+          706
+        ],
+        "bounds_em": [
+          0.1044921875,
+          0.0458984375,
+          0.8828125,
+          0.689453125
+        ],
+        "width_em": 0.7783203125,
+        "height_em": 0.6435546875,
+        "center_x_em": 0.49365234375,
+        "center_y_em": 0.36767578125,
+        "advance_em": 0.9375,
+        "width_cell": 0.8302083333333333,
+        "baseline_bottom_em": 0.0458984375,
+        "baseline_top_em": 0.689453125
+      },
+      "deviation_em": {
+        "height_em": -0.0005507812500000764,
+        "center_x_em": -0.00024023437499998135,
+        "center_y_em": 0.000376953124999968
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ね": {
+      "metrics": {
+        "bounds": [
+          97,
+          -20,
+          908,
+          766
+        ],
+        "bounds_em": [
+          0.0947265625,
+          -0.01953125,
+          0.88671875,
+          0.748046875
+        ],
+        "width_em": 0.7919921875,
+        "height_em": 0.767578125,
+        "center_x_em": 0.49072265625,
+        "center_y_em": 0.3642578125,
+        "advance_em": 0.9375,
+        "width_cell": 0.8447916666666667,
+        "baseline_bottom_em": -0.01953125,
+        "baseline_top_em": 0.748046875
+      },
+      "deviation_em": {
+        "height_em": 0.0005039062500000746,
+        "center_x_em": -0.0004082031250000062,
+        "center_y_em": 0.00020898437499999867
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "の": {
+      "metrics": {
+        "bounds": [
+          165,
+          57,
+          826,
+          651
+        ],
+        "bounds_em": [
+          0.1611328125,
+          0.0556640625,
+          0.806640625,
+          0.6357421875
+        ],
+        "width_em": 0.6455078125,
+        "height_em": 0.580078125,
+        "center_x_em": 0.48388671875,
+        "center_y_em": 0.345703125,
+        "advance_em": 0.9375,
+        "width_cell": 0.6885416666666667,
+        "baseline_bottom_em": 0.0556640625,
+        "baseline_top_em": 0.6357421875
+      },
+      "deviation_em": {
+        "height_em": 0.0004999999999999449,
+        "center_x_em": 0.0002675781250000009,
+        "center_y_em": 0.00012499999999998623
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "は": {
+      "metrics": {
+        "bounds": [
+          153,
+          4,
+          871,
+          726
+        ],
+        "bounds_em": [
+          0.1494140625,
+          0.00390625,
+          0.8505859375,
+          0.708984375
+        ],
+        "width_em": 0.701171875,
+        "height_em": 0.705078125,
+        "center_x_em": 0.5,
+        "center_y_em": 0.3564453125,
+        "advance_em": 0.9375,
+        "width_cell": 0.7479166666666667,
+        "baseline_bottom_em": 0.00390625,
+        "baseline_top_em": 0.708984375
+      },
+      "deviation_em": {
+        "height_em": -0.00019140625000002576,
+        "center_x_em": 0.0005957031250000133,
+        "center_y_em": -0.00015039062499999645
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ひ": {
+      "metrics": {
+        "bounds": [
+          87,
+          19,
+          931,
+          691
+        ],
+        "bounds_em": [
+          0.0849609375,
+          0.0185546875,
+          0.9091796875,
+          0.6748046875
+        ],
+        "width_em": 0.82421875,
+        "height_em": 0.65625,
+        "center_x_em": 0.4970703125,
+        "center_y_em": 0.3466796875,
+        "advance_em": 0.9375,
+        "width_cell": 0.8791666666666667,
+        "baseline_bottom_em": 0.0185546875,
+        "baseline_top_em": 0.6748046875
+      },
+      "deviation_em": {
+        "height_em": -0.00045703125000007283,
+        "center_x_em": 0.00041015625000001554,
+        "center_y_em": 0.0003574218749999858
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ふ": {
+      "metrics": {
+        "bounds": [
+          108,
+          17,
+          883,
+          721
+        ],
+        "bounds_em": [
+          0.10546875,
+          0.0166015625,
+          0.8623046875,
+          0.7041015625
+        ],
+        "width_em": 0.7568359375,
+        "height_em": 0.6875,
+        "center_x_em": 0.48388671875,
+        "center_y_em": 0.3603515625,
+        "advance_em": 0.9375,
+        "width_cell": 0.8072916666666666,
+        "baseline_bottom_em": 0.0166015625,
+        "baseline_top_em": 0.7041015625
+      },
+      "deviation_em": {
+        "height_em": -0.0006093750000000231,
+        "center_x_em": -0.0002675781250000009,
+        "center_y_em": -0.00045312499999999867
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "へ": {
+      "metrics": {
+        "bounds": [
+          100,
+          108,
+          895,
+          602
+        ],
+        "bounds_em": [
+          0.09765625,
+          0.10546875,
+          0.8740234375,
+          0.587890625
+        ],
+        "width_em": 0.7763671875,
+        "height_em": 0.482421875,
+        "center_x_em": 0.48583984375,
+        "center_y_em": 0.3466796875,
+        "advance_em": 0.9375,
+        "width_cell": 0.828125,
+        "baseline_bottom_em": 0.10546875,
+        "baseline_top_em": 0.587890625
+      },
+      "deviation_em": {
+        "height_em": -0.00038694580979614646,
+        "center_x_em": -4.10156249999738e-05,
+        "center_y_em": -0.0006270666548980897
+      },
+      "flags": [
+        "short relative to family median"
+      ],
+      "review": "Shallow handwritten arch; its per-character standard/production height target takes precedence over a family median."
+    },
+    "ほ": {
+      "metrics": {
+        "bounds": [
+          140,
+          48,
+          882,
+          681
+        ],
+        "bounds_em": [
+          0.13671875,
+          0.046875,
+          0.861328125,
+          0.6650390625
+        ],
+        "width_em": 0.724609375,
+        "height_em": 0.6181640625,
+        "center_x_em": 0.4990234375,
+        "center_y_em": 0.35595703125,
+        "advance_em": 0.9375,
+        "width_cell": 0.7729166666666667,
+        "baseline_bottom_em": 0.046875,
+        "baseline_top_em": 0.6650390625
+      },
+      "deviation_em": {
+        "height_em": 0.000355468750000032,
+        "center_x_em": -0.0003574218749999858,
+        "center_y_em": -0.0003652343750000231
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ま": {
+      "metrics": {
+        "bounds": [
+          225,
+          -18,
+          788,
+          760
+        ],
+        "bounds_em": [
+          0.2197265625,
+          -0.017578125,
+          0.76953125,
+          0.7421875
+        ],
+        "width_em": 0.5498046875,
+        "height_em": 0.759765625,
+        "center_x_em": 0.49462890625,
+        "center_y_em": 0.3623046875,
+        "advance_em": 0.9375,
+        "width_cell": 0.5864583333333333,
+        "baseline_bottom_em": -0.017578125,
+        "baseline_top_em": 0.7421875
+      },
+      "deviation_em": {
+        "height_em": 0.00041015625000007105,
+        "center_x_em": -0.00028125000000001066,
+        "center_y_em": 0.00025585937500000044
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "み": {
+      "metrics": {
+        "bounds": [
+          96,
+          16,
+          906,
+          696
+        ],
+        "bounds_em": [
+          0.09375,
+          0.015625,
+          0.884765625,
+          0.6796875
+        ],
+        "width_em": 0.791015625,
+        "height_em": 0.6640625,
+        "center_x_em": 0.4892578125,
+        "center_y_em": 0.34765625,
+        "advance_em": 0.9375,
+        "width_cell": 0.84375,
+        "baseline_bottom_em": 0.015625,
+        "baseline_top_em": 0.6796875
+      },
+      "deviation_em": {
+        "height_em": 0.0002617187500000284,
+        "center_x_em": 0.00012695312499999556,
+        "center_y_em": -0.00014257812499995914
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "む": {
+      "metrics": {
+        "bounds": [
+          212,
+          5,
+          784,
+          732
+        ],
+        "bounds_em": [
+          0.20703125,
+          0.0048828125,
+          0.765625,
+          0.71484375
+        ],
+        "width_em": 0.55859375,
+        "height_em": 0.7099609375,
+        "center_x_em": 0.486328125,
+        "center_y_em": 0.35986328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.5958333333333333,
+        "baseline_bottom_em": 0.0048828125,
+        "baseline_top_em": 0.71484375
+      },
+      "deviation_em": {
+        "height_em": -0.0005078124999999822,
+        "center_x_em": -8.203125000000311e-05,
+        "center_y_em": -0.00024999999999997247
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "め": {
+      "metrics": {
+        "bounds": [
+          155,
+          29,
+          832,
+          708
+        ],
+        "bounds_em": [
+          0.1513671875,
+          0.0283203125,
+          0.8125,
+          0.69140625
+        ],
+        "width_em": 0.6611328125,
+        "height_em": 0.6630859375,
+        "center_x_em": 0.48193359375,
+        "center_y_em": 0.35986328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.7052083333333333,
+        "baseline_bottom_em": 0.0283203125,
+        "baseline_top_em": 0.69140625
+      },
+      "deviation_em": {
+        "height_em": 0.0005742187499999662,
+        "center_x_em": -0.00019726562499999822,
+        "center_y_em": 0.00031445312500000266
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "も": {
+      "metrics": {
+        "bounds": [
+          212,
+          -1,
+          762,
+          739
+        ],
+        "bounds_em": [
+          0.20703125,
+          -0.0009765625,
+          0.744140625,
+          0.7216796875
+        ],
+        "width_em": 0.537109375,
+        "height_em": 0.72265625,
+        "center_x_em": 0.4755859375,
+        "center_y_em": 0.3603515625,
+        "advance_em": 0.9375,
+        "width_cell": 0.5729166666666666,
+        "baseline_bottom_em": -0.0009765625,
+        "baseline_top_em": 0.7216796875
+      },
+      "deviation_em": {
+        "height_em": 0.0009218749999999609,
+        "center_x_em": -3.3203124999992006e-05,
+        "center_y_em": -0.0004648437499999991
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "や": {
+      "metrics": {
+        "bounds": [
+          141,
+          -17,
+          845,
+          762
+        ],
+        "bounds_em": [
+          0.1376953125,
+          -0.0166015625,
+          0.8251953125,
+          0.744140625
+        ],
+        "width_em": 0.6875,
+        "height_em": 0.7607421875,
+        "center_x_em": 0.4814453125,
+        "center_y_em": 0.36376953125,
+        "advance_em": 0.9375,
+        "width_cell": 0.7333333333333333,
+        "baseline_bottom_em": -0.0166015625,
+        "baseline_top_em": 0.744140625
+      },
+      "deviation_em": {
+        "height_em": 0.0006757812500000071,
+        "center_x_em": 0.00040234375000003375,
+        "center_y_em": 0.00045898437500002665
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ゆ": {
+      "metrics": {
+        "bounds": [
+          181,
+          -17,
+          832,
+          748
+        ],
+        "bounds_em": [
+          0.1767578125,
+          -0.0166015625,
+          0.8125,
+          0.73046875
+        ],
+        "width_em": 0.6357421875,
+        "height_em": 0.7470703125,
+        "center_x_em": 0.49462890625,
+        "center_y_em": 0.35693359375,
+        "advance_em": 0.9375,
+        "width_cell": 0.678125,
+        "baseline_bottom_em": -0.0166015625,
+        "baseline_top_em": 0.73046875
+      },
+      "deviation_em": {
+        "height_em": 0.000699218750000008,
+        "center_x_em": 0.0002597656250000191,
+        "center_y_em": -0.0003652343750000231
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "よ": {
+      "metrics": {
+        "bounds": [
+          163,
+          15,
+          815,
+          717
+        ],
+        "bounds_em": [
+          0.1591796875,
+          0.0146484375,
+          0.7958984375,
+          0.7001953125
+        ],
+        "width_em": 0.63671875,
+        "height_em": 0.685546875,
+        "center_x_em": 0.4775390625,
+        "center_y_em": 0.357421875,
+        "advance_em": 0.9375,
+        "width_cell": 0.6791666666666667,
+        "baseline_bottom_em": 0.0146484375,
+        "baseline_top_em": 0.7001953125
+      },
+      "deviation_em": {
+        "height_em": -0.0009492187499999805,
+        "center_x_em": 0.00011132812500003197,
+        "center_y_em": -0.0004238281249999698
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ら": {
+      "metrics": {
+        "bounds": [
+          213,
+          1,
+          796,
+          739
+        ],
+        "bounds_em": [
+          0.2080078125,
+          0.0009765625,
+          0.77734375,
+          0.7216796875
+        ],
+        "width_em": 0.5693359375,
+        "height_em": 0.720703125,
+        "center_x_em": 0.49267578125,
+        "center_y_em": 0.361328125,
+        "advance_em": 0.9375,
+        "width_cell": 0.6072916666666667,
+        "baseline_bottom_em": 0.0009765625,
+        "baseline_top_em": 0.7216796875
+      },
+      "deviation_em": {
+        "height_em": 0.00018613090450392278,
+        "center_x_em": 6.835937499999334e-05,
+        "center_y_em": -0.0004915029522519765
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "り": {
+      "metrics": {
+        "bounds": [
+          288,
+          -15,
+          708,
+          756
+        ],
+        "bounds_em": [
+          0.28125,
+          -0.0146484375,
+          0.69140625,
+          0.73828125
+        ],
+        "width_em": 0.41015625,
+        "height_em": 0.7529296875,
+        "center_x_em": 0.486328125,
+        "center_y_em": 0.36181640625,
+        "advance_em": 0.9375,
+        "width_cell": 0.4375,
+        "baseline_bottom_em": -0.0146484375,
+        "baseline_top_em": 0.73828125
+      },
+      "deviation_em": {
+        "height_em": -0.00010156250000004086,
+        "center_x_em": 0.0004648437499999991,
+        "center_y_em": 4.6875000000001776e-05
+      },
+      "flags": [
+        "narrow relative to family median"
+      ],
+      "review": "Narrow two-stroke handwriting; width remains within the reference envelope."
+    },
+    "る": {
+      "metrics": {
+        "bounds": [
+          235,
+          12,
+          740,
+          707
+        ],
+        "bounds_em": [
+          0.2294921875,
+          0.01171875,
+          0.72265625,
+          0.6904296875
+        ],
+        "width_em": 0.4931640625,
+        "height_em": 0.6787109375,
+        "center_x_em": 0.47607421875,
+        "center_y_em": 0.35107421875,
+        "advance_em": 0.9375,
+        "width_cell": 0.5260416666666666,
+        "baseline_bottom_em": 0.01171875,
+        "baseline_top_em": 0.6904296875
+      },
+      "deviation_em": {
+        "height_em": 0.0009140624999999236,
+        "center_x_em": -5.6640624999992895e-05,
+        "center_y_em": -1.5624999999963585e-05
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "れ": {
+      "metrics": {
+        "bounds": [
+          71,
+          -13,
+          933,
+          759
+        ],
+        "bounds_em": [
+          0.0693359375,
+          -0.0126953125,
+          0.9111328125,
+          0.7412109375
+        ],
+        "width_em": 0.841796875,
+        "height_em": 0.75390625,
+        "center_x_em": 0.490234375,
+        "center_y_em": 0.3642578125,
+        "advance_em": 0.9375,
+        "width_cell": 0.8979166666666667,
+        "baseline_bottom_em": -0.0126953125,
+        "baseline_top_em": 0.7412109375
+      },
+      "deviation_em": {
+        "height_em": 0.0005039062500000746,
+        "center_x_em": 8.007812499999378e-05,
+        "center_y_em": 0.00020898437499999867
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ろ": {
+      "metrics": {
+        "bounds": [
+          238,
+          29,
+          734,
+          684
+        ],
+        "bounds_em": [
+          0.232421875,
+          0.0283203125,
+          0.716796875,
+          0.66796875
+        ],
+        "width_em": 0.484375,
+        "height_em": 0.6396484375,
+        "center_x_em": 0.474609375,
+        "center_y_em": 0.34814453125,
+        "advance_em": 0.9375,
+        "width_cell": 0.5166666666666667,
+        "baseline_bottom_em": 0.0283203125,
+        "baseline_top_em": 0.66796875
+      },
+      "deviation_em": {
+        "height_em": 0.00040797416030158296,
+        "center_x_em": 0.00023437500000000888,
+        "center_y_em": -0.0006336745801507337
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "わ": {
+      "metrics": {
+        "bounds": [
+          153,
+          12,
+          847,
+          754
+        ],
+        "bounds_em": [
+          0.1494140625,
+          0.01171875,
+          0.8271484375,
+          0.736328125
+        ],
+        "width_em": 0.677734375,
+        "height_em": 0.724609375,
+        "center_x_em": 0.48828125,
+        "center_y_em": 0.3740234375,
+        "advance_em": 0.9375,
+        "width_cell": 0.7229166666666667,
+        "baseline_bottom_em": 0.01171875,
+        "baseline_top_em": 0.736328125
+      },
+      "deviation_em": {
+        "height_em": -0.0009609374999999254,
+        "center_x_em": 0.0005807636148686957,
+        "center_y_em": 0.00045312499999999867
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "を": {
+      "metrics": {
+        "bounds": [
+          159,
+          -30,
+          821,
+          772
+        ],
+        "bounds_em": [
+          0.1552734375,
+          -0.029296875,
+          0.8017578125,
+          0.75390625
+        ],
+        "width_em": 0.646484375,
+        "height_em": 0.783203125,
+        "center_x_em": 0.478515625,
+        "center_y_em": 0.3623046875,
+        "advance_em": 0.9375,
+        "width_cell": 0.6895833333333333,
+        "baseline_bottom_em": -0.029296875,
+        "baseline_top_em": 0.75390625
+      },
+      "deviation_em": {
+        "height_em": 0.0008632812500000142,
+        "center_x_em": 0.00013476562500003286,
+        "center_y_em": 0.0004707031249999716
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    },
+    "ん": {
+      "metrics": {
+        "bounds": [
+          146,
+          0,
+          858,
+          733
+        ],
+        "bounds_em": [
+          0.142578125,
+          0.0,
+          0.837890625,
+          0.7158203125
+        ],
+        "width_em": 0.6953125,
+        "height_em": 0.7158203125,
+        "center_x_em": 0.490234375,
+        "center_y_em": 0.35791015625,
+        "advance_em": 0.9375,
+        "width_cell": 0.7416666666666667,
+        "baseline_bottom_em": 0.0,
+        "baseline_top_em": 0.7158203125
+      },
+      "deviation_em": {
+        "height_em": -0.0007734374999999183,
+        "center_x_em": 0.00035351562500002265,
+        "center_y_em": -0.0004296874999999978
+      },
+      "flags": [],
+      "review": "Within the per-character envelope and family size gates."
+    }
+  }
+}

@@ -42,22 +42,18 @@ TO_RI_REFERENCE_PATH = REFERENCE_DIR / "U+3068-U+308A-maintainer-handwritten.png
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.024"
+EXPECTED_FONT_VERSION = "1.025"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
-EXPECTED_KI_SOURCE_SHA256 = "a1dfe0c73a365096775a05ef67aee8bd54631e5914cfce9333f7fcc2a1b46a14"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
 EXPECTED_O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
-EXPECTED_O_SOURCE_SHA256 = "86ff0ef0af39ce47347beee3e873a75d6f320662c4b6ffa08df2bd7c6dc5da94"
 EXPECTED_U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
-EXPECTED_U_SOURCE_SHA256 = "c0205b71757b649f92cc05974f5b0dd14d8da48899ebc41e5ce76a599b80df1b"
 EXPECTED_BATCH_REFERENCE_SHA256 = "fddcbc948566f1b6f153932477aed5dc21a466d9608be94019692594c90e18c0"
 EXPECTED_TO_RI_REFERENCE_SHA256 = "ebfbc29d18c44bef9523236e0f4997d239c0442579918f312440e8e225558063"
-# Eight photo-coordinate sources use milder pressure to retain photographed
-# counters/terminals. Actual rendered-family weight is independently checked
-# by verify_japanese_weight; all other glyphs keep the historical range.
-PHOTO_PRESSURE_GATES = {"あ": 36.0, "い": 38.0, "う": 33.0, "お": 34.0,
-                        "さ": 36.0, "き": 37.0, "と": 40.0, "り": 38.0}
+# The new master is authoritative; old SVG/image hash checks below remain as
+# historical provenance integrity checks, never as current shape overrides.
+from kana_sources.hiragana_master_v2 import MASTER_SOURCES
+PHOTO_PRESSURE_GATES = {c:source.pressure for c,source in MASTER_SOURCES.items()}
 KANA_ADVANCE = 960
 
 
@@ -170,35 +166,10 @@ def main() -> int:
             "ぬ and め refined sources unexpectedly became identical")
     require(repr(USER_HANDWRITING_REFINED["き"]) != repr(USER_HANDWRITING_REFINED["さ"]),
             "き and さ refined sources unexpectedly became identical")
-    ki_source = USER_HANDWRITING_REFINED["き"]
-    require(hashlib.sha256(repr(ki_source).encode("utf-8")).hexdigest() == EXPECTED_KI_SOURCE_SHA256,
-            "Version 1.024 superseding き center-line source changed")
-    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [8, 6, 9, 10],
-            "Version 1.024 き must retain two crossbars, one diagonal, and one detached lower curve")
-    require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
-            "Version 1.011 is missing the newly supplied わ/を/ん sources")
+    from verify_hiragana_master_v2 import verify_sources
+    verify_sources()
     require(canonical_text_sha256(WA_CENTERLINE_PATH) == EXPECTED_WA_CENTERLINE_SHA256,
-            "Version 1.016 わ center-line SVG hash changed")
-    wa_source = USER_HANDWRITING_REFINED["わ"]
-    require(len(wa_source) == 2 and sum(len(stroke.points) for stroke in wa_source) == 26,
-            "Version 1.016 わ no longer matches the reviewed two-stroke topology")
-    ya_source = USER_HANDWRITING_REFINED["や"]
-    require(len(ya_source) == 3 and [len(stroke.points) for stroke in ya_source] == [12, 3, 8],
-            "Version 1.022 や must retain hooked cross-stroke, upper mark, and descending stroke")
-    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["や"] == ya_source,
-            "Version 1.022 large や must retain its reviewed identity optical transform")
-    o_source = USER_HANDWRITING_REFINED["お"]
-    require(hashlib.sha256(repr(o_source).encode("utf-8")).hexdigest() == EXPECTED_O_SOURCE_SHA256,
-            "Version 1.024 repaired お center-line source changed")
-    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [6, 29, 4],
-            "Version 1.024 お must retain cross, broad asymmetric lower body, and detached right mark")
-    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == o_source,
-            "Version 1.024 お must retain its reviewed identity optical transform")
-    u_source = USER_HANDWRITING_REFINED["う"]
-    require(hashlib.sha256(repr(u_source).encode("utf-8")).hexdigest() == EXPECTED_U_SOURCE_SHA256,
-            "Version 1.024 authoritative う center-line source changed")
-    require(len(u_source) == 2 and [len(stroke.points) for stroke in u_source] == [4, 15],
-            "Version 1.024 う must retain its compact upper mark and curved descending main stroke")
+            "Historical Version 1.016 wa SVG hash changed")
     for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
                          "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
                          "ゕ":"か","ゖ":"け"}.items():
@@ -278,12 +249,9 @@ def main() -> int:
 
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
-    print("PASS: Version 1.024 き source supersedes Version 1.021 and retains four handwritten strokes")
-    print("PASS: Version 1.022 や reference hash and three-stroke center-line topology are authoritative")
-    print("PASS: Version 1.024 お repair follows the authoritative reference with three center-line strokes")
-    print("PASS: Version 1.024 う reference and two-stroke center-line topology are authoritative")
+    print("PASS: Version 1.025 master sheet supersedes all overlapping older visual references")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.024 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.025 metadata, and CJK optical alignment are valid")
     return 0
 
 
