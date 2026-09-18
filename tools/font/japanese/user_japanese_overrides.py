@@ -2,7 +2,8 @@
 
 懐 U+61D0 combines the source face's native 懷 and 衣 outlines. 々 U+3005 is
 rebuilt from dedicated project-local center-lines.
-夕 U+5915 is deliberately untouched. 気 U+6C17, 付 U+4ED8, and 容 U+5BB9 keep the source font's
+夕 U+5915 is deliberately untouched. 気 U+6C17, 付 U+4ED8, 容 U+5BB9, 壁 U+58C1,
+and 堅 U+5805 keep the source font's
 original drawings, but are installed under distinct derived glyph names with
 an optical vertical transform so the mixed sequence 気付け aligns better with
 refined Hiragana.  Original source glyphs remain present and unmodified.
@@ -67,6 +68,12 @@ class SourceOpticalTransform:
 # current font. Conservative derived copies improve Japanese mixed-text balance
 # while the original ChenYuluoyan glyph drawings remain present and untouched.
 SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
+    # Version 1.023: placement-only correction. Preserve scale, topology,
+    # advance, and horizontal position; raise the low source ink centers from
+    # about 320 to the reviewed mixed-CJK optical centers (365 for 壁 after
+    # the maintainer's final lift, and 354.5 for 堅).
+    "壁": SourceOpticalTransform(1.00, 1.00, 0.0, 45.0),
+    "堅": SourceOpticalTransform(1.00, 1.00, 0.0, 35.0),
     "奥": SourceOpticalTransform(0.921976, 0.855348, 9.0, 34.5, 4.0, advance=790),
     "容": SourceOpticalTransform(1.00, 1.00, 19.45, 35.0),
     "変": SourceOpticalTransform(0.80, 0.80, 19.25, 35.0, 8.0),

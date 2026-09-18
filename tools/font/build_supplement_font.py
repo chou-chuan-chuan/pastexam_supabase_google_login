@@ -46,17 +46,19 @@ OUTPUT_MODIFICATIONS = OUTPUT_DIR / "MODIFICATIONS.md"
 MANIFEST_PATH = TOOLS_DIR / "glyph_manifest.json"
 
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
+O_REFERENCE = TOOLS_DIR / "references/U+304A-o-maintainer-handwritten.png"
+O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
 FAMILY_EN = "QuanFangwei Supplement Script"
 FAMILY_ZH = "荃方位補寫體"
 SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.022"
-BUILD_DATE = "2026-09-17"
-UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260917"
+VERSION = "1.023"
+BUILD_DATE = "2026-09-18"
+UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260918"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
-BUILD_TIMESTAMP = int((datetime(2026, 9, 17, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
+BUILD_TIMESTAMP = int((datetime(2026, 9, 18, tzinfo=timezone.utc) - MAC_EPOCH).total_seconds())
 
 # These anchors reproduce the existing Ccedilla component transform exactly.
 # The cedilla top-center (95, 91) attaches to C at (221, 91), yielding the
@@ -408,6 +410,10 @@ def validate_inputs(manifest: dict) -> None:
         fail("The official source TTF or OFL license file is missing")
     if sha256(SOURCE_FONT) != SOURCE_SHA256:
         fail("The official source TTF hash changed; refusing to overwrite or build from an unreviewed source")
+    if not O_REFERENCE.is_file() or sha256(O_REFERENCE) != O_REFERENCE_SHA256:
+        fail("The Version 1.023 maintainer-handwritten U+304A reference is missing or changed")
+    with Image.open(O_REFERENCE) as image:
+        image.verify()
 
     for item in manifest.get("glyphs", []):
         character = item["character"]
@@ -439,6 +445,9 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Maintainer-handwritten お（Version 1.023）：以維護者新提供的 U+304A `お` PNG 為 authoritative structural reference，明確替換舊 8-branch source topology，改為 upper cross、連續的 tall vertical/open asymmetric lower body、detached upper-right mark 三筆 clean center-lines。U+3049 `ぉ` 由新 `お` 以一般小平假名 0.72 scale／(0,-12) path 重建，不使用 yōon offset。Raster 只作來源證明，沒有直接安裝、autotrace 或使用外部日文字型輪廓
+- Yōon small-kana optical positioning（Version 1.023）：將 U+3083 `ゃ`、U+3085 `ゅ`、U+3087 `ょ`、U+30E3 `ャ`、U+30E5 `ュ`、U+30E7 `ョ` 以逐字 post-scale translation 移向各自 960-unit full-width glyph cell 的左下光學位置。保留 0.72 scale、advance、來源大字 topology 與其他小假名；沒有 ligature、pair kerning、CSS／JS 位移或外部日文字型輪廓
+- 壁／堅 vertical optical alignment（Version 1.023）：U+58C1 `壁` 與 U+5805 `堅` 各自以 source-identical derived copy 向上平移 45／35 units（dy 0 → +45／+35），使 optical center 分別為 365／354.5，對齊混合 CJK 行文字。輪廓 topology、scale、x 位置、advance、全域 ascent／descent 與 line metrics 不變；無 CSS／JS workaround
 - Maintainer-handwritten や（Version 1.022）：依維護者新提供的 U+3084 `や` PNG 結構參考，明確授權只替換 `や` source topology；舊 7 branches 改為 compact hooked cross-stroke、分離的 upper mark 與長斜下行筆的 3-stroke center-line source。U+3083 `ゃ` 從新版 normalized `や` 以 0.72 scale 衝生，yōon 組合已驗證。Raster 不直接安裝，也未使用外部日文字型輪廓
 - French OE ligatures（Version 1.021）：新增 U+0152 `OE`（`Œ`）與 U+0153 `oe`（`œ`），分別只由原始 `O`／`E` 與 `o`／`e` 手寫輪廓組成；來源 components 維持原生比例與 baseline，E/e 依 O/o 實際 ink width 的 10% 向左 tuck，advance 由 final ink bounds 加上來源 side bearing 確定性計算。兩者皆為衍生補寫字元，不是原版辰宇落雁體字形，也未使用任何外部字型輪廓
 - Maintainer-handwritten き（Version 1.021）：依維護者新提供的 U+304D `き` PNG 結構參考，明確授權只替換 `き` source topology；12 個舊 fragmented branches 改為兩個斜升橫筆、一個長下行斜筆與一個分離下方 hook-to-horizontal 的 4-stroke center-line source。混排 QA 保留 0.96 scale 並將 optical transform 右移 24 units。Raster 不直接進入字型，final outline 仍由既有 variable-width renderer 產生；U+304E `ぎ` 自動以新版 `uni304D` + 原有 `uni3099` 組成，未重畫 dakuten 或修改全域 anchor
@@ -519,7 +528,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.022
+        font["head"].fontRevision = 1.023
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

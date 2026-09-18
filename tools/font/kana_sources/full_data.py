@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from japanese.stroke_engine import Stroke, scale_stroke_weight
+from japanese.stroke_engine import Stroke, scale_stroke_weight, translate_strokes
 from kana_sources.master_data import MASTER_GLYPHS, S
 
 
@@ -206,6 +206,23 @@ for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お"
 for small, large in {"ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ","ヮ":"ワ",
                      "ヵ":"カ","ヶ":"ケ"}.items():
     KANA_STROKES[small] = scale(KANA_STROKES[large], 0.72)
+
+
+# Version 1.023: yōon small kana keep their existing 0.72-scale construction,
+# pressure, topology, and full-width metrics.  This narrowly scoped post-scale
+# layer only moves their ink toward the lower-left of each glyph's own cell.
+# Per-glyph values align the differently shaped outlines to approximately
+# xMin=180/yMin=24 after the shared -145-unit Kana build translation.
+YOON_SMALL_KANA_OFFSETS = {
+    "ゃ": (-104, -74),
+    "ゅ": (-120, -84),
+    "ょ": (-122, -114),
+    "ャ": (-87, -70),
+    "ュ": (-136, -123),
+    "ョ": (-148, -120),
+}
+for small, (dx, dy) in YOON_SMALL_KANA_OFFSETS.items():
+    KANA_STROKES[small] = translate_strokes(KANA_STROKES[small], dx=dx, dy=dy)
 
 
 DAKUTEN_STROKES = (

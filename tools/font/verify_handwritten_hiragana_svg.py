@@ -35,14 +35,17 @@ SVG_DIR = REFERENCE_DIR / "user-hiragana-svg"
 WA_CENTERLINE_PATH = SVG_DIR / "U+308F-v1.016-centerline.svg"
 KI_REFERENCE_PATH = REFERENCE_DIR / "U+304D-ki-maintainer-handwritten.png"
 YA_REFERENCE_PATH = REFERENCE_DIR / "U+3084-ya-maintainer-handwritten.png"
+O_REFERENCE_PATH = REFERENCE_DIR / "U+304A-o-maintainer-handwritten.png"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.022"
+EXPECTED_FONT_VERSION = "1.023"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
 EXPECTED_KI_SOURCE_SHA256 = "08c489c59ffdd4377eb91f09b31518a2d920f72f64945ae3db9ee8a434599d0f"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
+EXPECTED_O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
+EXPECTED_O_SOURCE_SHA256 = "ff0dfac3e69f9b401bbe085c611fb7003999ad0e1499c887bee40e738b063ff6"
 KANA_ADVANCE = 960
 
 
@@ -83,7 +86,7 @@ def main() -> int:
             errors.append(message)
 
     for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, KI_REFERENCE_PATH,
-                 YA_REFERENCE_PATH, FONT_PATH):
+                 YA_REFERENCE_PATH, O_REFERENCE_PATH, FONT_PATH):
         require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
@@ -96,6 +99,8 @@ def main() -> int:
             "The Version 1.021 maintainer-handwritten き reference image hash changed")
     require(sha256(YA_REFERENCE_PATH) == EXPECTED_YA_REFERENCE_SHA256,
             "The Version 1.022 maintainer-handwritten や reference image hash changed")
+    require(sha256(O_REFERENCE_PATH) == EXPECTED_O_REFERENCE_SHA256,
+            "The Version 1.023 maintainer-handwritten お reference image hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     require(manifest.get("font_version") == EXPECTED_REFERENCE_VERSION,
             f"Template manifest version is not {EXPECTED_REFERENCE_VERSION}")
@@ -157,6 +162,13 @@ def main() -> int:
             "Version 1.022 や must retain hooked cross-stroke, upper mark, and descending stroke")
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["や"] == ya_source,
             "Version 1.022 large や must retain its reviewed identity optical transform")
+    o_source = USER_HANDWRITING_REFINED["お"]
+    require(hashlib.sha256(repr(o_source).encode("utf-8")).hexdigest() == EXPECTED_O_SOURCE_SHA256,
+            "Version 1.023 authoritative お center-line source changed")
+    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [3, 17, 3],
+            "Version 1.023 お must retain cross, open lower body, and detached right mark")
+    require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == o_source,
+            "Version 1.023 お must retain its reviewed identity optical transform")
     for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
                          "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
                          "ゕ":"か","ゖ":"け"}.items():
@@ -238,8 +250,9 @@ def main() -> int:
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: Version 1.021 き reference hash and four-stroke center-line topology are authoritative")
     print("PASS: Version 1.022 や reference hash and three-stroke center-line topology are authoritative")
+    print("PASS: Version 1.023 お reference hash and three-stroke center-line topology are authoritative")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.022 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.023 metadata, and CJK optical alignment are valid")
     return 0
 
 

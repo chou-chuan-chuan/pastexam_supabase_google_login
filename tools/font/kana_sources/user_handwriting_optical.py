@@ -72,6 +72,8 @@ HIRAGANA_OPTICAL_TRANSFORMS: dict[str, OpticalTransform] = {
     # additional horizontal correction, then move the result down.
     "う": OpticalTransform(1.08, 0.0, -20.0, scale_x=1.12, scale_y=1.08),
     "え": OpticalTransform(),
+    # Version 1.023: the new three-stroke maintainer source already fills the
+    # accepted Hiragana zone with balanced left/right space.
     "お": OpticalTransform(),
     "か": OpticalTransform(),
     # Version 1.021: keep the reviewed 0.96 size and move the new four-stroke

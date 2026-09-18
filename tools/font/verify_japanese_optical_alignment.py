@@ -39,6 +39,8 @@ TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplemen
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
 EXPECTED_HAN_TRANSFORMS = {
+    "壁": (1.00, 1.00, 0.0, 45.0, 0.0),
+    "堅": (1.00, 1.00, 0.0, 35.0, 0.0),
     "奥": (0.921976, 0.855348, 9.0, 34.5, 4.0),
     "容": (1.00, 1.00, 19.45, 35.0, 0.0),
     "変": (0.80, 0.80, 19.25, 35.0, 8.0),
@@ -130,7 +132,7 @@ def main() -> int:
             f"す optical center did not receive the reviewed 32-unit downward shift: {before_center[1]} -> {after_center[1]}")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
-            "Han optical transform set is not limited to 奥/容/変/恋/哀/奧/優/寄")
+            "Han optical transform set differs from the ten reviewed per-glyph records")
     for character, expected in EXPECTED_HAN_TRANSFORMS.items():
         transform = SHARED_HAN_OPTICAL_TRANSFORMS[character]
         require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
@@ -188,11 +190,22 @@ def main() -> int:
                 require(ttf["hhea"].descent < y_min < y_max < ttf["hhea"].ascent,
                         f"{character} vertical bounds are unsafe: {ttf_bounds}")
                 target_center = center(ttf_bounds)
-                require(abs(target_center[0] - target_advance / 2) <= 1.0,
-                        f"{character} is not centered in its advance: center={target_center[0]}, advance={target_advance}")
+                if character in "壁堅":
+                    source_bounds = bounds(source, source_name)
+                    require((x_min, x_max) == (source_bounds[0], source_bounds[2]),
+                            f"{character} vertical-only correction changed horizontal bounds")
+                else:
+                    require(abs(target_center[0] - target_advance / 2) <= 1.0,
+                            f"{character} is not centered in its advance: center={target_center[0]}, advance={target_advance}")
                 if character == "奥":
                     require(abs(target_center[1] - 354) <= 0.5,
                             f"奥 optical y center does not match U+5967 奧: {target_center[1]}")
+                elif character == "壁":
+                    require(target_center[1] == 365,
+                            f"壁 optical y center does not match reviewed final placement: {target_center[1]}")
+                elif character == "堅":
+                    require(target_center[1] == 354.5,
+                            f"堅 optical y center does not match reviewed final placement: {target_center[1]}")
                 else:
                     require(352 <= target_center[1] <= 358,
                             f"{character} optical y center is outside the reviewed range: {target_center[1]}")
@@ -231,7 +244,7 @@ def main() -> int:
         return 1
 
     print("PASS: す source hash/topology is unchanged; only its reviewed optical width increased")
-    print("PASS: 奥/容/変/恋/哀/奧/優/寄 use recorded source-preserving derived transforms and safe metrics")
+    print("PASS: ten reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
     return 0
