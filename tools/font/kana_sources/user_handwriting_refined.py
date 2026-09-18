@@ -6,9 +6,15 @@ structural reference; its four clean center-lines supersede the older branches.
 Version 1.022 likewise replaces only U+3084 や from the maintainer's newly
 supplied handwriting, using three clean center-lines for its compact hooked
 cross-stroke, separate upper mark, and long naturally slanted descending stroke.
-Version 1.023 explicitly replaces U+304A お from the maintainer's new
-handwritten reference, using three clean center-lines for its upper cross,
-tall main stroke with an open asymmetric lower body, and detached right mark.
+Version 1.024 repairs U+304A お against the maintainer's authoritative photo.
+Its three clean center-lines now follow the photographed proportions more
+closely: a rising upper cross, tall organic main stroke with a pointed left
+turn into a broad asymmetric lower body, and a detached right mark.
+The same revision explicitly replaces U+3046 う from a new maintainer photo
+with a compact upper mark and one long asymmetric descending main stroke. It
+also replaces U+3042 あ, U+3044 い, U+3055 さ, U+304D き, U+3068 と, and
+U+308A り from two newly supplied maintainer-owned reference sheets. The new
+U+304D source explicitly supersedes the Version 1.021 revision.
 The SVG filled outlines are NOT installed directly.  They are reduced to
 project-local center-line branches, optically normalized, and rendered through
 the existing variable-width handwriting stroke engine so Japanese kana shares
@@ -19,51 +25,23 @@ No external Japanese font outline is loaded, traced, transformed, or embedded.
 from __future__ import annotations
 
 from japanese.stroke_engine import Stroke
+from kana_sources.maintainer_photo_sources import PHOTO_SOURCES
 
 
 def S(*points, width=46, start=None, end=None, cap="round") -> Stroke:
     return Stroke(tuple(points), width, start, end, cap)
 
 USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
-    'あ': (
-        S((449.2, 336.2), (449.2, 282.4), width=48.4, start=44.5, end=33.9),
-        S((363.4, 597.3), (345.8, 587.0), (286.4, 581.9), (246.8, 592.2), width=48.4, start=44.5, end=33.9),
-        S((451.4, 279.8), (482.2, 228.6), (504.2, 215.8), width=48.4, start=44.5, end=33.9),
-        S((499.8, 548.6), (504.2, 487.2), width=48.4, start=44.5, end=33.9),
-        S((374.4, 594.7), (387.6, 474.4), width=48.4, start=44.5, end=33.9),
-        S((394.2, 471.8), (403.0, 461.6), (409.6, 395.0), (427.2, 354.1), (447.0, 338.7), width=48.4, start=44.5, end=33.9),
-        S((506.4, 484.6), (576.8, 474.4), (631.8, 443.7), (689.0, 377.1), (713.2, 320.8), (713.2, 277.3), (702.2, 218.4), (693.4, 197.9), (673.6, 182.6), width=48.4, start=44.5, end=33.9),
-        S((557.0, 640.8), (546.0, 615.2), (376.6, 597.3), width=48.4, start=44.5, end=33.9),
-        S((499.8, 482.1), (493.2, 387.4), (471.2, 349.0), (451.4, 338.7), width=48.4, start=44.5, end=33.9),
-        S((350.2, 817.4), (359.0, 789.3), (365.6, 599.8), width=48.4, start=44.5, end=33.9),
-        S((387.6, 471.8), (330.4, 451.4), (275.4, 400.2), (266.6, 369.4), (275.4, 261.9), (286.4, 241.4), (326.0, 221.0), (409.6, 254.2), (447.0, 279.8), width=48.4, start=44.5, end=33.9),
-        S((497.6, 484.6), (409.6, 487.2), (394.2, 471.8), width=48.4, start=44.5, end=33.9),
-    ),
-    'い': (
-        S((629.6, 651.0), (675.8, 605.0), (708.8, 523.0), (708.8, 387.4), (684.6, 310.6), width=44.0, start=40.5, end=30.8),
-        S((251.2, 689.4), (275.4, 640.8), (275.4, 553.8), (295.2, 456.5), (323.8, 369.4), (352.4, 328.5), (385.4, 310.6), (416.2, 318.2), (469.0, 392.5), (508.6, 484.6), width=44.0, start=40.5, end=30.8),
-    ),
-    'う': (
-        S((352.4, 562.7), (458.0, 596.0), (565.8, 593.4), (601.0, 570.4), (607.6, 506.4), (598.8, 468.0), (506.4, 245.3), width=44.2, start=40.7, end=30.9),
-        S((418.4, 754.7), (526.2, 754.7), (546.0, 739.4), width=44.2, start=40.7, end=30.9),
-    ),
+    'あ': PHOTO_SOURCES["あ"].strokes(),
+    'い': PHOTO_SOURCES["い"].strokes(),
+    'う': PHOTO_SOURCES["う"].strokes(),
     'え': (
         S((273.2, 596.0), (330.4, 611.4), (491.0, 619.0), (491.0, 578.1), (455.8, 516.6), (447.0, 470.6), width=46.8, start=43.1, end=32.8),
         S((449.2, 468.0), (482.2, 457.8), (513.0, 329.8), (548.2, 240.2), (565.8, 229.9), (607.6, 235.0), (686.8, 268.3), width=46.8, start=43.1, end=32.8),
         S((407.4, 770.1), (323.8, 757.3), (288.6, 765.0), width=46.8, start=43.1, end=32.8),
         S((444.8, 468.0), (418.4, 437.3), (321.6, 240.2), width=46.8, start=43.1, end=32.8),
     ),
-    'お': (
-        # Version 1.023: authoritative maintainer handwriting. The raster is
-        # used only for structure and proportion; the existing variable-width
-        # renderer supplies pressure, taper, terminals, and final contours.
-        S((250.0, 690.0), (410.0, 710.0), (570.0, 735.0), width=48.0, start=44.2, end=33.6),
-        S((430.0, 835.0), (428.0, 705.0), (422.0, 555.0), (416.0, 390.0), (420.0, 180.0),
-          (342.0, 225.0), (278.0, 315.0), (272.0, 430.0), (315.0, 505.0), (405.0, 552.0),
-          (520.0, 590.0), (625.0, 575.0), (700.0, 515.0), (725.0, 425.0), (700.0, 340.0),
-          (630.0, 265.0), (525.0, 205.0), width=52.0, start=47.8, end=29.0),
-        S((650.0, 705.0), (710.0, 665.0), (770.0, 610.0), width=44.0, start=40.5, end=27.0),
-    ),
+    'お': PHOTO_SOURCES["お"].strokes(),
     'か': (
         S((285.3, 547.4), (195.1, 537.1), (170.9, 519.2), width=50.0, start=46.0, end=35.0),
         S((382.1, 718.9), (368.9, 713.8), width=50.0, start=44.0, end=44.0),
@@ -73,16 +51,7 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((335.9, 593.4), (430.5, 580.6), (494.3, 557.6), (540.5, 514.1), (553.7, 488.5), (555.9, 419.4), (527.3, 347.7), (465.7, 281.1), (426.1, 283.7), (368.9, 332.3), width=50.0, start=46.0, end=35.0),
         S((287.5, 544.8), (280.9, 491.0), (250.1, 429.6), (214.9, 304.2), width=50.0, start=46.0, end=35.0),
     ),
-    'き': (
-        # Version 1.021: authoritative maintainer handwriting. The reference
-        # has two rising crossbars, one long descending diagonal, and a
-        # detached lower hook-to-horizontal stroke. The raster supplies only
-        # structure/proportion; these are clean project-local center-lines.
-        S((250.0, 640.0), (355.0, 675.0), (470.0, 725.0), (610.0, 785.0), width=49.2, start=45.3, end=34.4),
-        S((270.0, 480.0), (390.0, 520.0), (515.0, 570.0), (660.0, 625.0), width=49.2, start=45.3, end=34.4),
-        S((320.0, 840.0), (350.0, 805.0), (398.0, 710.0), (445.0, 610.0), (485.0, 505.0), (525.0, 390.0), width=49.2, start=45.3, end=34.4),
-        S((325.0, 355.0), (285.0, 320.0), (270.0, 275.0), (305.0, 225.0), (375.0, 195.0), (520.0, 195.0), (695.0, 205.0), width=49.2, start=45.3, end=34.4),
-    ),
+    'き': PHOTO_SOURCES["き"].strokes(),
     'く': (
         S((573.5, 712.5), (624.1, 692.0), width=50.0, start=46.0, end=35.0),
         S((566.9, 735.5), (571.3, 715.0), width=50.0, start=46.0, end=35.0),
@@ -105,26 +74,17 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((552.6, 698.4), (596.6, 708.6), (616.4, 698.4), width=42.0, start=38.6, end=29.4),
         S((288.6, 445.0), (260.0, 401.4), (262.2, 324.6), (321.6, 260.6), (374.4, 242.7), (455.8, 242.7), (510.8, 255.5), (700.0, 329.8), width=42.0, start=38.6, end=29.4),
     ),
-    'さ': (
-        S((658.2, 238.9), (671.4, 228.6), width=45.1, start=39.7, end=39.7),
-        S((572.4, 686.9), (464.6, 658.7), width=45.1, start=41.5, end=31.6),
-        S((535.0, 448.8), (521.8, 438.6), (477.8, 433.4), width=45.1, start=41.5, end=31.6),
-        S((387.6, 794.4), (416.2, 763.7), (438.2, 671.5), width=45.1, start=41.5, end=31.6),
-        S((416.2, 428.3), (389.8, 446.2), (356.8, 438.6), (343.6, 413.0), (345.8, 361.8), (378.8, 292.6), (438.2, 228.6), (504.2, 205.6), (583.4, 205.6), (656.0, 236.3), width=45.1, start=41.5, end=31.6),
-        S((440.4, 669.0), (462.4, 658.7), width=45.1, start=41.5, end=31.6),
-        S((537.2, 448.8), (565.8, 436.0), width=45.1, start=41.5, end=31.6),
-        S((464.6, 656.2), (473.4, 612.6), (526.2, 494.9), (535.0, 451.4), width=45.1, start=41.5, end=31.6),
-        S((438.2, 669.0), (411.8, 656.2), (288.6, 656.2), width=45.1, start=41.5, end=31.6),
-    ),
+    'さ': PHOTO_SOURCES["さ"].strokes(),
     'し': (
         S((279.8, 762.4), (275.4, 741.9), (343.6, 424.5), (398.6, 299.0), (447.0, 242.7), (488.8, 237.6), (537.2, 265.8), (642.8, 368.2), (684.6, 445.0), (680.2, 475.7), (658.2, 496.2), width=50.0, start=46.0, end=35.0),
     ),
     'す': (
-        # 1.013: user-reference structure — clear top bar, vertical main stem,
-        # a distinct small loop on the lower-left of the stem, then a long tail.
+        # Version 1.024 repair: preserve the accepted user-reference topology
+        # while removing the locally thin crossbar and tail. Pressure now stays
+        # in the same visual range as neighboring ordinary Hiragana.
         S(
             (350.0, 742.0), (452.0, 744.0), (555.0, 744.0), (640.0, 738.0),
-            width=43.0, start=37.0, end=27.0,
+            width=43.0, start=38.0, end=32.0,
         ),
         S(
             (520.0, 825.0),
@@ -143,7 +103,7 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
             (510.0, 382.0),
             (510.0, 292.0),
             (508.0, 205.0),
-            width=46.0, start=40.0, end=22.0,
+            width=46.0, start=41.0, end=33.0,
         ),
     ),
     'せ': (
@@ -195,12 +155,7 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((702.2, 782.9), (686.8, 757.3), width=49.2, start=45.3, end=34.4),
         S((684.6, 754.7), (587.8, 721.4), width=49.2, start=45.3, end=34.4),
     ),
-    'と': (
-        S((421.7, 534.6), (386.5, 447.5), (377.7, 368.2), (401.9, 311.8), (434.9, 281.1), (481.1, 268.3), (597.7, 273.4), (729.7, 304.2), width=45.3, start=41.7, end=31.7),
-        S((423.9, 534.6), (456.9, 506.4), width=45.3, start=41.7, end=31.7),
-        S((547.1, 731.7), (509.7, 670.2), (465.7, 621.6), (423.9, 542.2), width=45.3, start=41.7, end=31.7),
-        S((230.3, 677.9), (368.9, 565.3), (421.7, 542.2), width=45.3, start=41.7, end=31.7),
-    ),
+    'と': PHOTO_SOURCES["と"].strokes(),
     'な': (
         S((577.9, 328.5), (617.5, 313.1), (729.7, 205.6), width=44.9, start=41.3, end=31.4),
         S((230.3, 599.8), (351.3, 599.8), width=44.9, start=41.3, end=31.4),
@@ -398,14 +353,7 @@ USER_HANDWRITING_REFINED: dict[str, tuple[Stroke, ...]] = {
         S((329.3, 410.4), (318.3, 343.8), (302.9, 318.2), width=48.4, start=44.5, end=33.9),
         S((404.1, 779.0), (421.7, 779.0), (531.7, 697.1), width=48.4, start=44.5, end=33.9),
     ),
-    'り': (
-        S((330.0, 800.0), (315.0, 665.0), (320.0, 540.0), (355.0, 455.0),
-          width=43.0, start=39.0, end=29.0),
-        # Version 1.012: longer, clearer descending tail based on the maintainer reference.
-        S((600.0, 825.0), (615.0, 690.0), (620.0, 545.0), (610.0, 410.0),
-          (585.0, 295.0), (555.0, 215.0), (520.0, 160.0), (480.0, 125.0),
-          width=45.0, start=41.0, end=22.0),
-    ),
+    'り': PHOTO_SOURCES["り"].strokes(),
     'る': (
         S((420.6, 560.2), (524.0, 573.0), (570.2, 549.9), (614.2, 498.7), (640.6, 445.0), (640.6, 375.8), (625.2, 357.9), width=44.0, start=40.5, end=30.8),
         S((319.4, 716.3), (374.4, 708.6), (458.0, 716.3), (475.6, 703.5), width=44.0, start=40.5, end=30.8),

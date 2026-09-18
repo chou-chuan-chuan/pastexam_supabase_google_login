@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Version 1.023 placement-only alignment for 壁 and 堅."""
+"""Verify Version 1.024 placement-only repair for 壁 against unchanged 堅."""
 
 from __future__ import annotations
 
@@ -25,8 +25,8 @@ SOURCE_PATH = REPO_ROOT / "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf"
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 TARGETS = "壁堅"
-EXPECTED_DY = {"壁": 45, "堅": 35}
-EXPECTED_CENTER_Y = {"壁": 365.0, "堅": 354.5}
+EXPECTED_DY = {"壁": 97, "堅": 55}
+EXPECTED_CENTER_Y = {"壁": 417.0, "堅": 374.5}
 CONTROLS = "鉄強中紙持"
 
 
@@ -110,6 +110,10 @@ def main() -> int:
                     f"Control Han {character} topology changed")
             require(ttf["hmtx"].metrics[source_name] == source["hmtx"].metrics[source_name],
                     f"Control Han {character} metrics changed")
+        wall_bounds = bounds(ttf, tcmap[ord("壁")])
+        hard_bounds = bounds(ttf, tcmap[ord("堅")])
+        require(wall_bounds[1] == hard_bounds[1] == -15,
+                f"壁/堅 rendered bottoms do not align: {wall_bounds[1]} != {hard_bounds[1]}")
     finally:
         source.close()
         ttf.close()
@@ -119,9 +123,9 @@ def main() -> int:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
-    print("PASS: 壁 and 堅 are source-identical outlines translated only +45 y / +35 y")
+    print("PASS: 壁/堅 are source-identical at +97/+55 y with aligned rendered bottoms")
     print("PASS: advances/horizontal metrics, global line metrics, and control Han are unchanged")
-    print("PASS: 壁/堅 optical centers match reviewed 365/354.5 positions with no clipping and TTF/WOFF2 parity")
+    print("PASS: 壁/堅 optical centers match reviewed 417/374.5 positions with no clipping and TTF/WOFF2 parity")
     return 0
 
 

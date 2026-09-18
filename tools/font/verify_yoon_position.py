@@ -23,14 +23,14 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 BASELINE_GIT_PATH = "origin/main:assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
-EXPECTED_VERSION = "1.023"
+EXPECTED_VERSION = "1.024"
 TARGET_SOURCES = {
     "ゃ": "や", "ゅ": "ゆ", "ょ": "よ",
     "ャ": "ヤ", "ュ": "ユ", "ョ": "ヨ",
 }
 # U+3049 ぉ is intentionally regenerated from the separately authorized new
 # U+304A お in this same revision and is verified by verify_hiragana_o.py.
-NON_YOON_SMALL = "ぁぃぅぇっゎゕゖァィゥェォッヮヵヶ"
+NON_YOON_SMALL = "ぇっゎゕゖァィゥェォッヮヵヶ"
 BASE_SHIFTS = {"ゃ": (0, -12), "ゅ": (0, -12), "ょ": (0, -12),
                "ャ": (0, -15), "ュ": (0, -15), "ョ": (0, -15)}
 
@@ -52,11 +52,6 @@ def signature(font: TTFont, name: str) -> tuple:
         tuple(end_points),
         tuple(int(flag) for flag in flags),
     )
-
-
-def translated_signature(before: tuple, dx: int, dy: int) -> tuple:
-    contours, coordinates, end_points, flags = before
-    return contours, tuple((x + dx, y + dy) for x, y in coordinates), end_points, flags
 
 
 def main() -> int:
@@ -81,20 +76,18 @@ def main() -> int:
         for character, source in TARGET_SOURCES.items():
             name = f"uni{ord(character):04X}"
             source_name = f"uni{ord(source):04X}"
-            dx, dy = YOON_SMALL_KANA_OFFSETS[character]
             before_sig = signature(before, name)
             after_sig = signature(ttf, name)
-            require(after_sig == translated_signature(before_sig, dx, dy),
-                    f"{character} changed by more than permitted translation ({dx}, {dy})")
+            require(after_sig == before_sig,
+                    f"Accepted yōon glyph {character} changed in the repair revision")
             require(signature(ttf, source_name) == signature(before, source_name),
                     f"Large source {source} changed")
             require(ttf["hmtx"].metrics[source_name] == before["hmtx"].metrics[source_name],
                     f"Large source {source} metrics changed")
             old_bounds = bounds(before, name)
             new_bounds = bounds(ttf, name)
-            require(new_bounds == tuple(value + (dx if index % 2 == 0 else dy)
-                                        for index, value in enumerate(old_bounds)),
-                    f"{character} bounds are not a pure translation: {old_bounds} -> {new_bounds}")
+            require(new_bounds == old_bounds,
+                    f"Accepted yōon bounds changed: {old_bounds} -> {new_bounds}")
             advance, lsb = ttf["hmtx"].metrics[name]
             require(advance == before["hmtx"].metrics[name][0] == 960,
                     f"{character} full-width advance changed")
@@ -126,8 +119,8 @@ def main() -> int:
                 print(f"FAIL: {error}", file=sys.stderr)
             return 1
 
-        print("PASS: the six yōon small kana changed only by scoped post-scale translation")
-        print("PASS: large やゆよ/ヤユヨ sources and all non-yōon small-kana controls are unchanged; authorized ぉ is gated separately")
+        print("PASS: all six accepted yōon glyph outlines/positions are unchanged from origin/main")
+        print("PASS: large yōon sources and non-target small-kana controls are unchanged; authorized ぁ/ぃ/ぅ/ぉ are gated separately")
         print("PASS: full-width 960-unit advances, safe sidebearings, and TTF/WOFF2 parity are preserved")
         print("character source scale old_dx/dy new_dx/dy bounds advance lsb rsb")
         for character, source in TARGET_SOURCES.items():

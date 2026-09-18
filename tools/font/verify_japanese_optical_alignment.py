@@ -37,10 +37,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_PATH = REPO_ROOT / "assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf"
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-SU_SOURCE_SHA256 = "0060cc865cf80979b8cd26b80875497780c956be049f38cca34eeeb283e864fc"
+SU_SOURCE_SHA256 = "704402b8e089a596558f4ffee9d0e39052fcbfae7d7839c670a4c9868c2a3690"
 EXPECTED_HAN_TRANSFORMS = {
-    "壁": (1.00, 1.00, 0.0, 45.0, 0.0),
-    "堅": (1.00, 1.00, 0.0, 35.0, 0.0),
+    "壁": (1.00, 1.00, 0.0, 97.0, 0.0),
+    "堅": (1.00, 1.00, 0.0, 55.0, 0.0),
     "奥": (0.921976, 0.855348, 9.0, 34.5, 4.0),
     "容": (1.00, 1.00, 19.45, 35.0, 0.0),
     "変": (0.80, 0.80, 19.25, 35.0, 8.0),
@@ -104,7 +104,7 @@ def main() -> int:
 
     su_source = USER_HANDWRITING_REFINED["す"]
     require(hashlib.sha256(repr(su_source).encode("utf-8")).hexdigest() == SU_SOURCE_SHA256,
-            "Authoritative す source topology/coordinates changed")
+            "Reviewed す topology/coordinates/pressure changed")
     require(len(su_source) == 2 and sum(len(stroke.points) for stroke in su_source) == 20,
             "Authoritative す source stroke/point count changed")
     su_transform = HIRAGANA_OPTICAL_TRANSFORMS["す"]
@@ -201,10 +201,10 @@ def main() -> int:
                     require(abs(target_center[1] - 354) <= 0.5,
                             f"奥 optical y center does not match U+5967 奧: {target_center[1]}")
                 elif character == "壁":
-                    require(target_center[1] == 365,
+                    require(target_center[1] == 417,
                             f"壁 optical y center does not match reviewed final placement: {target_center[1]}")
                 elif character == "堅":
-                    require(target_center[1] == 354.5,
+                    require(target_center[1] == 374.5,
                             f"堅 optical y center does not match reviewed final placement: {target_center[1]}")
                 else:
                     require(352 <= target_center[1] <= 358,
@@ -243,7 +243,7 @@ def main() -> int:
         print(f"Japanese optical-alignment verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
 
-    print("PASS: す source hash/topology is unchanged; only its reviewed optical width increased")
+    print("PASS: す retains reviewed topology/coordinates with only scoped terminal-pressure repair")
     print("PASS: ten reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")

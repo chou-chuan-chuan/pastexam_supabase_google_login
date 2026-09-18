@@ -30,18 +30,18 @@ if hasattr(sys.stderr, "reconfigure"):
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
-ALL_SOURCE_SHA256 = "936eb1920dab21ada5029cf0dccc7ba725e5d5a2f0f72110e03f742dcb96a940"
-OTHER_45_SOURCE_SHA256 = "48594e28f252ef8023f4d3a92508c459f8c55090304b526ddadf731cbfcf8870"
+ALL_SOURCE_SHA256 = "3ce2aa516b857bc6ae51604533657d12ed9c6c5289560b9d839d6c166e11cb7b"
+OTHER_45_SOURCE_SHA256 = "8a4ec080fa4103436be7f6f81f526e64928eac3b7a5fdabe2606597710d94ae6"
 WA_SOURCE_SHA256 = "486652c5d5e62fbbb3b74623810907abf9a1c8bafe3a74616251cb6d1b685913"
-OTHER_TRANSFORM_SHA256 = "00e149e70852b0b090c58e5aecf31db0b775a7648b8ee9c90e84566ba89fe95f"
+OTHER_TRANSFORM_SHA256 = "d7f9fc5f7e8ee21ff6a0d16c23257b2d8bd1ad2fd379029ad15064b7eb3c3147"
 SOURCE_GATES = {
     "け": ("f3410a8a866046bb7d047f1dec2c045e773d0f37d1cb380c0935bddac4c27969", 7, 25),
-    "う": ("432fedfedcca516996088b46771cc8882364d1dc4e7d421523203e4394a71204", 2, 10),
+    "う": ("c0205b71757b649f92cc05974f5b0dd14d8da48899ebc41e5ce76a599b80df1b", 2, 19),
     "こ": ("89ed94af8fb7665b4c24cc46b7da00ea50bf0db57eb62ff0ab259e4a00644d7b", 4, 19),
 }
 EXPECTED_TRANSFORMS = {
     "け": (1.06, 1.0, 28.0, -26.0),
-    "う": (1.12, 1.08, 0.0, -20.0),
+    "う": (1.0, 1.0, 0.0, 0.0),
     "こ": (1.0, 1.0, 28.0, 0.0),
 }
 
@@ -78,13 +78,13 @@ def main() -> int:
     require(len(MODERN_HIRAGANA_ORDER) == 46 and set(USER_HANDWRITING_REFINED) == expected,
             "USER_HANDWRITING_REFINED is not the authoritative complete 46-Hiragana set")
     require(hashlib.sha256(repr(USER_HANDWRITING_REFINED).encode("utf-8")).hexdigest() == ALL_SOURCE_SHA256,
-            "Authoritative 46-Hiragana source coordinates/topology changed")
+            "Current authorized 46-Hiragana source coordinates/topology changed")
     other_sources = tuple(
         (character, USER_HANDWRITING_REFINED[character])
         for character in MODERN_HIRAGANA_ORDER if character != "わ"
     )
     require(hashlib.sha256(repr(other_sources).encode("utf-8")).hexdigest() == OTHER_45_SOURCE_SHA256,
-            "A source outside the accepted current source set changed")
+            "The accepted current source snapshot changed")
     wa_source = USER_HANDWRITING_REFINED["わ"]
     require(hashlib.sha256(repr(wa_source).encode("utf-8")).hexdigest() == WA_SOURCE_SHA256,
             "The reviewed わ source changed")
@@ -99,7 +99,7 @@ def main() -> int:
         if character not in SOURCE_GATES
     )
     require(hashlib.sha256(repr(other_signature).encode("utf-8")).hexdigest() == OTHER_TRANSFORM_SHA256,
-            "A Hiragana transform other than け/う/こ changed")
+            "The accepted non-け/う/こ transform snapshot changed")
 
     for character in MODERN_HIRAGANA_ORDER:
         source = USER_HANDWRITING_REFINED[character]
@@ -134,14 +134,12 @@ def main() -> int:
     u_after = stroke_bounds(USER_HANDWRITING_OPTICALLY_NORMALIZED["う"])
     u_before_span = span(u_before)
     u_after_span = span(u_after)
-    require(abs((u_after_span[0] / u_before_span[0]) - 1.12) <= 0.000001,
-            "う horizontal point span does not match scale_x 1.12")
-    require(abs((u_after_span[1] / u_before_span[1]) - 1.08) <= 0.000001,
-            "う vertical point span does not match scale_y 1.08")
-    require(abs(center(u_after)[0] - center(u_before)[0]) <= 0.000001,
-            "う horizontal optical center shifted during scaling")
-    require(abs((center(u_after)[1] - center(u_before)[1]) - (-20.0)) <= 0.000001,
-            "う center did not receive the reviewed 20-unit downward shift")
+    require(u_after_span == u_before_span,
+            "Photo-coordinate う must preserve both axes without additional stretching")
+    expected_u_center = center(u_before)
+    require(all(abs(actual - expected) <= 0.000001 for actual, expected in
+                zip(center(u_after), expected_u_center)),
+            "Photo-coordinate う must retain its uniformly fitted position")
 
     ko_before = stroke_bounds(USER_HANDWRITING_REFINED["こ"])
     ko_after = stroke_bounds(USER_HANDWRITING_OPTICALLY_NORMALIZED["こ"])
@@ -200,8 +198,8 @@ def main() -> int:
         print(f"け/う/こ optical verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
 
-    print("PASS: け/う/こ authoritative source hashes, strokes, and point topology are unchanged")
-    print("PASS: only け/う/こ optical scale/translation changed among 46 Hiragana")
+    print("PASS: け/う/こ historical optical gates and current authorized source snapshots are intact")
+    print("PASS: all per-glyph optical transforms match the reviewed Version 1.024 snapshot")
     print("PASS: ぅ/ゖ/ゎ derivation remains topology-preserving; ゎ has its reviewed right/down shift")
     print("PASS: TTF/WOFF2 metrics agree; advances, bearings, and bounds are safe")
     return 0

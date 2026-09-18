@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the Version 1.023 maintainer-handwritten お and derived ぉ."""
+"""Verify the Version 1.024 repaired maintainer-handwritten お and derived ぉ."""
 
 from __future__ import annotations
 
@@ -31,8 +31,8 @@ REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f
 TTF_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 WOFF2_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.woff2"
 BASELINE_GIT_PATH = "origin/main:assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
-EXPECTED_VERSION = "1.023"
-UNCHANGED_SOURCE_SHA256 = "ce7e15255646f086e8986159ceffe462561d079d4b8a16936a7a68359762e2e3"
+EXPECTED_VERSION = "1.024"
+UNCHANGED_SOURCE_SHA256 = "358de68e2b5f01fbd559b363de6058ae6edc72a7a5fa07babe016e78d7cb21e1"
 
 
 def source_bounds(strokes) -> tuple[float, float, float, float]:
@@ -69,9 +69,9 @@ def main() -> int:
                 "Maintainer お reference image hash changed")
 
     source = USER_HANDWRITING_REFINED["お"]
-    require(len(source) == 3 and [len(stroke.points) for stroke in source] == [3, 17, 3],
-            "お must retain the reviewed three-stroke [3, 17, 3] topology")
-    require(source_bounds(source) == (250.0, 180.0, 770.0, 835.0),
+    require(len(source) == 3 and [len(stroke.points) for stroke in source] == [6, 29, 4],
+            "お must retain the photo-coordinate three-stroke [6, 29, 4] topology")
+    require(tuple(round(v, 3) for v in source_bounds(source)) == (188.618, 185.0, 771.382, 825.0),
             f"Unexpected お source bounds: {source_bounds(source)}")
     transform = HIRAGANA_OPTICAL_TRANSFORMS["お"]
     require(transform.scale == 1.0 and transform.dx == 0.0 and transform.dy == 0.0,
@@ -79,9 +79,9 @@ def main() -> int:
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == source,
             "お identity optical transform changed source geometry")
     unchanged_sources = tuple((character, USER_HANDWRITING_REFINED[character])
-                              for character in MODERN_HIRAGANA_ORDER if character != "お")
+                              for character in MODERN_HIRAGANA_ORDER if character not in "おすうあいさきとり")
     require(hashlib.sha256(repr(unchanged_sources).encode("utf-8")).hexdigest() == UNCHANGED_SOURCE_SHA256,
-            "A large Hiragana source other than the authorized U+304A お changed")
+            "A large Hiragana source outside the authorized Version 1.024 repair set changed")
 
     large, small = KANA_STROKES["お"], KANA_STROKES["ぉ"]
     require(len(large) == len(small) == 3, "ぉ does not preserve the new お stroke topology")
@@ -104,12 +104,12 @@ def main() -> int:
                 f"TTF does not report Version {EXPECTED_VERSION}")
         require(signature(ttf, "uni304A") != signature(before, "uni304A"), "Compiled お did not change")
         require(signature(ttf, "uni3049") != signature(before, "uni3049"), "Derived ぉ did not change")
-        for character in "ぁぃぅぇ":
+        for character in "ぇ":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Control small vowel {character} changed")
             require(ttf["hmtx"].metrics[name] == before["hmtx"].metrics[name],
                     f"Control small vowel {character} metrics changed")
-        for character in "きや":
+        for character in "や":
             name = f"uni{ord(character):04X}"
             require(signature(ttf, name) == signature(before, name), f"Accepted {character} topology changed")
         for character in "おぉ":
@@ -136,9 +136,9 @@ def main() -> int:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
         return 1
-    print("PASS: U+304A uses the authorized three-stroke maintainer-handwritten source")
+    print("PASS: U+304A uses the repaired three-stroke maintainer-handwritten source")
     print("PASS: U+3049 derives normally at scale 0.72 with shared shift (0,-12), not a yōon offset")
-    print("PASS: ぁぃぅぇ, all other large Hiragana sources, accepted き/や, and full-width metrics are unchanged")
+    print("PASS: non-target small vowels/Hiragana, accepted や, and full-width metrics are unchanged")
     print(f"お source_bounds={source_bounds(source)} rendered_bounds={large_bounds} advance=960 transform=identity")
     print(f"ぉ rendered_bounds={small_bounds} advance=960 scale=0.72 position=normal-small-kana")
     return 0

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the Version 1.023 maintainer-handwritten お / derived ぉ proof."""
+"""Render the Version 1.024 repaired handwritten お / derived ぉ proof."""
 
 from __future__ import annotations
 
@@ -64,7 +64,7 @@ def main() -> int:
     title = face(str(FONT_PATH), 42)
     label = face(str(FONT_PATH), 25)
     text = face(str(FONT_PATH), 68)
-    draw.text((50, 38), "QuanFangwei 1.023 — maintainer-handwritten お / derived ぉ", font=title, fill=ACCENT)
+    draw.text((50, 38), "QuanFangwei 1.024 — repaired maintainer-handwritten お / derived ぉ", font=title, fill=ACCENT)
     draw.text((50, 95), f"お bounds={o_bounds}, ぉ bounds={small_bounds}, advances=960; ぉ uses normal small-kana positioning", font=label, fill=MUTED)
 
     panels = ((50, 150, 520, 620), (555, 150, 1175, 620), (1210, 150, 1850, 620))
@@ -72,10 +72,10 @@ def main() -> int:
         draw.rounded_rectangle(panel, radius=18, outline=GRID, width=2, fill="white")
     image.paste(reference, (105, 215))
     draw.text((85, 565), "authoritative maintainer reference", font=label, fill=MUTED)
-    draw.text((600, 195), "OLD お — origin/main 1.022", font=label, fill=MUTED)
+    draw.text((600, 195), "OLD お — origin/main 1.023", font=label, fill=MUTED)
     draw.line((610, 520, 1120, 520), fill=GRID, width=2)
     draw.text((730, 520), "お", font=before, fill=INK, anchor="ls")
-    draw.text((1250, 195), "NEW お / derived ぉ", font=label, fill=ACCENT)
+    draw.text((1250, 195), "NEW 1.024 お / derived ぉ", font=label, fill=ACCENT)
     draw.line((1260, 520, 1810, 520), fill=GRID, width=2)
     draw.text((1315, 520), "お ぉ", font=after, fill=INK, anchor="ls")
 

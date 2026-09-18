@@ -48,13 +48,19 @@ MANIFEST_PATH = TOOLS_DIR / "glyph_manifest.json"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 O_REFERENCE = TOOLS_DIR / "references/U+304A-o-maintainer-handwritten.png"
 O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
+U_REFERENCE = TOOLS_DIR / "references/U+3046-u-maintainer-handwritten.png"
+U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
+HIRAGANA_BATCH_REFERENCE = TOOLS_DIR / "references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png"
+HIRAGANA_BATCH_REFERENCE_SHA256 = "fddcbc948566f1b6f153932477aed5dc21a466d9608be94019692594c90e18c0"
+HIRAGANA_TO_RI_REFERENCE = TOOLS_DIR / "references/U+3068-U+308A-maintainer-handwritten.png"
+HIRAGANA_TO_RI_REFERENCE_SHA256 = "ebfbc29d18c44bef9523236e0f4997d239c0442579918f312440e8e225558063"
 FAMILY_EN = "QuanFangwei Supplement Script"
 FAMILY_ZH = "荃方位補寫體"
 SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.023"
+VERSION = "1.024"
 BUILD_DATE = "2026-09-18"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260918"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -414,6 +420,18 @@ def validate_inputs(manifest: dict) -> None:
         fail("The Version 1.023 maintainer-handwritten U+304A reference is missing or changed")
     with Image.open(O_REFERENCE) as image:
         image.verify()
+    if not U_REFERENCE.is_file() or sha256(U_REFERENCE) != U_REFERENCE_SHA256:
+        fail("The Version 1.024 maintainer-handwritten U+3046 reference is missing or changed")
+    with Image.open(U_REFERENCE) as image:
+        image.verify()
+    for path, expected_hash in (
+        (HIRAGANA_BATCH_REFERENCE, HIRAGANA_BATCH_REFERENCE_SHA256),
+        (HIRAGANA_TO_RI_REFERENCE, HIRAGANA_TO_RI_REFERENCE_SHA256),
+    ):
+        if not path.is_file() or sha256(path) != expected_hash:
+            fail(f"The Version 1.024 maintainer Hiragana reference is missing or changed: {path.name}")
+        with Image.open(path) as image:
+            image.verify()
 
     for item in manifest.get("glyphs", []):
         character = item["character"]
@@ -445,6 +463,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Focused Japanese repair（Version 1.024）：以維護者照片的原始 pixel coordinates 人工標記 U+304A `お`、U+3042 `あ`、U+3044 `い`、U+3046 `う`、U+3055 `さ`、U+304D `き`、U+3068 `と`、U+308A `り` 筆畫，分別使用單一等比例縮放與置中，保留原圖寬高比、筆畫間距、交叉、彎折及開口；八字皆使用 identity optical transform，包括取消舊 `う` 的 axis-specific stretch。最終輪廓仍由既有 variable-width renderer 產生，raster 不進入 production outline。`き` supersede Version 1.021。`ぁ／ぃ／ぅ／ぉ` 維持一般 0.72 scale／(0,-12) 衍生，`ざ／ぎ／ど／ゔ` 繼承 base 與共用 dakuten。`す` 保留兩筆 topology／主幹寬度，只調整局部末端 taper，`ず` 繼承；本次 photo-fidelity follow-up 不再改動 `す／ず`。`壁／堅` 維持 source-identical placement-only dy +97／+55，bottom 同為 -15。只有 `ゃゅょ／ャュョ` 使用 yōon offset；沒有全域 weight、CJK baseline、line metrics、CSS／JS 或外部日文字型輪廓修改。Fidelity proof 使用實際 TTF 與原圖同尺寸疊合，verifier 比較整份 TTF／WOFF2 及 immutable prior-PR glyphs
 - Maintainer-handwritten お（Version 1.023）：以維護者新提供的 U+304A `お` PNG 為 authoritative structural reference，明確替換舊 8-branch source topology，改為 upper cross、連續的 tall vertical/open asymmetric lower body、detached upper-right mark 三筆 clean center-lines。U+3049 `ぉ` 由新 `お` 以一般小平假名 0.72 scale／(0,-12) path 重建，不使用 yōon offset。Raster 只作來源證明，沒有直接安裝、autotrace 或使用外部日文字型輪廓
 - Yōon small-kana optical positioning（Version 1.023）：將 U+3083 `ゃ`、U+3085 `ゅ`、U+3087 `ょ`、U+30E3 `ャ`、U+30E5 `ュ`、U+30E7 `ョ` 以逐字 post-scale translation 移向各自 960-unit full-width glyph cell 的左下光學位置。保留 0.72 scale、advance、來源大字 topology 與其他小假名；沒有 ligature、pair kerning、CSS／JS 位移或外部日文字型輪廓
 - 壁／堅 vertical optical alignment（Version 1.023）：U+58C1 `壁` 與 U+5805 `堅` 各自以 source-identical derived copy 向上平移 45／35 units（dy 0 → +45／+35），使 optical center 分別為 365／354.5，對齊混合 CJK 行文字。輪廓 topology、scale、x 位置、advance、全域 ascent／descent 與 line metrics 不變；無 CSS／JS workaround
@@ -528,7 +547,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.023
+        font["head"].fontRevision = 1.024
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

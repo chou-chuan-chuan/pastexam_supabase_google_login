@@ -26,7 +26,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.023 支援：
+衍生版 Version 1.024 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
@@ -39,6 +39,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `ゃゅょ`／`ャュョ` yōon small kana：Version 1.023 在現有 0.72-scale 建構完成後，只套用六字專用的 x/y optical translation，使 ink 位於各自 full-width glyph cell 的左下區域。960-unit advance、來源大字 `やゆよ／ヤユヨ` topology 與其他小假名完全不變；沒有 ligature、pair-specific kerning、CSS／JavaScript 位移或外部日文字型 outline。
 - `お` U+304A／`ぉ` U+3049：Version 1.023 以維護者新提供的手寫 PNG 為 authoritative structural reference，將 `お` 舊 8-branch source 替換為三筆 clean center-lines：upper cross、tall vertical/open asymmetric lower body、detached upper-right stroke。`ぉ` 由新 `お` 以一般小平假名 0.72 scale 重建，保留 normal small-kana positioning，明確不使用 yōon lower-left offset。圖片只作來源證明，未直接安裝、autotrace 或使用外部日文字型 outline。
 - `壁` U+58C1／`堅` U+5805：Version 1.023 保留官方來源 drawing 與原 advance，只建立分別向上 `45`／`35 units` 的 source-identical optical copy，將視覺重心調至 `y=365`／`354.5`。無重畫、無全域 CJK baseline／ascent／descent／line-metric 修改，也無 CSS／JavaScript workaround。
+- Version 1.024 focused repair：直接量測維護者黑色手寫外框的比例、筆寬與 medial skeleton，再由既有 variable-width renderer 統一為辰宇落雁體筆壓／圓角／收筆。除重修 `お`、局部調和 `す`、新 `う` 外，同版以新 reference sheets 明確替換 `あ／い／さ／き／と／り`；新版 `き` 明確 supersede Version 1.021。`ぁ／ぃ／ぅ／ぉ` 走一般 0.72-scale 小假名路徑，`ざ／ぎ／ど／ず／ゔ` 繼承新版 base 與既有 dakuten；只有 `ゃゅょ／ャュョ` 使用 yōon lower-left offset。`壁／堅` 的 dy 分別由 `+45／+35 → +97／+55`，兩字 bottom 同為 `-15`。沒有全域平假名字重、CJK baseline 或外部日文字型 outline 變更。
 
 第一版的 `¿` 是未做視覺校正的機械旋轉，第一版 cedilla 則只是將逗號向下移，因此分別有句首高度偏高、點距僵硬，以及 cedilla 偏小、像黏上的逗號等問題。現在的建置腳本把 optical correction 寫成固定 font-unit 參數，可從官方原始 TTF 重現；自動測試會檢查留白、中心、間距、碰撞與裁切，但筆勢是否自然仍需配合多尺寸 proof 人工判斷。
 
@@ -105,7 +106,7 @@ python tools/font/verify_japanese_weight.py
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-### Japanese Phase 1 Support（current font Version 1.023）
+### Japanese Phase 1 Support（current font Version 1.024）
 
 同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
 
@@ -127,9 +128,9 @@ U+61D0 `懐` 結合辰宇落雁體原生 `懷` 的上／左結構與原生 `衣`
 
 Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體、vertical Japanese typesetting、ruby annotation typography、complete Ainu katakana extensions、historical kana、half-width katakana 或每一種 Japanese punctuation variant；但一般現代日文歌曲的假名部分應完整顯示。Phase 2 將依本機 TXT／LRC／JSON 歌詞 audit 的頻率補足實際缺少漢字，並評估 regional variants。
 
-`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.023 一致的穩定 `?v=1.023` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
+`assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，兩者使用與字型 Version 1.024 一致的穩定 `?v=1.024` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.023` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `Personne ne fait battre mon cœur`、Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.024` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `Personne ne fait battre mon cœur`、Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 
 ## 品牌圖像
 
@@ -392,4 +393,15 @@ PowerShell 若阻擋 `npm.ps1`，使用 `npm.cmd test`。
 - 這是字型輪廓在自身 glyph cell 內的定位，不是 ligature、negative advance、pair-specific kerning 或 CSS／JavaScript workaround；未使用外部日文字型 outline。
 - Proof：`tools/font/proofs/quanfangwei-yoon-position-proof.png`、`quanfangwei-yoon-cell-diagnostic.png`、`quanfangwei-yoon-before-after-proof.png`；verifier：`python tools/font/verify_yoon_position.py`。
 - 同版另有獨立授權的 `お` source-topology revision：維護者手寫 reference 取代舊 8-branch source，`ぉ` 由新 source 以普通小假名路徑重建，不進入 `YOON_SMALL_KANA_OFFSETS`。Proof：`tools/font/proofs/quanfangwei-hiragana-o-proof.png`；verifier：`python tools/font/verify_hiragana_o.py`。
-- `壁`、`堅` 另各自使用 scale 1.00、dx 0、dy +45／+35 的 source-preserving optical copy，只修正混合 CJK 行文字中過低的位置；source glyph 仍完整保留，未改輪廓 topology、advance、全域 baseline 或 line metrics。Proof：`tools/font/proofs/quanfangwei-cjk-vertical-alignment-proof.png`；verifier：`python tools/font/verify_cjk_vertical_alignment.py`。
+- `壁`、`堅` 另各自使用 scale 1.00、dx 0 的 source-preserving optical copy；Version 1.024 再把 dy 調至 +97／+55，只修正混合 CJK 行文字中過低的位置。source glyph 仍完整保留，未改輪廓 topology、advance、全域 baseline 或 line metrics。Proof：`tools/font/proofs/quanfangwei-cjk-vertical-alignment-proof.png`；verifier：`python tools/font/verify_cjk_vertical_alignment.py`。
+
+### Version 1.024 focused repair
+
+- `お／あ／い／う／さ／き／と／り` 以 `maintainer_photo_sources.py` 保存原圖座標的人工筆畫採樣，單一等比例縮放到字格，保留原字比例、間距、交叉與彎折。八字均採 identity optical transform，最終 outline 經既有筆觸 renderer 生成。
+- `ぉ` 從新版 normalized `お` 以 0.72 scale／shared `(0,-12)` 重建，仍不使用 yōon offset。
+- `す` 保留既有兩筆 points 與 optical transform，只將 crossbar end `27 → 32`、main tail `22 → 33`，避免局部過細又不使全字過粗；大平假名共同 ×1.10 weight layer 未改。`ず` 共用新版 `す` 與原 dakuten component placement。
+- `う` 採 `[4,15]` 兩筆 source，保留原圖窄長比例，取消舊 x/y 不同比例光學拉伸；`ぅ` 走一般 0.72 scale／shared `(0,-12)`；`ゔ` 共用新版 base 與原 `uni3099`，bounds-derived dakuten x=618、y=-125。
+- `あ／い／さ／き／と／り` 直接以新維護者 reference sheets 的黑色外框作幾何依據，量測外框後建立乾淨 center-lines，再由 renderer 套用專案筆觸。`あ／い／さ／き／と／り` 分別為 3／2／3／4／2／2 strokes，皆使用 identity optical transform；新版 `き` 明確取代 Version 1.021。`ぁ／ぃ` 是普通小假名衍生，`ざ／ぎ／ど` 共用原 dakuten，`きゃ／きゅ／きょ`、`ぎゃ／ぎゅ／ぎょ`、`りゃ／りゅ／りょ` 保留兩個獨立 full-width Unicode cells。
+- `壁／堅` 保留原 drawing、advance 與 x placement，只將 dy `+45／+35 → +97／+55`；final bounds `(90,-15,796,849)`／`(84,-15,742,764)`，bottom 對齊。沒有全域 CJK baseline／line metrics 變更。
+- 原圖忠實度 proof：`tools/font/proofs/quanfangwei-handwriting-fidelity-proof.png` 並排原圖、前次 PR、新 TTF 與疊圖，僅使用等比例對齊。Ink overlap 是輪廓診斷而非主觀相似度；`verify_handwriting_fidelity.py` 比較八個 base／八個衍生字以外的所有 outlines 和 metrics。
+- 其他 proof：`quanfangwei-hiragana-o-proof.png`、`quanfangwei-hiragana-su-proof.png`、`quanfangwei-hiragana-u-proof.png`、`quanfangwei-hiragana-maintainer-batch-proof.png`、`quanfangwei-cjk-vertical-alignment-proof.png`，位於 `tools/font/proofs/`。

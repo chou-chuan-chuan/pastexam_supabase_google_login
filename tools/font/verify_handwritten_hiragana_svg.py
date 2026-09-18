@@ -36,16 +36,28 @@ WA_CENTERLINE_PATH = SVG_DIR / "U+308F-v1.016-centerline.svg"
 KI_REFERENCE_PATH = REFERENCE_DIR / "U+304D-ki-maintainer-handwritten.png"
 YA_REFERENCE_PATH = REFERENCE_DIR / "U+3084-ya-maintainer-handwritten.png"
 O_REFERENCE_PATH = REFERENCE_DIR / "U+304A-o-maintainer-handwritten.png"
+U_REFERENCE_PATH = REFERENCE_DIR / "U+3046-u-maintainer-handwritten.png"
+BATCH_REFERENCE_PATH = REFERENCE_DIR / "U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png"
+TO_RI_REFERENCE_PATH = REFERENCE_DIR / "U+3068-U+308A-maintainer-handwritten.png"
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.023"
+EXPECTED_FONT_VERSION = "1.024"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
-EXPECTED_KI_SOURCE_SHA256 = "08c489c59ffdd4377eb91f09b31518a2d920f72f64945ae3db9ee8a434599d0f"
+EXPECTED_KI_SOURCE_SHA256 = "a1dfe0c73a365096775a05ef67aee8bd54631e5914cfce9333f7fcc2a1b46a14"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
 EXPECTED_O_REFERENCE_SHA256 = "ce49873d3a6f49382ad54f356ed370781db9df0e0c6c9640552bad9a015f4b2c"
-EXPECTED_O_SOURCE_SHA256 = "ff0dfac3e69f9b401bbe085c611fb7003999ad0e1499c887bee40e738b063ff6"
+EXPECTED_O_SOURCE_SHA256 = "86ff0ef0af39ce47347beee3e873a75d6f320662c4b6ffa08df2bd7c6dc5da94"
+EXPECTED_U_REFERENCE_SHA256 = "9bc3e27070da6d14fb23473edf11f6fec4e2eef537ae7b0e77c9d299cc31ad0d"
+EXPECTED_U_SOURCE_SHA256 = "c0205b71757b649f92cc05974f5b0dd14d8da48899ebc41e5ce76a599b80df1b"
+EXPECTED_BATCH_REFERENCE_SHA256 = "fddcbc948566f1b6f153932477aed5dc21a466d9608be94019692594c90e18c0"
+EXPECTED_TO_RI_REFERENCE_SHA256 = "ebfbc29d18c44bef9523236e0f4997d239c0442579918f312440e8e225558063"
+# Eight photo-coordinate sources use milder pressure to retain photographed
+# counters/terminals. Actual rendered-family weight is independently checked
+# by verify_japanese_weight; all other glyphs keep the historical range.
+PHOTO_PRESSURE_GATES = {"あ": 36.0, "い": 38.0, "う": 33.0, "お": 34.0,
+                        "さ": 36.0, "き": 37.0, "と": 40.0, "り": 38.0}
 KANA_ADVANCE = 960
 
 
@@ -86,7 +98,8 @@ def main() -> int:
             errors.append(message)
 
     for path in (SOURCE_COMPLETE, MANIFEST_PATH, WA_CENTERLINE_PATH, KI_REFERENCE_PATH,
-                 YA_REFERENCE_PATH, O_REFERENCE_PATH, FONT_PATH):
+                 YA_REFERENCE_PATH, O_REFERENCE_PATH, U_REFERENCE_PATH,
+                 BATCH_REFERENCE_PATH, TO_RI_REFERENCE_PATH, FONT_PATH):
         require(path.is_file(), f"Missing required file: {path}")
     if errors:
         for error in errors:
@@ -101,6 +114,12 @@ def main() -> int:
             "The Version 1.022 maintainer-handwritten や reference image hash changed")
     require(sha256(O_REFERENCE_PATH) == EXPECTED_O_REFERENCE_SHA256,
             "The Version 1.023 maintainer-handwritten お reference image hash changed")
+    require(sha256(U_REFERENCE_PATH) == EXPECTED_U_REFERENCE_SHA256,
+            "The Version 1.024 maintainer-handwritten う reference image hash changed")
+    require(sha256(BATCH_REFERENCE_PATH) == EXPECTED_BATCH_REFERENCE_SHA256,
+            "The Version 1.024 あ/い/さ/き reference sheet hash changed")
+    require(sha256(TO_RI_REFERENCE_PATH) == EXPECTED_TO_RI_REFERENCE_SHA256,
+            "The Version 1.024 と/り reference sheet hash changed")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     require(manifest.get("font_version") == EXPECTED_REFERENCE_VERSION,
             f"Template manifest version is not {EXPECTED_REFERENCE_VERSION}")
@@ -130,7 +149,13 @@ def main() -> int:
         strokes = USER_HANDWRITING_REFINED[character]
         require(bool(strokes), f"No refined strokes for {character}")
         for stroke in strokes:
-            require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
+            if character in PHOTO_PRESSURE_GATES:
+                expected_pressure = PHOTO_PRESSURE_GATES[character]
+                require((stroke.width, stroke.start_width, stroke.end_width) ==
+                        (expected_pressure, expected_pressure, expected_pressure * 0.94),
+                        f"{character} photo-source pressure changed")
+            else:
+                require(38 <= stroke.width <= 54, f"{character} has out-of-style width {stroke.width}")
             require(len(stroke.points) >= 2, f"{character} contains an empty stroke")
         normalized = USER_HANDWRITING_OPTICALLY_NORMALIZED[character]
         require(len(normalized) == len(strokes),
@@ -147,9 +172,9 @@ def main() -> int:
             "き and さ refined sources unexpectedly became identical")
     ki_source = USER_HANDWRITING_REFINED["き"]
     require(hashlib.sha256(repr(ki_source).encode("utf-8")).hexdigest() == EXPECTED_KI_SOURCE_SHA256,
-            "Version 1.021 authoritative き center-line source changed")
-    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [4, 4, 6, 7],
-            "Version 1.021 き must retain two crossbars, one descending stroke, and one detached lower stroke")
+            "Version 1.024 superseding き center-line source changed")
+    require(len(ki_source) == 4 and [len(stroke.points) for stroke in ki_source] == [8, 6, 9, 10],
+            "Version 1.024 き must retain two crossbars, one diagonal, and one detached lower curve")
     require(all(character in USER_HANDWRITING_REFINED for character in "わをん"),
             "Version 1.011 is missing the newly supplied わ/を/ん sources")
     require(canonical_text_sha256(WA_CENTERLINE_PATH) == EXPECTED_WA_CENTERLINE_SHA256,
@@ -164,11 +189,16 @@ def main() -> int:
             "Version 1.022 large や must retain its reviewed identity optical transform")
     o_source = USER_HANDWRITING_REFINED["お"]
     require(hashlib.sha256(repr(o_source).encode("utf-8")).hexdigest() == EXPECTED_O_SOURCE_SHA256,
-            "Version 1.023 authoritative お center-line source changed")
-    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [3, 17, 3],
-            "Version 1.023 お must retain cross, open lower body, and detached right mark")
+            "Version 1.024 repaired お center-line source changed")
+    require(len(o_source) == 3 and [len(stroke.points) for stroke in o_source] == [6, 29, 4],
+            "Version 1.024 お must retain cross, broad asymmetric lower body, and detached right mark")
     require(USER_HANDWRITING_OPTICALLY_NORMALIZED["お"] == o_source,
-            "Version 1.023 お must retain its reviewed identity optical transform")
+            "Version 1.024 お must retain its reviewed identity optical transform")
+    u_source = USER_HANDWRITING_REFINED["う"]
+    require(hashlib.sha256(repr(u_source).encode("utf-8")).hexdigest() == EXPECTED_U_SOURCE_SHA256,
+            "Version 1.024 authoritative う center-line source changed")
+    require(len(u_source) == 2 and [len(stroke.points) for stroke in u_source] == [4, 15],
+            "Version 1.024 う must retain its compact upper mark and curved descending main stroke")
     for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
                          "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
                          "ゕ":"か","ゖ":"け"}.items():
@@ -248,11 +278,12 @@ def main() -> int:
 
     print("PASS: 46 maintainer-authored Hiragana SVG references and hashes are complete")
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
-    print("PASS: Version 1.021 き reference hash and four-stroke center-line topology are authoritative")
+    print("PASS: Version 1.024 き source supersedes Version 1.021 and retains four handwritten strokes")
     print("PASS: Version 1.022 や reference hash and three-stroke center-line topology are authoritative")
-    print("PASS: Version 1.023 お reference hash and three-stroke center-line topology are authoritative")
+    print("PASS: Version 1.024 お repair follows the authoritative reference with three center-line strokes")
+    print("PASS: Version 1.024 う reference and two-stroke center-line topology are authoritative")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.023 metadata, and CJK optical alignment are valid")
+    print("PASS: final TTF advances, bounds, Version 1.024 metadata, and CJK optical alignment are valid")
     return 0
 
 

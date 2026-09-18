@@ -1,0 +1,101 @@
+{
+  "before_revision": "a2a57059a4c1d9b9d8cbd15c5b6fe5003e58e1f8",
+  "glyphs": {
+    "お": {
+      "previous": {
+        "ink_iou": 0.4258,
+        "mean_ink_distance_photo_px": 0.9357
+      },
+      "revised": {
+        "ink_iou": 0.8713,
+        "mean_ink_distance_photo_px": 0.0326
+      },
+      "reference": "tools/font/references/U+304A-o-maintainer-handwritten.png",
+      "uniform_scale": 5.203252032520325
+    },
+    "あ": {
+      "previous": {
+        "ink_iou": 0.4723,
+        "mean_ink_distance_photo_px": 1.5619
+      },
+      "revised": {
+        "ink_iou": 0.848,
+        "mean_ink_distance_photo_px": 0.0612
+      },
+      "reference": "tools/font/references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png",
+      "uniform_scale": 3.742690058479532
+    },
+    "い": {
+      "previous": {
+        "ink_iou": 0.0083,
+        "mean_ink_distance_photo_px": 19.4091
+      },
+      "revised": {
+        "ink_iou": 0.9073,
+        "mean_ink_distance_photo_px": 0.0233
+      },
+      "reference": "tools/font/references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png",
+      "uniform_scale": 4.3478260869565215
+    },
+    "う": {
+      "previous": {
+        "ink_iou": 0.2579,
+        "mean_ink_distance_photo_px": 3.2368
+      },
+      "revised": {
+        "ink_iou": 0.8048,
+        "mean_ink_distance_photo_px": 0.0635
+      },
+      "reference": "tools/font/references/U+3046-u-maintainer-handwritten.png",
+      "uniform_scale": 4.696969696969697
+    },
+    "さ": {
+      "previous": {
+        "ink_iou": 0.3515,
+        "mean_ink_distance_photo_px": 3.0479
+      },
+      "revised": {
+        "ink_iou": 0.8698,
+        "mean_ink_distance_photo_px": 0.0404
+      },
+      "reference": "tools/font/references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png",
+      "uniform_scale": 3.8323353293413174
+    },
+    "き": {
+      "previous": {
+        "ink_iou": 0.3616,
+        "mean_ink_distance_photo_px": 1.5718
+      },
+      "revised": {
+        "ink_iou": 0.8573,
+        "mean_ink_distance_photo_px": 0.0475
+      },
+      "reference": "tools/font/references/U+3042-U+3044-U+3055-U+304D-maintainer-handwritten.png",
+      "uniform_scale": 3.742690058479532
+    },
+    "と": {
+      "previous": {
+        "ink_iou": 0.5737,
+        "mean_ink_distance_photo_px": 0.4261
+      },
+      "revised": {
+        "ink_iou": 0.8057,
+        "mean_ink_distance_photo_px": 0.0832
+      },
+      "reference": "tools/font/references/U+3068-U+308A-maintainer-handwritten.png",
+      "uniform_scale": 5.046728971962617
+    },
+    "り": {
+      "previous": {
+        "ink_iou": 0.6038,
+        "mean_ink_distance_photo_px": 0.7669
+      },
+      "revised": {
+        "ink_iou": 0.8896,
+        "mean_ink_distance_photo_px": 0.0335
+      },
+      "reference": "tools/font/references/U+3068-U+308A-maintainer-handwritten.png",
+      "uniform_scale": 4.295302013422819
+    }
+  }
+}
