@@ -143,6 +143,17 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .field > span, .tag-create-form label > span { display: block; margin-bottom: 7px; font-size: .9rem; font-weight: 400; }
 .field small { display: block; margin-top: 6px; color: var(--muted); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.song-reference { min-width: 0; }
+.song-reference > label { display: block; margin-bottom: 7px; font-size: .9rem; }
+.song-reference-control { position: relative; display: flex; align-items: center; gap: 8px; }
+.song-reference-control input { min-width: 0; flex: 1; background: #faf8ff; }
+.song-reference-control button { flex: 0 0 auto; }
+.song-reference-options { position: absolute; z-index: 2; top: calc(100% + 4px); left: 0; right: 0; max-height: min(300px, 40dvh); overflow-y: auto; border: 1px solid #e4dcf2; border-radius: 13px; padding: 5px; background: #fff; box-shadow: 0 10px 28px rgba(65, 43, 92, .12); }
+.song-reference-option { padding: 9px 12px; border-radius: 9px; cursor: pointer; overflow-wrap: anywhere; }
+.song-reference-option:hover, .song-reference-option[aria-selected="true"] { background: #f0eafa; }
+.song-reference-option > span { display: block; }
+.song-reference-title { color: var(--primary-dark); }
+.song-reference-artist, .song-reference-meta { color: var(--muted); font-size: .86rem; }
 .dialog-actions, .compact-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 9px; }
 .dialog-actions { margin-top: 24px; }
 .upload-progress { display: flex; align-items: center; margin-top: 18px; gap: 10px; color: var(--muted); }
