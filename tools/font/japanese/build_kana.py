@@ -25,15 +25,31 @@ from kana_sources.han_balance import balance_strokes, script_scale, uniform_scal
 
 KANA_ADVANCE = 960
 SPACING_MARK_ADVANCE = 300
-KANA_VERTICAL_SHIFT = -145
-JAPANESE_MARK_VERTICAL_SHIFT = -120
-DAKUTEN_ANCHOR = (92, 815)
-HANDAKUTEN_ANCHOR = (92, 815)
+# 1.026 geometry is frozen. Apply the integer translation AFTER rendering so
+# every outline coordinate changes by exactly (0, delta), without re-rounding
+# curves or rerunning the pressure engine at a different origin.
+KANA_VERTICAL_SHIFT_1_026 = -145
+JAPANESE_MARK_VERTICAL_SHIFT_1_026 = -120
+# Han median yMin - pooled 92-kana median yMin = -14 - 41.5 = -55.5.
+# Reviewed candidates: -64 / -56 / -48. See reports/kana-bottom-alignment.md.
+JAPANESE_BOTTOM_ALIGNMENT_SHIFT = -56
+KANA_VERTICAL_SHIFT = KANA_VERTICAL_SHIFT_1_026 + JAPANESE_BOTTOM_ALIGNMENT_SHIFT
+JAPANESE_MARK_VERTICAL_SHIFT = JAPANESE_MARK_VERTICAL_SHIFT_1_026 + JAPANESE_BOTTOM_ALIGNMENT_SHIFT
+DAKUTEN_ANCHOR_1_026 = (92, 815)
+DAKUTEN_ANCHOR = (92, DAKUTEN_ANCHOR_1_026[1] + JAPANESE_BOTTOM_ALIGNMENT_SHIFT)
+HANDAKUTEN_ANCHOR = DAKUTEN_ANCHOR
 KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
 # Version 1.025 metric normalization brings て's upper stroke into the old
 # dakuten position. Raise this base anchor only: +5 clears the intersection,
 # +12 more leaves visible separation. Shared mark contours stay unchanged.
 HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 17}
+
+
+def apply_bottom_alignment(glyph):
+    """Translate each simple kana/mark source once; composites inherit it."""
+    assert not glyph.isComposite()
+    glyph.coordinates.translate((0, JAPANESE_BOTTOM_ALIGNMENT_SHIFT))
+    return glyph
 
 
 def glyph_name(character: str) -> str:
@@ -75,7 +91,7 @@ def bounds(font: TTFont, name: str) -> tuple[int, int, int, int]:
 def accepted_base_bounds(character):
     strokes = (VERSION_1_025_KANA_STROKES[character] if character in VERSION_1_025_KANA_STROKES
                else ITERATION_STROKES[character])
-    glyph = build_stroke_glyph(translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT))
+    glyph = build_stroke_glyph(translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT_1_026))
     glyph.recalcBounds({})
     return glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax
 
@@ -86,9 +102,9 @@ def base_anchor(font: TTFont, name: str) -> tuple[int, int]:
     x0, y0, x1, y1 = accepted_base_bounds(character)
     cx, cy = (x0+x1)/2, (y0+y1)/2
     old_x = min(835, max(710, x1 + 48))
-    old_y = KANA_BASE_ANCHOR_Y + HIRAGANA_MARK_ANCHOR_Y_OFFSETS.get(character, 0)
+    old_y = KANA_BASE_ANCHOR_Y - JAPANESE_BOTTOM_ALIGNMENT_SHIFT + HIRAGANA_MARK_ANCHOR_Y_OFFSETS.get(character, 0)
     factor = script_scale(character)
-    return round(cx + (old_x-cx)*factor), round(cy + (old_y-cy)*factor)
+    return round(cx + (old_x-cx)*factor), round(cy + (old_y-cy)*factor) + JAPANESE_BOTTOM_ALIGNMENT_SHIFT
 
 
 def mark_name_for(base: str, kind: str) -> str:
@@ -188,8 +204,8 @@ def build_japanese_phase1(font: TTFont) -> dict:
         if ord(character) in font.getBestCmap():
             continue
         name = glyph_name(character)
-        positioned_strokes = translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT)
-        glyph = build_stroke_glyph(positioned_strokes)
+        positioned_strokes = translate_strokes(strokes, dy=KANA_VERTICAL_SHIFT_1_026)
+        glyph = apply_bottom_alignment(build_stroke_glyph(positioned_strokes))
         install(font, name, glyph, KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
@@ -198,11 +214,14 @@ def build_japanese_phase1(font: TTFont) -> dict:
         if ord(character) in font.getBestCmap():
             continue
         name = glyph_name(character)
-        vertical_shift = KANA_VERTICAL_SHIFT if character in ITERATION_STROKES else JAPANESE_MARK_VERTICAL_SHIFT
+        vertical_shift = KANA_VERTICAL_SHIFT_1_026 if character in ITERATION_STROKES else JAPANESE_MARK_VERTICAL_SHIFT_1_026
         if character in ITERATION_STROKES or character == 'ー':
             strokes = balance_strokes(character, strokes)
         positioned_strokes = translate_strokes(strokes, dy=vertical_shift)
-        install(font, name, build_stroke_glyph(positioned_strokes), KANA_ADVANCE, vertical_source)
+        glyph = build_stroke_glyph(positioned_strokes)
+        if character in ITERATION_STROKES or character == 'ー':
+            glyph = apply_bottom_alignment(glyph)
+        install(font, name, glyph, KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
 
@@ -210,18 +229,20 @@ def build_japanese_phase1(font: TTFont) -> dict:
     mark_sources = {"uni3099": DAKUTEN_STROKES, "uni309A": HANDAKUTEN_STROKES}
     for name, strokes in mark_sources.items():
         codepoint = int(name[3:], 16)
-        glyph = build_stroke_glyph(uniform_scale(strokes, script_scale('あ'), DAKUTEN_ANCHOR))
+        glyph = apply_bottom_alignment(build_stroke_glyph(uniform_scale(strokes, script_scale('あ'), DAKUTEN_ANCHOR_1_026)))
         install(font, name, glyph, 0, vertical_source)
         add_mapping(font, codepoint, name)
         added.append(chr(codepoint))
-        variant = build_stroke_glyph(uniform_scale(strokes, script_scale('ア'), DAKUTEN_ANCHOR))
+        variant = apply_bottom_alignment(build_stroke_glyph(uniform_scale(strokes, script_scale('ア'), DAKUTEN_ANCHOR_1_026)))
         install(font, name + '.katakana', variant, 0, vertical_source)
 
     # Spacing forms share exactly the reviewed combining-mark contours.
     for codepoint, mark_name in ((0x309B, "uni3099"), (0x309C, "uni309A")):
         name = glyph_name(chr(codepoint))
         pen = TTGlyphPen(font.getGlyphSet())
-        pen.addComponent(mark_name, (1, 0, 0, 1, 65, -20 + KANA_VERTICAL_SHIFT))
+        # The shared combining-mark source already moved; retain the exact
+        # accepted component delta so spacing forms receive the shift once.
+        pen.addComponent(mark_name, (1, 0, 0, 1, 65, -20 + KANA_VERTICAL_SHIFT_1_026))
         install(font, name, pen.glyph(), SPACING_MARK_ADVANCE, vertical_source)
         add_mapping(font, codepoint, name)
         added.append(chr(codepoint))

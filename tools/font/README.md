@@ -1,8 +1,26 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.026 — Kana–Han mixed-script optical balance
+## Current output: Version 1.027 — Kana–Han bottom alignment
 
-Version 1.025 shapes and per-glyph normalization are accepted and unchanged. The current pipeline is:
+The accepted 1.026 glyph coordinates receive one final integer translation `(0,-56)`, after pressure rendering and quantization. `JAPANESE_BOTTOM_ALIGNMENT_SHIFT = -56` is shared by Hiragana, Katakana, all small kana, iteration marks, long sound mark, spacing marks and both script-specific combining-mark designs. Composite offsets stay identical; the shared Japanese GPOS base and mark anchor Y values both move by -56, retaining every relative attachment.
+
+The unchanged 59-Han sample has median ink yMin `-14`; the pooled 92-kana sample has `41.5`. The measured delta is `-55.5`, rounded to `-56`. Candidates `-64 / -56 / -48` were rendered before selection. Hiragana median yMin becomes `-11.5`, Katakana `-15`. Size factors remain `0.894078195335 / 0.946843040146`; all points, widths, heights, advances, side bearings and source files are otherwise identical to 1.026. Effective `KANA_VERTICAL_SHIFT` is `-201` and kana-related `JAPANESE_MARK_VERTICAL_SHIFT` is `-176`. Unrelated punctuation retains its old placement.
+
+[Measurement / visual QA report](reports/kana-bottom-alignment.md), [32 px before/after](proofs/quanfangwei-kana-bottom-alignment.png), [20 px](proofs/quanfangwei-kana-bottom-alignment-small.png), [64 px](proofs/quanfangwei-kana-bottom-alignment-large.png), [candidates](proofs/quanfangwei-kana-bottom-alignment-candidates.png), [bottom guides](proofs/quanfangwei-kana-bottom-alignment-guides.png), [small kana and marks](proofs/quanfangwei-kana-bottom-alignment-derivatives.png).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/render_kana_bottom_alignment_proof.py
+python tools/font/verify_kana_bottom_alignment.py
+```
+
+The new verifier pins main `19cf20cf94feb047245f630506ca909af2e7e49b` and its TTF SHA256. It checks all 187 moved glyphs (185 mapped plus two existing mark variants), every other glyph, all 9,344 mapped Han hashes, complete source/reference bytes, GPOS deltas, shaping, exact TTF/WOFF2 parity, clipping and byte-identical rebuild. All hhea/OS/2 globals and UPM remain unchanged. Six yōon lower-left anchors move from `(180,24)` to `(180,-32)` with the rest of the script; their internal offsets are unchanged. Existing standalone combining marks have a historical typographic-ascender overhang that is reduced by this shift; all outlines fit unchanged hhea/Windows bounds and attached text also fits the typographic box.
+
+The complete existing verifier suite remains supported. Old center gates now inspect the accepted pre-translation size stage and additionally check the current bottom target. The historical 1.025/1.026 reports and proofs below are intentionally unchanged; use only the current renderer above for 1.027 output.
+
+## Retained size stage: Version 1.026 — Kana–Han mixed-script optical balance
+
+Version 1.025 shapes and per-glyph normalization are accepted and unchanged. The accepted 1.026 pipeline (before the 1.027 final translation) is:
 
 `Master v2 source → accepted 1.025 normalization/pressure → one script-wide uniform Han-balance scale → small derivation → lower-left yōon translation → marks/composites`.
 
@@ -13,11 +31,10 @@ Version 1.025 shapes and per-glyph normalization are accepted and unchanged. The
 - Marks retain their design and receive the base script's scale. Two unmapped Katakana mark variants and a narrowly scoped GSUB `ccmp` mark selection preserve precomposed/decomposed equality. GPOS anchors scale with the accepted base-to-mark gap. No kana ligatures or pair-spacing rules.
 - Iteration marks and `ー` follow the relevant script scale. Other punctuation, all Han (including `壁／堅`), Latin/French/German, CSS/JS and database code are unchanged.
 
-[Current metric report and validation](reports/kana-kanji-scale-balance.md), [32 px mixed proof](proofs/quanfangwei-kana-kanji-scale-balance.png), [20 px](proofs/quanfangwei-kana-kanji-scale-balance-small.png), [64 px](proofs/quanfangwei-kana-kanji-scale-balance-large.png), [same-em cells](proofs/quanfangwei-kana-kanji-same-em.png), [derivatives](proofs/quanfangwei-kana-kanji-derivatives.png).
+[Historical size report and validation](reports/kana-kanji-scale-balance.md), [32 px mixed proof](proofs/quanfangwei-kana-kanji-scale-balance.png), [20 px](proofs/quanfangwei-kana-kanji-scale-balance-small.png), [64 px](proofs/quanfangwei-kana-kanji-scale-balance-large.png), [same-em cells](proofs/quanfangwei-kana-kanji-same-em.png), [derivatives](proofs/quanfangwei-kana-kanji-derivatives.png).
 
 ```sh
 python tools/font/build_supplement_font.py
-python tools/font/render_kana_kanji_balance.py
 python tools/font/verify_kana_kanji_scale_balance.py
 ```
 

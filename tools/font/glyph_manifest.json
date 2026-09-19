@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.026"
+    "version": "1.027"
   },
   "glyphs": [
     {
@@ -438,5 +438,30 @@
     "katakana_scale": 0.946843040146,
     "han_sample_count": 59,
     "policy": "Preserve all 1.025 source topology and normalization. Uniform geometry/pressure scaling about accepted optical centers. External kana/Han ratios multiplied by actual unchanged QuanFangwei Han height. Small derivation follows balance; yoon anchors (180,24), advances 960. Script-sized shared marks preserve precomposed/decomposed equality. No Han, Latin, punctuation or web-code change."
+  },
+  "kana_bottom_alignment": {
+    "version": "1.027",
+    "description": "Kana–Han bottom alignment",
+    "base_main": "19cf20cf94feb047245f630506ca909af2e7e49b",
+    "source_version": "1.026",
+    "japanese_bottom_alignment_shift": -56,
+    "measured_delta": -55.5,
+    "candidate_deltas": [
+      -64,
+      -56,
+      -48
+    ],
+    "kana_vertical_shift": -201,
+    "japanese_mark_vertical_shift": -176,
+    "ordinary_advance": 960,
+    "yoon_ink_anchor": [
+      180,
+      -32
+    ],
+    "moved_mapped_glyphs": 185,
+    "moved_existing_unmapped_mark_variants": 2,
+    "preserves": "All 1.026 source topology, scale factors, pressure, x coordinates, widths, heights, advances, Han glyphs and global metrics",
+    "report": "tools/font/reports/kana-bottom-alignment.md",
+    "proof": "tools/font/proofs/quanfangwei-kana-bottom-alignment.png"
   }
 }
