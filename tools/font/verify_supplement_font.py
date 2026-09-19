@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.027"
-UNIQUE_ID = "1.027;QFW;QuanFangweiSupplementScript-Regular;20260919"
+VERSION = "1.028"
+UNIQUE_ID = "1.028;QFW;QuanFangweiSupplementScript-Regular;20260919"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -63,7 +63,7 @@ JAPANESE_REQUIRED = HIRAGANA_REQUIRED | KATAKANA_REQUIRED | JAPANESE_PUNCTUATION
 KANA_ADVANCE = 960
 JAPANESE_SOURCE_CMAP_OVERRIDES = {
     0x3005, 0x4ED8, 0x512A, 0x54C0, 0x5965, 0x5967, 0x5BB9,
-    0x5805, 0x58C1, 0x5909, 0x5BC4, 0x604B, 0x61D0, 0x6C17,
+    0x5805, 0x58C1, 0x5909, 0x5BC4, 0x604B, 0x61D0, 0x6C17, 0x8E0A,
 }
 
 
@@ -616,7 +616,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 213, "Derived glyph count did not increase by exactly 213 (including two script-sized mark variants)")
+    require(len(ttf_order) == len(source_order) + 214, "Derived glyph count did not increase by exactly 214 (including two script-sized mark variants and the scoped 踊 copy)")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup

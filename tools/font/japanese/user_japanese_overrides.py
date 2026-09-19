@@ -84,6 +84,9 @@ SHARED_HAN_OPTICAL_TRANSFORMS: dict[str, SourceOpticalTransform] = {
     "奧": SourceOpticalTransform(0.94, 0.94, 19.0, 34.5),
     "優": SourceOpticalTransform(0.90, 0.90, 19.5, 35.0),
     "寄": SourceOpticalTransform(0.92, 0.92, 18.5, 36.0),
+    # Version 1.028: 713/590 measured Han-height fit; fixed 826 advance.
+    # Ink-center scale, centered X, Han median bottom -14, no embolden.
+    "踊": SourceOpticalTransform(1.208475, 1.208475, -43/6, -17.499875),
 }
 
 

@@ -48,6 +48,9 @@ def verify_sources():
         current = (ROOT/path).read_bytes()
         if (ROOT/path).suffix in {'.py', '.json', '.svg', '.md', '.txt', '.csv'}:
             current = current.replace(b'\r\n', b'\n')
+        if path.endswith('japanese/user_japanese_overrides.py'):
+            from verify_kanji_odoru_optical import without_odoru_source
+            current = without_odoru_source(current)
         assert current == expected, ('Frozen source/reference changed', path)
     assert HIRAGANA_HAN_BALANCE_SCALE == 0.894078195335
     assert KATAKANA_HAN_BALANCE_SCALE == 0.946843040146
@@ -91,6 +94,8 @@ def verify_translation():
     from verify_kana_kanji_scale_balance import signature
     from verify_de_dakuten_clearance import EXPECTED_RENDERED_DELTA, adjust_te_anchor
     with accepted_font() as old, TTFont(FONT) as new, TTFont(WOFF2) as web:
+        from verify_kanji_odoru_optical import extend_historical_han_oracle
+        extend_historical_han_oracle(old)
         # Explicit 1.027 follow-up exception: adjust only the old で mark
         # component before applying the shared -56 oracle. No source changes.
         old_de = old['glyf']['uni3067']
@@ -144,8 +149,8 @@ def verify_translation():
         assert expected_gpos.compile(old) == new['GPOS'].compile(new) == web['GPOS'].compile(web)
         assert old['head'].unitsPerEm == new['head'].unitsPerEm == web['head'].unitsPerEm == 1024
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.027'
-            assert abs(font['head'].fontRevision-1.027) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.028'
+            assert abs(font['head'].fontRevision-1.028) < 1/65536
         for name in MOVED_NAMES:
             g = new['glyf'][name]
             assert g.yMin > max(new['hhea'].descent,-new['OS/2'].usWinDescent),name
@@ -158,7 +163,7 @@ def verify_translation():
             g = new['glyf'][f'uni{ord(c):04X}']
             assert (g.xMin,g.yMin) == (180,-32),c
         aggregate = hashlib.sha256(repr(hashes).encode()).hexdigest()
-        print(f'PASS: {len(han_names)} unchanged Han hashes (including 壁/堅); aggregate {aggregate}')
+        print(f'PASS: {len(han_names)} Han hashes match the historical oracle plus pinned 1.028 踊 (including unchanged 壁/堅); aggregate {aggregate}')
         print('PASS: 187 glyphs receive (0,-56), with only the reviewed で mark +58 Y exception; every point, contour, composite offset and metric checked; all unrelated glyphs frozen')
         print('PASS: TTF/WOFF2 parity; unchanged global metrics/GSUB/GDEF; Japanese GPOS anchors move together; no new clipping')
 

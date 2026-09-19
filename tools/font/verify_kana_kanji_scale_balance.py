@@ -89,6 +89,9 @@ def verify_shape_preservation():
         baseline = git_bytes(path)
         if not path.endswith('.png'):
             current, baseline = current.replace(b'\r\n', b'\n'), baseline.replace(b'\r\n', b'\n')
+        if relative == 'japanese/user_japanese_overrides.py':
+            from verify_kanji_odoru_optical import without_odoru_source
+            current = without_odoru_source(current)
         assert current == baseline, ('Accepted source changed', relative)
     with old_font() as old, TTFont(TTF) as new:
         for c, strokes in VERSION_1_025_KANA_STROKES.items():
@@ -152,6 +155,8 @@ def verify_metrics():
 
 def verify_font_scope():
     with old_font() as old,TTFont(TTF) as new,TTFont(WOFF2) as web:
+        from verify_kanji_odoru_optical import extend_historical_han_oracle
+        extend_historical_han_oracle(old)
         assert old.getBestCmap()==new.getBestCmap()==web.getBestCmap()
         assert new.getGlyphOrder()==web.getGlyphOrder()
         assert [n for n in new.getGlyphOrder() if n not in VARIANTS]==old.getGlyphOrder()
@@ -181,12 +186,12 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.027'
-            assert abs(font['head'].fontRevision-1.027)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.028'
+            assert abs(font['head'].fontRevision-1.028)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()
-        print(f'PASS: all {len(han_names)} Han glyph hashes unchanged; aggregate {aggregate}')
+        print(f'PASS: all {len(han_names)} Han hashes match the historical oracle plus pinned 1.028 踊; aggregate {aggregate}')
         print(f'PASS: exactly {len(changed)} kana/related glyphs scaled, two unmapped mark variants; all other glyphs and line metrics unchanged; entire TTF/WOFF2 parity')
 
 

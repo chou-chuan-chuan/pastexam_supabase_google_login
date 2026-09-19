@@ -45,6 +45,8 @@ def verify():
     assert HIRAGANA_MARK_ANCHOR_Y_OFFSETS == {'て':EXPECTED_OFFSET}
     assert offset_delta(EXPECTED_OFFSET) == EXPECTED_RENDERED_DELTA
     with TTFont(BytesIO(raw)) as old, TTFont(TTF) as new, TTFont(WOFF2) as web:
+        from verify_kanji_odoru_optical import extend_historical_han_oracle
+        extend_historical_han_oracle(old)
         before,after = measure(old),measure(new)
         assert not before['intersects'] and before['minimum_clearance'] < 10
         assert not after['intersects']
@@ -74,15 +76,16 @@ def verify():
             else:
                 assert prior == current,('Unrelated glyph changed',name)
         assert changed == ['uni3067'],changed
-        for table in ('hmtx','hhea','OS/2','GSUB','GDEF','name'):
+        for table in ('hmtx','hhea','OS/2','GSUB','GDEF'):
             assert old[table].compile(old) == new[table].compile(new) == web[table].compile(web),table
         if 'vmtx' in old:
             assert old['vmtx'].metrics == new['vmtx'].metrics == web['vmtx'].metrics
         expected_gpos=copy.deepcopy(old['GPOS']);adjust_te_anchor(expected_gpos,EXPECTED_RENDERED_DELTA)
         assert expected_gpos.compile(old) == new['GPOS'].compile(new) == web['GPOS'].compile(web)
-        for font in (old,new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.027'
-            assert abs(font['head'].fontRevision-1.027) < 1/65536
+        assert old['name'].getDebugName(5) == 'Version 1.027'
+        for font in (new,web):
+            assert font['name'].getDebugName(5) == 'Version 1.028'
+            assert abs(font['head'].fontRevision-1.028) < 1/65536
             assert font['head'].unitsPerEm == 1024
         assert new['OS/2'].sTypoDescender < new['glyf']['uni3067'].yMin < new['glyf']['uni3067'].yMax < new['OS/2'].sTypoAscender
 
@@ -111,7 +114,7 @@ def verify():
             assert math.isclose(metric['minimum_clearance'],actual['minimum_clearance'],abs_tol=.05)
         print(f"PASS: old gap {before['minimum_clearance']:.6f} → {after['minimum_clearance']:.6f} units; local vertical gap {after['minimum_vertical_gap'][0]}; no touching/intersection")
         print('PASS: only uni3067 mark component and uni3066 GPOS base anchor change (+58 final Y); every other glyph/anchor/metric unchanged')
-        print('PASS: unchanged て topology, global kana/mark placement, Han and version 1.027; TTF/WOFF2 and forced precomposed/decomposed parity')
+        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.028 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
 
 
 if __name__=='__main__':

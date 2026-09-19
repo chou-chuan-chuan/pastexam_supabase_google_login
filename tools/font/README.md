@@ -1,6 +1,21 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.027 — Kana–Han bottom alignment
+## Current output: Version 1.028 — Scoped 踊 optical-size correction
+
+Only U+8E0A maps to a new `uni8E0A.qfwJaOptical` copy of the unchanged original `uni8E0A`. The 59-Han median height is 713; its old height is 590. Candidates `1.178475 / 1.208475 / 1.238475` were compared at actual 20/32/64 px. The selected uniform scale **1.208475** uses the original ink center, then `dx = -43/6`, `dy = -17.499875` to center within the original **826-unit advance** and align the bottom at **−14**. Final ink is `(28.875, -14, 797.391304, 699)`, LSB/RSB **27/26**, with no boundary embolden.
+
+[Complete measurement / visual QA / validation report](reports/kanji-odoru-optical-size.md), [before / three candidates / final proof at 20/32/64/192 px and cell guides](proofs/quanfangwei-kanji-odoru-optical-size.png).
+
+```sh
+python tools/font/render_kanji_odoru_optical_proof.py
+python tools/font/verify_kanji_odoru_optical.py
+```
+
+The focused verifier pins merged 1.027 main `38f441c2bc0e2380c3cd7c1bf4afda1df2f3bc2f` and both original/accepted font SHA256 values. It verifies the independent rounded transform, sole cmap extension, every pre-existing glyph/metric, all 9,343 unrelated Han and 187 kana hashes, all layout tables, TTF/WOFF2 parity, lyric advances and positive adjacent ink gaps, and a byte-identical canonical rebuild. Older verifiers retain their historical oracles with only this independently generated and pinned Han extension; their previous source/scale/position assertions remain intact.
+
+Version 1.027 kana is frozen byte-for-byte at the glyph/metrics/layout level: Hiragana/Katakana scale, −56 global shift, lower-left yōon, marks and `て/で` clearance. The ten preceding Han optical overrides, Latin and punctuation remain unchanged. No CSS/JS workaround, SQL/migration or production DB operation.
+
+## Retained kana stage: Version 1.027 — Kana–Han bottom alignment
 
 Version 1.027 also includes a scoped **て / で dakuten-clearance correction** after the initial bottom-alignment merge. The existing `HIRAGANA_MARK_ANCHOR_Y_OFFSETS["て"]` changes `17 → 82`; because it is applied before the accepted 1.026 anchor scale, +65 source units produce exactly **+58 final Y** for this one attachment. The actual minimum diagonal ink gap increases `7.810 → 51.225` units. The −56 global shift and every base/mark outline, other attachment, advance and global metric stay fixed.
 
@@ -27,7 +42,7 @@ python tools/font/verify_kana_bottom_alignment.py
 
 The new verifier pins main `19cf20cf94feb047245f630506ca909af2e7e49b` and its TTF SHA256. It checks all 187 moved glyphs (185 mapped plus two existing mark variants), every other glyph, all 9,344 mapped Han hashes, complete source/reference bytes, GPOS deltas, shaping, exact TTF/WOFF2 parity, clipping and byte-identical rebuild. All hhea/OS/2 globals and UPM remain unchanged. Six yōon lower-left anchors move from `(180,24)` to `(180,-32)` with the rest of the script; their internal offsets are unchanged. Existing standalone combining marks have a historical typographic-ascender overhang that is reduced by this shift; all outlines fit unchanged hhea/Windows bounds and attached text also fits the typographic box.
 
-The complete existing verifier suite remains supported. Old center gates now inspect the accepted pre-translation size stage and additionally check the current bottom target. The historical 1.025/1.026 reports and proofs below are intentionally unchanged; use only the current renderer above for 1.027 output.
+The complete existing verifier suite remains supported. Old center gates now inspect the accepted pre-translation size stage and additionally check the current bottom target. The historical 1.025/1.026 reports and proofs below are intentionally unchanged; the kana renderers above document the retained 1.027 stages, while the 1.028 renderer at the top documents the current 踊 correction.
 
 ## Retained size stage: Version 1.026 — Kana–Han mixed-script optical balance
 

@@ -48,6 +48,7 @@ EXPECTED_HAN_TRANSFORMS = {
     "奧": (0.94, 0.94, 19.0, 34.5, 0.0),
     "優": (0.90, 0.90, 19.5, 35.0, 0.0),
     "寄": (0.92, 0.92, 18.5, 36.0, 0.0),
+    "踊": (1.208475, 1.208475, -43/6, -17.499875, 0.0),
 }
 
 
@@ -108,7 +109,7 @@ def main() -> int:
             "Master-v2 su must preserve its handwritten proportions with uniform metric normalization")
 
     require(set(SHARED_HAN_OPTICAL_TRANSFORMS) == set(EXPECTED_HAN_TRANSFORMS),
-            "Han optical transform set differs from the ten reviewed per-glyph records")
+            "Han optical transform set differs from the eleven reviewed per-glyph records")
     for character, expected in EXPECTED_HAN_TRANSFORMS.items():
         transform = SHARED_HAN_OPTICAL_TRANSFORMS[character]
         require((transform.scale_x, transform.scale_y, transform.dx, transform.dy,
@@ -173,7 +174,10 @@ def main() -> int:
                 else:
                     require(abs(target_center[0] - target_advance / 2) <= 1.0,
                             f"{character} is not centered in its advance: center={target_center[0]}, advance={target_advance}")
-                if character == "奥":
+                if character == "踊":
+                    require(y_min == -14 and y_max == 699,
+                            "踊 must keep its measured Han bottom and selected optical height")
+                elif character == "奥":
                     require(abs(target_center[1] - 354) <= 0.5,
                             f"奥 optical y center does not match U+5967 奧: {target_center[1]}")
                 elif character == "壁":
@@ -220,7 +224,7 @@ def main() -> int:
         return 1
 
     print("PASS: す uses master-v2 source and reviewed uniform Japanese metric normalization")
-    print("PASS: ten reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
+    print("PASS: eleven reviewed Han, including vertical-only 壁/堅, use recorded source-preserving transforms and safe metrics")
     print("PASS: TTF/WOFF2 agree; 夕 and approved 懐/々 remain unchanged")
     print("PASS: the optical layer preserves each current Hiragana source stroke/point topology")
     return 0
