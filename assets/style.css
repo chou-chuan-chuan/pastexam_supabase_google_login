@@ -152,6 +152,7 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .song-reference-option { padding: 9px 12px; border-radius: 9px; cursor: pointer; overflow-wrap: anywhere; }
 .song-reference-option:hover, .song-reference-option[aria-selected="true"] { background: #f0eafa; }
 .song-reference-option > span { display: block; }
+.song-reference-language { margin-bottom: 3px; color: var(--primary); font-size: .8rem; }
 .song-reference-title { color: var(--primary-dark); }
 .song-reference-artist, .song-reference-meta { color: var(--muted); font-size: .86rem; }
 .dialog-actions, .compact-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 9px; }

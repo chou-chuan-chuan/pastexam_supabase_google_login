@@ -31,10 +31,15 @@ const base = {
   song_tags: [{ tags: tags[0] }, { tags: tags[1] }, { tags: { id: "deleted", name: "private-deleted-tag" } }]
 };
 const songs = [base, { ...base, id: "approved-two", title: "Flamingo", album: "Flamingo / TEENAGE RIOT", youtube_video_id: "Uh6dkL1M9DM" },
-  { ...base, id: "long", title: "Wrap — 一首很長的歌曲名稱，確認在手機上也可以自然換行閱讀", artist: "A very long artist name for wrapping", album: "A".repeat(90) },
+  { ...base, id: "long", language: "Deutsch", title: "Wrap — 一首很長的歌曲名稱，確認在手機上也可以自然換行閱讀", artist: "A very long artist name for wrapping", album: "A".repeat(90) },
   ...Array.from({ length: 8 }, (_, i) => ({ ...base, id: `approved-${i}`, title: `Other ${i}`, language: "English", genre: "Rock" })),
-  { ...base, id: "pending-private", status: "pending", title: "Secret pending", artist: "Secret artist", uploader_id: "another-user" },
-  { ...base, id: "rejected-private", status: "rejected", title: "Secret rejected", artist: "Secret rejected artist" }];
+  ...["Español", "Deutsch", "Français", "中文", "한국어", "Italiano", "Português", "ไทย"].map((language, i) => ({ ...base, id: `language-${i}`, title: `${language} example`, language })),
+  { ...base, id: "english-variant", title: "English variant", language: " english " },
+  { ...base, id: "french-variant", title: "French variant", language: "FRANC\u0327AIS" },
+  { ...base, id: "no-language", title: "Unlabelled Song", artist: "Unlabelled Artist", language: null },
+  { ...base, id: "pending-private", status: "pending", title: "Secret pending", artist: "Secret artist", language: "Private pending language", uploader_id: "another-user" },
+  { ...base, id: "rejected-private", status: "rejected", title: "Secret rejected", artist: "Secret rejected artist", language: "Private rejected language" }];
+const defaultLanguages = ["日本語", "Deutsch", "English", "Español", "Français", "中文", "한국어", "Italiano", "Português", "ไทย"];
 
 const mockModule = `export function createClient() {
   const qa = window.__uploadQA;
@@ -52,7 +57,8 @@ const mockModule = `export function createClient() {
         insert(payload) { qa.inserts.push(payload); this.inserted = { id: "fresh-" + qa.inserts.length }; qa.songs.push({ ...payload, ...this.inserted, song_tags: [] }); return this; },
         single() { return Promise.resolve({ data: this.inserted, error: null }); },
         then(ok, fail) {
-          const data = table === "songs" ? qa.songs : table === "tags" ? qa.tags : [];
+          const data = table === "songs" ? qa.songs : table === "tags" ? qa.tags
+            : table === "song_display_order" ? qa.songs.map((song, position) => ({ song_id: song.id, position })) : [];
           return Promise.resolve({ data, error: qa.failLoad ? { message: "Fixture load failure" } : null }).then(ok, fail);
         }
       };
@@ -102,13 +108,44 @@ async function assertFits(page) {
   assert.deepEqual(measurements, { page: true, form: true, list: true });
 }
 
+async function assertDefaults(page) {
+  assert.deepEqual(await page.locator("#uploadReferenceOptions .song-reference-language").allTextContents(), defaultLanguages);
+  assert.equal(await page.locator("#uploadReferenceOptions").isVisible(), true);
+  assert.equal(await page.locator('#uploadReferenceOptions [aria-selected="true"]').count(), 0);
+  assert.equal(await page.locator("#uploadReferenceInput").getAttribute("aria-activedescendant"), null);
+  assert.equal(await page.locator("#uploadReferenceOptions").evaluate((list) => list.scrollHeight > list.clientHeight), true);
+  assert.doesNotMatch(await page.locator("#uploadReference").innerHTML(), /private-|Secret|Private|uploader|pdf_path|original_filename/);
+}
+
+async function assertUntouchedForm(page) {
+  const form = await formValues(page);
+  assert.ok(Object.values(form.values).every((value) => value === ""));
+  assert.deepEqual(form.tags, []);
+  assert.equal(await page.locator("#uploadForm datalist, #uploadForm input[list]").count(), 0);
+}
+
 try {
   const page = await newPage(1440, 1080);
   const input = page.locator("#uploadReferenceInput");
+  await assertDefaults(page);
+  await assertUntouchedForm(page);
+  await assertFits(page);
+  await page.screenshot({ path: join(output, "desktop-defaults.png") });
+  await input.press("Enter");
+  await assertUntouchedForm(page);
+  await input.press("ArrowDown");
+  await assertUntouchedForm(page);
+  await input.fill("Other");
+  assert.equal(await page.locator('#uploadReferenceOptions [role="option"]').count(), 8);
+  assert.ok((await page.locator(".song-reference-title").allTextContents()).includes("Other 2"));
+  await input.fill("Unlabelled");
+  assert.deepEqual(await page.locator(".song-reference-title").allTextContents(), ["Unlabelled Song"]);
+  await input.fill("  ");
+  await assertDefaults(page);
+  await assertUntouchedForm(page);
   await input.fill("lem");
   assert.deepEqual(await page.locator('[role="option"] .song-reference-title').allTextContents(), ["Lemon"]);
-  const referenceMarkup = await page.locator("#uploadReference").innerHTML()
-    + await page.locator("#uploadForm datalist option").evaluateAll((options) => options.map((option) => option.value).join(" "));
+  const referenceMarkup = await page.locator("#uploadReference").innerHTML();
   assert.doesNotMatch(referenceMarkup, /private-|Secret|uploader|pdf_path|original_filename/);
   await input.press("ArrowDown");
   const active = await input.getAttribute("aria-activedescendant");
@@ -151,17 +188,19 @@ try {
   await page.locator('#uploadTagChoices input[value="other"]').check();
   const copied = await formValues(page);
   await page.locator("#clearUploadReference").click();
+  await assertDefaults(page);
   assert.deepEqual(await formValues(page), copied);
   await input.fill("Secret");
   assert.equal(await page.locator('#uploadReferenceOptions [role="option"]').count(), 0);
   await input.press("Enter");
   assert.equal(await page.evaluate(() => window.__uploadQA.inserts.length), 0);
   await input.fill("");
-  assert.equal(await page.locator('#uploadReferenceOptions [role="option"]').count(), 8);
+  await assertDefaults(page);
   await input.press("Tab");
   assert.equal(await input.getAttribute("aria-expanded"), "false");
   await page.locator('#uploadDialog [data-close="uploadDialog"]').first().click();
   await page.locator("#openUploadButton").click();
+  await assertDefaults(page);
   assert.deepEqual(await formValues(page), copied);
   await page.locator("#submitUploadButton").click();
   await page.locator("#uploadDialog").waitFor({ state: "hidden" });
@@ -177,6 +216,8 @@ try {
   assert.doesNotMatch(JSON.stringify(submitted.inserts), /private-|approved_song_id|source_song_id|parent_song_id|lifecycle_id/);
   assert.deepEqual(submitted.tags[0], { p_song_id: "fresh-1", p_tag_ids: ["movie", "other"] });
   await page.locator("#openUploadButton").click();
+  await assertDefaults(page);
+  await assertUntouchedForm(page);
   assert.equal(await input.inputValue(), "");
   assert.equal(await page.locator("#uploadTitle").inputValue(), "");
   assert.deepEqual((await formValues(page)).tags, []);
@@ -187,7 +228,7 @@ try {
     window.__uploadQA.songs.find((song) => song.title === "Secret pending").status = "approved";
   });
   await page.locator("#refreshButton").click();
-  await page.waitForFunction(() => [...document.querySelectorAll("#uploadTitleSuggestions option")].some((option) => option.value === "Secret pending"));
+  await page.waitForFunction(() => [...document.querySelectorAll("#songGrid article")].some((card) => card.querySelector("h3")?.textContent === "Lemon" && card.querySelector(".status-rejected")));
   await page.locator("#openUploadButton").click();
   await input.fill("Lemon");
   assert.equal(await page.locator('#uploadReferenceOptions [role="option"]').count(), 0);
@@ -197,15 +238,23 @@ try {
   await page.locator('#uploadDialog [data-close="uploadDialog"]').first().click();
   await page.evaluate(() => { window.__uploadQA.failLoad = true; });
   await page.locator("#refreshButton").click();
-  await page.waitForFunction(() => document.querySelector("#uploadTitleSuggestions").children.length === 0);
+  await page.waitForFunction(() => document.querySelector("#songGrid").children.length === 0);
   await page.locator("#openUploadButton").click();
   assert.match(await page.locator("#uploadReferenceStatus").textContent(), /目前尚無已通過歌曲可供參考/);
   assert.equal(await page.locator("#uploadTitle").inputValue(), "Keep across refresh");
   await page.context().close();
-  console.log("PASS desktop: keyboard, privacy, copy/confirm/clear, PDF preservation, fresh pending submission, reload/failure lifecycle");
+  console.log("PASS desktop: 10 language defaults, full/capped search, blank-language search, clear/reopen, no auto-population or datalists, existing upload lifecycle");
 
   for (const [name, width, height] of [["tablet", 768, 1024], ["mobile", 390, 844]]) {
     const responsive = await newPage(width, height);
+    await assertDefaults(responsive);
+    await assertUntouchedForm(responsive);
+    await assertFits(responsive);
+    await responsive.screenshot({ path: join(output, `${name}-defaults.png`) });
+    await responsive.locator("#uploadReferenceInput").press("ArrowUp");
+    assert.equal(await responsive.locator('#uploadReferenceOptions [aria-selected="true"] .song-reference-language').textContent(), "ไทย");
+    assert.ok(await responsive.locator("#uploadReferenceOptions").evaluate((list) => list.scrollTop > 0));
+    await assertUntouchedForm(responsive);
     await responsive.locator("#uploadReferenceInput").fill("Wrap");
     await assertFits(responsive);
     await responsive.screenshot({ path: join(output, `${name}-picker.png`) });
@@ -217,7 +266,7 @@ try {
     assert.equal(await responsive.locator("#uploadPdf").evaluate((input) => input.files.length), 0);
     await responsive.screenshot({ path: join(output, `${name}-filled.png`) });
     await responsive.context().close();
-    console.log(`PASS ${name} ${width}px: contextual wrapping, no horizontal overflow, pointer/touch selection`);
+    console.log(`PASS ${name} ${width}px: 10 uncapped defaults, keyboard scrolling, wrapped labels, no horizontal overflow, pointer/touch selection`);
   }
   const empty = await newPage(390, 844, songs.filter((song) => song.status !== "approved"));
   assert.match(await empty.locator("#uploadReferenceStatus").textContent(), /目前尚無已通過歌曲可供參考/);
@@ -234,8 +283,20 @@ try {
   await empty.locator("#uploadDialog").waitFor({ state: "hidden" });
   assert.equal(await empty.evaluate(() => window.__uploadQA.inserts[0].status), "pending");
   await empty.context().close();
+  const blankLanguage = await newPage(390, 844, [{ ...base, language: " \t " }]);
+  assert.match(await blankLanguage.locator("#uploadReferenceStatus").textContent(), /目前尚無已通過歌曲可供參考/);
+  assert.equal(await blankLanguage.locator('#uploadReferenceOptions [role="option"]').count(), 0);
+  await blankLanguage.locator("#uploadReferenceInput").fill("Lemon");
+  assert.equal(await blankLanguage.locator('#uploadReferenceOptions [role="option"]').count(), 1);
+  await assertUntouchedForm(blankLanguage);
+  await blankLanguage.context().close();
+  const oneLanguage = await newPage(768, 1024, [base, { ...base, id: "second", title: "Second song" }]);
+  assert.deepEqual(await oneLanguage.locator(".song-reference-title").allTextContents(), ["Lemon"]);
+  await assertUntouchedForm(oneLanguage);
+  await oneLanguage.context().close();
   assert.deepEqual(errors, []);
   console.log("PASS zero approved: no private suggestions, manual upload creates a pending row");
+  console.log("PASS zero/one language: blank-language empty defaults remain searchable; a single language has one example");
   console.log(`Screenshots: ${output}`);
 } finally {
   await browser.close();

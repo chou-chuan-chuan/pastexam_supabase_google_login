@@ -43,16 +43,20 @@ function formHarness({ title = "", selectedTags = [], confirm = true } = {}) {
   return { el, state, inputs: uploadMetadataInputs, apply: () => context.applyUploadReference(values), clear: () => context.resetUploadReference() };
 }
 
-test("new-upload picker has combobox/listbox semantics, contextual label and six native datalists", () => {
+test("new-upload picker remains accessible while all six metadata inputs have no native datalists", () => {
   const upload = html.slice(html.indexOf('<form id="uploadForm"'), html.indexOf('<dialog id="editDialog"'));
   assert.match(upload, /新歌曲一律為待審核。[\s\S]*參考既有歌曲（選填）[\s\S]*歌曲名稱/);
   assert.match(upload, /role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="uploadReferenceOptions"/);
   assert.match(upload, /id="uploadReferenceOptions"[^>]*role="listbox"/);
   assert.match(upload, /autocomplete="off" placeholder="搜尋已通過歌曲名稱或歌手…"/);
   for (const name of ["Title", "Artist", "Album", "Year", "Language", "Genre"]) {
-    assert.match(upload, new RegExp(`id="upload${name}" list="upload${name}Suggestions"`));
-    assert.match(upload, new RegExp(`<datalist id="upload${name}Suggestions"`));
+    const input = upload.match(new RegExp(`<input id="upload${name}"[^>]*>`))?.[0];
+    assert.ok(input);
+    assert.doesNotMatch(input, /\blist=|readonly|disabled/);
   }
+  assert.doesNotMatch(upload, /<datalist\b|Suggestions/);
+  assert.doesNotMatch(app, /approvedMetadataValues|input\.list/);
+  assert.match(upload, /id="uploadYear" type="number" min="1800" max="2100"/);
   assert.doesNotMatch(html.slice(html.indexOf('<dialog id="editDialog"')), /uploadReference|Suggestions/);
 });
 
@@ -117,4 +121,5 @@ test("catalog reload rebuilds approved-only options and the original pending ins
   const renderer = functionSource("renderUploadReferenceOptions");
   assert.doesNotMatch(renderer, /uploader|pdf_path|original_filename|\.id\)|innerHTML/);
   assert.match(renderer, /song.title[\s\S]*song.artist[\s\S]*song.album, song.release_year/);
+  assert.match(renderer, /song-reference-language", song.language/);
 });

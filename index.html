@@ -69,15 +69,9 @@
         </div>
         <small id="uploadReferenceStatus" role="status" aria-live="polite">目前尚無已通過歌曲可供參考。</small>
       </div>
-      <div class="field-row"><label class="field"><span>歌曲名稱 *</span><input id="uploadTitle" list="uploadTitleSuggestions" required maxlength="160"></label><label class="field"><span>歌手 *</span><input id="uploadArtist" list="uploadArtistSuggestions" required maxlength="160"></label></div>
-      <div class="field-row"><label class="field"><span>專輯</span><input id="uploadAlbum" list="uploadAlbumSuggestions" maxlength="160"></label><label class="field"><span>發行年份</span><input id="uploadYear" list="uploadYearSuggestions" type="number" min="1800" max="2100"></label></div>
-      <div class="field-row"><label class="field"><span>語言</span><input id="uploadLanguage" list="uploadLanguageSuggestions" maxlength="80" placeholder="例如：中文、English"></label><label class="field"><span>曲風</span><input id="uploadGenre" list="uploadGenreSuggestions" maxlength="80" placeholder="例如：Rock、Ballad"></label></div>
-      <datalist id="uploadTitleSuggestions"></datalist>
-      <datalist id="uploadArtistSuggestions"></datalist>
-      <datalist id="uploadAlbumSuggestions"></datalist>
-      <datalist id="uploadYearSuggestions"></datalist>
-      <datalist id="uploadLanguageSuggestions"></datalist>
-      <datalist id="uploadGenreSuggestions"></datalist>
+      <div class="field-row"><label class="field"><span>歌曲名稱 *</span><input id="uploadTitle" required maxlength="160"></label><label class="field"><span>歌手 *</span><input id="uploadArtist" required maxlength="160"></label></div>
+      <div class="field-row"><label class="field"><span>專輯</span><input id="uploadAlbum" maxlength="160"></label><label class="field"><span>發行年份</span><input id="uploadYear" type="number" min="1800" max="2100"></label></div>
+      <div class="field-row"><label class="field"><span>語言</span><input id="uploadLanguage" maxlength="80" placeholder="例如：中文、English"></label><label class="field"><span>曲風</span><input id="uploadGenre" maxlength="80" placeholder="例如：Rock、Ballad"></label></div>
       <label class="field"><span>YouTube URL *</span><input id="uploadYoutube" type="url" required inputmode="url" placeholder="https://www.youtube.com/watch?v=…" aria-describedby="uploadYoutubeStatus"><small id="uploadYoutubeStatus">支援 watch、youtu.be、embed、shorts URL。</small></label>
       <div id="uploadYoutubePreview" class="youtube-url-preview hidden"><img id="uploadYoutubeThumbnail" alt="YouTube 縮圖預覽"><span id="uploadYoutubeVideoId"></span></div>
       <fieldset class="field tag-choice-fieldset"><legend>標籤</legend><div id="uploadTagChoices" class="tag-choice-list"><span class="muted">由管理員建立可用標籤。</span></div></fieldset>

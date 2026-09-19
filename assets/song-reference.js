@@ -28,14 +28,19 @@ export function approvedSongReferences(songs, tagCatalog = []) {
     .map((song) => referenceFormValues(song, tagCatalog));
 }
 
-export function approvedMetadataValues(songs, field) {
-  if (!REFERENCE_METADATA_FIELDS.includes(field)) return [];
-  return [...new Set(approvedSongReferences(songs).map((song) => song[field]).filter(Boolean))]
-    .sort((left, right) => left.localeCompare(right, "zh-Hant", { numeric: true }));
+export function defaultSongReferencesByLanguage(songs, tagCatalog = []) {
+  const represented = new Set();
+  // Keep the first approved song in the current display order for every language.
+  // Defaults are deliberately uncapped; only typed searches have a result limit.
+  return approvedSongReferences(songs, tagCatalog).filter((song) => {
+    const language = normalized(song.language);
+    if (!language || represented.has(language)) return false;
+    represented.add(language);
+    return true;
+  });
 }
 
 function matchRank(song, query) {
-  if (!query) return 0;
   const title = normalized(song.title);
   const artist = normalized(song.artist);
   if (title === query) return 0;
@@ -50,6 +55,7 @@ function matchRank(song, query) {
 
 export function songReferenceSearch(songs, query, tagCatalog = []) {
   const search = normalized(query);
+  if (!search) return defaultSongReferencesByLanguage(songs, tagCatalog);
   return approvedSongReferences(songs, tagCatalog)
     .map((song, index) => ({ song, index, rank: matchRank(song, search) }))
     .filter(({ rank }) => Number.isFinite(rank))
