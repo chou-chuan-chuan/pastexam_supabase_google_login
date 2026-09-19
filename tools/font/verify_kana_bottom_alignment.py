@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pin 1.026 and prove 1.027 is exactly one kana-only integer Y translation.
+"""Pin 1.026: one kana Y translation plus the reviewed scoped て mark fix.
 
 Default execution repeats the canonical build and compares both output bytes.
 Historical shape/scale verifiers remain responsible for their accepted stages.
@@ -89,7 +89,13 @@ def verify_metrics():
 
 def verify_translation():
     from verify_kana_kanji_scale_balance import signature
+    from verify_de_dakuten_clearance import EXPECTED_RENDERED_DELTA, adjust_te_anchor
     with accepted_font() as old, TTFont(FONT) as new, TTFont(WOFF2) as web:
+        # Explicit 1.027 follow-up exception: adjust only the old で mark
+        # component before applying the shared -56 oracle. No source changes.
+        old_de = old['glyf']['uni3067']
+        old_de.components[1].y += EXPECTED_RENDERED_DELTA
+        old_de.recalcBounds(old['glyf'])
         assert old.getGlyphOrder() == new.getGlyphOrder() == web.getGlyphOrder()
         assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
         assert len(MOVED_NAMES) == 187 and len(MOVED_CHARACTERS) == 185
@@ -118,8 +124,9 @@ def verify_translation():
         assert len(han_names) == 9344
         for table in ('hhea','OS/2','GSUB','GDEF'):
             assert old[table].compile(old) == new[table].compile(new) == web[table].compile(web),table
-        # GPOS may change only the shared Japanese base/mark Y anchor values.
+        # Shared Japanese Y translation plus the same one-base local clearance.
         expected_gpos = copy.deepcopy(old['GPOS'])
+        adjust_te_anchor(expected_gpos, EXPECTED_RENDERED_DELTA)
         matches = 0
         for lookup in expected_gpos.table.LookupList.Lookup:
             if lookup.LookupType != 4:
@@ -152,7 +159,7 @@ def verify_translation():
             assert (g.xMin,g.yMin) == (180,-32),c
         aggregate = hashlib.sha256(repr(hashes).encode()).hexdigest()
         print(f'PASS: {len(han_names)} unchanged Han hashes (including 壁/堅); aggregate {aggregate}')
-        print('PASS: exactly 187 glyphs translated (0,-56); every point, contour, composite offset, advance, side bearing and width/height checked; all unrelated glyphs frozen')
+        print('PASS: 187 glyphs receive (0,-56), with only the reviewed で mark +58 Y exception; every point, contour, composite offset and metric checked; all unrelated glyphs frozen')
         print('PASS: TTF/WOFF2 parity; unchanged global metrics/GSUB/GDEF; Japanese GPOS anchors move together; no new clipping')
 
 
@@ -163,6 +170,8 @@ def main():
     verify_sources(); verify_metrics(); verify_translation()
     from verify_kana_kanji_scale_balance import verify_derivatives, verify_determinism
     verify_derivatives()
+    from verify_de_dakuten_clearance import verify as verify_de_clearance
+    verify_de_clearance()
     if not args.skip_rebuild:
         verify_determinism()
     return 0

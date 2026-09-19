@@ -1,0 +1,487 @@
+{
+  "base_main": "514297a9c801e981333fded9473d61489669b486",
+  "version": "1.027",
+  "old_offset": 17,
+  "new_offset": 82,
+  "additional_source_offset": 65,
+  "additional_rendered_y": 58,
+  "target_gap": 51.2,
+  "before": {
+    "base": "て",
+    "base_bounds": [
+      230,
+      -8,
+      744,
+      612
+    ],
+    "mark_bounds": [
+      713,
+      590,
+      850,
+      678
+    ],
+    "base_anchor": [
+      787,
+      614
+    ],
+    "mark_anchor": [
+      92,
+      759
+    ],
+    "mark_delta": [
+      695,
+      -145
+    ],
+    "minimum_clearance": 7.810249675906654,
+    "intersects": false,
+    "closest_base_point": [
+      742.0,
+      601.0
+    ],
+    "closest_mark_point": [
+      748.0,
+      606.0
+    ],
+    "x_overlap": [
+      713,
+      744
+    ],
+    "minimum_vertical_gap": [
+      11.0,
+      733.0,
+      609.0,
+      620.0
+    ]
+  },
+  "after": {
+    "base": "て",
+    "base_bounds": [
+      230,
+      -8,
+      744,
+      612
+    ],
+    "mark_bounds": [
+      713,
+      648,
+      850,
+      736
+    ],
+    "base_anchor": [
+      787,
+      672
+    ],
+    "mark_anchor": [
+      92,
+      759
+    ],
+    "mark_delta": [
+      695,
+      -87
+    ],
+    "minimum_clearance": 51.22499389946279,
+    "intersects": false,
+    "closest_base_point": [
+      733.0,
+      609.0
+    ],
+    "closest_mark_point": [
+      765.0,
+      649.0
+    ],
+    "x_overlap": [
+      713,
+      744
+    ],
+    "minimum_vertical_gap": [
+      69.0,
+      733.0,
+      609.0,
+      678.0
+    ]
+  },
+  "previous_candidate": {
+    "offset": 81,
+    "base": "て",
+    "base_bounds": [
+      230,
+      -8,
+      744,
+      612
+    ],
+    "mark_bounds": [
+      713,
+      647,
+      850,
+      735
+    ],
+    "base_anchor": [
+      787,
+      671
+    ],
+    "mark_anchor": [
+      92,
+      759
+    ],
+    "mark_delta": [
+      695,
+      -88
+    ],
+    "minimum_clearance": 50.44799302251776,
+    "intersects": false,
+    "closest_base_point": [
+      733.0,
+      609.0
+    ],
+    "closest_mark_point": [
+      765.0,
+      648.0
+    ],
+    "x_overlap": [
+      713,
+      744
+    ],
+    "minimum_vertical_gap": [
+      68.0,
+      733.0,
+      609.0,
+      677.0
+    ]
+  },
+  "candidates": {
+    "72": {
+      "extra_rendered_y": 49,
+      "base": "て",
+      "base_bounds": [
+        230,
+        -8,
+        744,
+        612
+      ],
+      "mark_bounds": [
+        713,
+        639,
+        850,
+        727
+      ],
+      "base_anchor": [
+        787,
+        663
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        695,
+        -96
+      ],
+      "minimum_clearance": 44.39999999999998,
+      "intersects": false,
+      "closest_base_point": [
+        733.0,
+        609.0
+      ],
+      "closest_mark_point": [
+        759.64,
+        644.52
+      ],
+      "x_overlap": [
+        713,
+        744
+      ],
+      "minimum_vertical_gap": [
+        60.0,
+        733.0,
+        609.0,
+        669.0
+      ]
+    },
+    "82": {
+      "extra_rendered_y": 58,
+      "base": "て",
+      "base_bounds": [
+        230,
+        -8,
+        744,
+        612
+      ],
+      "mark_bounds": [
+        713,
+        648,
+        850,
+        736
+      ],
+      "base_anchor": [
+        787,
+        672
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        695,
+        -87
+      ],
+      "minimum_clearance": 51.22499389946279,
+      "intersects": false,
+      "closest_base_point": [
+        733.0,
+        609.0
+      ],
+      "closest_mark_point": [
+        765.0,
+        649.0
+      ],
+      "x_overlap": [
+        713,
+        744
+      ],
+      "minimum_vertical_gap": [
+        69.0,
+        733.0,
+        609.0,
+        678.0
+      ]
+    },
+    "92": {
+      "extra_rendered_y": 67,
+      "base": "て",
+      "base_bounds": [
+        230,
+        -8,
+        744,
+        612
+      ],
+      "mark_bounds": [
+        713,
+        657,
+        850,
+        745
+      ],
+      "base_anchor": [
+        787,
+        681
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        695,
+        -78
+      ],
+      "minimum_clearance": 58.52349955359813,
+      "intersects": false,
+      "closest_base_point": [
+        733.0,
+        609.0
+      ],
+      "closest_mark_point": [
+        765.0,
+        658.0
+      ],
+      "x_overlap": [
+        713,
+        744
+      ],
+      "minimum_vertical_gap": [
+        78.0,
+        733.0,
+        609.0,
+        687.0
+      ]
+    }
+  },
+  "neighbors": {
+    "け": {
+      "base": "け",
+      "base_bounds": [
+        210,
+        -44,
+        831,
+        633
+      ],
+      "mark_bounds": [
+        728,
+        574,
+        865,
+        662
+      ],
+      "base_anchor": [
+        802,
+        598
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        710,
+        -161
+      ],
+      "minimum_clearance": 91.54780172128658,
+      "intersects": false,
+      "closest_base_point": [
+        638.0,
+        616.0
+      ],
+      "closest_mark_point": [
+        729.0,
+        626.0
+      ],
+      "x_overlap": [
+        728,
+        831
+      ],
+      "minimum_vertical_gap": [
+        172.0,
+        786.0,
+        402.0,
+        574.0
+      ]
+    },
+    "せ": {
+      "base": "せ",
+      "base_bounds": [
+        126,
+        6,
+        852,
+        624
+      ],
+      "mark_bounds": [
+        724,
+        576,
+        861,
+        664
+      ],
+      "base_anchor": [
+        798,
+        600
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        706,
+        -159
+      ],
+      "minimum_clearance": 86.16263691415206,
+      "intersects": false,
+      "closest_base_point": [
+        648.0,
+        586.0
+      ],
+      "closest_mark_point": [
+        728.0,
+        618.0
+      ],
+      "x_overlap": [
+        724,
+        852
+      ],
+      "minimum_vertical_gap": [
+        136.33333333333331,
+        787.0,
+        439.6666666666667,
+        576.0
+      ]
+    },
+    "と": {
+      "base": "と",
+      "base_bounds": [
+        215,
+        -14,
+        797,
+        616
+      ],
+      "mark_bounds": [
+        726,
+        575,
+        863,
+        663
+      ],
+      "base_anchor": [
+        800,
+        599
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        708,
+        -160
+      ],
+      "minimum_clearance": 20.105617350795377,
+      "intersects": false,
+      "closest_base_point": [
+        712.4245283018868,
+        607.2358490566038
+      ],
+      "closest_mark_point": [
+        730.0,
+        617.0
+      ],
+      "x_overlap": [
+        726,
+        797
+      ],
+      "minimum_vertical_gap": [
+        532.5,
+        781.0,
+        43.0,
+        575.5
+      ]
+    },
+    "へ": {
+      "base": "へ",
+      "base_bounds": [
+        142,
+        78,
+        853,
+        520
+      ],
+      "mark_bounds": [
+        725,
+        575,
+        862,
+        663
+      ],
+      "base_anchor": [
+        799,
+        599
+      ],
+      "mark_anchor": [
+        92,
+        759
+      ],
+      "mark_delta": [
+        707,
+        -160
+      ],
+      "minimum_clearance": 335.0373113550191,
+      "intersects": false,
+      "closest_base_point": [
+        562.0,
+        319.0
+      ],
+      "closest_mark_point": [
+        767.0,
+        584.0
+      ],
+      "x_overlap": [
+        725,
+        853
+      ],
+      "minimum_vertical_gap": [
+        420.6363636363636,
+        777.0,
+        155.36363636363637,
+        576.0
+      ]
+    }
+  }
+}

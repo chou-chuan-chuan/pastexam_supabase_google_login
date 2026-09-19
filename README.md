@@ -19,11 +19,13 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
+Version **1.027** 同時包含局部 `て／で` 濁點間距修正：`て` 專用 anchor offset 由 `+17 → +82`，在既有 anchor scale 後相當於只把它的濁點上移 58 units。最短輪廓間距由 7.81 增至 51.225 units（20 px 約 1 px）；`て` 本體、共用濁點、其他濁音與整體 −56 位移完全不變。預組合 `で` 與分解 `で` 共用相同位置。[量測報告](tools/font/reports/de-dakuten-clearance.md)與[20／32／64／192 px 專用校樣](tools/font/proofs/quanfangwei-de-dakuten-clearance.png)。
+
 目前版本 **1.027 — Kana–Han bottom alignment**：保留 Version 1.026 已驗收的大小與全部手寫結構，將假名系統整體向下平移 **56 units**。沿用同一組 59 個 Han 與各 46 個基本假名；Han median ink bottom 為 `−14`，合併假名為 `41.5`，實測差 `−55.5` 取整數 `−56`。比較 `−64／−56／−48` 後選定 `−56`；平假名字底中位數 `44.5 → −11.5`，片假名 `41 → −15`，Han 完全不動。
 
-平假名 scale `0.894078195335`、片假名 scale `0.946843040146` 保持不變。最終 TrueType 座標只加 `(0,−56)`，不再縮放或重新取整；字寬、字高、筆壓、x 座標與 960-unit advance 均不變。小假名、iteration、長音與濁點／半濁點一起移動；六個 yōon 的左下 ink anchor 由 `(180,24)` 隨全體移至 `(180,−32)`，相對位置與兩格結構不變。GPOS 的 base／mark anchors 同步平移，預組合與分解組合位置一致。
+平假名 scale `0.894078195335`、片假名 scale `0.946843040146` 保持不變。最終 TrueType 座標只加 `(0,−56)`，不再縮放或重新取整；字寬、字高、筆壓、x 座標與 960-unit advance 均不變。小假名、iteration、長音與濁點／半濁點一起移動；六個 yōon 的左下 ink anchor 由 `(180,24)` 隨全體移至 `(180,−32)`，相對位置與兩格結構不變。GPOS 的 base／mark anchors 同步平移，再對 `て` 加入上述局部間距修正，預組合與分解組合位置一致。
 
-[32 px 前後 proof](tools/font/proofs/quanfangwei-kana-bottom-alignment.png)、[20 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-small.png)、[64 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-large.png)、[字底輔助線](tools/font/proofs/quanfangwei-kana-bottom-alignment-guides.png)與[完整量測／驗證報告](tools/font/reports/kana-bottom-alignment.md)記錄候選值、頂部位置、small kana、yōon 和 marks 檢查。所有 Han（含 `壁／堅`）、Latin／French／German、全域 ascent／descent／line metrics 不變；沒有 CSS／JS workaround、SQL／migration 或 production DB 修改。
+[整體位移階段的 32 px 前後 proof](tools/font/proofs/quanfangwei-kana-bottom-alignment.png)、[20 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-small.png)、[64 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-large.png)、[字底輔助線](tools/font/proofs/quanfangwei-kana-bottom-alignment-guides.png)與[完整量測／驗證報告](tools/font/reports/kana-bottom-alignment.md)記錄候選值、頂部位置、small kana、yōon 和 marks 檢查。所有 Han（含 `壁／堅`）、Latin／French／German、全域 ascent／descent／line metrics 不變；沒有 CSS／JS workaround、SQL／migration 或 production DB 修改。
 
 Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)及[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)仍是完整 Master v2 authority，全部 source points、topology、reference hashes 及逐字 optical transforms 不變。[1.026 大小比例報告](tools/font/reports/kana-kanji-scale-balance.md)保留為已驗收的大小基準，[1.025 revision report](tools/font/reports/hiragana-master-v2.md)與[absolute metric report](tools/font/reports/hiragana-standard-metrics.md)保留為歷史紀錄。下列舊版本敘述同樣是歷史紀錄。
 

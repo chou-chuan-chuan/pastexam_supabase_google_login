@@ -463,5 +463,21 @@
     "preserves": "All 1.026 source topology, scale factors, pressure, x coordinates, widths, heights, advances, Han glyphs and global metrics",
     "report": "tools/font/reports/kana-bottom-alignment.md",
     "proof": "tools/font/proofs/quanfangwei-kana-bottom-alignment.png"
+  },
+  "de_dakuten_clearance": {
+    "version": "1.027",
+    "base_main": "514297a9c801e981333fded9473d61489669b486",
+    "base": "て",
+    "precomposed": "で",
+    "decomposed": "で",
+    "old_source_anchor_offset": 17,
+    "new_source_anchor_offset": 82,
+    "additional_source_offset": 65,
+    "additional_rendered_y": 58,
+    "minimum_clearance_units": 51.22499389946279,
+    "global_kana_shift": -56,
+    "scope": "Only uni3067 mark-component Y and uni3066 GPOS base-anchor Y; all other glyphs, anchors and metrics unchanged",
+    "report": "tools/font/reports/de-dakuten-clearance.md",
+    "proof": "tools/font/proofs/quanfangwei-de-dakuten-clearance.png"
   }
 }

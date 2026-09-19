@@ -39,10 +39,12 @@ DAKUTEN_ANCHOR_1_026 = (92, 815)
 DAKUTEN_ANCHOR = (92, DAKUTEN_ANCHOR_1_026[1] + JAPANESE_BOTTOM_ALIGNMENT_SHIFT)
 HANDAKUTEN_ANCHOR = DAKUTEN_ANCHOR
 KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
-# Version 1.025 metric normalization brings て's upper stroke into the old
-# dakuten position. Raise this base anchor only: +5 clears the intersection,
-# +12 more leaves visible separation. Shared mark contours stay unchanged.
-HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 17}
+# Version 1.027: +17 left a 7.81-unit diagonal gap, visually touching at 20px.
+# +82 is the smallest integer scoped offset reaching a 51.2-unit (one 20px
+# pixel) gap after the accepted anchor scale: +65 here becomes +58 final Y.
+# Only て's base anchor changes; shared mark outlines/anchors stay unchanged.
+# See reports/de-dakuten-clearance.md for measurements and candidate proofs.
+HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 82}
 
 
 def apply_bottom_alignment(glyph):
