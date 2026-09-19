@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { approvedSongReferences, approvedMetadataValues, songReferenceSearch, referenceFormValues, hasMeaningfulUploadMetadata } from "../assets/song-reference.js";
+import { approvedSongReferences, defaultSongReferencesByLanguage, songReferenceSearch, referenceFormValues, hasMeaningfulUploadMetadata } from "../assets/song-reference.js";
 import { pendingSongPayload } from "../assets/catalog.js";
 import { extractYouTubeVideoId } from "../assets/youtube.js";
 
@@ -23,17 +23,63 @@ test("all song entry points exclude pending/rejected, other users' submissions a
   assert.deepEqual(songReferenceSearch(input, "", tags).map((song) => song.title), ["Lemon"]);
   for (const song of [pending, rejected, {}, null]) assert.equal(referenceFormValues(song, tags), null);
   assert.deepEqual(songReferenceSearch(input, "Secret"), []);
-  assert.deepEqual(approvedMetadataValues(input, "artist"), ["米津玄師"]);
+  assert.deepEqual(defaultSongReferencesByLanguage(input, tags).map((song) => song.title), ["Lemon"]);
 });
 
-test("deduplicates trimmed artist, album, language, genre and year values; ignores blanks/nulls", () => {
-  const input = [approved, { ...approved, artist: " 米津玄師 ", release_year: "2018" },
-    { status: "approved", artist: null, album: "", language: " \t ", genre: undefined, release_year: null }, pending, rejected];
-  for (const field of ["artist", "album", "language", "genre", "release_year"]) {
-    assert.deepEqual(approvedMetadataValues(input, field), [String(approved[field])]);
+test("defaults contain the first approved song per language in the current input order", () => {
+  const japaneseA = { ...approved, title: "Japanese A" };
+  const japaneseB = { ...approved, title: "Japanese B" };
+  const french = { ...approved, title: "French A", language: "Français" };
+  const spanish = { ...approved, title: "Spanish A", language: "Español" };
+  const input = [pending, japaneseA, japaneseB, french, rejected, spanish];
+  const original = structuredClone(input);
+  assert.deepEqual(defaultSongReferencesByLanguage(input).map((song) => song.title), ["Japanese A", "French A", "Spanish A"]);
+  assert.deepEqual(songReferenceSearch(input, " \t ").map((song) => song.title), ["Japanese A", "French A", "Spanish A"]);
+  assert.deepEqual(defaultSongReferencesByLanguage([spanish, japaneseB, french, japaneseA]).map((song) => song.title), ["Spanish A", "Japanese B", "French A"]);
+  assert.deepEqual(input, original);
+  assert.deepEqual(defaultSongReferencesByLanguage(input), defaultSongReferencesByLanguage(input));
+});
+
+test("language grouping trims, Unicode-normalizes and ignores case while preserving the first display label", () => {
+  const input = [" English ", " english ", "ENGLISH", "Franc\u0327ais", "FRANÇAIS", "法文"]
+    .map((language, index) => ({ ...approved, language, title: `Song ${index}` }));
+  const defaults = defaultSongReferencesByLanguage(input);
+  assert.deepEqual(defaults.map((song) => song.title), ["Song 0", "Song 3", "Song 5"]);
+  assert.deepEqual(defaults.map((song) => song.language), ["English", "Franc\u0327ais", "法文"]);
+});
+
+test("blank-language approved songs occupy no default slot but remain searchable by title and artist", () => {
+  const input = [null, "", " \t ", undefined].map((language, index) => ({
+    ...approved, language, title: `Unlabelled ${index}`, artist: `Artist ${index}`
+  }));
+  assert.deepEqual(defaultSongReferencesByLanguage(input), []);
+  assert.deepEqual(songReferenceSearch(input, ""), []);
+  for (let index = 0; index < input.length; index++) {
+    assert.equal(songReferenceSearch(input, `Unlabelled ${index}`)[0].title, `Unlabelled ${index}`);
+    assert.equal(songReferenceSearch(input, `Artist ${index}`)[0].title, `Unlabelled ${index}`);
   }
-  assert.deepEqual(approvedMetadataValues(input, "uploader_id"), []);
-  assert.deepEqual(approvedMetadataValues(input, "notes"), []);
+});
+
+test("typed searches include second and third songs in a language, then clearing restores defaults", () => {
+  const input = ["First", "Second", "Third"].map((title) => ({ ...approved, title }));
+  assert.deepEqual(songReferenceSearch(input, "").map((song) => song.title), ["First"]);
+  for (const title of ["Second", "Third"]) assert.equal(songReferenceSearch(input, title)[0].title, title);
+  assert.deepEqual(songReferenceSearch(input, "米津").map((song) => song.title), ["First", "Second", "Third"]);
+  assert.deepEqual(songReferenceSearch(input, " ").map((song) => song.title), ["First"]);
+});
+
+test("defaults retain every language beyond eight while typed search stays capped at eight", () => {
+  const input = Array.from({ length: 12 }, (_, index) => ({ ...approved, title: `Song ${index}`, language: `Language ${index}` }));
+  assert.equal(defaultSongReferencesByLanguage(input).length, 12);
+  assert.equal(songReferenceSearch(input, "").length, 12);
+  assert.equal(songReferenceSearch(input, "song").length, 8);
+});
+
+test("defaults reuse the safe field mapping and current tag catalog without returning private data", () => {
+  const defaults = defaultSongReferencesByLanguage([pending, approved, rejected], tags);
+  assert.deepEqual(defaults, [referenceFormValues(approved, tags)]);
+  assert.deepEqual(defaults[0].tag_ids, ["live"]);
+  assert.doesNotMatch(JSON.stringify(defaults), /private-|Secret|uploader|pdf_path|original_filename|created_at|reviewed_at|song_tags|youtube_video_id/);
 });
 
 test("ranks exact title, title prefix/substring, artist exact/prefix/substring, then other metadata", () => {
@@ -64,7 +110,7 @@ test("limits to eight results with stable ties and never mutates the catalog", (
   const original = structuredClone(input);
   assert.deepEqual(songReferenceSearch(input, "song").map((song) => song.title), input.slice(0, 8).map((song) => song.title));
   assert.deepEqual(input, original);
-  assert.equal(songReferenceSearch(input, "").length, 8);
+  assert.equal(songReferenceSearch(input, "").length, 1);
   assert.deepEqual(songReferenceSearch(input, "absent"), []);
 });
 
@@ -89,7 +135,8 @@ test("reference results cannot leak or search IDs, notes, files, timestamps or i
 
 test("empty/unavailable approved catalog works and refreshed statuses immediately affect suggestions", () => {
   assert.deepEqual(approvedSongReferences(null), []);
-  assert.deepEqual(approvedMetadataValues([pending, rejected], "title"), []);
+  assert.deepEqual(defaultSongReferencesByLanguage(null), []);
+  assert.deepEqual(defaultSongReferencesByLanguage([pending, rejected]), []);
   assert.deepEqual(songReferenceSearch([pending, rejected], ""), []);
   assert.equal(songReferenceSearch([{ ...pending, status: "approved" }], "Secret").length, 1);
   assert.deepEqual(songReferenceSearch([{ ...approved, status: "rejected" }], "Lemon"), []);

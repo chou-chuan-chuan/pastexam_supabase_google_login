@@ -6,7 +6,7 @@ import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacemen
 import { PdfViewer } from "./pdf-viewer.js";
 import { loadUserPlaylists, normalizePlaylistMembership, playlistSchemaUnavailable } from "./playlists.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
-import { approvedMetadataValues, hasMeaningfulUploadMetadata, songReferenceSearch } from "./song-reference.js";
+import { hasMeaningfulUploadMetadata, songReferenceSearch } from "./song-reference.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS) : null;
@@ -131,15 +131,6 @@ function rebuildUploadReferences() {
   // The page also loads the user's pending/rejected rows. Never suggest those.
   const approvedSongs = songs.filter((song) => song.status === "approved");
   approvedReferenceSongs = approvedSongs;
-  for (const [field, input] of Object.entries(uploadMetadataInputs)) {
-    if (!input.list) continue;
-    const options = approvedMetadataValues(approvedSongs, field).map((value) => {
-      const option = document.createElement("option");
-      option.value = value;
-      return option;
-    });
-    input.list.replaceChildren(...options);
-  }
   // A refreshed catalog invalidates previous choices, never the copied form values.
   uploadReferenceMatches = [];
   el.uploadReferenceOptions.replaceChildren();
@@ -162,6 +153,7 @@ function applyUploadReference(values) {
 }
 
 function renderUploadReferenceOptions() {
+  const defaultMode = !el.uploadReferenceInput.value.trim();
   uploadReferenceMatches = songReferenceSearch(approvedReferenceSongs, el.uploadReferenceInput.value, tags);
   activeReferenceIndex = -1;
   el.uploadReferenceInput.removeAttribute("aria-activedescendant");
@@ -171,6 +163,7 @@ function renderUploadReferenceOptions() {
     option.id = `uploadReferenceOption-${index}`;
     option.setAttribute("role", "option");
     option.setAttribute("aria-selected", "false");
+    if (song.language) option.append(node("span", "song-reference-language", song.language));
     option.append(node("span", "song-reference-title", song.title), node("span", "song-reference-artist", song.artist));
     const detail = [song.album, song.release_year].filter(Boolean).join(" · ");
     if (detail) option.append(node("span", "song-reference-meta", detail));
@@ -182,9 +175,11 @@ function renderUploadReferenceOptions() {
   el.uploadReferenceOptions.replaceChildren(...options);
   el.uploadReferenceOptions.classList.toggle("hidden", !options.length);
   el.uploadReferenceInput.setAttribute("aria-expanded", String(Boolean(options.length)));
-  el.uploadReferenceStatus.textContent = !approvedReferenceSongs.length
+  el.uploadReferenceStatus.textContent = !approvedReferenceSongs.length || (defaultMode && !options.length)
     ? "目前尚無已通過歌曲可供參考。"
-    : options.length ? `顯示 ${options.length} 首已通過歌曲（最多 8 首），可用上下鍵選擇、Enter 套用。` : "找不到符合的已通過歌曲。";
+    : !options.length ? "找不到符合的已通過歌曲。"
+    : defaultMode ? `每種語言顯示一首，共 ${options.length} 種語言；輸入文字可搜尋所有已通過歌曲。`
+    : `顯示 ${options.length} 首已通過歌曲（最多 8 首），可用上下鍵選擇、Enter 套用。`;
 }
 
 function uploadReferenceKeydown(event) {
@@ -625,14 +620,23 @@ function queueAuthSession(session, event) {
 
 function bind() {
   el.signIn.addEventListener("click", signInWithGoogle); el.signOut.addEventListener("click", signOut);
-  el.openUpload.addEventListener("click", () => { renderTagChoices(el.uploadTags, selectedTagIds(el.uploadTags)); el.uploadDialog.showModal(); });
+  el.openUpload.addEventListener("click", () => {
+    renderTagChoices(el.uploadTags, selectedTagIds(el.uploadTags));
+    el.uploadDialog.showModal();
+    el.uploadReferenceInput.focus();
+    renderUploadReferenceOptions();
+  });
   el.uploadReferenceInput.addEventListener("input", renderUploadReferenceOptions);
   el.uploadReferenceInput.addEventListener("focus", renderUploadReferenceOptions);
   el.uploadReferenceInput.addEventListener("keydown", uploadReferenceKeydown);
   el.uploadReference.addEventListener("focusout", (event) => {
     if (!el.uploadReference.contains(event.relatedTarget)) closeUploadReferenceOptions();
   });
-  el.clearUploadReference.addEventListener("click", () => { resetUploadReference(); el.uploadReferenceInput.focus(); });
+  el.clearUploadReference.addEventListener("click", () => {
+    resetUploadReference();
+    el.uploadReferenceInput.focus();
+    renderUploadReferenceOptions();
+  });
   el.uploadDialog.addEventListener("close", closeUploadReferenceOptions);
   el.uploadForm.addEventListener("reset", resetUploadReference);
   el.uploadYoutube.addEventListener("input", updateYoutubePreview); el.uploadForm.addEventListener("submit", uploadSong); el.editForm.addEventListener("submit", saveEdit);
