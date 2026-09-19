@@ -19,11 +19,13 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.025 — Complete Maintainer Hiragana Master v2**：以維護者擁有的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)和[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)重建全部 46 個現代基本平假名。完整 Master v2 對所有基本字元優先於舊 reference；舊圖只保留歷史 provenance。新的 `なにぬねの` 明確取代先前「保留 na-row」規則，包括曾修正辨識度的 `の`；沒有基本平假名刻意沿用舊的 authoritative source。普通小假名從新大字走原 0.72-scale 衍生路徑；`ゃゅょ` 從新 base 衍生後重新校準 translation，保留已驗收的左下 ink anchor `(180,24)`，`ャュョ` 的形狀與 offsets 不變。濁音／半濁音繼承新版 base 和原有 marks。沒有使用外部日文字型 outlines、bitmap contours，也沒有更動 Katakana、Han（含 `壁／堅`）、CSS、JS、SQL 或 production DB。
+目前版本 **1.026 — Kana–Han mixed-script optical balance**：保留 Version 1.025 已驗收的全部 46 個 Master v2 平假名手寫結構與逐字 normalization，只在其後加入每個 script 共用的等比例縮放。以 59 個現有混排／歌詞常用漢字量測 QuanFangwei 的實際 Han ink body，再乘上 Noto Sans CJK JP／Source Han Sans JP 的 kana-to-Han 高度比例；外部字型只提供相對 metrics，不提供 outlines，也不直接決定絕對 em 大小。
 
-全 46 字的絕對大小再以 Noto Sans CJK JP／Source Han Sans JP 的 UPM-normalized metrics 為標準參考、QuanFangwei 1.024 為延續參考，逐字 uniform scale + dx/dy；保留 960 advance，不套用外部輪廓，也不做 x/y 非等比變形。量測資料、family size gate 與 same-em metric-box proof 見[標準字型尺度比較](tools/font/reports/hiragana-standard-metrics.md)。`で` 為避免新 base 與濁點相碰，僅將 `て` 的 mark anchor 上移 17 units。
+平假名共用 scale `0.894078195335`，片假名獨立量測後共用 `0.946843040146`；保留原 optical center、960-unit advance、筆形和 taper。12 個小平假名由縮放後大字沿原 0.72 路徑衍生；`ゃゅょ／ャュョ` 以 translation 保留左下 ink anchor `(180,24)`。濁點／半濁點沿所屬 script 縮放，預組合與分解組合共用相同大小與位置；沒有 ligature 或 CSS positioning。
 
-逐字 branch count、source/rendered bounds、advance、optical transform、na-row hashes、proofs 與驗證結果見[完整 revision report](tools/font/reports/hiragana-master-v2.md)。下列舊版本敘述為歷史紀錄；遇到重疊字元以 Version 1.025 master sheet 為準。
+[混排前後 proof](tools/font/proofs/quanfangwei-kana-kanji-scale-balance.png)與[完整比例／驗證報告](tools/font/reports/kana-kanji-scale-balance.md)記錄 20／32／64 px 視覺檢查、small kana、yōon 和 marks。全部 Han（含 `壁／堅`）、Latin／French／German 不變，沒有 CSS／JS workaround、SQL／migration 或 production DB 修改。
+
+Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)及[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)繼續構成完整 authoritative Master v2，46 個 source points、topology、reference hashes 及原逐字 optical transforms 完全不變。[1.025 revision report](tools/font/reports/hiragana-master-v2.md)與[1.025 absolute metric report](tools/font/reports/hiragana-standard-metrics.md)保留為歷史紀錄；1.026 最終大小以新的 Han-relative ratio 報告為準。下列舊版本敘述同樣是歷史紀錄。
 
 網站目前全站使用「荃方位補寫體」（英文 Family Name：`QuanFangwei Supplement Script`），並在 CSS 註冊為 `QuanFangwei Supplement Web`。它是基於[官方辰宇落雁體 repository](https://github.com/Chenyu-otf/chenyuluoyan_thin)，依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，不是原作者官方更新或發布版本，也不代表原作者背書。
 
@@ -32,7 +34,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.025 支援：
+衍生版 Version 1.026 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
@@ -112,7 +114,7 @@ python tools/font/verify_japanese_weight.py
 
 German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
-### Japanese Phase 1 Support（current font Version 1.025）
+### Japanese Phase 1 Support（current font Version 1.026）
 
 同一組 `QuanFangweiSupplementScript-Regular.ttf`／`.woff2` 現在支援現代日文基本平假名、片假名、小假名、濁音、半濁音、U+3099／U+309A combining marks、U+309B／U+309C spacing marks、長音、middle dot、iteration marks 與指定的常用日文標點。預組合與分解序列（例如 `が`／`が`、`ぱ`／`ぱ`、`ガ`／`ガ`、`パ`／`パ`）共用同一 mark contour 與 GPOS anchor delta，不靠 JavaScript NFC normalization。
 

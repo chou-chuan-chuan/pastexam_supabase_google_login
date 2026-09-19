@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify size targets without opening or embedding any external font."""
+"""Verify the retained 1.025 fit stage and the current 1.026 Han-relative size."""
 from __future__ import annotations
 
 import hashlib
@@ -33,7 +33,9 @@ def verify_metrics():
     old_bytes=subprocess.check_output(['git','show',f'{BASE_MAIN}:{FONT_REL}'],cwd=ROOT)
     assert hashlib.sha256(old_bytes).hexdigest()==refs['production_1_024']['sha256']
     family={}
-    with TTFont(BytesIO(old_bytes)) as old,TTFont(FONT_PATH) as new:
+    from verify_kana_kanji_scale_balance import git_bytes, FONT_REL as CURRENT_FONT_REL
+    accepted_bytes=git_bytes(CURRENT_FONT_REL)
+    with TTFont(BytesIO(old_bytes)) as old,TTFont(BytesIO(accepted_bytes)) as new:
         assert new['head'].unitsPerEm==1024
         for c in TARGETS:
             prior=refs['production_1_024']['glyphs'][c]
@@ -56,7 +58,9 @@ def verify_metrics():
     flagged={c for c,m in family.items() if m['height_em']<.75*median_height or
              m['width_em']<.7*median_width or m['width_em']>1.4*median_width}
     assert flagged==set('うくりつへ'),('Unreviewed family size outliers',flagged)
-    print('PASS: 46 UPM-normalized standard/production targets; uniform fits; height within 1.5 units and centers within 1 unit; full-width advances and width envelopes')
+    from verify_kana_kanji_scale_balance import verify_metrics as verify_balanced_metrics
+    verify_balanced_metrics()
+    print('PASS: retained 1.025 stage: 46 UPM-normalized standard/production targets; uniform fits; height within 1.5 units and centers within 1 unit; full-width advances and width envelopes')
     print('PASS: family size gate; reviewed narrow う/く/り and shallow つ/へ retain handwriting and meet individual reference targets')
 
 

@@ -184,48 +184,46 @@ KANA_STROKES.update({
     if 0x30A1 <= ord(character) <= 0x30FA
 })
 
-# Every small Hiragana is deterministically derived from its normalized large
-# counterpart. Structure and topology therefore stay identical; only optical
-# scale, placement, and a slight pressure reduction differ.
-SMALL_HIRAGANA_OPTICAL_SHIFTS = {
-    # Version 1.016: move the newly derived small wa slightly right/down.
-    "ゎ": (14, -14),
+# Preserve a distinct accepted 1.025 stage for provenance and regression checks.
+# The new shared geometric scale precedes small-kana derivation, including
+# pressure, so small forms inherit the correction exactly once.
+from kana_sources.han_balance import balance_strokes
+
+ACCEPTED_LARGE_KANA_STROKES = dict(KANA_STROKES)
+SMALL_HIRAGANA_OPTICAL_SHIFTS = {"ゎ": (14, -14)}
+SMALL_HIRAGANA_BASES = dict(zip("ぁぃぅぇぉっゃゅょゎゕゖ", "あいうえおつやゆよわかけ"))
+SMALL_KATAKANA_BASES = dict(zip("ァィゥェォヮヵヶ", "アイウエオワカケ"))
+VERSION_1_025_YOON_OFFSETS = {
+    "ゃ": (-51, -47), "ゅ": (-80, -47), "ょ": (-67, -70),
+    "ャ": (-87, -70), "ュ": (-136, -123), "ョ": (-148, -120),
 }
-for small, large in {"ぁ":"あ","ぃ":"い","ぅ":"う","ぇ":"え","ぉ":"お",
-                     "ゃ":"や","ゅ":"ゆ","ょ":"よ","っ":"つ","ゎ":"わ",
-                     "ゕ":"か","ゖ":"け"}.items():
-    extra_dx, extra_dy = SMALL_HIRAGANA_OPTICAL_SHIFTS.get(small, (0, 0))
-    KANA_STROKES[small] = scale(
-        KANA_STROKES[large],
-        0.72,
-        center=(480, 500),
-        shift=(extra_dx, -12 + extra_dy),
-    )
-
-# Small Katakana retain the accepted Phase-1 derivation.
-for small, large in {"ァ":"ア","ィ":"イ","ゥ":"ウ","ェ":"エ","ォ":"オ","ヮ":"ワ",
-                     "ヵ":"カ","ヶ":"ケ"}.items():
-    KANA_STROKES[small] = scale(KANA_STROKES[large], 0.72)
 
 
-# Version 1.023: yōon small kana keep their existing 0.72-scale construction,
-# pressure, topology, and full-width metrics.  This narrowly scoped post-scale
-# layer only moves their ink toward the lower-left of each glyph's own cell.
-# Per-glyph values align the differently shaped outlines to approximately
-# xMin=180/yMin=24 after the shared -145-unit Kana build translation.
-# Version 1.025: recalibrate only Hiragana translations AFTER deriving the new
-# bases. Preserve the reviewed rendered lower-left anchor (180, 24), rather
-# than retaining deltas tuned for superseded geometry. Katakana deltas unchanged.
-YOON_SMALL_KANA_OFFSETS = {
-    "ゃ": (-51, -47),
-    "ゅ": (-80, -47),
-    "ょ": (-67, -70),
-    "ャ": (-87, -70),
-    "ュ": (-136, -123),
-    "ョ": (-148, -120),
-}
-for small, (dx, dy) in YOON_SMALL_KANA_OFFSETS.items():
-    KANA_STROKES[small] = translate_strokes(KANA_STROKES[small], dx=dx, dy=dy)
+def derive_small_kana(large, offsets):
+    result = dict(large)
+    for small, base in SMALL_HIRAGANA_BASES.items():
+        dx, dy = SMALL_HIRAGANA_OPTICAL_SHIFTS.get(small, (0, 0))
+        result[small] = scale(large[base], .72, center=(480, 500), shift=(dx, -12 + dy))
+    for small, base in SMALL_KATAKANA_BASES.items():
+        result[small] = scale(large[base], .72)
+    for small, (dx, dy) in offsets.items():
+        result[small] = translate_strokes(result[small], dx, dy)
+    return result
+
+
+VERSION_1_025_KANA_STROKES = derive_small_kana(ACCEPTED_LARGE_KANA_STROKES, VERSION_1_025_YOON_OFFSETS)
+BALANCED_LARGE_KANA_STROKES = {c: balance_strokes(c, strokes)
+                              for c, strokes in ACCEPTED_LARGE_KANA_STROKES.items()}
+KANA_STROKES = derive_small_kana(BALANCED_LARGE_KANA_STROKES, {})
+# Translation only: keep the six reviewed ink anchors at (180, 24) in their
+# unchanged 960-unit cells after the -145 build translation. No pair lookup.
+from japanese.stroke_engine import build_stroke_glyph
+YOON_SMALL_KANA_OFFSETS = {}
+for small in VERSION_1_025_YOON_OFFSETS:
+    glyph = build_stroke_glyph(KANA_STROKES[small])
+    glyph.recalcBounds({})
+    YOON_SMALL_KANA_OFFSETS[small] = (180 - glyph.xMin, 24 + 145 - glyph.yMin)
+KANA_STROKES = derive_small_kana(BALANCED_LARGE_KANA_STROKES, YOON_SMALL_KANA_OFFSETS)
 
 
 DAKUTEN_STROKES = (

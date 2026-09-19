@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.025"
+    "version": "1.026"
   },
   "glyphs": [
     {
@@ -335,7 +335,7 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "hiragana",
-      "construction_method": "Version 1.025: all 46 modern basic Hiragana refreshed from the maintainer's complete Master v2 source set (main 41-glyph sheet plus supplementary na-row sheet), as manually authored photo-coordinate center-lines. Uniform per-glyph normalization, existing variable-width engine and pressure layer. Small forms derive from new bases; existing marks compose voiced forms. No small na-row forms are introduced.",
+      "construction_method": "Version 1.025: all 46 modern basic Hiragana refreshed from the maintainer's complete Master v2 source set (main 41-glyph sheet plus supplementary na-row sheet), as manually authored photo-coordinate center-lines. Uniform per-glyph normalization, existing variable-width engine and pressure layer. Small forms derive from new bases; existing marks compose voiced forms. No small na-row forms are introduced. Version 1.026 applies one script-wide Han-relative scale to accepted geometry and pressure before small derivation.",
       "source_style_references": [
         "references/hiragana-maintainer-master-v2.png",
         "references/hiragana-maintainer-master-v2-na-row.png",
@@ -350,7 +350,7 @@
         "the project maintainer's own handwriting",
         "the source font's measured handwriting stroke vocabulary"
       ],
-      "optical_adjustments": "All 46 new large sources use uniform optical scale plus dx/dy fitted to UPM-normalized Noto Sans CJK JP / Source Han Sans JP metrics and production 1.024. No non-uniform exceptions; advance stays 960. Normalize large bases before deriving small forms. Three Hiragana yoon offsets are recalibrated after derivation to retain lower-left ink anchor (180,24); Katakana offsets/shapes are unchanged. The て base mark anchor alone is raised 17 units for で clearance; mark designs stay unchanged.",
+      "optical_adjustments": "Accepted 1.025 per-glyph normalization remains unchanged. Final 1.026 uses the shared kana_han_balance layer. All six yoon translations restore (180,24); advances remain 960. Marks scale consistently with each base script; the accepted 1.025 base/mark anchor relationship is retained.",
       "status": "verified",
       "reference_precedence": "The main 41-glyph and supplementary na-row sheets together form the complete 46-glyph Maintainer Master v2, superseding all older basic Hiragana sources and the former preserve-na-row rule. Older references are historical provenance only."
     },
@@ -360,7 +360,7 @@
       "glyph_name_rule": "uni{codepoint:04X}",
       "unicode_name_source": "Python unicodedata.name",
       "category": "katakana",
-      "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite; Version 1.017 applies a topology-preserving x1.14 pressure layer to width/start_width/end_width before final outline generation; Version 1.023 applies post-scale positioning only to U+30E3/U+30E5/U+30E7",
+      "construction_method": "original_variable_width_centerline_outline_or_reviewed_base_plus_shared_mark_composite; Version 1.017 applies a topology-preserving x1.14 pressure layer to width/start_width/end_width before final outline generation; Version 1.023 applies post-scale positioning only to U+30E3/U+30E5/U+30E7; Version 1.026 uniformly scales accepted geometry and pressure by the independently measured 0.946843040146 factor before existing small derivation, recalibrating yoon translations only",
       "source_style_references": [
         "一",
         "丨",
@@ -400,7 +400,8 @@
         "日"
       ],
       "optical_adjustments": "U+3005 shifts +45 x / -120 y for mixed-text alignment. U+3099/U+309A have zero advance and GPOS anchors; U+309B/U+309C have 300-unit spacing advances; other center marks shift -120 and full-width marks use 960 units.",
-      "status": "verified"
+      "status": "verified",
+      "balance_1_026": "Kana iteration and long-sound marks follow the applicable script scale. Dakuten/handakuten retain their design with script-sized variants and matching composite/GPOS anchors. General punctuation remains unchanged."
     },
     "japanese_user_overrides": {
       "characters": "懐々気付壁堅奥容変恋哀奧優寄",
@@ -423,5 +424,19 @@
     "metric_references": "references/hiragana-metric-references.json",
     "metric_targets": "references/hiragana-metric-targets.json",
     "metric_report": "reports/hiragana-standard-metrics.md"
+  },
+  "kana_han_balance": {
+    "version": "1.026",
+    "description": "Kana–Han mixed-script optical balance",
+    "base_main": "e19227dbb31666e8373045a2edeb3456d00bd373",
+    "source": "kana_sources/han_balance.py",
+    "metrics": "references/kana-kanji-balance-metrics.json",
+    "metrics_sha256": "30bd110983e4cc1348168b69b774e124995b5aef66f396c39a4a74e24180ee01",
+    "report": "reports/kana-kanji-scale-balance.md",
+    "proof": "proofs/quanfangwei-kana-kanji-scale-balance.png",
+    "hiragana_scale": 0.894078195335,
+    "katakana_scale": 0.946843040146,
+    "han_sample_count": 59,
+    "policy": "Preserve all 1.025 source topology and normalization. Uniform geometry/pressure scaling about accepted optical centers. External kana/Han ratios multiplied by actual unchanged QuanFangwei Han height. Small derivation follows balance; yoon anchors (180,24), advances 960. Script-sized shared marks preserve precomposed/decomposed equality. No Han, Latin, punctuation or web-code change."
   }
 }

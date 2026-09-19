@@ -3,7 +3,7 @@
 
 The original revision remains in Git history. Shared v2 checks pin reviewed
 source hashes, every small/voiced derivation, all six lower-left yoon anchors,
-and the exact whole-font change set against immutable Version 1.024.
+and the current whole-font balance contract against immutable Version 1.025.
 """
 from verify_hiragana_master_v2 import verify_sources, verify_derivatives, verify_font_scope
 

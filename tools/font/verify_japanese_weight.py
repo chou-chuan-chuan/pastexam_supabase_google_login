@@ -20,6 +20,7 @@ from audit_japanese_weight import (
     LARGE_HIRAGANA,
     PROJECT_DERIVED_HAN,
     SIZES,
+    SUPERSAMPLE,
     SMALL_HIRAGANA,
     SOURCE_FONT,
     SOURCE_HAN,
@@ -32,6 +33,7 @@ from kana_sources.full_data import (
     DAKUTEN_WEIGHT_FACTOR,
     HANDAKUTEN_WEIGHT_FACTOR,
     KANA_STROKES,
+    VERSION_1_025_KANA_STROKES,
     KATAKANA_WEIGHT_FACTOR,
     LARGE_HIRAGANA_WEIGHT_FACTOR,
     LONG_SOUND_MARK_WEIGHT_FACTOR,
@@ -120,7 +122,7 @@ def main() -> int:
     require(actual_factors == EXPECTED_FACTORS, f"Reviewed weight factors changed: {actual_factors}")
     for character in MODERN_HIRAGANA_ORDER:
         source = USER_HANDWRITING_OPTICALLY_NORMALIZED[character]
-        normalized = KANA_STROKES[character]
+        normalized = VERSION_1_025_KANA_STROKES[character]
         require(len(normalized) == len(source), f"Stroke count changed in pressure layer for {character}")
         for before, after in zip(source, normalized):
             require(after.points == before.points, f"Pressure layer moved points for {character}")
@@ -191,14 +193,43 @@ def main() -> int:
             "japanese_marks": {str(size): group_measurement(TTF_PATH, JAPANESE_MARKS, size) for size in SIZES},
             "project_derived_han": {str(size): group_measurement(TTF_PATH, PROJECT_DERIVED_HAN, size) for size in SIZES},
         }
+        # 1.026 uniformly scales geometry AND pressure. The old absolute ±10%
+        # weight gate belongs to the accepted 1.025 stage. Preserve that gate,
+        # then compare final raster weight to the analytically scaled baseline,
+        # allowing one supersampled scan-run quantum plus outline rounding.
+        from verify_kana_kanji_scale_balance import git_bytes, FONT_REL
+        from kana_sources.han_balance import HIRAGANA_HAN_BALANCE_SCALE, KATAKANA_HAN_BALANCE_SCALE
+        baseline_path = Path(temp_dir) / 'accepted-1.025.ttf'
+        baseline_path.write_bytes(git_bytes(FONT_REL))
+        scaled_groups = {
+            'large_hiragana': (LARGE_HIRAGANA, HIRAGANA_HAN_BALANCE_SCALE),
+            'small_hiragana': (SMALL_HIRAGANA, HIRAGANA_HAN_BALANCE_SCALE),
+            'katakana': (KATAKANA, KATAKANA_HAN_BALANCE_SCALE),
+        }
+        baseline_groups = {}
         for name, measurements in measured_groups.items():
-            effective_ratio = ratio(measurements, source_measurements, "effective_stroke_px")
-            require(0.90 <= effective_ratio <= 1.10,
-                    f"{name} effective stroke ratio is outside source ±10%: {effective_ratio:.4f}")
-        small_ratio = ratio(measured_groups["small_hiragana"], source_measurements, "effective_stroke_px")
-        large_ratio = ratio(measured_groups["large_hiragana"], source_measurements, "effective_stroke_px")
+            if name in scaled_groups:
+                characters, factor = scaled_groups[name]
+                accepted = {str(size): group_measurement(baseline_path, characters, size) for size in SIZES}
+                baseline_groups[name] = accepted
+                effective_ratio = ratio(accepted, source_measurements, 'effective_stroke_px')
+                require(0.90 <= effective_ratio <= 1.10,
+                        f'Accepted 1.025 {name} weight outside source ±10%: {effective_ratio:.4f}')
+                for size in SIZES:
+                    predicted = accepted[str(size)]['effective_stroke_px'] * factor
+                    actual = measurements[str(size)]['effective_stroke_px']
+                    tolerance = 1 / SUPERSAMPLE + size / 1024
+                    require(abs(actual - predicted) <= tolerance,
+                            f'{name} {size}px weight is not the uniform scale of 1.025: actual={actual}, expected={predicted:.4f}, tolerance={tolerance:.4f}')
+                print(f'PASS: {name} current effective-weight/Han ratio {ratio(measurements, source_measurements, "effective_stroke_px"):.4f}; agrees with uniformly scaled 1.025 within raster quantization')
+            else:
+                effective_ratio = ratio(measurements, source_measurements, 'effective_stroke_px')
+                require(0.90 <= effective_ratio <= 1.10,
+                        f'{name} effective stroke ratio is outside source ±10%: {effective_ratio:.4f}')
+        small_ratio = ratio(baseline_groups['small_hiragana'], source_measurements, 'effective_stroke_px')
+        large_ratio = ratio(baseline_groups['large_hiragana'], source_measurements, 'effective_stroke_px')
         require(small_ratio >= large_ratio - 0.10,
-                f"Small Hiragana becomes a separate thin weight: small={small_ratio:.4f}, large={large_ratio:.4f}")
+                f'Accepted small-Hiragana pressure relationship changed: small={small_ratio:.4f}, large={large_ratio:.4f}')
 
     if errors:
         for error in errors:
@@ -209,7 +240,7 @@ def main() -> int:
     print("PASS: pressure multipliers preserve all width taper ratios")
     print("PASS: official source hash and all source CJK drawings are unchanged")
     print("PASS: TTF/WOFF2 cmap, metrics, and bounds agree without clipping")
-    print("PASS: large/small Hiragana, Katakana, marks, and derived Han remain within source effective-weight range")
+    print("PASS: accepted weight gate retained; final kana inherit the measured geometric scale; marks and derived Han retain effective-weight range")
     return 0
 
 

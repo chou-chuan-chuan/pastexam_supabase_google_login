@@ -2,7 +2,7 @@
 """Verify fidelity against the latest authoritative full sheet.
 
 Older per-glyph photos remain historical provenance only. Use the current
-independent raster oracle and the immutable base-main whole-font diff gate.
+accepted-shape preservation and immutable base-main whole-font diff gate.
 """
 from verify_hiragana_master_v2 import verify_sources, verify_fidelity, verify_font_scope
 
