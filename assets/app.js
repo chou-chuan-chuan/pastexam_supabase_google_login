@@ -6,6 +6,7 @@ import { PdfReplacementError, updateSongWithOptionalPdf } from "./pdf-replacemen
 import { PdfViewer } from "./pdf-viewer.js";
 import { loadUserPlaylists, normalizePlaylistMembership, playlistSchemaUnavailable } from "./playlists.js";
 import { extractYouTubeVideoId, normalizeYouTubeUrl, youtubeThumbnailUrl } from "./youtube.js";
+import { approvedMetadataValues, hasMeaningfulUploadMetadata, songReferenceSearch } from "./song-reference.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS) : null;
@@ -19,6 +20,7 @@ const el = {
   loading: $("#loadingState"), grid: $("#songGrid"), empty: $("#emptyState"),
   previewDialog: $("#previewDialog"), previewTitle: $("#previewTitle"), previewViewer: $("#pdfPreviewViewer"), closePreview: $("#closePreviewButton"), closePreviewFooter: $("#closePreviewFooterButton"), openPdf: $("#openPdfButton"), downloadPdf: $("#downloadPdfButton"),
   uploadDialog: $("#uploadDialog"), uploadForm: $("#uploadForm"), uploadTitle: $("#uploadTitle"), uploadArtist: $("#uploadArtist"), uploadAlbum: $("#uploadAlbum"), uploadYear: $("#uploadYear"), uploadLanguage: $("#uploadLanguage"), uploadGenre: $("#uploadGenre"), uploadYoutube: $("#uploadYoutube"), uploadYoutubeStatus: $("#uploadYoutubeStatus"), uploadYoutubePreview: $("#uploadYoutubePreview"), uploadYoutubeThumbnail: $("#uploadYoutubeThumbnail"), uploadYoutubeVideoId: $("#uploadYoutubeVideoId"), uploadTags: $("#uploadTagChoices"), uploadNotes: $("#uploadNotes"), uploadPdf: $("#uploadPdf"), maxFileSize: $("#maxFileSizeLabel"), uploadProgress: $("#uploadProgress"), submitUpload: $("#submitUploadButton"),
+  uploadReference: $("#uploadReference"), uploadReferenceInput: $("#uploadReferenceInput"), uploadReferenceOptions: $("#uploadReferenceOptions"), uploadReferenceStatus: $("#uploadReferenceStatus"), clearUploadReference: $("#clearUploadReference"),
   editDialog: $("#editDialog"), editForm: $("#editForm"), editSongId: $("#editSongId"), editTitle: $("#editTitle"), editArtist: $("#editArtist"), editAlbum: $("#editAlbum"), editYear: $("#editYear"), editLanguage: $("#editLanguage"), editGenre: $("#editGenre"), editYoutube: $("#editYoutube"), editTags: $("#editTagChoices"), editNotes: $("#editNotes"), editPdf: $("#editPdf"), editCurrentPdf: $("#editCurrentPdf"), editProgress: $("#editProgress"), saveEdit: $("#saveEditButton"),
   addPlaylistDialog: $("#addPlaylistDialog"), addPlaylistSong: $("#addPlaylistSong"), playlistChoices: $("#playlistChoiceList"), closeAddPlaylist: $("#closeAddPlaylistButton"), inlinePlaylistForm: $("#inlinePlaylistForm"), inlinePlaylistName: $("#inlinePlaylistName"), inlinePlaylistDescription: $("#inlinePlaylistDescription"), createAndAddPlaylist: $("#createAndAddPlaylistButton")
 };
@@ -37,6 +39,15 @@ let appliedAuthUserId;
 let messageTimer;
 let initialTagSlug = new URL(window.location.href).searchParams.get("tag");
 let addPlaylistSong = null;
+let approvedReferenceSongs = [];
+let uploadReferenceMatches = [];
+let activeReferenceIndex = -1;
+
+const uploadMetadataInputs = {
+  title: el.uploadTitle, artist: el.uploadArtist, album: el.uploadAlbum,
+  release_year: el.uploadYear, language: el.uploadLanguage, genre: el.uploadGenre,
+  youtube_url: el.uploadYoutube
+};
 
 function node(tag, className, text) {
   const item = document.createElement(tag);
@@ -98,6 +109,109 @@ function renderTagFilters() {
   });
   el.tagFilters.replaceChildren(...(choices.length ? choices : [node("span", "muted", "尚無可用標籤。") ]));
   initialTagSlug = null;
+}
+
+function closeUploadReferenceOptions() {
+  el.uploadReferenceOptions.classList.add("hidden");
+  el.uploadReferenceInput.setAttribute("aria-expanded", "false");
+  el.uploadReferenceInput.removeAttribute("aria-activedescendant");
+  activeReferenceIndex = -1;
+}
+
+function resetUploadReference() {
+  el.uploadReferenceInput.value = "";
+  el.clearUploadReference.classList.add("hidden");
+  closeUploadReferenceOptions();
+  el.uploadReferenceStatus.textContent = approvedReferenceSongs.length
+    ? "選取後可套用歌曲資料，套用後仍可自由修改。"
+    : "目前尚無已通過歌曲可供參考。";
+}
+
+function rebuildUploadReferences() {
+  // The page also loads the user's pending/rejected rows. Never suggest those.
+  const approvedSongs = songs.filter((song) => song.status === "approved");
+  approvedReferenceSongs = approvedSongs;
+  for (const [field, input] of Object.entries(uploadMetadataInputs)) {
+    if (!input.list) continue;
+    const options = approvedMetadataValues(approvedSongs, field).map((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      return option;
+    });
+    input.list.replaceChildren(...options);
+  }
+  // A refreshed catalog invalidates previous choices, never the copied form values.
+  uploadReferenceMatches = [];
+  el.uploadReferenceOptions.replaceChildren();
+  resetUploadReference();
+}
+
+function applyUploadReference(values) {
+  const currentValues = Object.fromEntries(Object.entries(uploadMetadataInputs).map(([field, input]) => [field, input.value]));
+  currentValues.tag_ids = selectedTagIds(el.uploadTags);
+  if (hasMeaningfulUploadMetadata(currentValues)
+    && !window.confirm("套用這首已通過歌曲的資料？目前已輸入的歌曲資料會被取代。")) return;
+  for (const [field, input] of Object.entries(uploadMetadataInputs)) input.value = values[field];
+  renderTagChoices(el.uploadTags, values.tag_ids);
+  updateYoutubePreview();
+  el.uploadReferenceInput.value = values.title;
+  el.clearUploadReference.classList.remove("hidden");
+  el.uploadReferenceInput.focus();
+  closeUploadReferenceOptions();
+  el.uploadReferenceStatus.textContent = `已套用「${values.title}」的歌曲資料，可繼續修改；請另選 PDF。`;
+}
+
+function renderUploadReferenceOptions() {
+  uploadReferenceMatches = songReferenceSearch(approvedReferenceSongs, el.uploadReferenceInput.value, tags);
+  activeReferenceIndex = -1;
+  el.uploadReferenceInput.removeAttribute("aria-activedescendant");
+  el.clearUploadReference.classList.toggle("hidden", !el.uploadReferenceInput.value);
+  const options = uploadReferenceMatches.map((song, index) => {
+    const option = node("div", "song-reference-option");
+    option.id = `uploadReferenceOption-${index}`;
+    option.setAttribute("role", "option");
+    option.setAttribute("aria-selected", "false");
+    option.append(node("span", "song-reference-title", song.title), node("span", "song-reference-artist", song.artist));
+    const detail = [song.album, song.release_year].filter(Boolean).join(" · ");
+    if (detail) option.append(node("span", "song-reference-meta", detail));
+    // Keep input focus for mouse selection; touch scrolling remains native.
+    option.addEventListener("mousedown", (event) => event.preventDefault());
+    option.addEventListener("click", () => applyUploadReference(song));
+    return option;
+  });
+  el.uploadReferenceOptions.replaceChildren(...options);
+  el.uploadReferenceOptions.classList.toggle("hidden", !options.length);
+  el.uploadReferenceInput.setAttribute("aria-expanded", String(Boolean(options.length)));
+  el.uploadReferenceStatus.textContent = !approvedReferenceSongs.length
+    ? "目前尚無已通過歌曲可供參考。"
+    : options.length ? `顯示 ${options.length} 首已通過歌曲（最多 8 首），可用上下鍵選擇、Enter 套用。` : "找不到符合的已通過歌曲。";
+}
+
+function uploadReferenceKeydown(event) {
+  if (event.isComposing || event.keyCode === 229) return;
+  const open = el.uploadReferenceInput.getAttribute("aria-expanded") === "true";
+  if (event.key === "Escape" && open) {
+    event.preventDefault(); event.stopPropagation(); closeUploadReferenceOptions();
+  } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    if (!open) renderUploadReferenceOptions();
+    if (!uploadReferenceMatches.length) return;
+    const count = uploadReferenceMatches.length;
+    activeReferenceIndex = activeReferenceIndex < 0
+      ? (event.key === "ArrowDown" ? 0 : count - 1)
+      : (activeReferenceIndex + (event.key === "ArrowDown" ? 1 : -1) + count) % count;
+    const options = [...el.uploadReferenceOptions.children];
+    options.forEach((option, index) => option.setAttribute("aria-selected", String(index === activeReferenceIndex)));
+    const active = options[activeReferenceIndex];
+    el.uploadReferenceInput.setAttribute("aria-activedescendant", active.id);
+    active.scrollIntoView({ block: "nearest" });
+  } else if (event.key === "Enter") {
+    // Searching must never accidentally submit the PDF form.
+    event.preventDefault();
+    if (open && activeReferenceIndex >= 0) applyUploadReference(uploadReferenceMatches[activeReferenceIndex]);
+  } else if (event.key === "Tab") {
+    closeUploadReferenceOptions();
+  }
 }
 
 function accountUI() {
@@ -332,7 +446,7 @@ function render() {
 }
 
 async function loadSongs() {
-  if (!configured) { songs = []; tags = []; setLoading(false); render(); return; }
+  if (!configured) { songs = []; tags = []; rebuildUploadReferences(); setLoading(false); render(); return; }
   setLoading(true);
   const [songsResult, tagsResult, orderResult] = await Promise.all([
     supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,created_at,updated_at,song_tags(tags(id,name,slug))").order("created_at", { ascending: false }),
@@ -342,7 +456,7 @@ async function loadSongs() {
   setLoading(false);
   if (songsResult.error || tagsResult.error) {
     showMessage(errorMessage(songsResult.error || tagsResult.error, "無法載入歌曲資料。"), "error", 0);
-    songs = []; tags = []; render(); return;
+    songs = []; tags = []; rebuildUploadReferences(); render(); return;
   }
   displayOrderAvailable = !orderResult.error;
   if (orderResult.error) console.warn("Public song ordering is unavailable; using created_at order.", orderResult.error);
@@ -352,7 +466,8 @@ async function loadSongs() {
   rebuildSelect(el.genre, songs.map((song) => song.genre), "所有曲風");
   rebuildSelect(el.year, songs.map((song) => song.release_year).sort((a, b) => b - a), "所有年份");
   renderTagFilters();
-  renderTagChoices(el.uploadTags);
+  renderTagChoices(el.uploadTags, selectedTagIds(el.uploadTags));
+  rebuildUploadReferences();
   render();
 }
 
@@ -510,7 +625,16 @@ function queueAuthSession(session, event) {
 
 function bind() {
   el.signIn.addEventListener("click", signInWithGoogle); el.signOut.addEventListener("click", signOut);
-  el.openUpload.addEventListener("click", () => { renderTagChoices(el.uploadTags); el.uploadDialog.showModal(); });
+  el.openUpload.addEventListener("click", () => { renderTagChoices(el.uploadTags, selectedTagIds(el.uploadTags)); el.uploadDialog.showModal(); });
+  el.uploadReferenceInput.addEventListener("input", renderUploadReferenceOptions);
+  el.uploadReferenceInput.addEventListener("focus", renderUploadReferenceOptions);
+  el.uploadReferenceInput.addEventListener("keydown", uploadReferenceKeydown);
+  el.uploadReference.addEventListener("focusout", (event) => {
+    if (!el.uploadReference.contains(event.relatedTarget)) closeUploadReferenceOptions();
+  });
+  el.clearUploadReference.addEventListener("click", () => { resetUploadReference(); el.uploadReferenceInput.focus(); });
+  el.uploadDialog.addEventListener("close", closeUploadReferenceOptions);
+  el.uploadForm.addEventListener("reset", resetUploadReference);
   el.uploadYoutube.addEventListener("input", updateYoutubePreview); el.uploadForm.addEventListener("submit", uploadSong); el.editForm.addEventListener("submit", saveEdit);
   el.refresh.addEventListener("click", loadSongs);
   [el.search, el.language, el.genre, el.year].forEach((control) => { control.addEventListener("input", render); control.addEventListener("change", render); });
