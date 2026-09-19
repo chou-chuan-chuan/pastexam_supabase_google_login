@@ -1,0 +1,343 @@
+{
+  "base_main": "19cf20cf94feb047245f630506ca909af2e7e49b",
+  "version": "1.027",
+  "before": {
+    "han": {
+      "count": 59,
+      "characters": "君鉄壁今日天気私音楽聴好夜家帰東京新映画見優人無茶苦走続明生行雲二影残恋可哀想足元花付平仮名片声愛夢中文本語對齊春風吹",
+      "yMin": -14,
+      "yMax": 701.8181818181819,
+      "center_y": 350.0,
+      "height": 713,
+      "width": 688,
+      "bottom_min": -121,
+      "bottom_max": 148,
+      "bottom_quartiles": [
+        -48.45,
+        -14.0,
+        30.90740740740741
+      ]
+    },
+    "hiragana": {
+      "count": 46,
+      "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+      "yMin": 44.5,
+      "yMax": 688.5,
+      "center_y": 368.5,
+      "height": 643.5,
+      "width": 580.5,
+      "bottom_min": 6,
+      "bottom_max": 134,
+      "bottom_quartiles": [
+        27.25,
+        44.5,
+        60.25
+      ]
+    },
+    "katakana": {
+      "count": 46,
+      "characters": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+      "yMin": 41.0,
+      "yMax": 646.5,
+      "center_y": 345.75,
+      "height": 607.5,
+      "width": 512.5,
+      "bottom_min": 4,
+      "bottom_max": 142,
+      "bottom_quartiles": [
+        28.0,
+        41.0,
+        61.0
+      ]
+    },
+    "combined_kana": {
+      "count": 92,
+      "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+      "yMin": 41.5,
+      "yMax": 672.0,
+      "center_y": 356.75,
+      "height": 622.5,
+      "width": 531.0,
+      "bottom_min": 4,
+      "bottom_max": 142,
+      "bottom_quartiles": [
+        27.75,
+        41.5,
+        61.0
+      ]
+    }
+  },
+  "measured_delta": -55.5,
+  "candidate_deltas": [
+    -64,
+    -56,
+    -48
+  ],
+  "candidates": {
+    "-64": {
+      "han": {
+        "count": 59,
+        "characters": "君鉄壁今日天気私音楽聴好夜家帰東京新映画見優人無茶苦走続明生行雲二影残恋可哀想足元花付平仮名片声愛夢中文本語對齊春風吹",
+        "yMin": -14,
+        "yMax": 701.8181818181819,
+        "center_y": 350.0,
+        "height": 713,
+        "width": 688,
+        "bottom_min": -121,
+        "bottom_max": 148,
+        "bottom_quartiles": [
+          -48.45,
+          -14.0,
+          30.90740740740741
+        ]
+      },
+      "hiragana": {
+        "count": 46,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+        "yMin": -19.5,
+        "yMax": 624.5,
+        "center_y": 304.5,
+        "height": 643.5,
+        "width": 580.5,
+        "bottom_min": -58,
+        "bottom_max": 70,
+        "bottom_quartiles": [
+          -36.75,
+          -19.5,
+          -3.75
+        ]
+      },
+      "katakana": {
+        "count": 46,
+        "characters": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -23.0,
+        "yMax": 582.5,
+        "center_y": 281.75,
+        "height": 607.5,
+        "width": 512.5,
+        "bottom_min": -60,
+        "bottom_max": 78,
+        "bottom_quartiles": [
+          -36.0,
+          -23.0,
+          -3.0
+        ]
+      },
+      "combined_kana": {
+        "count": 92,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -22.5,
+        "yMax": 608.0,
+        "center_y": 292.75,
+        "height": 622.5,
+        "width": 531.0,
+        "bottom_min": -60,
+        "bottom_max": 78,
+        "bottom_quartiles": [
+          -36.25,
+          -22.5,
+          -3.0
+        ]
+      }
+    },
+    "-56": {
+      "han": {
+        "count": 59,
+        "characters": "君鉄壁今日天気私音楽聴好夜家帰東京新映画見優人無茶苦走続明生行雲二影残恋可哀想足元花付平仮名片声愛夢中文本語對齊春風吹",
+        "yMin": -14,
+        "yMax": 701.8181818181819,
+        "center_y": 350.0,
+        "height": 713,
+        "width": 688,
+        "bottom_min": -121,
+        "bottom_max": 148,
+        "bottom_quartiles": [
+          -48.45,
+          -14.0,
+          30.90740740740741
+        ]
+      },
+      "hiragana": {
+        "count": 46,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+        "yMin": -11.5,
+        "yMax": 632.5,
+        "center_y": 312.5,
+        "height": 643.5,
+        "width": 580.5,
+        "bottom_min": -50,
+        "bottom_max": 78,
+        "bottom_quartiles": [
+          -28.75,
+          -11.5,
+          4.25
+        ]
+      },
+      "katakana": {
+        "count": 46,
+        "characters": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -15.0,
+        "yMax": 590.5,
+        "center_y": 289.75,
+        "height": 607.5,
+        "width": 512.5,
+        "bottom_min": -52,
+        "bottom_max": 86,
+        "bottom_quartiles": [
+          -28.0,
+          -15.0,
+          5.0
+        ]
+      },
+      "combined_kana": {
+        "count": 92,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -14.5,
+        "yMax": 616.0,
+        "center_y": 300.75,
+        "height": 622.5,
+        "width": 531.0,
+        "bottom_min": -52,
+        "bottom_max": 86,
+        "bottom_quartiles": [
+          -28.25,
+          -14.5,
+          5.0
+        ]
+      }
+    },
+    "-48": {
+      "han": {
+        "count": 59,
+        "characters": "君鉄壁今日天気私音楽聴好夜家帰東京新映画見優人無茶苦走続明生行雲二影残恋可哀想足元花付平仮名片声愛夢中文本語對齊春風吹",
+        "yMin": -14,
+        "yMax": 701.8181818181819,
+        "center_y": 350.0,
+        "height": 713,
+        "width": 688,
+        "bottom_min": -121,
+        "bottom_max": 148,
+        "bottom_quartiles": [
+          -48.45,
+          -14.0,
+          30.90740740740741
+        ]
+      },
+      "hiragana": {
+        "count": 46,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+        "yMin": -3.5,
+        "yMax": 640.5,
+        "center_y": 320.5,
+        "height": 643.5,
+        "width": 580.5,
+        "bottom_min": -42,
+        "bottom_max": 86,
+        "bottom_quartiles": [
+          -20.75,
+          -3.5,
+          12.25
+        ]
+      },
+      "katakana": {
+        "count": 46,
+        "characters": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -7.0,
+        "yMax": 598.5,
+        "center_y": 297.75,
+        "height": 607.5,
+        "width": 512.5,
+        "bottom_min": -44,
+        "bottom_max": 94,
+        "bottom_quartiles": [
+          -20.0,
+          -7.0,
+          13.0
+        ]
+      },
+      "combined_kana": {
+        "count": 92,
+        "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+        "yMin": -6.5,
+        "yMax": 624.0,
+        "center_y": 308.75,
+        "height": 622.5,
+        "width": 531.0,
+        "bottom_min": -44,
+        "bottom_max": 94,
+        "bottom_quartiles": [
+          -20.25,
+          -6.5,
+          13.0
+        ]
+      }
+    }
+  },
+  "final_delta": -56,
+  "after": {
+    "han": {
+      "count": 59,
+      "characters": "君鉄壁今日天気私音楽聴好夜家帰東京新映画見優人無茶苦走続明生行雲二影残恋可哀想足元花付平仮名片声愛夢中文本語對齊春風吹",
+      "yMin": -14,
+      "yMax": 701.8181818181819,
+      "center_y": 350.0,
+      "height": 713,
+      "width": 688,
+      "bottom_min": -121,
+      "bottom_max": 148,
+      "bottom_quartiles": [
+        -48.45,
+        -14.0,
+        30.90740740740741
+      ]
+    },
+    "hiragana": {
+      "count": 46,
+      "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+      "yMin": -11.5,
+      "yMax": 632.5,
+      "center_y": 312.5,
+      "height": 643.5,
+      "width": 580.5,
+      "bottom_min": -50,
+      "bottom_max": 78,
+      "bottom_quartiles": [
+        -28.75,
+        -11.5,
+        4.25
+      ]
+    },
+    "katakana": {
+      "count": 46,
+      "characters": "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+      "yMin": -15.0,
+      "yMax": 590.5,
+      "center_y": 289.75,
+      "height": 607.5,
+      "width": 512.5,
+      "bottom_min": -52,
+      "bottom_max": 86,
+      "bottom_quartiles": [
+        -28.0,
+        -15.0,
+        5.0
+      ]
+    },
+    "combined_kana": {
+      "count": 92,
+      "characters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
+      "yMin": -14.5,
+      "yMax": 616.0,
+      "center_y": 300.75,
+      "height": 622.5,
+      "width": 531.0,
+      "bottom_min": -52,
+      "bottom_max": 86,
+      "bottom_quartiles": [
+        -28.25,
+        -14.5,
+        5.0
+      ]
+    }
+  }
+}

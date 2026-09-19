@@ -24,7 +24,8 @@ from measure_kana_kanji_balance import (
 from japanese.stroke_engine import build_stroke_glyph, translate_strokes
 from japanese.build_kana import (
     bounds, glyph_name, base_anchor, mark_name_for, DAKUTEN_ANCHOR,
-    KANA_VERTICAL_SHIFT, JAPANESE_MARK_VERTICAL_SHIFT,
+    KANA_VERTICAL_SHIFT_1_026, JAPANESE_MARK_VERTICAL_SHIFT_1_026,
+    JAPANESE_BOTTOM_ALIGNMENT_SHIFT, DAKUTEN_ANCHOR_1_026, apply_bottom_alignment,
 )
 from kana_sources.full_data import (
     KANA_STROKES, VERSION_1_025_KANA_STROKES, ACCEPTED_LARGE_KANA_STROKES,
@@ -62,9 +63,11 @@ def signature(font, name):
     return g.numberOfContours, tuple(coordinates), tuple(ends), bytes(flags), components, font['hmtx'].metrics[name]
 
 
-def assert_built(font, character, strokes, shift=KANA_VERTICAL_SHIFT):
+def assert_built(font, character, strokes, shift=KANA_VERTICAL_SHIFT_1_026, *, final=False):
     name = glyph_name(character)
     expected = build_stroke_glyph(translate_strokes(strokes, dy=shift))
+    if final:
+        apply_bottom_alignment(expected)
     assert expected.compile(font['glyf']) == font['glyf'][name].compile(font['glyf']), (character, 'unexpected outline')
 
 
@@ -104,7 +107,7 @@ def verify_shape_preservation():
                     a_value,b_value = getattr(a,field),getattr(b,field)
                     assert b_value is None if a_value is None else math.isclose(b_value,a_value*factor,abs_tol=1e-10)
         for c,strokes in KANA_STROKES.items():
-            assert_built(new,c,strokes)
+            assert_built(new,c,strokes,final=True)
             name = glyph_name(c)
             assert old['glyf'][name].numberOfContours == new['glyf'][name].numberOfContours, (c, 'loop/contour topology changed')
         for c in HIRAGANA+KATAKANA:
@@ -114,7 +117,8 @@ def verify_shape_preservation():
             # Two units bound the interval error; the center gate is tighter.
             for lo,hi in ((0,2),(1,3)):
                 assert abs((b[hi]-b[lo])-(a[hi]-a[lo])*factor)<=2,(c,'nonuniform size')
-                assert abs((b[hi]+b[lo])/2-(a[hi]+a[lo])/2)<=.5,(c,'optical center moved')
+                placement = JAPANESE_BOTTOM_ALIGNMENT_SHIFT if lo == 1 else 0
+                assert abs((b[hi]+b[lo])/2-placement-(a[hi]+a[lo])/2)<=.5,(c,'accepted pre-translation center moved')
     print('PASS: immutable 1.025 source files, all 46 Hiragana and all Katakana; one uniform geometry/pressure scale per script, accepted centers retained')
 
 
@@ -140,7 +144,10 @@ def verify_metrics():
             assert abs(measured-target)<=1/1024,(script,measured,target)
             print(f"PASS: {script} final Han-height ratio {final[script]['relative_to_han']['height_em']:.9f}; scale {data['balance'][script]['scale']:.12f}")
         report=json.loads((ROOT/'tools/font/reports/kana-kanji-scale-balance.json').read_text())
-        assert report['final']==final and report['balance']==data['balance'],'Stale report'
+        # This report is the immutable accepted 1.026 size stage.
+        from render_kana_bottom_alignment_proof import baseline_bytes
+        with TTFont(BytesIO(baseline_bytes())) as accepted:
+            assert report['final']==measure_groups(accepted) and report['balance']==data['balance'],'Stale historical report'
 
 
 def verify_font_scope():
@@ -174,8 +181,8 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.026'
-            assert abs(font['head'].fontRevision-1.026)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.027'
+            assert abs(font['head'].fontRevision-1.027)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()
@@ -195,14 +202,14 @@ def verify_derivatives():
     from verify_supplement_font import mark_to_base_anchors, outlines_intersect
     with TTFont(TTF) as font:
         for c in 'ゃゅょャュョ':
-            assert bounds(font,glyph_name(c))[:2]==(180,24),(c,'lower-left placement')
+            assert bounds(font,glyph_name(c))[:2]==(180,24+JAPANESE_BOTTOM_ALIGNMENT_SHIFT),(c,'lower-left placement')
         for c,strokes in ITERATION_STROKES.items():
-            assert_built(font,c,balance_strokes(c,strokes))
-        assert_built(font,'ー',balance_strokes('ー',JAPANESE_MARK_STROKES['ー']),JAPANESE_MARK_VERTICAL_SHIFT)
+            assert_built(font,c,balance_strokes(c,strokes),final=True)
+        assert_built(font,'ー',balance_strokes('ー',JAPANESE_MARK_STROKES['ー']),JAPANESE_MARK_VERTICAL_SHIFT_1_026,final=True)
         for c in ('あ','ア'):
             for kind,strokes in (('dakuten',DAKUTEN_STROKES),('handakuten',HANDAKUTEN_STROKES)):
                 name=mark_name_for(c,kind)
-                expected=build_stroke_glyph(uniform_scale(strokes,script_scale(c),DAKUTEN_ANCHOR))
+                expected=apply_bottom_alignment(build_stroke_glyph(uniform_scale(strokes,script_scale(c),DAKUTEN_ANCHOR_1_026)))
                 assert expected.compile(font['glyf'])==font['glyf'][name].compile(font['glyf']),name
                 assert font['hmtx'].metrics[name][0]==0
                 assert font['GDEF'].table.GlyphClassDef.classDefs[name]==3
@@ -212,7 +219,7 @@ def verify_derivatives():
         composites={**COMPOSITES,'ゞ':('ゝ','dakuten'),'ヾ':('ヽ','dakuten')}
         for c,(base,kind) in composites.items():
             mark=mark_name_for(base,kind);b=glyph_name(base)
-            anchor=base_anchor(font,b);delta=(anchor[0]-92,anchor[1]-815)
+            anchor=base_anchor(font,b);delta=(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1])
             parts=[p.getComponentInfo() for p in font['glyf'][glyph_name(c)].components]
             assert parts==[(b,(1,0,0,1,0,0)),(mark,(1,0,0,1,*delta))],(c,'composite')
             bp,mp,_=mark_to_base_anchors(font,mark,b)
@@ -232,7 +239,7 @@ def verify_derivatives():
             names=[font.getGlyphName(i.codepoint) for i in buf.glyph_infos]
             assert names==[glyph_name(base),mark_name_for(base,kind)],(c,'decomposed glyphs',names)
             p=buf.glyph_positions;anchor=base_anchor(font,names[0])
-            assert (p[0].x_advance+p[1].x_offset,p[1].y_offset)==(anchor[0]-92,anchor[1]-815),(c,'shaping')
+            assert (p[0].x_advance+p[1].x_offset,p[1].y_offset)==(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1]),(c,'shaping')
             assert sum(q.x_advance for q in p)==960,c
     hbfont=hb.Font(hb.Face(TTF.read_bytes()));hbfont.scale=(1024,1024)
     with TTFont(TTF) as font:

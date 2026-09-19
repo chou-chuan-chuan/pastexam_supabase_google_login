@@ -19,13 +19,13 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.026 — Kana–Han mixed-script optical balance**：保留 Version 1.025 已驗收的全部 46 個 Master v2 平假名手寫結構與逐字 normalization，只在其後加入每個 script 共用的等比例縮放。以 59 個現有混排／歌詞常用漢字量測 QuanFangwei 的實際 Han ink body，再乘上 Noto Sans CJK JP／Source Han Sans JP 的 kana-to-Han 高度比例；外部字型只提供相對 metrics，不提供 outlines，也不直接決定絕對 em 大小。
+目前版本 **1.027 — Kana–Han bottom alignment**：保留 Version 1.026 已驗收的大小與全部手寫結構，將假名系統整體向下平移 **56 units**。沿用同一組 59 個 Han 與各 46 個基本假名；Han median ink bottom 為 `−14`，合併假名為 `41.5`，實測差 `−55.5` 取整數 `−56`。比較 `−64／−56／−48` 後選定 `−56`；平假名字底中位數 `44.5 → −11.5`，片假名 `41 → −15`，Han 完全不動。
 
-平假名共用 scale `0.894078195335`，片假名獨立量測後共用 `0.946843040146`；保留原 optical center、960-unit advance、筆形和 taper。12 個小平假名由縮放後大字沿原 0.72 路徑衍生；`ゃゅょ／ャュョ` 以 translation 保留左下 ink anchor `(180,24)`。濁點／半濁點沿所屬 script 縮放，預組合與分解組合共用相同大小與位置；沒有 ligature 或 CSS positioning。
+平假名 scale `0.894078195335`、片假名 scale `0.946843040146` 保持不變。最終 TrueType 座標只加 `(0,−56)`，不再縮放或重新取整；字寬、字高、筆壓、x 座標與 960-unit advance 均不變。小假名、iteration、長音與濁點／半濁點一起移動；六個 yōon 的左下 ink anchor 由 `(180,24)` 隨全體移至 `(180,−32)`，相對位置與兩格結構不變。GPOS 的 base／mark anchors 同步平移，預組合與分解組合位置一致。
 
-[混排前後 proof](tools/font/proofs/quanfangwei-kana-kanji-scale-balance.png)與[完整比例／驗證報告](tools/font/reports/kana-kanji-scale-balance.md)記錄 20／32／64 px 視覺檢查、small kana、yōon 和 marks。全部 Han（含 `壁／堅`）、Latin／French／German 不變，沒有 CSS／JS workaround、SQL／migration 或 production DB 修改。
+[32 px 前後 proof](tools/font/proofs/quanfangwei-kana-bottom-alignment.png)、[20 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-small.png)、[64 px](tools/font/proofs/quanfangwei-kana-bottom-alignment-large.png)、[字底輔助線](tools/font/proofs/quanfangwei-kana-bottom-alignment-guides.png)與[完整量測／驗證報告](tools/font/reports/kana-bottom-alignment.md)記錄候選值、頂部位置、small kana、yōon 和 marks 檢查。所有 Han（含 `壁／堅`）、Latin／French／German、全域 ascent／descent／line metrics 不變；沒有 CSS／JS workaround、SQL／migration 或 production DB 修改。
 
-Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)及[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)繼續構成完整 authoritative Master v2，46 個 source points、topology、reference hashes 及原逐字 optical transforms 完全不變。[1.025 revision report](tools/font/reports/hiragana-master-v2.md)與[1.025 absolute metric report](tools/font/reports/hiragana-standard-metrics.md)保留為歷史紀錄；1.026 最終大小以新的 Han-relative ratio 報告為準。下列舊版本敘述同樣是歷史紀錄。
+Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintainer-master-v2.png)及[補充 na-row 手寫稿](tools/font/references/hiragana-maintainer-master-v2-na-row.png)仍是完整 Master v2 authority，全部 source points、topology、reference hashes 及逐字 optical transforms 不變。[1.026 大小比例報告](tools/font/reports/kana-kanji-scale-balance.md)保留為已驗收的大小基準，[1.025 revision report](tools/font/reports/hiragana-master-v2.md)與[absolute metric report](tools/font/reports/hiragana-standard-metrics.md)保留為歷史紀錄。下列舊版本敘述同樣是歷史紀錄。
 
 網站目前全站使用「荃方位補寫體」（英文 Family Name：`QuanFangwei Supplement Script`），並在 CSS 註冊為 `QuanFangwei Supplement Web`。它是基於[官方辰宇落雁體 repository](https://github.com/Chenyu-otf/chenyuluoyan_thin)，依 SIL Open Font License 1.1 獨立製作的缺字補寫版本，不是原作者官方更新或發布版本，也不代表原作者背書。
 
@@ -34,7 +34,7 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.026 支援：
+衍生版 Version 1.027 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
