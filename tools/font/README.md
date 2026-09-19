@@ -2,9 +2,20 @@
 
 ## Current output: Version 1.027 — Kana–Han bottom alignment
 
-The accepted 1.026 glyph coordinates receive one final integer translation `(0,-56)`, after pressure rendering and quantization. `JAPANESE_BOTTOM_ALIGNMENT_SHIFT = -56` is shared by Hiragana, Katakana, all small kana, iteration marks, long sound mark, spacing marks and both script-specific combining-mark designs. Composite offsets stay identical; the shared Japanese GPOS base and mark anchor Y values both move by -56, retaining every relative attachment.
+Version 1.027 also includes a scoped **て / で dakuten-clearance correction** after the initial bottom-alignment merge. The existing `HIRAGANA_MARK_ANCHOR_Y_OFFSETS["て"]` changes `17 → 82`; because it is applied before the accepted 1.026 anchor scale, +65 source units produce exactly **+58 final Y** for this one attachment. The actual minimum diagonal ink gap increases `7.810 → 51.225` units. The −56 global shift and every base/mark outline, other attachment, advance and global metric stay fixed.
 
-The unchanged 59-Han sample has median ink yMin `-14`; the pooled 92-kana sample has `41.5`. The measured delta is `-55.5`, rounded to `-56`. Candidates `-64 / -56 / -48` were rendered before selection. Hiragana median yMin becomes `-11.5`, Katakana `-15`. Size factors remain `0.894078195335 / 0.946843040146`; all points, widths, heights, advances, side bearings and source files are otherwise identical to 1.026. Effective `KANA_VERTICAL_SHIFT` is `-201` and kana-related `JAPANESE_MARK_VERTICAL_SHIFT` is `-176`. Unrelated punctuation retains its old placement.
+[Scoped clearance report](reports/de-dakuten-clearance.md), [20/32/64/192 px HarfBuzz-shaped proof](proofs/quanfangwei-de-dakuten-clearance.png), [contour-distance diagnostic](proofs/quanfangwei-de-dakuten-clearance-geometry.png), [candidates](proofs/quanfangwei-de-dakuten-clearance-candidates.png).
+
+```sh
+python tools/font/render_de_dakuten_clearance_proof.py
+python tools/font/verify_de_dakuten_clearance.py
+```
+
+The focused verifier pins merged main `514297a9c801e981333fded9473d61489669b486`, allows only the `uni3067` mark component and `uni3066` GPOS base anchor to move by +58, and checks an actual positive clearance envelope. Its precomposed/decomposed checks force the GPOS path, and the proof uses HarfBuzz plus FreeType even on Pillow builds without libraqm. The bottom-alignment verifier includes the same explicit local exception and runs the focused check. The bottom-alignment proofs below retain the initially merged placement stage; the focused proof above shows the corrected final `で`.
+
+The accepted 1.026 glyph coordinates receive one final integer translation `(0,-56)`, after pressure rendering and quantization. `JAPANESE_BOTTOM_ALIGNMENT_SHIFT = -56` is shared by Hiragana, Katakana, all small kana, iteration marks, long sound mark, spacing marks and both script-specific combining-mark designs. Except for the scoped `て` correction above, composite offsets stay identical; the shared Japanese GPOS base and mark anchor Y values both move by -56, retaining every relative attachment.
+
+The unchanged 59-Han sample has median ink yMin `-14`; the pooled 92-kana sample has `41.5`. The measured delta is `-55.5`, rounded to `-56`. Candidates `-64 / -56 / -48` were rendered before selection. Hiragana median yMin becomes `-11.5`, Katakana `-15`. Size factors remain `0.894078195335 / 0.946843040146`; all base/mark outlines, widths, heights, advances, side bearings and source files remain identical; only the scoped `で` composite extent changes with its raised attachment. Effective `KANA_VERTICAL_SHIFT` is `-201` and kana-related `JAPANESE_MARK_VERTICAL_SHIFT` is `-176`. Unrelated punctuation retains its old placement.
 
 [Measurement / visual QA report](reports/kana-bottom-alignment.md), [32 px before/after](proofs/quanfangwei-kana-bottom-alignment.png), [20 px](proofs/quanfangwei-kana-bottom-alignment-small.png), [64 px](proofs/quanfangwei-kana-bottom-alignment-large.png), [candidates](proofs/quanfangwei-kana-bottom-alignment-candidates.png), [bottom guides](proofs/quanfangwei-kana-bottom-alignment-guides.png), [small kana and marks](proofs/quanfangwei-kana-bottom-alignment-derivatives.png).
 

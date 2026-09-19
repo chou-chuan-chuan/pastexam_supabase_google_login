@@ -1,5 +1,7 @@
 # Version 1.027 — Kana–Han bottom alignment
 
+Same-version follow-up: [scoped て / で dakuten clearance](de-dakuten-clearance.md) corrects the initial 1.027 near-touching mark. The measurements of all 46 basic kana below remain unchanged. Only `で` receives an additional local +58 Y mark attachment adjustment; the original bottom-stage proofs and hashes below remain historical records of PR #34. The focused report/proof records the current output.
+
 Base main: `19cf20cf94feb047245f630506ca909af2e7e49b` (Version 1.026). Branch: `fix/quanfangwei-kana-bottom-align-han`.
 
 Only final vertical placement changes. The accepted 1.026 font is extracted from the immutable base commit; its SHA256 is `ffc8732aebdc74f84d3776c932b7b3ec251a59001639945f8b22efea070fc346`. Before/after measurements use actual curve ink bounds, not control-point boxes or optical centers. All values below are font units, UPM 1024. The machine-readable record is [kana-bottom-alignment.json](kana-bottom-alignment.json).
@@ -49,7 +51,7 @@ All candidates fit unchanged hhea/Windows bounds. At −56 the pooled bottom mis
 - `KANA_VERTICAL_SHIFT: -145 → -201`; kana-related `JAPANESE_MARK_VERTICAL_SHIFT: -120 → -176`.
 - `HIRAGANA_HAN_BALANCE_SCALE = 0.894078195335`, `KATAKANA_HAN_BALANCE_SCALE = 0.946843040146`, unchanged.
 - Build the accepted 1.026 contours at their original rendering origin, then translate integer TrueType coordinates once. No rerender at a new origin, new fitting, pressure adjustment, x movement, resize or external outlines.
-- Every one of 187 moved glyphs (185 mapped plus the two existing unmapped Katakana mark variants) has exactly the same contour topology, flags, x coordinates, width and height. Every Y coordinate is the corresponding accepted coordinate minus 56.
+- The original bottom stage translates 187 glyphs (185 mapped plus two existing unmapped Katakana mark variants) by −56 with unchanged topology and sizes. The follow-up retains every base/mark outline and adds only the documented +58 mark-component Y for `で`; its composite height consequently increases. No other glyph or attachment changes.
 - Every hmtx/vmtx entry is unchanged: ordinary kana retain advance 960, combining marks 0, spacing dakuten/handakuten 300; left/right metrics remain unchanged.
 - All 84 tracked source/reference files, including the complete Master v2 sources, Katakana sources, normalization, pressure, small derivation, yōon offsets and Han transforms, match immutable 1.026 bytes.
 - All 9,344 mapped Han glyph hashes are identical. Aggregate: `c8216eea043a73ed70cac1495a046503ad07bcd9198e6441b5fe31d886ef4fcc`. `壁／堅` and every unrelated glyph, including Latin and punctuation such as `・／〆／々`, are unchanged.
@@ -74,7 +76,7 @@ Visual review covers all 33 Hiragana pairs below; shaping checks additionally co
 りゃ りゅ りょ
 ```
 
-The Japanese GPOS mark anchor moves `(92,815) → (92,759)` and all Japanese base anchors move by exactly the same delta. Composite component offsets stay byte-for-byte equivalent, so marks receive the translation once and preserve their reviewed gaps. GSUB/GDEF tables are unchanged. All voiced/semi-voiced kana and voiced iteration marks pass forced-decomposition HarfBuzz parity and collision checks. Visual pairs include `が/が`, `ぎ/ぎ`, `ず/ず`, `で/で`, `ば/ば`, `ぱ/ぱ`, `ゔ/ゔ` and Katakana equivalents. `゛゜ゝゞヽヾー` move coherently; no marks float at the former height.
+The Japanese GPOS mark anchor moves `(92,815) → (92,759)` and all Japanese base anchors move by exactly the same delta. Composite component offsets retain the original whole-system translation, with the explicit follow-up +58 Y exception for `で`; no global shift is applied twice. GSUB/GDEF tables are unchanged. All voiced/semi-voiced kana and voiced iteration marks pass forced-decomposition HarfBuzz parity and collision checks. Visual pairs include `が/が`, `ぎ/ぎ`, `ず/ず`, `で/で`, `ば/ば`, `ぱ/ぱ`, `ゔ/ゔ` and Katakana equivalents. `゛゜ゝゞヽヾー` move coherently; no marks float at the former height.
 
 ## Global metrics and clipping
 
@@ -93,12 +95,12 @@ Moved glyph bounds span Y `-52 … 837`, within the existing hhea/Windows clippi
 
 The mixed proofs contain all eight requested lines plus six existing lyric fixtures and four Chinese/Japanese alignment fixtures. Baselines, letter sizes and advances are equal in each before/after pair. Guides show `漢字日本音楽世界鉄壁`, `あいうえおかきくけこ` and `アイウエオカキクケコ`. Visual inspection at 20/32/64 px found intact terminals/counters, readable kana, coherent marks, unchanged Han and a more consistent bottom rhythm.
 
-## Output hashes
+## Original bottom-stage output hashes (before the scoped follow-up)
 
 - TTF (9,261,228 bytes): `16eb157eadd5fcb100eba444b96cbaa925853116c8d514b675f3bad4e4671457`.
 - WOFF2 (4,700,500 bytes): `46b399fa28773694ef0faa9048f7563843df6898ef31b6d7974373c4de1430b3`.
 
-## Validation
+## Initial bottom-stage validation (current follow-up results in the focused report)
 
 All **20 font verifier entry points passed**: the 19 existing verifiers plus [verify_kana_bottom_alignment.py](../verify_kana_bottom_alignment.py). The new verifier uses immutable 1.026 as an independent point-by-point oracle. Historical center gates still check the accepted pre-translation stage and also enforce the new bottom target.
 
