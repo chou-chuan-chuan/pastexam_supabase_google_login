@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.027"
+    "version": "1.028"
   },
   "glyphs": [
     {
@@ -404,11 +404,11 @@
       "balance_1_026": "Kana iteration and long-sound marks follow the applicable script scale. Dakuten/handakuten retain their design with script-sized variants and matching composite/GPOS anchors. General punctuation remains unchanged."
     },
     "japanese_user_overrides": {
-      "characters": "懐々気付壁堅奥容変恋哀奧優寄",
+      "characters": "懐々気付壁堅奥容変恋哀奧優寄踊",
       "source_file": "kana_sources/user_kanji_refined.py + kana_sources/user_japanese_mark_refined.py + japanese/user_japanese_overrides.py",
       "reference_image": "references/user-japanese-overrides-source.png",
-      "construction_method": "懐: native 懷 upper/left outline plus uniformly scaled and translated native 衣 lower outline; 々: dedicated project-local center-lines rendered by the variable-width engine; 気/付: untouched source drawings copied to derived glyph names with vertical-only optical transform against refined け; 壁/堅: untouched source drawings copied at identity scale/x; Version 1.024 raises 壁 to +97 y and 堅 to +55 y so both rendered bottoms align at -15; 奥: untouched source drawing copied with independent scale_x 0.921976 and scale_y 0.855348, shifted +9 x / +34.5 y to match U+5967 奧 in production browser rendering, then given the approved 4-unit boundary embolden and advance 790; final ink is approximately 545.25 x 813.75 with center (395.375,353.875) and LSB/RSB 122/122; 容: untouched source drawing copied without scaling and shifted +19.45 x / +35 y to center it optically; 恋/哀/奧/優/寄: untouched source drawings copied to proportional, centered optical derived glyphs; 変: the same source-preserving derived copy with an additional 8-unit boundary embolden to restore apparent weight; source advances are preserved except the explicit 奥 match to 奧",
-      "cmap_policy": "U+61D0/U+3005/U+6C17/U+4ED8/U+58C1/U+5805/U+5965/U+5BB9/U+5909/U+604B/U+54C0/U+5967/U+512A/U+5BC4 are intentional shared-cmap override mappings. U+5915 夕 remains unchanged; no broad locl JAN feature is added.",
+      "construction_method": "懐: native 懷 upper/left outline plus uniformly scaled and translated native 衣 lower outline; 々: dedicated project-local center-lines rendered by the variable-width engine; 気/付: untouched source drawings copied to derived glyph names with vertical-only optical transform against refined け; 壁/堅: untouched source drawings copied at identity scale/x; Version 1.024 raises 壁 to +97 y and 堅 to +55 y so both rendered bottoms align at -15; 奥: untouched source drawing copied with independent scale_x 0.921976 and scale_y 0.855348, shifted +9 x / +34.5 y to match U+5967 奧 in production browser rendering, then given the approved 4-unit boundary embolden and advance 790; final ink is approximately 545.25 x 813.75 with center (395.375,353.875) and LSB/RSB 122/122; 容: untouched source drawing copied without scaling and shifted +19.45 x / +35 y to center it optically; 恋/哀/奧/優/寄: untouched source drawings copied to proportional, centered optical derived glyphs; 変: the same source-preserving derived copy with an additional 8-unit boundary embolden to restore apparent weight; source advances are preserved except the explicit 奥 match to 奧; 踊: original uni8E0A uniformly scaled 1.208475 around its ink center, dx -43/6, dy -17.499875, no embolden, unchanged advance 826; final Han bottom -14",
+      "cmap_policy": "U+61D0/U+3005/U+6C17/U+4ED8/U+58C1/U+5805/U+5965/U+5BB9/U+5909/U+604B/U+54C0/U+5967/U+512A/U+5BC4/U+8E0A are intentional shared-cmap override mappings. U+5915 夕 remains unchanged; no broad locl JAN feature is added.",
       "status": "verified_by_special_override_verifier"
     }
   },
@@ -479,5 +479,23 @@
     "scope": "Only uni3067 mark-component Y and uni3066 GPOS base-anchor Y; all other glyphs, anchors and metrics unchanged",
     "report": "tools/font/reports/de-dakuten-clearance.md",
     "proof": "tools/font/proofs/quanfangwei-de-dakuten-clearance.png"
+  },
+  "kanji_odoru_optical": {
+    "version": "1.028",
+    "description": "Scoped 踊 optical-size correction",
+    "base_main": "38f441c2bc0e2380c3cd7c1bf4afda1df2f3bc2f",
+    "character": "踊",
+    "codepoint": "U+8E0A",
+    "source_glyph": "uni8E0A",
+    "derived_glyph": "uni8E0A.qfwJaOptical",
+    "scale_x": 1.208475,
+    "scale_y": 1.208475,
+    "dx": -7.166666666666667,
+    "dy": -17.499875,
+    "embolden": 0,
+    "advance": 826,
+    "report": "tools/font/reports/kanji-odoru-optical-size.md",
+    "proof": "tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png",
+    "preserves": "Every existing glyph, all kana and 1.027 te/de attachment, all layout/global metrics; only U+8E0A cmap gains a source-preserving derived glyph"
   }
 }

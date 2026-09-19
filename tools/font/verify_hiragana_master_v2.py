@@ -75,7 +75,9 @@ def verify_sources(characters=TARGETS):
         assert t.scale_x is None and t.scale_y is None,f'{c}: non-uniform distortion'
     katakana={c:digest(s) for c,s in VERSION_1_025_KANA_STROKES.items() if 0x30a1<=ord(c)<=0x30ff}
     assert katakana==m['baseline']['katakana'],'STOP: Katakana source/pressure/position drift'
-    assert {c:vars(t) for c,t in SHARED_HAN_OPTICAL_TRANSFORMS.items()}==m['baseline']['han_optical'],'Han transforms changed'
+    from verify_kanji_odoru_optical import verify_transform_record
+    verify_transform_record()
+    assert {c:vars(t) for c,t in SHARED_HAN_OPTICAL_TRANSFORMS.items() if c!='踊'}==m['baseline']['han_optical'],'Earlier Han transforms changed'
     assert tuple(m['baseline']['ke_alignment_reference_bounds'])==ALIGNMENT_REFERENCE_BOUNDS
     assert {c:list(v) for c,v in VERSION_1_025_YOON_OFFSETS.items()}==m['yoon_offsets']
     for c in 'ャュョ':

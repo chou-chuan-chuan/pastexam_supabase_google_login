@@ -19,9 +19,13 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
+目前版本 **1.028 — Scoped 踊 optical-size correction**：僅將 `踊`（U+8E0A）原始 `uni8E0A` drawing 以 **1.208475 等比例放大**，高度 `590 → 713`，字底對齊 Han median `−14`。維持原 advance `826`，左右 sidebearings `27／26`，不加粗、不重畫、不引入外部 outline。1.027 的全部假名、`て／で` 間距、其他 Han 與排版設定完全保留。[量測與驗證報告](tools/font/reports/kanji-odoru-optical-size.md)、[20／32／64／192 px before／candidates／final 校樣](tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png)。
+
+下列 1.027 說明記錄目前仍完整保留的假名驗收基準。
+
 Version **1.027** 同時包含局部 `て／で` 濁點間距修正：`て` 專用 anchor offset 由 `+17 → +82`，在既有 anchor scale 後相當於只把它的濁點上移 58 units。最短輪廓間距由 7.81 增至 51.225 units（20 px 約 1 px）；`て` 本體、共用濁點、其他濁音與整體 −56 位移完全不變。預組合 `で` 與分解 `で` 共用相同位置。[量測報告](tools/font/reports/de-dakuten-clearance.md)與[20／32／64／192 px 專用校樣](tools/font/proofs/quanfangwei-de-dakuten-clearance.png)。
 
-目前版本 **1.027 — Kana–Han bottom alignment**：保留 Version 1.026 已驗收的大小與全部手寫結構，將假名系統整體向下平移 **56 units**。沿用同一組 59 個 Han 與各 46 個基本假名；Han median ink bottom 為 `−14`，合併假名為 `41.5`，實測差 `−55.5` 取整數 `−56`。比較 `−64／−56／−48` 後選定 `−56`；平假名字底中位數 `44.5 → −11.5`，片假名 `41 → −15`，Han 完全不動。
+已驗收版本 **1.027 — Kana–Han bottom alignment**：保留 Version 1.026 已驗收的大小與全部手寫結構，將假名系統整體向下平移 **56 units**。沿用同一組 59 個 Han 與各 46 個基本假名；Han median ink bottom 為 `−14`，合併假名為 `41.5`，實測差 `−55.5` 取整數 `−56`。比較 `−64／−56／−48` 後選定 `−56`；平假名字底中位數 `44.5 → −11.5`，片假名 `41 → −15`，Han 完全不動。
 
 平假名 scale `0.894078195335`、片假名 scale `0.946843040146` 保持不變。最終 TrueType 座標只加 `(0,−56)`，不再縮放或重新取整；字寬、字高、筆壓、x 座標與 960-unit advance 均不變。小假名、iteration、長音與濁點／半濁點一起移動；六個 yōon 的左下 ink anchor 由 `(180,24)` 隨全體移至 `(180,−32)`，相對位置與兩格結構不變。GPOS 的 base／mark anchors 同步平移，再對 `て` 加入上述局部間距修正，預組合與分解組合位置一致。
 
@@ -36,7 +40,7 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.027 支援：
+衍生版 Version 1.028 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。

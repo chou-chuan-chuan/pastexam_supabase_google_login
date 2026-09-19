@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.027"
+VERSION = "1.028"
 BUILD_DATE = "2026-09-19"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260919"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -470,7 +470,8 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
-- Scoped て／で dakuten clearance（same Version 1.027）：初版 +17 的最短實際間距僅 7.810 units，20 px 看似碰觸。只把 HIRAGANA_MARK_ANCHOR_Y_OFFSETS[て] 調至 +82（source +65，經既有 anchor scale 後 final +58 Y），得到 51.225 units 的 compact clear gap；20／32／64／192 px HarfBuzz／FreeType 校樣與 +72／+82／+92 候選比較見 tools/font/reports/de-dakuten-clearance.md。預組合 で 的 mark component 與 て 的 GPOS base anchor 同步調整，分解 で 一致。て topology／outline、共用濁點、其他所有 glyphs／attachments、全域 −56 shift、scale、advances／line metrics 不變；不升版至 1.028。這是下列整體平移規則唯一新增的局部 mark-spacing exception。
+- Scoped 踊 optical-size correction（Version 1.028）：僅 U+8E0A 改映射到原始 uni8E0A 的 derived copy；均勻放大 1.208475（Han median 713 / source height 590），繞 ink center 後 dx -43/6、dy -17.499875，final bottom -14。advance 826 不變，LSB/RSB 27/26，無 embolden；全部其他 Han、Kana、GPOS 與 1.027 て／で 間距原封不動。20／32／64／192 px before/candidates/final 見 tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png；完整量測與驗證見 tools/font/reports/kanji-odoru-optical-size.md。下列為已驗收的歷史階段紀錄。
+- Scoped て／で dakuten clearance（same Version 1.027）：初版 +17 的最短實際間距僅 7.810 units，20 px 看似碰觸。只把 HIRAGANA_MARK_ANCHOR_Y_OFFSETS[て] 調至 +82（source +65，經既有 anchor scale 後 final +58 Y），得到 51.225 units 的 compact clear gap；20／32／64／192 px HarfBuzz／FreeType 校樣與 +72／+82／+92 候選比較見 tools/font/reports/de-dakuten-clearance.md。預組合 で 的 mark component 與 て 的 GPOS base anchor 同步調整，分解 で 一致。て topology／outline、共用濁點、其他所有 glyphs／attachments、全域 −56 shift、scale、advances／line metrics 不變；該修正維持 1.027。這是下列整體平移規則唯一新增的局部 mark-spacing exception。
 - Kana–Han bottom alignment（Version 1.027）：保留 1.026 平假名／片假名 scale 0.894078195335／0.946843040146、所有 source topology、筆壓、x 座標、寬高與 advances，只對最終已取整的假名座標共用 (0,-56) translation。相同 59-Han sample 的 median yMin 為 -14，92 個假名為 41.5；實測 -55.5，比較 -64／-56／-48 後選定 -56。有效 KANA_VERTICAL_SHIFT -145 → -201、kana-related JAPANESE_MARK_VERTICAL_SHIFT -120 → -176；小假名、iteration、長音與 marks 同步移動，GPOS base／mark anchors 同移、composite offsets 不變，yōon (180,24) → (180,-32)。全部 9,344 mapped Han（含 壁／堅）、其他 glyphs、UPM／hhea／OS/2 globals 不變，無新裁切。20／32／64 px before/after、候選與 guide proofs 及完整驗證見 tools/font/reports/kana-bottom-alignment.md。無 CSS／JS、SQL／migration 或 production DB 修改。下列 1.026 及更早條目為歷史紀錄。
 - Kana–Han mixed-script optical balance（Version 1.026）：保留完整 Master v2 的 46 字 source topology、points 和原逐字 normalization，以 59 個 QuanFangwei Han 的實際 median ink height 乘上 Noto／Source Han 的 kana-to-Han ratios。平假名共用 uniform scale 0.894078195335，片假名 0.946843040146；geometry／pressure 同比縮放並保留 accepted optical centers、960-unit advances。12 小平假名從新大字沿既有 relationship 衍生；六個 yōon 只重新計算 translation 以維持 (180,24)。濁點／半濁點依 script 同比縮放，以兩個 unmapped Katakana mark variants、ccmp selection、GPOS 和 composite anchors 維持預組合／分解一致；不新增 ligatures。Iteration marks 和長音隨 script 縮放，其餘標點、所有 Han（含 壁／堅）、Latin／French／German 完全不變。20／32／64 px 混排 proof 與 ratio report 見 tools/font/reports/kana-kanji-scale-balance.md。外部字型只提供 metrics；無 external outlines、raster 重建、CSS／JS workaround、SQL／migration 或 DB 修改。下列 1.025 及更早條目為歷史紀錄。
 - Complete Maintainer Hiragana Master v2（Version 1.025）：all 46 modern basic Hiragana refreshed from the maintainer's complete Master v2 source set: main 41-glyph `hiragana-maintainer-master-v2.png` plus supplementary `hiragana-maintainer-master-v2-na-row.png`. Both maintainer-owned references supersede all older basic Hiragana references. The new na-row explicitly supersedes the previous preserve-na-row rule, including the older legibility-reviewed `の`; no basic Hiragana intentionally retains an older source. No small na-row forms are introduced; `にゃ／にゅ／にょ` are reviewed with the new `に`. All small Hiragana regenerate from their new large bases; only `ゃゅょ／ャュョ` use reviewed lower-left yōon positioning. The three Hiragana deltas are recalibrated after derivation to retain ink anchor `(180,24)`; Katakana deltas remain unchanged. Voiced/semi-voiced forms inherit the new bases and existing marks. Katakana topology, all Han (including `壁／堅` and the frozen `気／付` alignment), and Latin/French/German are preserved. Absolute large-kana size uses UPM-normalized Noto Sans CJK JP / Source Han Sans JP scalar metrics plus production 1.024 continuity, with uniform scale and dx/dy only; all advances remain 960. External fonts supply metrics only, never outlines or shape data. Large normalization precedes small derivation; `て` alone gets +17 y mark-anchor clearance for `で`. Manual center-lines use the unchanged variable-width engine; no external Japanese outline or raster contour is installed. The metric comparison and same-em box proof are recorded in `tools/font/reports/hiragana-standard-metrics.md`.
@@ -558,7 +559,7 @@ def main() -> int:
         japanese_override_metadata = build_user_japanese_overrides(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.027
+        font["head"].fontRevision = 1.028
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]
