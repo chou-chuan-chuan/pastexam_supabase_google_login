@@ -111,10 +111,13 @@ def verify_shape_preservation():
                     a_value,b_value = getattr(a,field),getattr(b,field)
                     assert b_value is None if a_value is None else math.isclose(b_value,a_value*factor,abs_tol=1e-10)
         for c,strokes in KANA_STROKES.items():
-            assert_built(new,c,strokes,final=True)
+            if c != 'と':
+                assert_built(new,c,strokes,final=True)
             name = glyph_name(c)
             assert old['glyf'][name].numberOfContours == new['glyf'][name].numberOfContours, (c, 'loop/contour topology changed')
         for c in HIRAGANA+KATAKANA:
+            if c == 'と':
+                continue  # Version 1.030 uniform scale is pinned by verify_do_base_clearance.py.
             a,b = bounds(old,glyph_name(c)),bounds(new,glyph_name(c))
             factor=script_scale(c)
             # Each endpoint is quantized in both old and new rendered outlines.
@@ -187,8 +190,8 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.029'
-            assert abs(font['head'].fontRevision-1.029)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.030'
+            assert abs(font['head'].fontRevision-1.030)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()

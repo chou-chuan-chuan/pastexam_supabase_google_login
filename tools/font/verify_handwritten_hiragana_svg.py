@@ -43,7 +43,7 @@ TO_RI_REFERENCE_PATH = REFERENCE_DIR / "U+3068-U+308A-maintainer-handwritten.png
 FONT_PATH = REPO_ROOT / "assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf"
 EXPECTED_COMPLETE_SHA256 = "ed588c5e8c062a5053467a446e348570ec933b0afcd82dace0298798ea81afe9"
 EXPECTED_REFERENCE_VERSION = "1.011"
-EXPECTED_FONT_VERSION = "1.029"
+EXPECTED_FONT_VERSION = "1.030"
 EXPECTED_WA_CENTERLINE_SHA256 = "6835ec829c21ffd72dde9a9965a38e01c1d2fafc30ca3c9db27754fc6a342036"
 EXPECTED_KI_REFERENCE_SHA256 = "b8f7214e01562791c198e3c11f56754700f12e740d020314c78e1c5bcdbef5aa"
 EXPECTED_YA_REFERENCE_SHA256 = "c6697e96ecead227017aed09e008f20daa00d8e0266567e99607674d83755d06"
@@ -255,7 +255,7 @@ def main() -> int:
     print("PASS: filled SVG outlines are references only; final glyphs use refined center-line strokes")
     print("PASS: Version 1.025 master sheet supersedes all overlapping older visual references")
     print("PASS: む short mark, ぬ/め distinction, き/さ distinction, and わ/を/ん coverage are preserved")
-    print("PASS: final TTF advances, bounds, Version 1.029 metadata, and retained pre-translation optical-center stage are valid")
+    print("PASS: final TTF advances, bounds, Version 1.030 metadata, and retained pre-translation optical-center stage are valid")
     return 0
 
 

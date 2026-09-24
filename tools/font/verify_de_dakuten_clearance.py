@@ -57,7 +57,7 @@ def verify():
         assert before['base_bounds'] == after['base_bounds'] == [230,-8,744,612]
         assert after['mark_bounds'] == [713,648,850,736]
         assert after['mark_delta'] == [695,-87]
-        for neighbor in 'けせとへ':
+        for neighbor in 'けせへ':
             assert measure(old,neighbor) == measure(new,neighbor),neighbor
 
         assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
@@ -74,13 +74,13 @@ def verify():
                 expected.components[1].y += EXPECTED_RENDERED_DELTA
                 expected.recalcBounds(old['glyf'])
                 assert expected.compile(old['glyf']) == new['glyf'][name].compile(new['glyf'])
-            elif name == 'uni3069':
-                pass  # Version 1.029 is independently pinned by verify_do_base_clearance.py.
+            elif name in {'uni3068','uni3069'}:
+                pass  # Version 1.030 と/ど refinement is independently pinned by verify_do_base_clearance.py.
             else:
                 assert prior == current,('Unrelated glyph changed',name)
-        assert changed == ['uni3067','uni3069'],changed
+        assert changed == ['uni3068','uni3067','uni3069'],changed
         for name in old.getGlyphOrder():
-            if name != 'uni3069':
+            if name not in {'uni3068','uni3069'}:
                 assert old['hmtx'].metrics[name] == new['hmtx'].metrics[name] == web['hmtx'].metrics[name]
         assert old['OS/2'].compile(old) == new['OS/2'].compile(new) == web['OS/2'].compile(web)
         old['hhea'].numberOfHMetrics += 1
@@ -92,8 +92,8 @@ def verify():
                 assert old['vmtx'].metrics[name] == new['vmtx'].metrics[name] == web['vmtx'].metrics[name]
         assert old['name'].getDebugName(5) == 'Version 1.027'
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.029'
-            assert abs(font['head'].fontRevision-1.029) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.030'
+            assert abs(font['head'].fontRevision-1.030) < 1/65536
             assert font['head'].unitsPerEm == 1024
         assert new['OS/2'].sTypoDescender < new['glyf']['uni3067'].yMin < new['glyf']['uni3067'].yMax < new['OS/2'].sTypoAscender
 
@@ -121,8 +121,8 @@ def verify():
             actual=measure(old,extra_y=offset_delta(int(offset)))
             assert math.isclose(metric['minimum_clearance'],actual['minimum_clearance'],abs_tol=.05)
         print(f"PASS: old gap {before['minimum_clearance']:.6f} → {after['minimum_clearance']:.6f} units; local vertical gap {after['minimum_vertical_gap'][0]}; no touching/intersection")
-        print('PASS: the retained 1.027 de delta is still only uni3067 mark + uni3066 anchor (+58 final Y); the independent 1.029 do scope is delegated to its focused verifier')
-        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.029 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
+        print('PASS: the retained 1.027 de delta is still only uni3067 mark + uni3066 anchor (+58 final Y); the independent 1.030 to/do scope is delegated to its focused verifier')
+        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.030 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
 
 
 if __name__=='__main__':

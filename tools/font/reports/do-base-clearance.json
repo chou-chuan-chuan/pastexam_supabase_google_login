@@ -1,230 +1,15 @@
 {
-  "base_main": "2b9472342505f676146200b6fb02209a4b497c1e",
-  "version": "1.029",
+  "base_main": "b2e1d1613eedfa432cdd4580e813771932d8fa54",
+  "version": "1.030",
   "current": {
-    "body_scale": 1.0,
-    "body_bounds": [
+    "standalone_to_scale": 1.0,
+    "standalone_to_bounds": [
       215,
       -14,
       797,
       616
     ],
-    "dakuten_bounds": [
-      726,
-      575,
-      863,
-      663
-    ],
-    "body_anchor": [
-      800,
-      599
-    ],
-    "dakuten_anchor": [
-      92,
-      759
-    ],
-    "dakuten_delta": [
-      708,
-      -160
-    ],
-    "minimum_clearance": 20.105617350795377,
-    "intersects": false,
-    "closest_body_point": [
-      712.4245283018868,
-      607.2358490566038
-    ],
-    "closest_dakuten_point": [
-      730.0,
-      617.0
-    ],
-    "x_overlap": [
-      726,
-      797
-    ],
-    "minimum_vertical_gap": [
-      532.5,
-      781.0,
-      43.0,
-      575.5
-    ],
-    "bottom_alignment_difference": 0
-  },
-  "candidates": {
-    "0.94": {
-      "label": "candidate A",
-      "body_scale": 0.94,
-      "transform": [
-        0.94,
-        0,
-        0,
-        0.94,
-        30.360000000000028,
-        -0.8400000000000007
-      ],
-      "body_bounds": [
-        232,
-        -14,
-        780,
-        578
-      ],
-      "dakuten_bounds": [
-        726,
-        575,
-        863,
-        663
-      ],
-      "body_anchor": [
-        800,
-        599
-      ],
-      "dakuten_anchor": [
-        92,
-        759
-      ],
-      "dakuten_delta": [
-        708,
-        -160
-      ],
-      "minimum_clearance": 54.800000000000026,
-      "intersects": false,
-      "closest_body_point": [
-        700.0,
-        571.0
-      ],
-      "closest_dakuten_point": [
-        732.88,
-        614.84
-      ],
-      "x_overlap": [
-        726,
-        780
-      ],
-      "minimum_vertical_gap": [
-        545.25,
-        773.0,
-        35.0,
-        580.25
-      ],
-      "bottom_alignment_difference": 0
-    },
-    "0.96": {
-      "label": "candidate B",
-      "body_scale": 0.96,
-      "transform": [
-        0.96,
-        0,
-        0,
-        0.96,
-        20.240000000000016,
-        -0.5600000000000005
-      ],
-      "body_bounds": [
-        227,
-        -14,
-        785,
-        591
-      ],
-      "dakuten_bounds": [
-        726,
-        575,
-        863,
-        663
-      ],
-      "body_anchor": [
-        800,
-        599
-      ],
-      "dakuten_anchor": [
-        92,
-        759
-      ],
-      "dakuten_delta": [
-        708,
-        -160
-      ],
-      "minimum_clearance": 42.80186911806539,
-      "intersects": false,
-      "closest_body_point": [
-        704.0,
-        583.0
-      ],
-      "closest_dakuten_point": [
-        730.0,
-        617.0
-      ],
-      "x_overlap": [
-        726,
-        785
-      ],
-      "minimum_vertical_gap": [
-        539.4444444444445,
-        778.0,
-        36.55555555555556,
-        576.0
-      ],
-      "bottom_alignment_difference": 0
-    },
-    "0.98": {
-      "label": "candidate C",
-      "body_scale": 0.98,
-      "transform": [
-        0.98,
-        0,
-        0,
-        0.98,
-        10.120000000000008,
-        -0.28000000000000025
-      ],
-      "body_bounds": [
-        221,
-        -14,
-        791,
-        603
-      ],
-      "dakuten_bounds": [
-        726,
-        575,
-        863,
-        663
-      ],
-      "body_anchor": [
-        800,
-        599
-      ],
-      "dakuten_anchor": [
-        92,
-        759
-      ],
-      "dakuten_delta": [
-        708,
-        -160
-      ],
-      "minimum_clearance": 30.4138126514911,
-      "intersects": false,
-      "closest_body_point": [
-        708.0,
-        596.0
-      ],
-      "closest_dakuten_point": [
-        730.0,
-        617.0
-      ],
-      "x_overlap": [
-        726,
-        791
-      ],
-      "minimum_vertical_gap": [
-        535.25,
-        778.0,
-        40.75,
-        576.0
-      ],
-      "bottom_alignment_difference": 0
-    }
-  },
-  "final_scale": 0.94,
-  "final": {
-    "body_scale": 0.94,
+    "voiced_effective_scale": 0.94,
     "body_bounds": [
       232,
       -14,
@@ -268,6 +53,285 @@
       773.0,
       35.0,
       580.25
+    ],
+    "bottom_alignment_difference": 0
+  },
+  "candidates": {
+    "A": {
+      "label": "candidate A",
+      "standalone_to_scale": 0.99,
+      "voiced_relative_scale": 0.92,
+      "voiced_effective_scale": 0.9108,
+      "standalone_to_transform": [
+        0.99,
+        0,
+        0,
+        0.99,
+        5.060000000000004,
+        -0.14000000000000012
+      ],
+      "voiced_transform": [
+        0.92,
+        0,
+        0,
+        0.92,
+        40.47999999999998,
+        -1.1199999999999994
+      ],
+      "standalone_to_bounds": [
+        218,
+        -14,
+        794,
+        610
+      ],
+      "body_bounds": [
+        241,
+        -14,
+        771,
+        560
+      ],
+      "dakuten_bounds": [
+        726,
+        575,
+        863,
+        663
+      ],
+      "body_anchor": [
+        800,
+        599
+      ],
+      "dakuten_anchor": [
+        92,
+        759
+      ],
+      "dakuten_delta": [
+        708,
+        -160
+      ],
+      "minimum_clearance": 72.79999999999998,
+      "intersects": false,
+      "closest_body_point": [
+        694.0,
+        553.0
+      ],
+      "closest_dakuten_point": [
+        737.68,
+        611.24
+      ],
+      "x_overlap": [
+        726,
+        771
+      ],
+      "minimum_vertical_gap": [
+        553.5,
+        768.0,
+        30.5,
+        584.0
+      ],
+      "bottom_alignment_difference": 0
+    },
+    "B": {
+      "label": "candidate B",
+      "standalone_to_scale": 0.98,
+      "voiced_relative_scale": 0.92,
+      "voiced_effective_scale": 0.9016000000000001,
+      "standalone_to_transform": [
+        0.98,
+        0,
+        0,
+        0.98,
+        10.120000000000008,
+        -0.28000000000000025
+      ],
+      "voiced_transform": [
+        0.92,
+        0,
+        0,
+        0.92,
+        40.47999999999998,
+        -1.1199999999999994
+      ],
+      "standalone_to_bounds": [
+        221,
+        -14,
+        791,
+        603
+      ],
+      "body_bounds": [
+        244,
+        -14,
+        768,
+        554
+      ],
+      "dakuten_bounds": [
+        726,
+        575,
+        863,
+        663
+      ],
+      "body_anchor": [
+        800,
+        599
+      ],
+      "dakuten_anchor": [
+        92,
+        759
+      ],
+      "dakuten_delta": [
+        708,
+        -160
+      ],
+      "minimum_clearance": 78.79999999999995,
+      "intersects": false,
+      "closest_body_point": [
+        692.0,
+        547.0
+      ],
+      "closest_dakuten_point": [
+        739.28,
+        610.04
+      ],
+      "x_overlap": [
+        726,
+        768
+      ],
+      "minimum_vertical_gap": [
+        557.0,
+        768.0,
+        27.0,
+        584.0
+      ],
+      "bottom_alignment_difference": 0
+    },
+    "C": {
+      "label": "candidate C",
+      "standalone_to_scale": 0.97,
+      "voiced_relative_scale": 0.92,
+      "voiced_effective_scale": 0.8924,
+      "standalone_to_transform": [
+        0.97,
+        0,
+        0,
+        0.97,
+        15.180000000000014,
+        -0.4200000000000004
+      ],
+      "voiced_transform": [
+        0.92,
+        0,
+        0,
+        0.92,
+        40.47999999999998,
+        -1.1199999999999994
+      ],
+      "standalone_to_bounds": [
+        224,
+        -14,
+        788,
+        597
+      ],
+      "body_bounds": [
+        247,
+        -14,
+        765,
+        548
+      ],
+      "dakuten_bounds": [
+        726,
+        575,
+        863,
+        663
+      ],
+      "body_anchor": [
+        800,
+        599
+      ],
+      "dakuten_anchor": [
+        92,
+        759
+      ],
+      "dakuten_delta": [
+        708,
+        -160
+      ],
+      "minimum_clearance": 84.80000000000003,
+      "intersects": false,
+      "closest_body_point": [
+        690.0,
+        541.0
+      ],
+      "closest_dakuten_point": [
+        740.88,
+        608.84
+      ],
+      "x_overlap": [
+        726,
+        765
+      ],
+      "minimum_vertical_gap": [
+        560.6666666666666,
+        761.0,
+        30.333333333333332,
+        591.0
+      ],
+      "bottom_alignment_difference": 0
+    }
+  },
+  "final_to_scale": 0.98,
+  "final_do_relative_scale": 0.92,
+  "final": {
+    "standalone_to_scale": 0.98,
+    "standalone_to_bounds": [
+      221,
+      -14,
+      791,
+      603
+    ],
+    "voiced_relative_scale": 0.92,
+    "voiced_effective_scale": 0.9016000000000001,
+    "body_bounds": [
+      244,
+      -14,
+      768,
+      554
+    ],
+    "dakuten_bounds": [
+      726,
+      575,
+      863,
+      663
+    ],
+    "body_anchor": [
+      800,
+      599
+    ],
+    "dakuten_anchor": [
+      92,
+      759
+    ],
+    "dakuten_delta": [
+      708,
+      -160
+    ],
+    "minimum_clearance": 78.79999999999995,
+    "intersects": false,
+    "closest_body_point": [
+      692.0,
+      547.0
+    ],
+    "closest_dakuten_point": [
+      739.28,
+      610.04
+    ],
+    "x_overlap": [
+      726,
+      768
+    ],
+    "minimum_vertical_gap": [
+      557.0,
+      768.0,
+      27.0,
+      584.0
     ],
     "bottom_alignment_difference": 0
   }

@@ -93,7 +93,7 @@ def verify_source_scope():
     paths=subprocess.check_output(['git','ls-tree','-r','--name-only',BASE_MAIN,'--',*roots],cwd=ROOT,text=True).splitlines()
     for path in paths:
         if path.endswith('japanese/build_kana.py'):
-            # Version 1.029's independently verified ど helper lives here.
+            # Version 1.030's independently verified と/ど refinement lives here.
             continue
         old=subprocess.check_output(['git','show',f'{BASE_MAIN}:{path}'],cwd=ROOT)
         new=(ROOT/path).read_bytes().replace(b'\r\n',b'\n') if path.endswith(('.py','.json','.md','.svg','.txt','.csv')) else (ROOT/path).read_bytes()
@@ -141,17 +141,17 @@ def verify():
             assert min(m['ink_sidebearings'])>=28 and abs(m['center'][0]-413)<.5
             assert max(font['hhea'].descent,font['OS/2'].sTypoDescender,-font['OS/2'].usWinDescent)<m['bounds'][1]
             assert m['bounds'][3]<min(font['hhea'].ascent,font['OS/2'].sTypoAscender,font['OS/2'].usWinAscent)
-            assert font['name'].getDebugName(5)=='Version 1.029'
-            assert abs(font['head'].fontRevision-1.029)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.030'
+            assert abs(font['head'].fontRevision-1.030)<1/65536
             assert font['head'].unitsPerEm==old['head'].unitsPerEm==1024
         hashes=[]
         for name in old.getGlyphOrder():
             value=signature(old,name)
-            if name != 'uni3069':
+            if name not in {'uni3068','uni3069'}:
                 assert value==signature(new,name)==signature(web,name),('Existing glyph changed',name)
             if 'vmtx' in old:
                 assert old['vmtx'][name]==new['vmtx'][name]==web['vmtx'][name]
-            if name != 'uni3069':
+            if name not in {'uni3068','uni3069'}:
                 hashes.append((name,hashlib.sha256(repr(value).encode()).hexdigest()))
         assert signature(new,DERIVED_NAME)==signature(web,DERIVED_NAME)
         assert signature(new,DO_BASE_GLYPH)==signature(web,DO_BASE_GLYPH)
@@ -161,7 +161,7 @@ def verify():
         for group,names in [('unrelated_han',han),('kana',MOVED_NAMES),('all_existing',set(old.getGlyphOrder()))]:
             selected=[item for item in hashes if item[0] in names]
             summary[group]={'count':len(selected),'sha256':hashlib.sha256(repr(selected).encode()).hexdigest()}
-        assert summary['unrelated_han']['count']==9343 and summary['kana']['count']==186
+        assert summary['unrelated_han']['count']==9343 and summary['kana']['count']==185
         # All layout and global metrics stay fixed. Only the number of
         # horizontal metrics increases by one for the newly added glyph.
         assert old['OS/2'].compile(old)==new['OS/2'].compile(new)==web['OS/2'].compile(web)
@@ -174,9 +174,9 @@ def verify():
             new_record=new['name'].getName(record.nameID,record.platformID,record.platEncID,record.langID)
             expected=record.toUnicode()
             if record.nameID == 3:
-                parts=expected.split(';');parts[0]='1.029';parts[-1]='20260924';expected=';'.join(parts)
+                parts=expected.split(';');parts[0]='1.030';parts[-1]='20260924';expected=';'.join(parts)
             elif record.nameID == 5:
-                expected=expected.replace('1.027','1.029')
+                expected=expected.replace('1.027','1.030')
             assert new_record.toUnicode()==expected,('Name drift',record.nameID)
         gaps={}
         old_shaper=hb.Font(hb.Face(baseline_bytes()))
@@ -197,7 +197,7 @@ def verify():
         assert report['calculated_scale']==calculated and tuple(map(float,report['candidates']))==scales
         assert report['selected_transform']==vars(SHARED_HAN_OPTICAL_TRANSFORMS['踊'])
         print('PASS: original drawing -> uniform derived copy; exact rounded bounds, unchanged 826 advance, positive bearings, no clipping/embolden')
-        print('PASS: TTF/WOFF2 parity; unchanged global metrics and every non-ど existing outline/metric; 1.029 layout scope is delegated to its focused verifier')
+        print('PASS: TTF/WOFF2 parity; unchanged global metrics and every non-と/ど existing outline/metric; 1.030 layout scope is delegated to its focused verifier')
         print('PASS: immutable hashes '+json.dumps(summary,ensure_ascii=False))
         print('PASS: shaped lyric advance unchanged; adjacent ink gaps '+json.dumps(gaps,ensure_ascii=False))
         return summary,gaps
