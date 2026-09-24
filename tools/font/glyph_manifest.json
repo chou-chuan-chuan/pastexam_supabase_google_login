@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.028"
+    "version": "1.029"
   },
   "glyphs": [
     {
@@ -479,6 +479,26 @@
     "scope": "Only uni3067 mark-component Y and uni3066 GPOS base-anchor Y; all other glyphs, anchors and metrics unchanged",
     "report": "tools/font/reports/de-dakuten-clearance.md",
     "proof": "tools/font/proofs/quanfangwei-de-dakuten-clearance.png"
+  },
+  "do_base_clearance": {
+    "version": "1.029",
+    "description": "Scoped ど base-size / dakuten-clearance correction",
+    "base_main": "2b9472342505f676146200b6fb02209a4b497c1e",
+    "standalone_base": "uni3068",
+    "voiced_base": "uni3068.qfwDoBase",
+    "precomposed": "uni3069",
+    "body_scale_x": 0.94,
+    "body_scale_y": 0.94,
+    "body_anchor": [800, 599],
+    "dakuten_delta": [708, -160],
+    "advance": 960,
+    "old_minimum_clearance": 20.105617350795377,
+    "new_minimum_clearance": 54.800000000000026,
+    "bottom_alignment_difference": 0,
+    "embolden": 0,
+    "report": "tools/font/reports/do-base-clearance.md",
+    "proof": "tools/font/proofs/quanfangwei-do-base-clearance.png",
+    "preserves": "Standalone U+3068, shared dakuten design and placement, all other kana/Han, Version 1.027 bottom and te/de correction, Version 1.028 odoru correction"
   },
   "kanji_odoru_optical": {
     "version": "1.028",

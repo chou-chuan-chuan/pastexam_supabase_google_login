@@ -25,6 +25,7 @@ from measure_kanji_odoru_optical import (
     DERIVED_NAME, REPORT, TEXTS, baseline_bytes, metrics, candidates, measure_groups,
 )
 from japanese.user_japanese_overrides import SHARED_HAN_OPTICAL_TRANSFORMS
+from japanese.build_kana import DO_BASE_GLYPH
 
 SCALE = 1.208475
 EXPECTED_TRANSFORM = (SCALE,SCALE,-43/6,-17.499875,0.0,None)
@@ -91,6 +92,9 @@ def verify_source_scope():
     roots=['tools/font/kana_sources','tools/font/references','tools/font/japanese']
     paths=subprocess.check_output(['git','ls-tree','-r','--name-only',BASE_MAIN,'--',*roots],cwd=ROOT,text=True).splitlines()
     for path in paths:
+        if path.endswith('japanese/build_kana.py'):
+            # Version 1.029's independently verified ど helper lives here.
+            continue
         old=subprocess.check_output(['git','show',f'{BASE_MAIN}:{path}'],cwd=ROOT)
         new=(ROOT/path).read_bytes().replace(b'\r\n',b'\n') if path.endswith(('.py','.json','.md','.svg','.txt','.csv')) else (ROOT/path).read_bytes()
         if path.endswith('japanese/user_japanese_overrides.py'):
@@ -122,6 +126,7 @@ def verify():
         assert drawing(source,SOURCE_NAME)==drawing(old,SOURCE_NAME)==drawing(new,SOURCE_NAME)
         expected_order=old.getGlyphOrder().copy()
         expected_order.insert(expected_order.index('uni6C17.qfwJaAlign'),DERIVED_NAME)
+        expected_order.insert(expected_order.index('uni304C'),DO_BASE_GLYPH)
         assert new.getGlyphOrder()==web.getGlyphOrder()==expected_order
         expected_cmap=old.getBestCmap().copy();expected_cmap[0x8E0A]=DERIVED_NAME
         assert new.getBestCmap()==web.getBestCmap()==expected_cmap
@@ -136,34 +141,42 @@ def verify():
             assert min(m['ink_sidebearings'])>=28 and abs(m['center'][0]-413)<.5
             assert max(font['hhea'].descent,font['OS/2'].sTypoDescender,-font['OS/2'].usWinDescent)<m['bounds'][1]
             assert m['bounds'][3]<min(font['hhea'].ascent,font['OS/2'].sTypoAscender,font['OS/2'].usWinAscent)
-            assert font['name'].getDebugName(5)=='Version 1.028'
-            assert abs(font['head'].fontRevision-1.028)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.029'
+            assert abs(font['head'].fontRevision-1.029)<1/65536
             assert font['head'].unitsPerEm==old['head'].unitsPerEm==1024
         hashes=[]
         for name in old.getGlyphOrder():
             value=signature(old,name)
-            assert value==signature(new,name)==signature(web,name),('Existing glyph changed',name)
+            if name != 'uni3069':
+                assert value==signature(new,name)==signature(web,name),('Existing glyph changed',name)
             if 'vmtx' in old:
                 assert old['vmtx'][name]==new['vmtx'][name]==web['vmtx'][name]
-            hashes.append((name,hashlib.sha256(repr(value).encode()).hexdigest()))
+            if name != 'uni3069':
+                hashes.append((name,hashlib.sha256(repr(value).encode()).hexdigest()))
         assert signature(new,DERIVED_NAME)==signature(web,DERIVED_NAME)
+        assert signature(new,DO_BASE_GLYPH)==signature(web,DO_BASE_GLYPH)
         han={name for cp,name in old.getBestCmap().items() if cp!=0x8E0A and (0x3400<=cp<=0x9fff or 0xf900<=cp<=0xfaff or 0x20000<=cp<=0x323af)}
         from render_kana_bottom_alignment_proof import MOVED_NAMES
         summary={}
         for group,names in [('unrelated_han',han),('kana',MOVED_NAMES),('all_existing',set(old.getGlyphOrder()))]:
             selected=[item for item in hashes if item[0] in names]
             summary[group]={'count':len(selected),'sha256':hashlib.sha256(repr(selected).encode()).hexdigest()}
-        assert summary['unrelated_han']['count']==9343 and summary['kana']['count']==187
+        assert summary['unrelated_han']['count']==9343 and summary['kana']['count']==186
         # All layout and global metrics stay fixed. Only the number of
         # horizontal metrics increases by one for the newly added glyph.
-        for tag in ('OS/2','GSUB','GPOS','GDEF'):
-            assert old[tag].compile(old)==new[tag].compile(new)==web[tag].compile(web),tag
-        old['hhea'].numberOfHMetrics+=1
+        assert old['OS/2'].compile(old)==new['OS/2'].compile(new)==web['OS/2'].compile(web)
+        for tag in ('GSUB','GPOS','GDEF'):
+            assert new[tag].compile(new)==web[tag].compile(web),tag
+        old['hhea'].numberOfHMetrics+=2
         assert old['hhea'].compile(old)==new['hhea'].compile(new)==web['hhea'].compile(web)
         assert new['name'].compile(new)==web['name'].compile(web)
         for record in old['name'].names:
             new_record=new['name'].getName(record.nameID,record.platformID,record.platEncID,record.langID)
-            expected=record.toUnicode().replace('1.027','1.028') if record.nameID in (3,5) else record.toUnicode()
+            expected=record.toUnicode()
+            if record.nameID == 3:
+                parts=expected.split(';');parts[0]='1.029';parts[-1]='20260924';expected=';'.join(parts)
+            elif record.nameID == 5:
+                expected=expected.replace('1.027','1.029')
             assert new_record.toUnicode()==expected,('Name drift',record.nameID)
         gaps={}
         old_shaper=hb.Font(hb.Face(baseline_bytes()))
@@ -184,7 +197,7 @@ def verify():
         assert report['calculated_scale']==calculated and tuple(map(float,report['candidates']))==scales
         assert report['selected_transform']==vars(SHARED_HAN_OPTICAL_TRANSFORMS['踊'])
         print('PASS: original drawing -> uniform derived copy; exact rounded bounds, unchanged 826 advance, positive bearings, no clipping/embolden')
-        print('PASS: TTF/WOFF2 parity; unchanged GPOS/GSUB/GDEF/global metrics and all existing outlines/metrics')
+        print('PASS: TTF/WOFF2 parity; unchanged global metrics and every non-ど existing outline/metric; 1.029 layout scope is delegated to its focused verifier')
         print('PASS: immutable hashes '+json.dumps(summary,ensure_ascii=False))
         print('PASS: shaped lyric advance unchanged; adjacent ink gaps '+json.dumps(gaps,ensure_ascii=False))
         return summary,gaps

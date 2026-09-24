@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.028 — Scoped 踊 optical-size correction**：僅將 `踊`（U+8E0A）原始 `uni8E0A` drawing 以 **1.208475 等比例放大**，高度 `590 → 713`，字底對齊 Han median `−14`。維持原 advance `826`，左右 sidebearings `27／26`，不加粗、不重畫、不引入外部 outline。1.027 的全部假名、`て／で` 間距、其他 Han 與排版設定完全保留。[量測與驗證報告](tools/font/reports/kanji-odoru-optical-size.md)、[20／32／64／192 px before／candidates／final 校樣](tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png)。
+目前版本 **1.029 — Scoped `ど` base-size / dakuten-clearance correction**：新增無 Unicode mapping 的 `uni3068.qfwDoBase`，將已驗收 `と` 本體繞水平中心與 `yMin=-14` 作 **0.94 等比縮小**，只用於預組合 `ど` 與分解 `ど`。standalone `と` 的 outline、metrics、960 advance 與 glyph hash 均和 1.028 完全一致；共用 dakuten 設計與 `(708,-160)` 位置不變。最短輪廓間距由 `20.106 → 54.800 units`，無 embolden。[量測與驗證報告](tools/font/reports/do-base-clearance.md)、[20／32／64／192 px CURRENT／A／B／C／FINAL 校樣](tools/font/proofs/quanfangwei-do-base-clearance.png)。
+
+Version 1.028 的 scoped `踊` optical-size correction 完整保留：U+8E0A 仍是 1.208475 等比放大、高度 713、bottom −14、advance 826，其他 Han 不變。
 
 下列 1.027 說明記錄目前仍完整保留的假名驗收基準。
 
@@ -40,7 +42,7 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.028 支援：
+衍生版 Version 1.029 支援：
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。

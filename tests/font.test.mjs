@@ -25,7 +25,7 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.028");
+  assert.equal(manifest.derived_font.version, "1.029");
   // This source-only revision intentionally preserves the existing CSS URLs.
   assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.024/);
   assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.024/);

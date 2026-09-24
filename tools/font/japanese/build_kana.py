@@ -5,7 +5,9 @@ from __future__ import annotations
 from functools import lru_cache
 
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable, buildCoverage, buildLookup, buildSingleSubstSubtable
+from fontTools.misc.transform import Transform
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables import otTables
@@ -45,6 +47,12 @@ KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
 # Only て's base anchor changes; shared mark outlines/anchors stay unchanged.
 # See reports/de-dakuten-clearance.md for measurements and candidate proofs.
 HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 82}
+
+# Version 1.029: only the base used by U+3069 / decomposed U+3068 U+3099 is
+# reduced.  The accepted U+3068 drawing stays byte-identical.  The transform
+# is uniform, centered on the accepted ink and anchored to its final bottom.
+DO_BASE_GLYPH = "uni3068.qfwDoBase"
+DO_BASE_SCALE = 0.94
 
 
 def apply_bottom_alignment(glyph):
@@ -158,6 +166,49 @@ def composite(font: TTFont, base_name: str, mark_name: str, dx: int, dy: int):
     return pen.glyph()
 
 
+def scaled_do_base(font: TTFont):
+    """Derive the scoped voiced base without changing standalone U+3068."""
+    x0, y0, x1, _ = bounds(font, "uni3068")
+    center_x = (x0 + x1) / 2
+    transform = Transform(
+        DO_BASE_SCALE, 0, 0, DO_BASE_SCALE,
+        center_x * (1 - DO_BASE_SCALE),
+        y0 * (1 - DO_BASE_SCALE),
+    )
+    pen = TTGlyphPen(font.getGlyphSet())
+    font.getGlyphSet()["uni3068"].draw(TransformPen(pen, transform))
+    return pen.glyph()
+
+
+def append_do_base_selection(font: TTFont) -> None:
+    """Select the smaller と base only before combining dakuten."""
+    gsub = font["GSUB"].table
+    lookups = gsub.LookupList.Lookup
+    single_index = len(lookups)
+    lookups.append(buildLookup([buildSingleSubstSubtable({"uni3068": DO_BASE_GLYPH})]))
+
+    context = otTables.ChainContextSubst()
+    context.Format = 3
+    context.BacktrackGlyphCount = 0
+    context.BacktrackCoverage = []
+    context.InputGlyphCount = 1
+    context.InputCoverage = [buildCoverage(["uni3068"], font.getReverseGlyphMap())]
+    context.LookAheadGlyphCount = 1
+    context.LookAheadCoverage = [buildCoverage(["uni3099"], font.getReverseGlyphMap())]
+    record = otTables.SubstLookupRecord()
+    record.SequenceIndex = 0
+    record.LookupListIndex = single_index
+    context.SubstCount = 1
+    context.SubstLookupRecord = [record]
+    context_index = len(lookups)
+    lookups.append(buildLookup([context]))
+    gsub.LookupList.LookupCount = len(lookups)
+    for feature_record in gsub.FeatureList.FeatureRecord:
+        if feature_record.FeatureTag == "ccmp":
+            feature_record.Feature.LookupListIndex.append(context_index)
+            feature_record.Feature.LookupCount = len(feature_record.Feature.LookupListIndex)
+
+
 def append_mark_positioning(font: TTFont, anchors: dict[str, tuple[int, int]]) -> None:
     if "GPOS" not in font or "GDEF" not in font:
         raise RuntimeError("Source GPOS/GDEF tables are required")
@@ -193,6 +244,7 @@ def append_mark_positioning(font: TTFont, anchors: dict[str, tuple[int, int]]) -
     classes.classDefs["uni309A"] = 3
     classes.classDefs["uni3099.katakana"] = 3
     classes.classDefs["uni309A.katakana"] = 3
+    classes.classDefs[DO_BASE_GLYPH] = 1
 
 
 def build_japanese_phase1(font: TTFont) -> dict:
@@ -255,10 +307,16 @@ def build_japanese_phase1(font: TTFont) -> dict:
     }
     anchors.update({glyph_name(character): base_anchor(font, glyph_name(character)) for character in ITERATION_STROKES})
 
+    # The helper has no Unicode mapping and preserves U+3068's advance,
+    # horizontal optical center, bottom and mark anchor.  Keeping the accepted
+    # anchor fixed leaves the dakuten in exactly its Version 1.028 position.
+    install(font, DO_BASE_GLYPH, scaled_do_base(font), KANA_ADVANCE, vertical_source)
+    anchors[DO_BASE_GLYPH] = anchors["uni3068"]
+
     # Precomposed kana use the same component and delta as GPOS decomposition.
     for target, (base, mark_kind) in COMPOSITES.items():
         target_name = glyph_name(target)
-        base_name = glyph_name(base)
+        base_name = DO_BASE_GLYPH if target == "ど" else glyph_name(base)
         mark_name = mark_name_for(base, mark_kind)
         mark_anchor = HANDAKUTEN_ANCHOR if mark_kind == "handakuten" else DAKUTEN_ANCHOR
         anchor = anchors[base_name]
@@ -276,6 +334,7 @@ def build_japanese_phase1(font: TTFont) -> dict:
         added.append(target)
 
     append_mark_positioning(font, anchors)
+    append_do_base_selection(font)
     append_katakana_mark_selection(font)
     return {
         "added_characters": added,
