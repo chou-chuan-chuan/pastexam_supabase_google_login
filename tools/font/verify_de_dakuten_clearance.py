@@ -15,7 +15,7 @@ from measure_de_dakuten_clearance import (
     ROOT, FONT_REL, BASE_MAIN, BASE_TTF_SHA256, baseline_bytes,
     OLD_OFFSET, measure, offset_delta,
 )
-from japanese.build_kana import HIRAGANA_MARK_ANCHOR_Y_OFFSETS
+from japanese.build_kana import DO_BASE_GLYPH, HIRAGANA_MARK_ANCHOR_Y_OFFSETS
 from verify_kana_kanji_scale_balance import signature
 from verify_supplement_font import harfbuzz_decomposed_positions
 
@@ -61,7 +61,8 @@ def verify():
             assert measure(old,neighbor) == measure(new,neighbor),neighbor
 
         assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
-        assert old.getGlyphOrder() == new.getGlyphOrder() == web.getGlyphOrder()
+        assert [name for name in new.getGlyphOrder() if name != DO_BASE_GLYPH] == old.getGlyphOrder()
+        assert new.getGlyphOrder() == web.getGlyphOrder()
         changed=[]
         for name in old.getGlyphOrder():
             prior,current=signature(old,name),signature(new,name)
@@ -73,19 +74,26 @@ def verify():
                 expected.components[1].y += EXPECTED_RENDERED_DELTA
                 expected.recalcBounds(old['glyf'])
                 assert expected.compile(old['glyf']) == new['glyf'][name].compile(new['glyf'])
+            elif name == 'uni3069':
+                pass  # Version 1.029 is independently pinned by verify_do_base_clearance.py.
             else:
                 assert prior == current,('Unrelated glyph changed',name)
-        assert changed == ['uni3067'],changed
-        for table in ('hmtx','hhea','OS/2','GSUB','GDEF'):
-            assert old[table].compile(old) == new[table].compile(new) == web[table].compile(web),table
+        assert changed == ['uni3067','uni3069'],changed
+        for name in old.getGlyphOrder():
+            if name != 'uni3069':
+                assert old['hmtx'].metrics[name] == new['hmtx'].metrics[name] == web['hmtx'].metrics[name]
+        assert old['OS/2'].compile(old) == new['OS/2'].compile(new) == web['OS/2'].compile(web)
+        old['hhea'].numberOfHMetrics += 1
+        assert old['hhea'].compile(old) == new['hhea'].compile(new) == web['hhea'].compile(web)
+        for table in ('GSUB','GPOS','GDEF'):
+            assert new[table].compile(new) == web[table].compile(web),table
         if 'vmtx' in old:
-            assert old['vmtx'].metrics == new['vmtx'].metrics == web['vmtx'].metrics
-        expected_gpos=copy.deepcopy(old['GPOS']);adjust_te_anchor(expected_gpos,EXPECTED_RENDERED_DELTA)
-        assert expected_gpos.compile(old) == new['GPOS'].compile(new) == web['GPOS'].compile(web)
+            for name in old.getGlyphOrder():
+                assert old['vmtx'].metrics[name] == new['vmtx'].metrics[name] == web['vmtx'].metrics[name]
         assert old['name'].getDebugName(5) == 'Version 1.027'
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.028'
-            assert abs(font['head'].fontRevision-1.028) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.029'
+            assert abs(font['head'].fontRevision-1.029) < 1/65536
             assert font['head'].unitsPerEm == 1024
         assert new['OS/2'].sTypoDescender < new['glyf']['uni3067'].yMin < new['glyf']['uni3067'].yMax < new['OS/2'].sTypoAscender
 
@@ -113,8 +121,8 @@ def verify():
             actual=measure(old,extra_y=offset_delta(int(offset)))
             assert math.isclose(metric['minimum_clearance'],actual['minimum_clearance'],abs_tol=.05)
         print(f"PASS: old gap {before['minimum_clearance']:.6f} → {after['minimum_clearance']:.6f} units; local vertical gap {after['minimum_vertical_gap'][0]}; no touching/intersection")
-        print('PASS: only uni3067 mark component and uni3066 GPOS base anchor change (+58 final Y); every other glyph/anchor/metric unchanged')
-        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.028 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
+        print('PASS: the retained 1.027 de delta is still only uni3067 mark + uni3066 anchor (+58 final Y); the independent 1.029 do scope is delegated to its focused verifier')
+        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.029 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
 
 
 if __name__=='__main__':

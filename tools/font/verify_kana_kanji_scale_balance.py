@@ -26,6 +26,7 @@ from japanese.build_kana import (
     bounds, glyph_name, base_anchor, mark_name_for, DAKUTEN_ANCHOR,
     KANA_VERTICAL_SHIFT_1_026, JAPANESE_MARK_VERTICAL_SHIFT_1_026,
     JAPANESE_BOTTOM_ALIGNMENT_SHIFT, DAKUTEN_ANCHOR_1_026, apply_bottom_alignment,
+    DO_BASE_GLYPH,
 )
 from kana_sources.full_data import (
     KANA_STROKES, VERSION_1_025_KANA_STROKES, ACCEPTED_LARGE_KANA_STROKES,
@@ -42,7 +43,7 @@ from kana_sources.han_balance import (
 TTF = ROOT / FONT_REL
 WOFF2 = TTF.with_suffix('.woff2')
 REFERENCE_SHA256 = '30bd110983e4cc1348168b69b774e124995b5aef66f396c39a4a74e24180ee01'
-VARIANTS = {'uni3099.katakana', 'uni309A.katakana'}
+VARIANTS = {'uni3099.katakana', 'uni309A.katakana', DO_BASE_GLYPH}
 EXPECTED_CHANGED_CHARACTERS = set(KANA_STROKES) | set(COMPOSITES) | set('ゝゞヽヾー゙゚゛゜')
 YOON = tuple(a+b for a in 'きぎしじちにひびぴみり' for b in 'ゃゅょ')
 KATAKANA_YOON = tuple(a+b for a in 'キギシジチニヒビピミリ' for b in 'ャュョ')
@@ -186,8 +187,8 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.028'
-            assert abs(font['head'].fontRevision-1.028)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.029'
+            assert abs(font['head'].fontRevision-1.029)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()
@@ -223,8 +224,8 @@ def verify_derivatives():
             assert font['glyf'][glyph_name(c)].components[0].getComponentInfo()==(mark,(1,0,0,1,65,-165))
         composites={**COMPOSITES,'ゞ':('ゝ','dakuten'),'ヾ':('ヽ','dakuten')}
         for c,(base,kind) in composites.items():
-            mark=mark_name_for(base,kind);b=glyph_name(base)
-            anchor=base_anchor(font,b);delta=(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1])
+            mark=mark_name_for(base,kind);b=DO_BASE_GLYPH if c=='ど' else glyph_name(base)
+            anchor=base_anchor(font,glyph_name(base));delta=(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1])
             parts=[p.getComponentInfo() for p in font['glyf'][glyph_name(c)].components]
             assert parts==[(b,(1,0,0,1,0,0)),(mark,(1,0,0,1,*delta))],(c,'composite')
             bp,mp,_=mark_to_base_anchors(font,mark,b)
@@ -242,8 +243,9 @@ def verify_derivatives():
             buf=hb.Buffer();buf.add_str(base+mark);buf.guess_segment_properties()
             hb.shape(hbfont,buf,{'ccmp':True,'mark':True})
             names=[font.getGlyphName(i.codepoint) for i in buf.glyph_infos]
-            assert names==[glyph_name(base),mark_name_for(base,kind)],(c,'decomposed glyphs',names)
-            p=buf.glyph_positions;anchor=base_anchor(font,names[0])
+            expected_base=DO_BASE_GLYPH if c=='ど' else glyph_name(base)
+            assert names==[expected_base,mark_name_for(base,kind)],(c,'decomposed glyphs',names)
+            p=buf.glyph_positions;anchor=base_anchor(font,glyph_name(base))
             assert (p[0].x_advance+p[1].x_offset,p[1].y_offset)==(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1]),(c,'shaping')
             assert sum(q.x_advance for q in p)==960,c
     hbfont=hb.Font(hb.Face(TTF.read_bytes()));hbfont.scale=(1024,1024)

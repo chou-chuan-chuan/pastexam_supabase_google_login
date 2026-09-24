@@ -1,6 +1,19 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.028 — Scoped 踊 optical-size correction
+## Current output: Version 1.029 — Scoped `ど` base-size / dakuten clearance
+
+Standalone U+3068 `と` remains byte-identical to Version 1.028. A new unmapped `uni3068.qfwDoBase` uniformly scales the accepted body to **0.94** around its horizontal ink center and fixed bottom `-14`; U+3069 `ど` uses that helper with the unchanged shared dakuten at the unchanged `(708,-160)` delta. The body clearance increases **20.105617 → 54.800000 units** while both forms retain a 960-unit advance. No embolden or scoped anchor move is used.
+
+A narrow `ccmp` rule selects the helper only for decomposed U+3068 U+3099. GPOS includes the helper with the accepted `(800,599)` base anchor, so precomposed and forced-decomposed output is positionally equivalent. Plain `と`, other marks, all other kana, the Version 1.027 `て/で` correction, and the Version 1.028 `踊` correction remain unchanged.
+
+[Measurement / visual QA / validation report](reports/do-base-clearance.md), [CURRENT / 0.94 / 0.96 / 0.98 / FINAL proof at 20/32/64/192 px](proofs/quanfangwei-do-base-clearance.png).
+
+```sh
+python tools/font/render_do_base_clearance_proof.py
+python tools/font/verify_do_base_clearance.py
+```
+
+## Retained Han stage: Version 1.028 — Scoped 踊 optical-size correction
 
 Only U+8E0A maps to a new `uni8E0A.qfwJaOptical` copy of the unchanged original `uni8E0A`. The 59-Han median height is 713; its old height is 590. Candidates `1.178475 / 1.208475 / 1.238475` were compared at actual 20/32/64 px. The selected uniform scale **1.208475** uses the original ink center, then `dx = -43/6`, `dy = -17.499875` to center within the original **826-unit advance** and align the bottom at **−14**. Final ink is `(28.875, -14, 797.391304, 699)`, LSB/RSB **27/26**, with no boundary embolden.
 
