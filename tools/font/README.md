@@ -1,12 +1,12 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.029 — Scoped `ど` base-size / dakuten clearance
+## Current output: Version 1.030 — Subtle `と` reduction and clearer `ど` separation
 
-Standalone U+3068 `と` remains byte-identical to Version 1.028. A new unmapped `uni3068.qfwDoBase` uniformly scales the accepted body to **0.94** around its horizontal ink center and fixed bottom `-14`; U+3069 `ど` uses that helper with the unchanged shared dakuten at the unchanged `(708,-160)` delta. The body clearance increases **20.105617 → 54.800000 units** while both forms retain a 960-unit advance. No embolden or scoped anchor move is used.
+Standalone U+3068 `と` is uniformly scaled to **0.98** around its horizontal ink center and fixed bottom `-14`. The unmapped `uni3068.qfwDoBase` used by U+3069 `ど` is then scaled to **0.92** of that revised body, an effective **0.9016** scale relative to Version 1.029. The shared dakuten and `(708,-160)` delta remain unchanged; clearance increases **54.800000 → 78.800000 units** while both forms retain a 960-unit advance. No embolden or scoped anchor move is used.
 
-A narrow `ccmp` rule selects the helper only for decomposed U+3068 U+3099. GPOS includes the helper with the accepted `(800,599)` base anchor, so precomposed and forced-decomposed output is positionally equivalent. Plain `と`, other marks, all other kana, the Version 1.027 `て/で` correction, and the Version 1.028 `踊` correction remain unchanged.
+A narrow `ccmp` rule selects the helper only for decomposed U+3068 U+3099. GPOS includes the helper with the accepted `(800,599)` base anchor, so precomposed and forced-decomposed output is positionally equivalent. Other marks, all unrelated kana and Han, the Version 1.027 `て/で` correction, and the Version 1.028 `踊` correction remain unchanged.
 
-[Measurement / visual QA / validation report](reports/do-base-clearance.md), [CURRENT / 0.94 / 0.96 / 0.98 / FINAL proof at 20/32/64/192 px](proofs/quanfangwei-do-base-clearance.png).
+[Measurement / visual QA / validation report](reports/do-base-clearance.md), [CURRENT / A 0.99×0.92 / B 0.98×0.92 / C 0.97×0.92 / FINAL proof at 20/32/64/192 px](proofs/quanfangwei-do-base-clearance.png).
 
 ```sh
 python tools/font/render_do_base_clearance_proof.py

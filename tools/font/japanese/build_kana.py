@@ -48,11 +48,12 @@ KANA_BASE_ANCHOR_Y = 835 + KANA_VERTICAL_SHIFT
 # See reports/de-dakuten-clearance.md for measurements and candidate proofs.
 HIRAGANA_MARK_ANCHOR_Y_OFFSETS = {"て": 82}
 
-# Version 1.029: only the base used by U+3069 / decomposed U+3068 U+3099 is
-# reduced.  The accepted U+3068 drawing stays byte-identical.  The transform
-# is uniform, centered on the accepted ink and anchored to its final bottom.
+# Version 1.030 follow-up: gently reduce standalone U+3068, then derive the
+# voiced-only base one additional uniform step inward. Both transforms retain
+# the accepted horizontal ink center, final bottom and 960-unit cell.
 DO_BASE_GLYPH = "uni3068.qfwDoBase"
-DO_BASE_SCALE = 0.94
+TO_BODY_SCALE = 0.98
+DO_BASE_SCALE = 0.92
 
 
 def apply_bottom_alignment(glyph):
@@ -166,18 +167,23 @@ def composite(font: TTFont, base_name: str, mark_name: str, dx: int, dy: int):
     return pen.glyph()
 
 
-def scaled_do_base(font: TTFont):
-    """Derive the scoped voiced base without changing standalone U+3068."""
-    x0, y0, x1, _ = bounds(font, "uni3068")
+def scaled_copy(font: TTFont, source_name: str, scale: float):
+    """Uniformly scale a glyph around its ink center X and fixed bottom."""
+    x0, y0, x1, _ = bounds(font, source_name)
     center_x = (x0 + x1) / 2
     transform = Transform(
-        DO_BASE_SCALE, 0, 0, DO_BASE_SCALE,
-        center_x * (1 - DO_BASE_SCALE),
-        y0 * (1 - DO_BASE_SCALE),
+        scale, 0, 0, scale,
+        center_x * (1 - scale),
+        y0 * (1 - scale),
     )
     pen = TTGlyphPen(font.getGlyphSet())
-    font.getGlyphSet()["uni3068"].draw(TransformPen(pen, transform))
+    font.getGlyphSet()[source_name].draw(TransformPen(pen, transform))
     return pen.glyph()
+
+
+def scaled_do_base(font: TTFont):
+    """Derive the voiced-only base from the final standalone U+3068."""
+    return scaled_copy(font, "uni3068", DO_BASE_SCALE)
 
 
 def append_do_base_selection(font: TTFont) -> None:
@@ -263,6 +269,11 @@ def build_japanese_phase1(font: TTFont) -> dict:
         install(font, name, glyph, KANA_ADVANCE, vertical_source)
         add_mapping(font, ord(character), name)
         added.append(character)
+
+    # The user's follow-up explicitly permits a subtle standalone と change.
+    # Replace only its final rendered outline; source center-lines/topology and
+    # the shared full-width cell remain unchanged.
+    install(font, "uni3068", scaled_copy(font, "uni3068", TO_BODY_SCALE), KANA_ADVANCE, vertical_source)
 
     for character, strokes in {**ITERATION_STROKES, **JAPANESE_MARK_STROKES}.items():
         if ord(character) in font.getBestCmap():

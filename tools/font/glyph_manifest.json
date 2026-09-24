@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.029"
+    "version": "1.030"
   },
   "glyphs": [
     {
@@ -481,24 +481,27 @@
     "proof": "tools/font/proofs/quanfangwei-de-dakuten-clearance.png"
   },
   "do_base_clearance": {
-    "version": "1.029",
-    "description": "Scoped ど base-size / dakuten-clearance correction",
-    "base_main": "2b9472342505f676146200b6fb02209a4b497c1e",
+    "version": "1.030",
+    "description": "Subtle standalone と reduction and clearer scoped ど dakuten separation",
+    "base_main": "b2e1d1613eedfa432cdd4580e813771932d8fa54",
     "standalone_base": "uni3068",
     "voiced_base": "uni3068.qfwDoBase",
     "precomposed": "uni3069",
-    "body_scale_x": 0.94,
-    "body_scale_y": 0.94,
+    "standalone_scale_x": 0.98,
+    "standalone_scale_y": 0.98,
+    "voiced_relative_scale_x": 0.92,
+    "voiced_relative_scale_y": 0.92,
+    "voiced_effective_scale": 0.9016,
     "body_anchor": [800, 599],
     "dakuten_delta": [708, -160],
     "advance": 960,
-    "old_minimum_clearance": 20.105617350795377,
-    "new_minimum_clearance": 54.800000000000026,
+    "old_minimum_clearance": 54.800000000000026,
+    "new_minimum_clearance": 78.80000000000001,
     "bottom_alignment_difference": 0,
     "embolden": 0,
     "report": "tools/font/reports/do-base-clearance.md",
     "proof": "tools/font/proofs/quanfangwei-do-base-clearance.png",
-    "preserves": "Standalone U+3068, shared dakuten design and placement, all other kana/Han, Version 1.027 bottom and te/de correction, Version 1.028 odoru correction"
+    "preserves": "Original と center-lines and topology, fixed kana bottom and advances, shared dakuten design and placement, all other kana/Han, Version 1.027 bottom and te/de correction, Version 1.028 odoru correction"
   },
   "kanji_odoru_optical": {
     "version": "1.028",

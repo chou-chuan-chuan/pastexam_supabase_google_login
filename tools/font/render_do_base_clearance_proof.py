@@ -13,9 +13,10 @@ from PIL import Image, ImageDraw, ImageFont
 import uharfbuzz as hb
 
 from measure_do_base_clearance import (
-    BASE_MAIN, CANDIDATE_SCALES, DO_BASE_GLYPH, FINAL_SCALE, PROOF, REPORT,
+    BASE_MAIN, CANDIDATES, DO_BASE_GLYPH, FINAL_DO_SCALE, FINAL_TO_SCALE, PROOF, REPORT,
     TTF, baseline_bytes, candidate_font, derived_glyph, measure,
 )
+from verify_supplement_font import bounds
 
 
 BACKGROUND = "#fffdf9"
@@ -97,29 +98,35 @@ def render_panel(versions, size):
 def main():
     with tempfile.TemporaryDirectory(prefix="qfw-do-proof-") as directory:
         temp = Path(directory)
-        before_path = temp / "current-1.028.ttf"
+        before_path = temp / "current-1.029.ttf"
         before_path.write_bytes(baseline_bytes())
-        versions = [("CURRENT 1.028", ShapedFont(before_path, temp))]
+        versions = [("CURRENT 1.029", ShapedFont(before_path, temp))]
         candidate_metrics = {}
-        for index, scale in enumerate(CANDIDATE_SCALES):
-            font = candidate_font(scale)
-            path = temp / f"candidate-{scale:.2f}.ttf"
+        for index, (to_scale, do_scale) in enumerate(CANDIDATES):
+            font = candidate_font(to_scale, do_scale)
+            path = temp / f"candidate-{to_scale:.2f}-{do_scale:.2f}.ttf"
             font.save(path)
-            _, transform = derived_glyph(TTFont(BytesIO(baseline_bytes())), scale)
-            candidate_metrics[f"{scale:.2f}"] = {
+            baseline = TTFont(BytesIO(baseline_bytes()))
+            _, to_transform = derived_glyph(baseline, "uni3068", to_scale)
+            _, do_transform = derived_glyph(font, "uni3068", do_scale)
+            candidate_metrics[chr(65 + index)] = {
                 "label": f"candidate {chr(65 + index)}",
-                "body_scale": scale,
-                "transform": list(transform),
+                "standalone_to_scale": to_scale,
+                "voiced_relative_scale": do_scale,
+                "voiced_effective_scale": to_scale * do_scale,
+                "standalone_to_transform": list(to_transform),
+                "voiced_transform": list(do_transform),
+                "standalone_to_bounds": list(bounds(font, "uni3068")),
                 **measure(font),
             }
-            versions.append((f"candidate {chr(65 + index)} · {scale:.2f}", ShapedFont(path, temp)))
+            versions.append((f"candidate {chr(65 + index)} · と {to_scale:.2f} / ど ×{do_scale:.2f}", ShapedFont(path, temp)))
             font.close()
-        versions.append((f"FINAL · {FINAL_SCALE:.2f}", ShapedFont(TTF, temp)))
+        versions.append((f"FINAL · と {FINAL_TO_SCALE:.2f} / ど ×{FINAL_DO_SCALE:.2f}", ShapedFont(TTF, temp)))
 
         panels = [render_panel(versions, size) for size in (20, 32, 64, 192)]
         canvas = Image.new("RGB", (max(p.width for p in panels), 94 + sum(p.height for p in panels)), BACKGROUND)
         draw = ImageDraw.Draw(canvas)
-        draw.text((20, 12), "QuanFangwei 1.029 | scoped DO base / dakuten clearance", font=label(30), fill=INK)
+        draw.text((20, 12), "QuanFangwei 1.030 | subtle TO reduction + clearer DO / dakuten gap", font=label(30), fill=INK)
         draw.text((20, 52), "Actual 20 / 32 / 64 / 192 px; HarfBuzz + FreeType; dakuten position fixed; bottom fixed at -14", font=label(21), fill=MUTED)
         y = 94
         for panel in panels:
@@ -130,11 +137,23 @@ def main():
         with TTFont(BytesIO(baseline_bytes())) as before, TTFont(TTF) as final:
             result = {
                 "base_main": BASE_MAIN,
-                "version": "1.029",
-                "current": {"body_scale": 1.0, **measure(before, "uni3068")},
+                "version": "1.030",
+                "current": {
+                    "standalone_to_scale": 1.0,
+                    "standalone_to_bounds": list(bounds(before, "uni3068")),
+                    "voiced_effective_scale": 0.94,
+                    **measure(before),
+                },
                 "candidates": candidate_metrics,
-                "final_scale": FINAL_SCALE,
-                "final": {"body_scale": FINAL_SCALE, **measure(final)},
+                "final_to_scale": FINAL_TO_SCALE,
+                "final_do_relative_scale": FINAL_DO_SCALE,
+                "final": {
+                    "standalone_to_scale": FINAL_TO_SCALE,
+                    "standalone_to_bounds": list(bounds(final, "uni3068")),
+                    "voiced_relative_scale": FINAL_DO_SCALE,
+                    "voiced_effective_scale": FINAL_TO_SCALE * FINAL_DO_SCALE,
+                    **measure(final),
+                },
             }
         REPORT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(json.dumps({"proof": str(PROOF), "report": str(REPORT), **result}, ensure_ascii=False, indent=2))

@@ -13,10 +13,7 @@ from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 
-from japanese.build_kana import (
-    DO_BASE_GLYPH, KANA_ADVANCE, append_do_base_selection,
-    append_mark_positioning, composite, install,
-)
+from japanese.build_kana import DO_BASE_GLYPH, KANA_ADVANCE, composite, install
 from measure_de_dakuten_clearance import (
     contour_distance, segments, vertical_intersections,
 )
@@ -29,11 +26,12 @@ TTF = ROOT / FONT_REL
 WOFF2 = TTF.with_suffix(".woff2")
 REPORT = ROOT / "tools/font/reports/do-base-clearance.json"
 PROOF = ROOT / "tools/font/proofs/quanfangwei-do-base-clearance.png"
-BASE_MAIN = "2b9472342505f676146200b6fb02209a4b497c1e"
-BASE_TTF_SHA256 = "88dd082bba1c3bdd32edc7799137faba2e6f360dea6813d2c3b3350a1dcc96c0"
-BASE_WOFF2_SHA256 = "dc337b159a623f20c6213d9906a3065f6df3f56ad198986282cf6fbe3153b1d2"
-CANDIDATE_SCALES = (0.94, 0.96, 0.98)
-FINAL_SCALE = 0.94
+BASE_MAIN = "b2e1d1613eedfa432cdd4580e813771932d8fa54"
+BASE_TTF_SHA256 = "056f7e3c12891229993bd80d13da650ce95f429d27ff1545c3c5504d3a1cc702"
+BASE_WOFF2_SHA256 = "f1293e7e05f0003e47a3e521d54b8ad32e036d74f1c1f2cb2cf6664073e3f165"
+CANDIDATES = ((0.99, 0.92), (0.98, 0.92), (0.97, 0.92))
+FINAL_TO_SCALE = 0.98
+FINAL_DO_SCALE = 0.92
 
 
 def baseline_bytes(path: Path = FONT_REL) -> bytes:
@@ -45,25 +43,25 @@ def baseline_hashes() -> None:
     assert hashlib.sha256(baseline_bytes(FONT_REL.with_suffix(".woff2"))).hexdigest() == BASE_WOFF2_SHA256
 
 
-def derived_glyph(font: TTFont, scale: float):
-    x0, y0, x1, _ = bounds(font, "uni3068")
+def derived_glyph(font: TTFont, source_name: str, scale: float):
+    x0, y0, x1, _ = bounds(font, source_name)
     center_x = (x0 + x1) / 2
     transform = Transform(scale, 0, 0, scale, center_x * (1 - scale), y0 * (1 - scale))
     pen = TTGlyphPen(font.getGlyphSet())
-    font.getGlyphSet()["uni3068"].draw(TransformPen(pen, transform))
+    font.getGlyphSet()[source_name].draw(TransformPen(pen, transform))
     return pen.glyph(), transform
 
 
-def candidate_font(scale: float) -> TTFont:
-    """Extend immutable 1.028 with exactly the proposed scoped construction."""
+def candidate_font(to_scale: float, do_scale: float) -> TTFont:
+    """Apply a standalone と scale and a second voiced-only scale to 1.029."""
     font = TTFont(BytesIO(baseline_bytes()), recalcTimestamp=False)
-    glyph, _ = derived_glyph(font, scale)
-    install(font, DO_BASE_GLYPH, glyph, KANA_ADVANCE, "uni3068")
+    to_glyph, _ = derived_glyph(font, "uni3068", to_scale)
+    install(font, "uni3068", to_glyph, KANA_ADVANCE, "uni3068")
+    do_glyph, _ = derived_glyph(font, "uni3068", do_scale)
+    install(font, DO_BASE_GLYPH, do_glyph, KANA_ADVANCE, "uni3068")
     base_anchor, mark_anchor, _ = mark_to_base_anchors(font, "uni3099", "uni3068")
     delta = (base_anchor[0] - mark_anchor[0], base_anchor[1] - mark_anchor[1])
     install(font, "uni3069", composite(font, DO_BASE_GLYPH, "uni3099", *delta), KANA_ADVANCE, "uni3068")
-    append_mark_positioning(font, {DO_BASE_GLYPH: base_anchor})
-    append_do_base_selection(font)
     return font
 
 

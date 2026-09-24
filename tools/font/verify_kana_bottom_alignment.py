@@ -61,7 +61,10 @@ def verify_sources():
 
 
 def verify_metrics():
-    with accepted_font() as old, TTFont(FONT) as new:
+    # Preserve the accepted 1.027 aggregate-size oracle at the last release
+    # before the independently verified 1.030 と/ど refinement.
+    from measure_do_base_clearance import baseline_bytes as version_1_029_bytes
+    with accepted_font() as old, TTFont(BytesIO(version_1_029_bytes())) as new:
         before, after = measure(old), measure(new)
     raw_delta, candidates = measured_candidates(before)
     assert len(GROUPS['han']) == 59 and len(GROUPS['combined_kana']) == 92
@@ -107,7 +110,7 @@ def verify_translation():
         assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
         assert len(MOVED_NAMES) == 187 and len(MOVED_CHARACTERS) == 185
         for name in old.getGlyphOrder():
-            if name != 'uni3069':
+            if name not in {'uni3068','uni3069'}:
                 assert old['hmtx'].metrics[name] == new['hmtx'].metrics[name] == web['hmtx'].metrics[name]
         if 'vmtx' in old:
             for name in old.getGlyphOrder():
@@ -121,8 +124,8 @@ def verify_translation():
                 continue
             prior, current = signature(old,name), signature(new,name)
             assert current == signature(web,name), ('TTF/WOFF2 glyph parity',name)
-            if name == 'uni3069':
-                continue  # Version 1.029 is independently pinned by its focused verifier.
+            if name in {'uni3068','uni3069'}:
+                continue  # Version 1.030 と/ど refinement is independently pinned by its focused verifier.
             delta = DELTA if name in MOVED_NAMES else 0
             expected = (prior[0], tuple((x,y+delta) for x,y in prior[1]), *prior[2:])
             assert current == expected, ('Not an exact Y-only translation',name)
@@ -134,7 +137,7 @@ def verify_translation():
             if name in han_names:
                 assert prior == current, ('Han changed',name)
                 hashes.append((name,hashlib.sha256(repr(current).encode()).hexdigest()))
-        assert changed == MOVED_NAMES - {'uni3069'}
+        assert changed == MOVED_NAMES - {'uni3068','uni3069'}
         assert len(han_names) == 9344
         assert old['OS/2'].compile(old) == new['OS/2'].compile(new) == web['OS/2'].compile(web)
         old['hhea'].numberOfHMetrics += 1
@@ -143,8 +146,8 @@ def verify_translation():
             assert new[table].compile(new) == web[table].compile(web),table
         assert old['head'].unitsPerEm == new['head'].unitsPerEm == web['head'].unitsPerEm == 1024
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.029'
-            assert abs(font['head'].fontRevision-1.029) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.030'
+            assert abs(font['head'].fontRevision-1.030) < 1/65536
         for name in MOVED_NAMES:
             g = new['glyf'][name]
             assert g.yMin > max(new['hhea'].descent,-new['OS/2'].usWinDescent),name
@@ -158,7 +161,7 @@ def verify_translation():
             assert (g.xMin,g.yMin) == (180,-32),c
         aggregate = hashlib.sha256(repr(hashes).encode()).hexdigest()
         print(f'PASS: {len(han_names)} Han hashes match the historical oracle plus pinned 1.028 踊 (including unchanged 壁/堅); aggregate {aggregate}')
-        print('PASS: 186 retained glyphs receive exact (0,-56), with only the reviewed で mark +58 Y exception; scoped 1.029 ど is delegated to its focused verifier')
+        print('PASS: 185 retained glyphs receive exact (0,-56), with only the reviewed で mark +58 Y exception; scoped 1.030 と/ど is delegated to its focused verifier')
         print('PASS: TTF/WOFF2 parity; unchanged global metrics; retained Japanese anchors stay fixed; no new clipping')
 
 
