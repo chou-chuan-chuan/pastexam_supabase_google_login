@@ -25,13 +25,15 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.030");
+  assert.equal(manifest.derived_font.version, "1.031");
   // This source-only revision intentionally preserves the existing CSS URLs.
   assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.024/);
   assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.024/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
+    { character: "«", codepoint: "U+00AB", glyph_name: "guillemotleft" },
+    { character: "»", codepoint: "U+00BB", glyph_name: "guillemotright" },
     { character: "Œ", codepoint: "U+0152", glyph_name: "OE" },
     { character: "œ", codepoint: "U+0153", glyph_name: "oe" },
     { character: "¿", codepoint: "U+00BF", glyph_name: "questiondown" },

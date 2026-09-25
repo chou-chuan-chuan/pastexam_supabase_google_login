@@ -15,6 +15,7 @@ import subprocess
 import sys
 
 from fontTools.ttLib import TTFont
+from verify_french_guillemets import GUILLEMETS, historical_cmap
 import uharfbuzz as hb
 
 from measure_kana_kanji_balance import (
@@ -43,7 +44,7 @@ from kana_sources.han_balance import (
 TTF = ROOT / FONT_REL
 WOFF2 = TTF.with_suffix('.woff2')
 REFERENCE_SHA256 = '30bd110983e4cc1348168b69b774e124995b5aef66f396c39a4a74e24180ee01'
-VARIANTS = {'uni3099.katakana', 'uni309A.katakana', DO_BASE_GLYPH}
+VARIANTS = {'uni3099.katakana', 'uni309A.katakana', DO_BASE_GLYPH, *GUILLEMETS.values()}
 EXPECTED_CHANGED_CHARACTERS = set(KANA_STROKES) | set(COMPOSITES) | set('ゝゞヽヾー゙゚゛゜')
 YOON = tuple(a+b for a in 'きぎしじちにひびぴみり' for b in 'ゃゅょ')
 KATAKANA_YOON = tuple(a+b for a in 'キギシジチニヒビピミリ' for b in 'ャュョ')
@@ -161,7 +162,7 @@ def verify_font_scope():
     with old_font() as old,TTFont(TTF) as new,TTFont(WOFF2) as web:
         from verify_kanji_odoru_optical import extend_historical_han_oracle
         extend_historical_han_oracle(old)
-        assert old.getBestCmap()==new.getBestCmap()==web.getBestCmap()
+        assert old.getBestCmap()==historical_cmap(new)==historical_cmap(web)
         assert new.getGlyphOrder()==web.getGlyphOrder()
         assert [n for n in new.getGlyphOrder() if n not in VARIANTS]==old.getGlyphOrder()
         allowed={glyph_name(c) for c in EXPECTED_CHANGED_CHARACTERS}
@@ -190,8 +191,8 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.030'
-            assert abs(font['head'].fontRevision-1.030)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.031'
+            assert abs(font['head'].fontRevision-1.031)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()

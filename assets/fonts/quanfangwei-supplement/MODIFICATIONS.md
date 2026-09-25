@@ -7,8 +7,9 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-09-24
-- 版本：Version 1.030
+- 修改日期：2026-09-25
+- 版本：Version 1.031
+- French guillemet coverage（Version 1.031）：新增 U+00AB `«` / `guillemotleft`、U+00BB `»` / `guillemotright`。來源沒有 «/» 或 ‹/›，因此只使用原始 U+003C `less` 與 U+003E `greater` 各兩個 component；left matrix (0.75,0,0,0.75)、right matrix (0.453125,-0.4375,0.2109375,0.9375)、origins (-6,43)/(106,43) 與 (-30,7)/(91,7)。327-unit advance、約 32/33 sidebearings，ink 約 y=163..417、center=290，適合 Latin 小寫。No external font outline was used. 所有既有 glyphs 與 layout 不變；無 CSS／JS workaround 或文字替換。見 tools/font/reports/french-guillemets.md 與 tools/font/proofs/quanfangwei-french-guillemets.png。
 - Scoped `と／ど` size follow-up（Version 1.030）：standalone U+3068 `と` 繞原 ink 水平中心與 bottom -14 作 0.98 等比縮小；`uni3068.qfwDoBase` 再從新 `と` 作 0.92 等比縮小（有效尺寸 0.9016），使 `ど` 與不變的 dakuten 間距由 54.800 增至 78.800 units。兩者 bottom、960 advance、dakuten outline／anchor，其他假名、Han、`て／で` 與 `踊` 均不變，無 embolden。見 tools/font/reports/do-base-clearance.md 與 tools/font/proofs/quanfangwei-do-base-clearance.png。
 - Scoped ど base-size / dakuten-clearance correction（Version 1.029）：保留 standalone U+3068 `と` 的 1.028 outline／advance 原封不動，只新增無 Unicode mapping 的 `uni3068.qfwDoBase`，繞 ink 水平中心、固定 final bottom -14 作 0.94 等比縮小。U+3069 `ど` 改用該 helper + 原 `uni3099`；狹義 ccmp 只在 U+3068 緊接 U+3099 時選取同一 helper，並由 GPOS 共用與 1.028 相同的 dakuten 位置。body 最短輪廓間距 20.106 → 54.800 units，bottom、960 advance、共用 dakuten、其他假名、漢字與 `て／で` +82 correction 均不變，無 embolden。見 tools/font/reports/do-base-clearance.md 與 tools/font/proofs/quanfangwei-do-base-clearance.png。
 - Scoped 踊 optical-size correction（Version 1.028）：僅 U+8E0A 改映射到原始 uni8E0A 的 derived copy；均勻放大 1.208475（Han median 713 / source height 590），繞 ink center 後 dx -43/6、dy -17.499875，final bottom -14。advance 826 不變，LSB/RSB 27/26，無 embolden；全部其他 Han、Kana、GPOS 與 1.027 て／で 間距原封不動。20／32／64／192 px before/candidates/final 見 tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png；完整量測與驗證見 tools/font/reports/kanji-odoru-optical-size.md。下列為已驗收的歷史階段紀錄。
@@ -39,7 +40,7 @@
 - Japanese special glyphs：Version 1.014 的 U+61D0 `懐` 結合原生 `懷` 上／左結構與等比例縮放定位的原生 `衣` 下部；U+3005 `々` 使用 project-local center-lines 並將右側缺口連成連續筆勢；U+5915 `夕` 完全不改。U+6C17 `気` 與 U+4ED8 `付` 仍只建立保留原來源輪廓的垂直 optical transform copy。Version 1.015 另為 U+604B `恋`、U+54C0 `哀`、U+5967 `奧`、U+512A `優`、U+5BC4 `寄` 建立保留 source drawing 的縮放／置中 derived copy；Version 1.016 以同機制將 U+5909 `変` 等比縮至 0.80、dx +19.25、dy +35，再對 derived outline 套用 8-unit boundary embolden 補償縮小後筆重。Version 1.018 為 U+5BB9 `容` 建立不縮放的 source-preserving copy，只平移 +19.45 x / +35 y；Version 1.020 為 U+5965 `奥` 建立 non-uniform source-preserving optical copy，以 0.921976 x / 0.855348 y 配合 +9 x / +34.5 y 與 4-unit boundary embolden 匹配 `奧`，advance 設為 790
 - Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical typesetting、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體；一般現代日文歌曲的假名部分應完整顯示
 - Future Phase 2：依本機 TXT／LRC／JSON 歌詞的缺字頻率補足實際漢字，並個別審查 Japanese regional glyph variants；不抓取網路歌詞
-- 補寫字元：U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
+- 補寫字元：U+00AB `guillemotleft`（`«`）、U+00BB `guillemotright`（`»`）、U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
 - U+0152 `OE`（`Œ`）：Version 1.021 新增的法文大寫連字，只以原字型大寫 `O` 與 `E` identity components 建構；`E` 依來源 bounds 向左重疊約 10% `O` ink width，維持來源 cap-height、baseline、stroke weight 與手寫節奏。用途包含 `Œuvre`／`ŒUVRE`，不再依賴瀏覽器 fallback
 - U+0153 `oe`（`œ`）：Version 1.021 新增的法文小寫連字，只以原字型小寫 `o` 與 `e` identity components 建構；`e` 依來源 bounds 向左重疊約 10% `o` ink width，縮短一般 `o`→`e` 間距並保留兩個手寫 form 的可讀性。用途包含 `cœur`、`sœur`、`œuvre`、`bœuf`、`vœu`；未使用外部 outline、CSS fallback 或 JavaScript 文字替換
 - German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，其 cmap、輪廓、components、metrics、GDEF 與 GPOS 錨點均原封不動保留

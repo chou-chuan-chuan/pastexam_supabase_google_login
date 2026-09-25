@@ -18,6 +18,7 @@ from fontTools.misc.transform import Transform
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
+from verify_french_guillemets import historical_cmap, historical_order
 import uharfbuzz as hb
 
 from measure_kanji_odoru_optical import (
@@ -127,9 +128,9 @@ def verify():
         expected_order=old.getGlyphOrder().copy()
         expected_order.insert(expected_order.index('uni6C17.qfwJaAlign'),DERIVED_NAME)
         expected_order.insert(expected_order.index('uni304C'),DO_BASE_GLYPH)
-        assert new.getGlyphOrder()==web.getGlyphOrder()==expected_order
+        assert historical_order(new)==historical_order(web)==expected_order
         expected_cmap=old.getBestCmap().copy();expected_cmap[0x8E0A]=DERIVED_NAME
-        assert new.getBestCmap()==web.getBestCmap()==expected_cmap
+        assert historical_cmap(new)==historical_cmap(web)==expected_cmap
         for font in (new,web):
             assert all(t.cmap[0x8E0A]==DERIVED_NAME for t in font['cmap'].tables if t.isUnicode() and t.format!=14)
             actual=font['glyf'][DERIVED_NAME]
@@ -141,8 +142,8 @@ def verify():
             assert min(m['ink_sidebearings'])>=28 and abs(m['center'][0]-413)<.5
             assert max(font['hhea'].descent,font['OS/2'].sTypoDescender,-font['OS/2'].usWinDescent)<m['bounds'][1]
             assert m['bounds'][3]<min(font['hhea'].ascent,font['OS/2'].sTypoAscender,font['OS/2'].usWinAscent)
-            assert font['name'].getDebugName(5)=='Version 1.030'
-            assert abs(font['head'].fontRevision-1.030)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.031'
+            assert abs(font['head'].fontRevision-1.031)<1/65536
             assert font['head'].unitsPerEm==old['head'].unitsPerEm==1024
         hashes=[]
         for name in old.getGlyphOrder():
@@ -162,21 +163,21 @@ def verify():
             selected=[item for item in hashes if item[0] in names]
             summary[group]={'count':len(selected),'sha256':hashlib.sha256(repr(selected).encode()).hexdigest()}
         assert summary['unrelated_han']['count']==9343 and summary['kana']['count']==185
-        # All layout and global metrics stay fixed. Only the number of
-        # horizontal metrics increases by one for the newly added glyph.
+        # Global metrics stay fixed. The existing Han copy and voiced helper
+        # add two entries; the appended guillemets share one final advance.
         assert old['OS/2'].compile(old)==new['OS/2'].compile(new)==web['OS/2'].compile(web)
         for tag in ('GSUB','GPOS','GDEF'):
             assert new[tag].compile(new)==web[tag].compile(web),tag
-        old['hhea'].numberOfHMetrics+=2
+        old['hhea'].numberOfHMetrics+=3
         assert old['hhea'].compile(old)==new['hhea'].compile(new)==web['hhea'].compile(web)
         assert new['name'].compile(new)==web['name'].compile(web)
         for record in old['name'].names:
             new_record=new['name'].getName(record.nameID,record.platformID,record.platEncID,record.langID)
             expected=record.toUnicode()
             if record.nameID == 3:
-                parts=expected.split(';');parts[0]='1.030';parts[-1]='20260924';expected=';'.join(parts)
+                parts=expected.split(';');parts[0]='1.031';parts[-1]='20260925';expected=';'.join(parts)
             elif record.nameID == 5:
-                expected=expected.replace('1.027','1.030')
+                expected=expected.replace('1.027','1.031')
             assert new_record.toUnicode()==expected,('Name drift',record.nameID)
         gaps={}
         old_shaper=hb.Font(hb.Face(baseline_bytes()))

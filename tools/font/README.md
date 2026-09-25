@@ -1,6 +1,21 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.030 — Subtle `と` reduction and clearer `ど` separation
+## Current output: Version 1.031 — French guillemet coverage
+
+Native U+00AB `«` (`guillemotleft`) and U+00BB `»` (`guillemotright`) use two transformed components of the original ChenYuluoyan `less` / `greater`. Inspection found no source `« » ‹ ›`. No external font outline was used. A compact 327-unit advance and ink centered around y=290 fit lowercase French prose. All existing glyphs, advances, vertical metrics and layout tables remain unchanged.
+
+[Source, metrics and validation report](reports/french-guillemets.md), [16/20/32/64/192 px proof](proofs/quanfangwei-french-guillemets.png).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_french_guillemets.py
+python tools/font/render_french_guillemets_proof.py
+```
+
+The dedicated verifier pins both 1.030 font binaries at base main `4a65b8be24216aa3cf5d23b9e2ba783c0b66090c`, independently checks the exact authorized component recipes, hashes every existing glyph and metric, checks all Unicode cmaps and HarfBuzz shaping, and rebuilds both outputs to require byte identity. Historical verifiers keep their original assertions and explicitly allow only this independently verified two-glyph extension. The proof renderer loads the generated TTF directly with Pillow/FreeType, checks every sample character, and cannot select a fallback font.
+
+## Retained stage: Version 1.030 — Subtle `と` reduction and clearer `ど` separation
 
 Standalone U+3068 `と` is uniformly scaled to **0.98** around its horizontal ink center and fixed bottom `-14`. The unmapped `uni3068.qfwDoBase` used by U+3069 `ど` is then scaled to **0.92** of that revised body, an effective **0.9016** scale relative to Version 1.029. The shared dakuten and `(708,-160)` delta remain unchanged; clearance increases **54.800000 → 78.800000 units** while both forms retain a 960-unit advance. No embolden or scoped anchor move is used.
 
