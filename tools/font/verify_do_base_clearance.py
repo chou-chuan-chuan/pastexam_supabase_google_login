@@ -9,6 +9,7 @@ from io import BytesIO
 import json
 
 from fontTools.ttLib import TTFont
+from verify_french_guillemets import historical_cmap, historical_order
 import uharfbuzz as hb
 
 from japanese.build_kana import (
@@ -58,13 +59,13 @@ def verify():
     with TTFont(BytesIO(baseline_bytes())) as old, TTFont(TTF) as new, TTFont(WOFF2) as web:
         assert old["name"].getDebugName(5) == "Version 1.029"
         for font in (new, web):
-            assert font["name"].getDebugName(5) == "Version 1.030"
-            assert abs(font["head"].fontRevision - 1.030) < 1 / 65536
+            assert font["name"].getDebugName(5) == "Version 1.031"
+            assert abs(font["head"].fontRevision - 1.031) < 1 / 65536
             assert font["head"].unitsPerEm == 1024
 
-        assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
+        assert old.getBestCmap() == historical_cmap(new) == historical_cmap(web)
         assert DO_BASE_GLYPH not in new.getBestCmap().values()
-        assert new.getGlyphOrder() == web.getGlyphOrder() == old.getGlyphOrder()
+        assert historical_order(new) == historical_order(web) == old.getGlyphOrder()
 
         expected_font = candidate_font(FINAL_TO_SCALE, FINAL_DO_SCALE)
         assert old.getBestCmap()[0x3068] == new.getBestCmap()[0x3068] == "uni3068"
@@ -142,6 +143,8 @@ def verify():
         assert [c.getComponentInfo() for c in old["glyf"]["uni3067"].components] == [c.getComponentInfo() for c in new["glyf"]["uni3067"].components]
         for tag in ("OS/2", "hhea"):
             prior = copy.deepcopy(old[tag])
+            if tag == "hhea":
+                prior.numberOfHMetrics += 1  # Two 1.031 guillemets share the final advance entry.
             assert prior.compile(old) == new[tag].compile(new) == web[tag].compile(web)
 
         report = json.loads(REPORT.read_text(encoding="utf-8"))

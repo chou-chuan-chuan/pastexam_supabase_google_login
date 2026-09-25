@@ -15,6 +15,7 @@ import subprocess
 import sys
 
 from fontTools.ttLib import TTFont
+from verify_french_guillemets import historical_cmap, historical_order
 
 from render_kana_bottom_alignment_proof import (
     ROOT, BASE_MAIN, FONT, REPORT, GROUPS, MARK_NAMES, MOVED_NAMES,
@@ -105,9 +106,9 @@ def verify_translation():
         old_de = old['glyf']['uni3067']
         old_de.components[1].y += EXPECTED_RENDERED_DELTA
         old_de.recalcBounds(old['glyf'])
-        assert [name for name in new.getGlyphOrder() if name != DO_BASE_GLYPH] == old.getGlyphOrder()
+        assert [name for name in historical_order(new) if name != DO_BASE_GLYPH] == old.getGlyphOrder()
         assert new.getGlyphOrder() == web.getGlyphOrder()
-        assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
+        assert old.getBestCmap() == historical_cmap(new) == historical_cmap(web)
         assert len(MOVED_NAMES) == 187 and len(MOVED_CHARACTERS) == 185
         for name in old.getGlyphOrder():
             if name not in {'uni3068','uni3069'}:
@@ -119,7 +120,7 @@ def verify_translation():
                      0x3400 <= cp <= 0x9FFF or 0xF900 <= cp <= 0xFAFF or 0x20000 <= cp <= 0x323AF}
         hashes = []
         changed = set()
-        for name in new.getGlyphOrder():
+        for name in historical_order(new):
             if name == DO_BASE_GLYPH:
                 continue
             prior, current = signature(old,name), signature(new,name)
@@ -140,14 +141,14 @@ def verify_translation():
         assert changed == MOVED_NAMES - {'uni3068','uni3069'}
         assert len(han_names) == 9344
         assert old['OS/2'].compile(old) == new['OS/2'].compile(new) == web['OS/2'].compile(web)
-        old['hhea'].numberOfHMetrics += 1
+        old['hhea'].numberOfHMetrics += 2  # Existing helper + one compressed metric for two guillemets.
         assert old['hhea'].compile(old) == new['hhea'].compile(new) == web['hhea'].compile(web)
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new) == web[table].compile(web),table
         assert old['head'].unitsPerEm == new['head'].unitsPerEm == web['head'].unitsPerEm == 1024
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.030'
-            assert abs(font['head'].fontRevision-1.030) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.031'
+            assert abs(font['head'].fontRevision-1.031) < 1/65536
         for name in MOVED_NAMES:
             g = new['glyf'][name]
             assert g.yMin > max(new['hhea'].descent,-new['OS/2'].usWinDescent),name

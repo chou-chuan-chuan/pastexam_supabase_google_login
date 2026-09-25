@@ -1,0 +1,231 @@
+{
+  "version": "1.031",
+  "previous_version": "1.030",
+  "base_main": "4a65b8be24216aa3cf5d23b9e2ba783c0b66090c",
+  "source_sha256": "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db",
+  "baseline_sha256": {
+    "ttf": "3f55c6f6ab16bf5a070ec67bd88027ec595c50597ec68a3ae5f0c78fbc426f39",
+    "woff2": "d7f4dcf5845ab5a06285e18da53eae623ca830a6b8f019f6757b31679834a739"
+  },
+  "source_coverage": {
+    "U+00AB": null,
+    "U+00BB": null,
+    "U+2039": null,
+    "U+203A": null,
+    "U+003C": "less",
+    "U+003E": "greater"
+  },
+  "original_ttf_woff2_guillemets": "absent",
+  "glyphs": {
+    "guillemotleft": {
+      "bounds": [
+        31.5,
+        163.0,
+        294.25,
+        417.25
+      ],
+      "glyf_bounds": [
+        32,
+        163,
+        294,
+        417
+      ],
+      "advance": 327,
+      "lsb": 32,
+      "rsb": 33,
+      "ink_sidebearings": [
+        31.5,
+        32.75
+      ],
+      "components": [
+        [
+          "less",
+          [
+            0.75,
+            0,
+            0,
+            0.75,
+            -6,
+            43
+          ]
+        ],
+        [
+          "less",
+          [
+            0.75,
+            0,
+            0,
+            0.75,
+            106,
+            43
+          ]
+        ]
+      ]
+    },
+    "guillemotright": {
+      "bounds": [
+        32.135237068965516,
+        161.80783045977012,
+        294.75453404017856,
+        418.66975308641975
+      ],
+      "glyf_bounds": [
+        32,
+        159,
+        295,
+        420
+      ],
+      "advance": 327,
+      "lsb": 32,
+      "rsb": 32,
+      "ink_sidebearings": [
+        32.135237068965516,
+        32.245465959821445
+      ],
+      "components": [
+        [
+          "greater",
+          [
+            0.453125,
+            -0.4375,
+            0.2109375,
+            0.9375,
+            -30,
+            7
+          ]
+        ],
+        [
+          "greater",
+          [
+            0.453125,
+            -0.4375,
+            0.2109375,
+            0.9375,
+            91,
+            7
+          ]
+        ]
+      ]
+    }
+  },
+  "punctuation_reference": {
+    "U+0027": {
+      "glyph": "quotesingle",
+      "bounds": [
+        33,
+        533,
+        83,
+        658
+      ],
+      "advance": 117,
+      "lsb": 33,
+      "ink_rsb": 34
+    },
+    "U+0022": {
+      "glyph": "quotedbl",
+      "bounds": [
+        70,
+        485,
+        186,
+        624
+      ],
+      "advance": 250,
+      "lsb": 70,
+      "ink_rsb": 64
+    },
+    "U+201C": {
+      "glyph": "quotedblleft",
+      "bounds": [
+        19,
+        488,
+        175,
+        671
+      ],
+      "advance": 196,
+      "lsb": 19,
+      "ink_rsb": 21
+    },
+    "U+201D": {
+      "glyph": "quotedblright",
+      "bounds": [
+        18.142857142857142,
+        493.11538461538464,
+        188,
+        666
+      ],
+      "advance": 209,
+      "lsb": 16,
+      "ink_rsb": 21
+    },
+    "U+003C": {
+      "glyph": "less",
+      "bounds": [
+        50,
+        160,
+        251,
+        499
+      ],
+      "advance": 288,
+      "lsb": 50,
+      "ink_rsb": 37
+    },
+    "U+003E": {
+      "glyph": "greater",
+      "bounds": [
+        42,
+        194,
+        255,
+        465
+      ],
+      "advance": 291,
+      "lsb": 42,
+      "ink_rsb": 36
+    },
+    "U+0078": {
+      "glyph": "x",
+      "bounds": [
+        33,
+        136,
+        303,
+        465
+      ],
+      "advance": 335,
+      "lsb": 33,
+      "ink_rsb": 32
+    },
+    "U+0061": {
+      "glyph": "a",
+      "bounds": [
+        34,
+        104,
+        350,
+        427
+      ],
+      "advance": 387,
+      "lsb": 34,
+      "ink_rsb": 37
+    },
+    "U+0065": {
+      "glyph": "e",
+      "bounds": [
+        32,
+        110,
+        260,
+        435
+      ],
+      "advance": 295,
+      "lsb": 32,
+      "ink_rsb": 35
+    }
+  },
+  "unchanged_glyph_count": 10465,
+  "unchanged_glyph_sha256": "8f301a45882413bb9866ea1c6f76ba5ea28c8a7f1b3e409483c0e9405b552aa2",
+  "cmap_ttf_woff2": "native; no .notdef",
+  "renderer": "Pillow/FreeType; generated TTF only; every character checked",
+  "external_font_outlines": false,
+  "deterministic_rebuild": true,
+  "output_sha256": {
+    "ttf": "a035c9b19384eeef2ffb85b45face710cbb18bddf2b3825f3caf5032c89f57b7",
+    "woff2": "5124866790745a283011661df3be14169d787a70d4408dd1de0fe4ff3adbdd1b"
+  }
+}

@@ -35,7 +35,7 @@ FINAL_DO_SCALE = 0.92
 
 
 def baseline_bytes(path: Path = FONT_REL) -> bytes:
-    return subprocess.check_output(["git", "show", f"{BASE_MAIN}:{path}"], cwd=ROOT)
+    return subprocess.check_output(["git", "show", f"{BASE_MAIN}:{path.as_posix()}"], cwd=ROOT)
 
 
 def baseline_hashes() -> None:

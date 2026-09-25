@@ -9,6 +9,7 @@ import json
 import math
 
 from fontTools.ttLib import TTFont
+from verify_french_guillemets import historical_cmap, historical_order
 import uharfbuzz as hb
 
 from measure_de_dakuten_clearance import (
@@ -60,8 +61,8 @@ def verify():
         for neighbor in 'けせへ':
             assert measure(old,neighbor) == measure(new,neighbor),neighbor
 
-        assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
-        assert [name for name in new.getGlyphOrder() if name != DO_BASE_GLYPH] == old.getGlyphOrder()
+        assert old.getBestCmap() == historical_cmap(new) == historical_cmap(web)
+        assert [name for name in historical_order(new) if name != DO_BASE_GLYPH] == old.getGlyphOrder()
         assert new.getGlyphOrder() == web.getGlyphOrder()
         changed=[]
         for name in old.getGlyphOrder():
@@ -83,7 +84,7 @@ def verify():
             if name not in {'uni3068','uni3069'}:
                 assert old['hmtx'].metrics[name] == new['hmtx'].metrics[name] == web['hmtx'].metrics[name]
         assert old['OS/2'].compile(old) == new['OS/2'].compile(new) == web['OS/2'].compile(web)
-        old['hhea'].numberOfHMetrics += 1
+        old['hhea'].numberOfHMetrics += 2  # Existing helper + one compressed metric for two guillemets.
         assert old['hhea'].compile(old) == new['hhea'].compile(new) == web['hhea'].compile(web)
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new) == web[table].compile(web),table
@@ -92,8 +93,8 @@ def verify():
                 assert old['vmtx'].metrics[name] == new['vmtx'].metrics[name] == web['vmtx'].metrics[name]
         assert old['name'].getDebugName(5) == 'Version 1.027'
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.030'
-            assert abs(font['head'].fontRevision-1.030) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.031'
+            assert abs(font['head'].fontRevision-1.031) < 1/65536
             assert font['head'].unitsPerEm == 1024
         assert new['OS/2'].sTypoDescender < new['glyf']['uni3067'].yMin < new['glyf']['uni3067'].yMax < new['OS/2'].sTypoAscender
 
@@ -122,7 +123,7 @@ def verify():
             assert math.isclose(metric['minimum_clearance'],actual['minimum_clearance'],abs_tol=.05)
         print(f"PASS: old gap {before['minimum_clearance']:.6f} → {after['minimum_clearance']:.6f} units; local vertical gap {after['minimum_vertical_gap'][0]}; no touching/intersection")
         print('PASS: the retained 1.027 de delta is still only uni3067 mark + uni3066 anchor (+58 final Y); the independent 1.030 to/do scope is delegated to its focused verifier')
-        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.030 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
+        print('PASS: unchanged て topology, global kana/mark placement, the pinned 踊 extension and current 1.031 metadata; TTF/WOFF2 and forced precomposed/decomposed parity')
 
 
 if __name__=='__main__':

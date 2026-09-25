@@ -4,9 +4,78 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.030"
+    "version": "1.031"
   },
   "glyphs": [
+    {
+      "character": "«",
+      "codepoint": "U+00AB",
+      "unicode_name": "LEFT-POINTING DOUBLE ANGLE QUOTATION MARK",
+      "glyph_name": "guillemotleft",
+      "construction_method": "two_transformed_source_chevron_components",
+      "source_glyphs": [
+        {
+          "character": "<",
+          "codepoint": "U+003C",
+          "glyph_name": "less"
+        }
+      ],
+      "component_transforms": [
+        [
+          0.75,
+          0,
+          0,
+          0.75,
+          -6,
+          43
+        ],
+        [
+          0.75,
+          0,
+          0,
+          0.75,
+          106,
+          43
+        ]
+      ],
+      "advance": 327,
+      "notes": "Version 1.031 French guillemet coverage. Original U+00AB/U+00BB and U+2039/U+203A are absent. Only original ChenYuluoyan U+003C/U+003E geometry is used. No external font outline was used. Compact nested chevrons centered at Latin visual midline y=290."
+    },
+    {
+      "character": "»",
+      "codepoint": "U+00BB",
+      "unicode_name": "RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK",
+      "glyph_name": "guillemotright",
+      "construction_method": "two_transformed_source_chevron_components",
+      "source_glyphs": [
+        {
+          "character": ">",
+          "codepoint": "U+003E",
+          "glyph_name": "greater"
+        }
+      ],
+      "component_transforms": [
+        [
+          0.453125,
+          -0.4375,
+          0.2109375,
+          0.9375,
+          -30,
+          7
+        ],
+        [
+          0.453125,
+          -0.4375,
+          0.2109375,
+          0.9375,
+          91,
+          7
+        ]
+      ],
+      "advance": 327,
+      "notes": "Version 1.031 French guillemet coverage. Original U+00AB/U+00BB and U+2039/U+203A are absent. Only original ChenYuluoyan U+003C/U+003E geometry is used. No external font outline was used. Compact nested chevrons centered at Latin visual midline y=290.",
+      "optical_adjustments": "Affine rotation and width normalization open the source greater upper arm; two complete source components with a 121-unit origin separation, no point edits."
+    },
     {
       "character": "Œ",
       "codepoint": "U+0152",

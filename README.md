@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.030 — Subtle `と` reduction and clearer `ど` separation**：standalone `と` 繞水平中心與固定 `yMin=-14` 作 **0.98 等比縮小**；`ど` 內的無 Unicode mapping helper `uni3068.qfwDoBase` 再縮為新版 `と` 的 **0.92**，相對 1.029 原字身的有效比例為 **0.9016**。兩者皆保留 960 advance 與底線；共用 dakuten 設計、anchor 與 `(708,-160)` 位置不變。`ど` 的最短輪廓間距由 `54.800 → 78.800 units`（20 px 約 1.54 px），無 embolden。[量測與驗證報告](tools/font/reports/do-base-clearance.md)、[20／32／64／192 px CURRENT／A／B／C／FINAL 校樣](tools/font/proofs/quanfangwei-do-base-clearance.png)。
+目前版本 **1.031 — French guillemet coverage**：新增原生 `« »`，使 `et pleins d’ennuis, personne ne murmure « je t’aime »` 全句使用荃方位手寫字型。來源字型缺少 `« » ‹ ›`，因此僅由原始 `< >` 輪廓組成 compact 雙角引號；沒有使用外部字型 outline，既有 glyphs 全部不變。[16／20／32／64／192 px 校樣](tools/font/proofs/quanfangwei-french-guillemets.png)、[來源與驗證報告](tools/font/reports/french-guillemets.md)。
+
+保留版本 **1.030 — Subtle `と` reduction and clearer `ど` separation**：standalone `と` 繞水平中心與固定 `yMin=-14` 作 **0.98 等比縮小**；`ど` 內的無 Unicode mapping helper `uni3068.qfwDoBase` 再縮為新版 `と` 的 **0.92**，相對 1.029 原字身的有效比例為 **0.9016**。兩者皆保留 960 advance 與底線；共用 dakuten 設計、anchor 與 `(708,-160)` 位置不變。`ど` 的最短輪廓間距由 `54.800 → 78.800 units`（20 px 約 1.54 px），無 embolden。[量測與驗證報告](tools/font/reports/do-base-clearance.md)、[20／32／64／192 px CURRENT／A／B／C／FINAL 校樣](tools/font/proofs/quanfangwei-do-base-clearance.png)。
 
 Version 1.028 的 scoped `踊` optical-size correction 完整保留：U+8E0A 仍是 1.208475 等比放大、高度 713、bottom −14、advance 826，其他 Han 不變。
 
@@ -42,7 +44,9 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.030 支援：
+衍生版 Version 1.031 支援：
+
+- `«` U+00AB / `guillemotleft`、`»` U+00BB / `guillemotright`：只由原始 `<` / `>` 手寫 components 組成，327-unit advance，無外部字型 outline。
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。
 - `Ç` U+00C7 LATIN CAPITAL LETTER C WITH CEDILLA：由完全未改形的原始 U+0043 `C` 與新增的 U+00B8 `cedilla` 組成；原字型沒有 cedilla，精修版使用原始 U+003B `semicolon` 的下方手寫尾筆，經非等比縮放與 -7° 旋轉後置於 C 的光學中心。
