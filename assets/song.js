@@ -4,7 +4,7 @@ import { SUPABASE_CLIENT_OPTIONS } from "./auth.js";
 import { songTagObjects, uploaderDisplayName } from "./catalog.js";
 import { findActiveCue, formatCueTime } from "./lyrics-sync.js";
 import { PdfViewer } from "./pdf-viewer.js";
-import { loadPlaylistContext, playlistContextFromUrl, playlistNeighbors, playlistSchemaUnavailable, playlistSongUrl } from "./playlists.js";
+import { isSmartPlaylistContext, loadPlaylistContext, playlistContextFromUrl, playlistNeighbors, playlistSchemaUnavailable, playlistSongUrl } from "./playlists.js";
 import { YouTubePlayer } from "./youtube-player.js";
 import { youtubeThumbnailUrl, youtubeWatchUrl } from "./youtube.js";
 
@@ -90,7 +90,7 @@ function playlistSong(item) {
 }
 
 function navigatePlaylistItem(item) {
-  if (item) window.location.href = playlistSongUrl(item.song_id, playlist.id);
+  if (item) window.location.href = playlistSongUrl(item.song_id, playlist.context || playlist.id);
 }
 
 function renderPlaylistContext() {
@@ -107,7 +107,7 @@ function renderPlaylistContext() {
     const row = node("li", `playlist-panel-item${current ? " is-current" : ""}`);
     if (current) row.setAttribute("aria-current", "true");
     const link = node("a", "playlist-panel-link");
-    link.href = playlistSongUrl(item.song_id, playlist.id);
+    link.href = playlistSongUrl(item.song_id, playlist.context || playlist.id);
     const thumbnail = document.createElement("img");
     thumbnail.src = youtubeThumbnailUrl(playlistItemSong.youtube_video_id);
     thumbnail.alt = "";
@@ -199,7 +199,7 @@ async function setupPlayer() {
 async function load() {
   const id = songIdFromUrl();
   if (!id) return showError("歌曲網址缺少有效的 id。");
-  const playlistId = playlistContextFromUrl(window.location.href);
+  const playlistContext = playlistContextFromUrl(window.location.href);
   const [songResult, cueResult, sessionResult] = await Promise.all([
     supabase.from("songs").select("id,title,artist,album,release_year,language,genre,notes,youtube_video_id,pdf_path,original_filename,uploader_id,uploader_display_name,status,song_tags(tags(id,name,slug))").eq("id", id).single(),
     supabase.from("lyric_cues").select("id,line_index,start_ms,end_ms,text").eq("song_id", id).order("line_index"),
@@ -209,8 +209,8 @@ async function load() {
   if (cueResult.error) return showError(cueResult.error.message || "無法載入同步歌詞。");
   song = songResult.data;
   cues = cueResult.data || [];
-  if (playlistId && sessionResult.data?.session?.user) {
-    const context = await loadPlaylistContext(supabase, playlistId);
+  if (playlistContext && (isSmartPlaylistContext(playlistContext) || sessionResult.data?.session?.user)) {
+    const context = await loadPlaylistContext(supabase, playlistContext);
     if (!context.error && context.playlist) {
       const navigation = playlistNeighbors(context.items, id);
       if (navigation.index >= 0) {

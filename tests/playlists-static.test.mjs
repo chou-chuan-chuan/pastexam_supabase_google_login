@@ -15,6 +15,23 @@ test("playlist pages and their expected modules exist", async () => {
   assert.doesNotMatch(`${listScript}\n${fixture}`, /重新命名 \/ 編輯/);
 });
 
+test("playlist index presents public smart playlists separately from private playlists", async () => {
+  const [page, script] = await Promise.all([source("playlists.html"), source("assets/playlists-page.js")]);
+  assert.match(page, /id="smartPlaylistHeading">自動歌單/);
+  assert.match(page, /id="privatePlaylistHeading">我的播放清單/);
+  assert.ok(page.indexOf("smartPlaylistHeading") < page.indexOf("privatePlaylistHeading"));
+  assert.match(script, /smartPlaylistCards/);
+  assert.match(script, /自動更新/);
+});
+
+test("smart playlist detail rows expose play without private edit controls", async () => {
+  const detail = await source("assets/playlist-page.js");
+  assert.match(detail, /actions\.append\(play\);\s*if \(playlist\.kind !== "smart"\)/);
+  assert.match(detail, /playlist-order-controls/);
+  assert.match(detail, /"移除"/);
+  assert.match(detail, /isSmartPlaylistContext\(context\)/);
+});
+
 test("public song cards expose the add-to-playlist action without eager membership loading", async () => {
   const [app, style] = await Promise.all([source("assets/app.js"), source("assets/style.css")]);
   const songCard = app.slice(app.indexOf("function songCard"), app.indexOf("function playlistChoice"));
@@ -41,6 +58,7 @@ test("song page recognizes playlist context and advances on YouTube ENDED", asyn
   assert.match(song, /if \(playlist\)[\s\S]*player\.play\(\)/);
   assert.match(song, /onAutoplayBlocked:[\s\S]*playlistMutedAutoplayFallbackAttempted[\s\S]*player\.mute\(\)[\s\S]*player\.play\(\)/);
   assert.match(song, /if \(playlistMutedAutoplayFallbackAttempted\)[\s\S]*自動播放受瀏覽器限制，請按播放/);
+  assert.match(song, /isSmartPlaylistContext\(playlistContext\) \|\| sessionResult\.data\?\.session\?\.user/);
 });
 
 test("current playlist styling uses a soft symmetric highlight without an inset left rail", async () => {
