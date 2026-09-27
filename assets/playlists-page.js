@@ -105,7 +105,7 @@ async function loadSmartPlaylists() {
     showMessage(result.error.message || "無法載入自動歌單。", "error", 0);
     return;
   }
-  smartPlaylists = smartPlaylistCards(result.songs, result.displayOrder);
+  smartPlaylists = smartPlaylistCards(result.songs, result.displayOrder, result.tags);
   renderSmartPlaylists();
 }
 

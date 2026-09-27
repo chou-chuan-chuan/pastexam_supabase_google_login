@@ -303,7 +303,7 @@ using (
     select 1
     from public.song_tags st
     join public.songs s on s.id = st.song_id
-    where st.tag_id = id
+    where st.tag_id = tags.id
       and (s.status = 'approved' or s.uploader_id = (select auth.uid()))
   )
 );

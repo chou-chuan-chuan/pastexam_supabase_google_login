@@ -9,6 +9,20 @@ const defaultLanguageOrderMigration = await readFile(new URL("../supabase/defaul
 const adminUserManagementMigration = await readFile(new URL("../supabase/admin_user_management_migration.sql", import.meta.url), "utf8");
 const removeUuidSearchMigration = await readFile(new URL("../supabase/admin_user_management_remove_uuid_search_migration.sql", import.meta.url), "utf8");
 const playlistMigration = await readFile(new URL("../supabase/user_playlists_migration.sql", import.meta.url), "utf8");
+const tagPlaylistMigration = await readFile(new URL("../supabase/tag_playlist_read_policy_migration.sql", import.meta.url), "utf8");
+
+test("tag metadata read policy correlates the outer tag id and keeps public reads limited to approved songs", () => {
+  for (const sql of [setup, tagPlaylistMigration]) {
+    const policy = sql.slice(sql.indexOf('create policy "Visible tags are readable"')).split(";")[0];
+    assert.match(policy, /on public\.tags for select/);
+    assert.match(policy, /where st\.tag_id = tags\.id/);
+    assert.match(policy, /s\.status = 'approved'/);
+    assert.doesNotMatch(policy, /st\.tag_id = id\b/);
+  }
+  assert.match(tagPlaylistMigration, /begin;/);
+  assert.match(tagPlaylistMigration, /commit;/);
+  assert.doesNotMatch(tagPlaylistMigration, /create table|insert into|update public|delete from|grant |for all/i);
+});
 
 function adminUserListDefinition(sql) {
   const start = sql.indexOf("create or replace function public.admin_list_users(");

@@ -117,7 +117,7 @@ async function init() {
   }
   const result = await loadPlaylistContext(supabase, context);
   if (result.error || !result.playlist) {
-    return showMessage(playlistSchemaUnavailable(result.error) ? "播放清單功能尚未完成資料庫部署。" : "無法載入播放清單。這個清單可能不存在或不屬於你。");
+    return showMessage(playlistSchemaUnavailable(result.error) ? "播放清單功能尚未完成資料庫部署。" : isSmartPlaylistContext(context) ? "無法載入自動歌單。標籤可能已刪除或目前沒有可公開的歌曲。" : "無法載入播放清單。這個清單可能不存在或不屬於你。");
   }
   playlist = result.playlist;
   items = result.items;
