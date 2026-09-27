@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS, cleanOAuthCallbackFromBrowser, oauthRedirectUrl, parseOAuthResponse, verifyGoogleAuthConfiguration } from "./auth.js";
-import { loadUserPlaylists, playlistSchemaUnavailable, playlistSongCount } from "./playlists.js";
+import { loadSmartPlaylistCatalog, loadUserPlaylists, playlistSchemaUnavailable, playlistSongCount, smartPlaylistCards, smartPlaylistUrl } from "./playlists.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS) : null;
@@ -9,11 +9,13 @@ const $ = (selector) => document.querySelector(selector);
 const el = {
   message: $("#playlistMessage"), userLabel: $("#userLabel"), signIn: $("#googleSignInButton"), stateSignIn: $("#stateSignInButton"), signOut: $("#signOutButton"),
   create: $("#createPlaylistButton"), createFirst: $("#createFirstPlaylistButton"), signedOut: $("#signedOutState"), loading: $("#playlistLoading"), grid: $("#playlistGrid"), empty: $("#playlistEmpty"),
+  smartLoading: $("#smartPlaylistLoading"), smartGrid: $("#smartPlaylistGrid"), smartEmpty: $("#smartPlaylistEmpty"),
   dialog: $("#playlistEditorDialog"), form: $("#playlistEditorForm"), editorTitle: $("#playlistEditorTitle"), editorId: $("#playlistEditorId"), name: $("#playlistName"), description: $("#playlistDescription"), save: $("#savePlaylistButton"), close: $("#closePlaylistEditorButton"), cancel: $("#cancelPlaylistEditorButton")
 };
 
 let currentUser = null;
 let playlists = [];
+let smartPlaylists = [];
 let messageTimer;
 
 function node(tag, className, text) {
@@ -68,6 +70,39 @@ function playlistCard(playlist) {
   actions.append(open, edit, remove);
   card.append(content, actions);
   return card;
+}
+
+function smartPlaylistCard(playlist) {
+  const card = node("article", "playlist-card smart-playlist-card");
+  const content = node("div", "playlist-card-content");
+  content.append(node("h3", "", playlist.name));
+  content.append(node("p", "playlist-card-description", playlist.description));
+  content.append(node("p", "card-meta", `${playlist.song_count} 首歌曲 · 自動更新`));
+  const actions = node("div", "playlist-card-actions");
+  const open = node("a", "button primary", "開啟");
+  open.href = smartPlaylistUrl(playlist.context);
+  actions.append(open);
+  card.append(content, actions);
+  return card;
+}
+
+function renderSmartPlaylists() {
+  el.smartGrid.replaceChildren(...smartPlaylists.map(smartPlaylistCard));
+  el.smartLoading.classList.add("hidden");
+  el.smartGrid.classList.toggle("hidden", smartPlaylists.length === 0);
+  el.smartEmpty.classList.toggle("hidden", smartPlaylists.length !== 0);
+}
+
+async function loadSmartPlaylists() {
+  const result = await loadSmartPlaylistCatalog(supabase);
+  if (result.error) {
+    smartPlaylists = [];
+    renderSmartPlaylists();
+    showMessage(result.error.message || "無法載入自動歌單。", "error", 0);
+    return;
+  }
+  smartPlaylists = smartPlaylistCards(result.songs, result.displayOrder);
+  renderSmartPlaylists();
 }
 
 function renderPlaylists() {
@@ -140,7 +175,7 @@ async function signOut() {
 async function applySession(session) {
   currentUser = session?.user || null;
   renderAccount();
-  await loadPlaylists();
+  await Promise.all([loadSmartPlaylists(), loadPlaylists()]);
 }
 
 function bind() {
@@ -156,7 +191,7 @@ function bind() {
 
 async function init() {
   bind();
-  if (!configured) { renderAccount(); setView("signed-out"); showMessage("請先完成 Supabase 設定。", "warning", 0); return; }
+  if (!configured) { renderAccount(); setView("signed-out"); el.smartLoading.classList.add("hidden"); el.smartEmpty.classList.remove("hidden"); showMessage("請先完成 Supabase 設定。", "warning", 0); return; }
   const oauth = parseOAuthResponse(window.location.href);
   supabase.auth.onAuthStateChange((_event, session) => setTimeout(() => void applySession(session), 0));
   const { data, error } = await supabase.auth.getSession();

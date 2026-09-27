@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="建立與管理私人歌曲播放清單">
-  <title>我的播放清單｜歌曲歌詞 PDF 資料庫</title>
+  <meta name="description" content="查看自動歌單，並建立與管理私人歌曲播放清單">
+  <title>播放清單｜歌曲歌詞 PDF 資料庫</title>
   <link rel="icon" type="image/png" sizes="256x256" href="./assets/branding/favicon.png">
   <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="./"><span class="brand-logo" aria-hidden="true"><img src="./assets/branding/logo-retro.png" width="1024" height="1024" alt=""></span><span><strong>歌曲歌詞 PDF 資料庫</strong><small>我的播放清單</small></span></a>
+      <a class="brand" href="./"><span class="brand-logo" aria-hidden="true"><img src="./assets/branding/logo-retro.png" width="1024" height="1024" alt=""></span><span><strong>歌曲歌詞 PDF 資料庫</strong><small>播放清單</small></span></a>
       <div class="account-area">
         <span id="userLabel" class="user-label">訪客模式</span>
         <button id="googleSignInButton" class="button google-button" type="button">使用 Google 登入</button>
@@ -23,13 +23,21 @@
   <main class="page playlist-page">
     <section id="playlistMessage" class="notice hidden" role="status" aria-live="polite"></section>
     <section class="playlist-page-heading">
-      <div><p class="eyebrow">Private library</p><h1>我的播放清單</h1><p class="muted">只有你能查看與管理這些播放清單。</p></div>
-      <button id="createPlaylistButton" class="button primary hidden" type="button">＋ 建立播放清單</button>
+      <div><p class="eyebrow">Playlists</p><h1>播放清單</h1><p class="muted">依語言與標籤自動整理，也可登入管理自己的私人歌單。</p></div>
     </section>
-    <section id="signedOutState" class="state-panel hidden"><h2>登入後即可建立與管理播放清單。</h2><button id="stateSignInButton" class="button google-button" type="button">使用 Google 登入</button></section>
-    <section id="playlistLoading" class="state-panel hidden"><div class="spinner"></div><p>載入播放清單中…</p></section>
-    <section id="playlistGrid" class="playlist-grid hidden" aria-live="polite"></section>
-    <section id="playlistEmpty" class="state-panel hidden"><h2>尚未建立播放清單</h2><button id="createFirstPlaylistButton" class="button primary" type="button">建立第一個播放清單</button></section>
+    <section class="playlist-section" aria-labelledby="smartPlaylistHeading">
+      <div class="playlist-section-heading"><div><p class="eyebrow">Smart Playlists</p><h2 id="smartPlaylistHeading">自動歌單</h2><p class="muted">依 approved 歌曲的語言與標籤自動更新。</p></div></div>
+      <section id="smartPlaylistLoading" class="state-panel"><div class="spinner"></div><p>載入自動歌單中…</p></section>
+      <section id="smartPlaylistGrid" class="playlist-grid hidden" aria-live="polite"></section>
+      <section id="smartPlaylistEmpty" class="state-panel hidden"><h2>目前沒有可用的自動歌單</h2></section>
+    </section>
+    <section class="playlist-section" aria-labelledby="privatePlaylistHeading">
+      <div class="playlist-section-heading"><div><p class="eyebrow">Private library</p><h2 id="privatePlaylistHeading">我的播放清單</h2><p class="muted">只有你能查看與管理這些播放清單。</p></div><button id="createPlaylistButton" class="button primary hidden" type="button">＋ 建立播放清單</button></div>
+      <section id="signedOutState" class="state-panel hidden"><h2>登入後即可建立與管理播放清單。</h2><button id="stateSignInButton" class="button google-button" type="button">使用 Google 登入</button></section>
+      <section id="playlistLoading" class="state-panel hidden"><div class="spinner"></div><p>載入播放清單中…</p></section>
+      <section id="playlistGrid" class="playlist-grid hidden" aria-live="polite"></section>
+      <section id="playlistEmpty" class="state-panel hidden"><h2>尚未建立播放清單</h2><button id="createFirstPlaylistButton" class="button primary" type="button">建立第一個播放清單</button></section>
+    </section>
   </main>
 
   <dialog id="playlistEditorDialog" class="dialog form-dialog" aria-labelledby="playlistEditorTitle">

@@ -1,16 +1,20 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "../config.js";
 import { SUPABASE_CLIENT_OPTIONS } from "./auth.js";
-import { isUuid, loadPlaylistContext, playlistSchemaUnavailable, playlistSongUrl } from "./playlists.js";
+import { isSmartPlaylistContext, isUuid, loadPlaylistContext, playlistSchemaUnavailable, playlistSongUrl, smartPlaylistContextFromUrl } from "./playlists.js";
 import { youtubeThumbnailUrl } from "./youtube.js";
 
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
 const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_CLIENT_OPTIONS) : null;
 const $ = (selector) => document.querySelector(selector);
-const el = { message: $("#playlistDetailMessage"), loading: $("#playlistDetailLoading"), detail: $("#playlistDetail"), name: $("#playlistDetailName"), description: $("#playlistDetailDescription"), count: $("#playlistDetailCount"), play: $("#playPlaylistButton"), list: $("#playlistItemList"), empty: $("#playlistDetailEmpty") };
+const el = { message: $("#playlistDetailMessage"), loading: $("#playlistDetailLoading"), detail: $("#playlistDetail"), eyebrow: $("#playlistDetailEyebrow"), name: $("#playlistDetailName"), description: $("#playlistDetailDescription"), count: $("#playlistDetailCount"), play: $("#playPlaylistButton"), list: $("#playlistItemList"), empty: $("#playlistDetailEmpty") };
 let playlist = null;
 let items = [];
 let moving = false;
+
+function activeContext() {
+  return playlist?.context || playlist?.id || null;
+}
 
 function node(tag, className, text) {
   const item = document.createElement(tag);
@@ -42,29 +46,34 @@ function playlistItem(item, index) {
   const details = [song.language, song.genre].filter(Boolean).join(" · ");
   if (details) content.append(node("p", "card-meta", details));
   const actions = node("div", "playlist-item-actions");
+  if (playlist.kind === "smart") actions.classList.add("is-play-only");
   const play = node("a", "button primary", "播放");
-  play.href = playlistSongUrl(item.song_id, playlist.id);
+  play.href = playlistSongUrl(item.song_id, activeContext());
   play.setAttribute("aria-label", `播放「${song.title}」`);
-  const order = node("div", "playlist-order-controls");
-  const up = node("button", "button secondary", "↑");
-  up.type = "button"; up.disabled = moving || index === 0; up.setAttribute("aria-label", `將「${song.title}」往前移`); up.addEventListener("click", () => moveItem(item.song_id, -1));
-  const down = node("button", "button secondary", "↓");
-  down.type = "button"; down.disabled = moving || index === items.length - 1; down.setAttribute("aria-label", `將「${song.title}」往後移`); down.addEventListener("click", () => moveItem(item.song_id, 1));
-  order.append(up, down);
-  const remove = node("button", "button danger", "移除");
-  remove.type = "button"; remove.setAttribute("aria-label", `從播放清單移除「${song.title}」`); remove.addEventListener("click", () => removeItem(item, song));
-  actions.append(play, order, remove);
+  actions.append(play);
+  if (playlist.kind !== "smart") {
+    const order = node("div", "playlist-order-controls");
+    const up = node("button", "button secondary", "↑");
+    up.type = "button"; up.disabled = moving || index === 0; up.setAttribute("aria-label", `將「${song.title}」往前移`); up.addEventListener("click", () => moveItem(item.song_id, -1));
+    const down = node("button", "button secondary", "↓");
+    down.type = "button"; down.disabled = moving || index === items.length - 1; down.setAttribute("aria-label", `將「${song.title}」往後移`); down.addEventListener("click", () => moveItem(item.song_id, 1));
+    order.append(up, down);
+    const remove = node("button", "button danger", "移除");
+    remove.type = "button"; remove.setAttribute("aria-label", `從播放清單移除「${song.title}」`); remove.addEventListener("click", () => removeItem(item, song));
+    actions.append(order, remove);
+  }
   row.append(thumbnail, content, actions);
   return row;
 }
 
 function render() {
   document.title = `${playlist.name}｜播放清單｜歌曲歌詞 PDF 資料庫`;
+  el.eyebrow.textContent = playlist.kind === "smart" ? "Smart playlist" : "Private playlist";
   el.name.textContent = playlist.name;
   el.description.textContent = playlist.description || "尚無描述";
   el.count.textContent = `${items.length} 首歌曲`;
   el.play.disabled = items.length === 0;
-  el.play.onclick = () => { if (items[0]) window.location.href = playlistSongUrl(items[0].song_id, playlist.id); };
+  el.play.onclick = () => { if (items[0]) window.location.href = playlistSongUrl(items[0].song_id, activeContext()); };
   el.list.replaceChildren(...items.map(playlistItem));
   el.list.classList.toggle("hidden", items.length === 0);
   el.empty.classList.toggle("hidden", items.length !== 0);
@@ -73,7 +82,7 @@ function render() {
 }
 
 async function reload() {
-  const result = await loadPlaylistContext(supabase, playlist.id);
+  const result = await loadPlaylistContext(supabase, activeContext());
   if (result.error || !result.playlist) return showMessage(result.error?.message || "無法載入播放清單。這個清單可能不存在或不屬於你。");
   playlist = result.playlist;
   items = result.items;
@@ -99,11 +108,14 @@ async function removeItem(item, song) {
 
 async function init() {
   const playlistId = new URL(window.location.href).searchParams.get("id");
+  const context = isUuid(playlistId) ? playlistId : smartPlaylistContextFromUrl(window.location.href);
   if (!configured) return showMessage("請先完成 Supabase 設定。", "warning");
-  if (!isUuid(playlistId)) return showMessage("播放清單網址缺少有效的 id。");
-  const { data } = await supabase.auth.getSession();
-  if (!data?.session?.user) return showMessage("登入後即可查看自己的播放清單。", "info");
-  const result = await loadPlaylistContext(supabase, playlistId);
+  if (!context) return showMessage("播放清單網址缺少有效的識別資訊。");
+  if (!isSmartPlaylistContext(context)) {
+    const { data } = await supabase.auth.getSession();
+    if (!data?.session?.user) return showMessage("登入後即可查看自己的播放清單。", "info");
+  }
+  const result = await loadPlaylistContext(supabase, context);
   if (result.error || !result.playlist) {
     return showMessage(playlistSchemaUnavailable(result.error) ? "播放清單功能尚未完成資料庫部署。" : "無法載入播放清單。這個清單可能不存在或不屬於你。");
   }

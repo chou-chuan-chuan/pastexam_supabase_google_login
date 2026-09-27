@@ -3,11 +3,16 @@ import assert from "node:assert/strict";
 
 import {
   isUuid,
+  isSmartPlaylistContext,
   normalizePlaylistMembership,
   playlistContextFromUrl,
   playlistNeighbors,
   playlistSongCount,
   playlistSongUrl,
+  smartPlaylistCards,
+  smartPlaylistContextFromUrl,
+  smartPlaylistItems,
+  smartPlaylistUrl,
   sortPlaylistItems
 } from "../assets/playlists.js";
 
@@ -23,6 +28,44 @@ test("parses only valid playlist UUID context and builds playlist song URLs", ()
   assert.equal(playlistSongUrl(SONG_A, PLAYLIST_ID), `./song.html?id=${SONG_A}&playlist=${PLAYLIST_ID}`);
   assert.equal(playlistSongUrl(SONG_A, "invalid"), `./song.html?id=${SONG_A}`);
   assert.equal(isUuid(PLAYLIST_ID), true);
+});
+
+test("parses and preserves language and favorite smart playlist URLs", () => {
+  const language = { type: "language", value: "French" };
+  const favorite = { type: "smart", value: "my-favorite" };
+  assert.deepEqual(playlistContextFromUrl("https://example.test/song.html?language=French"), language);
+  assert.deepEqual(smartPlaylistContextFromUrl("https://example.test/playlist.html?language=%20French%20"), language);
+  assert.deepEqual(playlistContextFromUrl("https://example.test/song.html?smart=my-favorite"), favorite);
+  assert.equal(isSmartPlaylistContext(language), true);
+  assert.equal(playlistSongUrl(SONG_A, language), `./song.html?id=${SONG_A}&language=French`);
+  assert.equal(playlistSongUrl(SONG_A, favorite), `./song.html?id=${SONG_A}&smart=my-favorite`);
+  assert.equal(smartPlaylistUrl(language), "./playlist.html?language=French");
+  assert.equal(smartPlaylistUrl(favorite), "./playlist.html?smart=my-favorite");
+});
+
+test("smart playlist cards include only approved, nonblank language groups and put My favorite first", () => {
+  const songs = [
+    { id: SONG_A, status: "approved", language: " French ", created_at: "2024-01-01", song_tags: [{ tags: { slug: "my-favorite", name: "My favorite" } }] },
+    { id: SONG_B, status: "approved", language: "", created_at: "2024-01-02", song_tags: [] },
+    { id: SONG_C, status: "pending", language: "French", created_at: "2024-01-03", song_tags: [{ tags: { slug: "my-favorite", name: "My favorite" } }] },
+    { id: PLAYLIST_ID, status: "approved", language: null, created_at: "2024-01-04", song_tags: [{ tags: { slug: "other", name: "My favorite" } }] }
+  ];
+  const cards = smartPlaylistCards(songs);
+  assert.deepEqual(cards.map((card) => [card.name, card.song_count]), [["My favorite", 1], ["French", 1]]);
+});
+
+test("language and My favorite smart playlists filter approved songs and retain catalog order", () => {
+  const songs = [
+    { id: SONG_A, status: "approved", language: "French", created_at: "2024-01-01", song_tags: [] },
+    { id: SONG_B, status: "approved", language: "French", created_at: "2024-01-02", song_tags: [{ tags: { slug: "my-favorite" } }] },
+    { id: SONG_C, status: "rejected", language: "French", created_at: "2024-01-03", song_tags: [{ tags: { slug: "my-favorite" } }] }
+  ];
+  const order = [{ song_id: SONG_A, position: 2048 }, { song_id: SONG_B, position: 1024 }, { song_id: SONG_C, position: 1 }];
+  const languageItems = smartPlaylistItems(songs, order, { type: "language", value: "French" });
+  const favoriteItems = smartPlaylistItems(songs, order, { type: "smart", value: "my-favorite" });
+  assert.deepEqual(languageItems.map((item) => item.song_id), [SONG_B, SONG_A]);
+  assert.deepEqual(favoriteItems.map((item) => item.song_id), [SONG_B]);
+  assert.deepEqual(playlistNeighbors(languageItems, SONG_A), { index: 1, total: 2, previous: languageItems[0], next: null });
 });
 
 test("orders items by persistent position with a deterministic tie break", () => {
