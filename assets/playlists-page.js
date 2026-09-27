@@ -52,38 +52,42 @@ function renderAccount() {
   el.create.classList.toggle("hidden", !signedIn);
 }
 
-function playlistCard(playlist) {
+function playlistCardLayout(playlist, meta, href) {
   const card = node("article", "playlist-card");
   const content = node("div", "playlist-card-content");
   content.append(node("h2", "", playlist.name));
   content.append(node("p", "playlist-card-description", playlist.description || "尚無描述"));
-  content.append(node("p", "card-meta", `${playlistSongCount(playlist)} 首歌曲 · 更新於 ${displayDate(playlist.updated_at)}`));
+  content.append(node("p", "card-meta", meta));
   const actions = node("div", "playlist-card-actions");
   const open = node("a", "button primary", "開啟");
-  open.href = `./playlist.html?id=${encodeURIComponent(playlist.id)}`;
+  open.href = href;
+  actions.append(open);
+  card.append(content, actions);
+  return { card, actions };
+}
+
+function playlistCard(playlist) {
+  const { card, actions } = playlistCardLayout(
+    playlist,
+    `${playlistSongCount(playlist)} 首歌曲 · 更新於 ${displayDate(playlist.updated_at)}`,
+    `./playlist.html?id=${encodeURIComponent(playlist.id)}`
+  );
   const edit = node("button", "button secondary", "編輯");
   edit.type = "button";
   edit.addEventListener("click", () => openEditor(playlist));
   const remove = node("button", "button danger", "刪除");
   remove.type = "button";
   remove.addEventListener("click", () => deletePlaylist(playlist));
-  actions.append(open, edit, remove);
-  card.append(content, actions);
+  actions.append(edit, remove);
   return card;
 }
 
 function smartPlaylistCard(playlist) {
-  const card = node("article", "playlist-card smart-playlist-card");
-  const content = node("div", "playlist-card-content");
-  content.append(node("h3", "", playlist.name));
-  content.append(node("p", "playlist-card-description", playlist.description));
-  content.append(node("p", "card-meta", `${playlist.song_count} 首歌曲 · 自動更新`));
-  const actions = node("div", "playlist-card-actions");
-  const open = node("a", "button primary", "開啟");
-  open.href = smartPlaylistUrl(playlist.context);
-  actions.append(open);
-  card.append(content, actions);
-  return card;
+  return playlistCardLayout(
+    playlist,
+    `${playlist.song_count} 首歌曲 · 自動更新`,
+    smartPlaylistUrl(playlist.context)
+  ).card;
 }
 
 function renderSmartPlaylists() {
@@ -101,7 +105,7 @@ async function loadSmartPlaylists() {
     showMessage(result.error.message || "無法載入自動歌單。", "error", 0);
     return;
   }
-  smartPlaylists = smartPlaylistCards(result.songs, result.displayOrder);
+  smartPlaylists = smartPlaylistCards(result.songs, result.displayOrder, result.tags);
   renderSmartPlaylists();
 }
 
