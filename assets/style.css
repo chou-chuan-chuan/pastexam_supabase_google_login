@@ -225,8 +225,6 @@ button.song-order-button:disabled { cursor: not-allowed; opacity: .3; }
 .playlist-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid var(--border); border-radius: 19px; padding: 20px; background: #fff; box-shadow: 0 10px 35px rgba(31,24,58,.06); }
 .playlist-card-content { flex: 1; min-width: 0; }
 .playlist-card h2 { margin: 0 0 8px; font-size: 1.3rem; }
-.playlist-card h3 { margin: 0 0 8px; font-size: 1.3rem; }
-.smart-playlist-card { border-color: #d6c5ef; background: linear-gradient(145deg, #fff 55%, #f7f1ff); }
 .playlist-card-description { min-height: 3.2em; margin: 0 0 14px; color: var(--muted); overflow-wrap: anywhere; white-space: pre-wrap; }
 .playlist-card-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin-top: 18px; gap: 8px; }
 .playlist-card-actions .primary { grid-column: 1 / -1; }

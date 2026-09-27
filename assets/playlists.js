@@ -1,7 +1,9 @@
-import { songTagObjects, sortSongsForDisplay } from "./catalog.js";
+import { sortSongsForDisplay } from "./catalog.js";
 
 export const PLAYLIST_POSITION_STEP = 1024;
-export const SMART_FAVORITE_SLUG = "my-favorite";
+// Route key only; membership uses the existing Favorite tag's stable id.
+export const SMART_FAVORITE_KEY = "my-favorite";
+export const FAVORITE_TAG_ID = "92f53132-743b-4032-8d9a-df893f5a4f8c";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -20,8 +22,8 @@ export function smartPlaylistContextFromUrl(currentUrl) {
   const params = new URL(currentUrl).searchParams;
   const language = String(params.get("language") || "").trim();
   if (language) return { type: "language", value: language };
-  return params.get("smart") === SMART_FAVORITE_SLUG
-    ? { type: "smart", value: SMART_FAVORITE_SLUG }
+  return params.get("smart") === SMART_FAVORITE_KEY
+    ? { type: "smart", value: SMART_FAVORITE_KEY }
     : null;
 }
 
@@ -29,14 +31,14 @@ export function isSmartPlaylistContext(context) {
   return Boolean(
     context
     && (context.type === "language" && String(context.value || "").trim()
-      || context.type === "smart" && context.value === SMART_FAVORITE_SLUG)
+      || context.type === "smart" && context.value === SMART_FAVORITE_KEY)
   );
 }
 
 function appendPlaylistContext(params, context) {
   if (isUuid(context)) params.set("playlist", context);
   else if (context?.type === "language") params.set("language", String(context.value).trim());
-  else if (context?.type === "smart" && context.value === SMART_FAVORITE_SLUG) params.set("smart", context.value);
+  else if (context?.type === "smart" && context.value === SMART_FAVORITE_KEY) params.set("smart", context.value);
 }
 
 export function playlistSongUrl(songId, context) {
@@ -115,7 +117,8 @@ function approvedSongs(songs = []) {
 }
 
 function hasFavoriteTag(song) {
-  return songTagObjects(song).some((tag) => tag.slug === SMART_FAVORITE_SLUG);
+  // Public song_tags remain readable even when tags metadata is hidden by RLS.
+  return (song?.song_tags || []).some((relation) => relation?.tag_id === FAVORITE_TAG_ID);
 }
 
 export function smartPlaylistItems(songs = [], displayOrder = [], context) {
@@ -142,9 +145,9 @@ export function smartPlaylistCards(songs = [], displayOrder = []) {
   return [
     {
       name: "My favorite",
-      description: "具有 My favorite 標籤的歌曲。",
+      description: "具有 Favorite 標籤的歌曲。",
       song_count: ordered.filter(hasFavoriteTag).length,
-      context: { type: "smart", value: SMART_FAVORITE_SLUG }
+      context: { type: "smart", value: SMART_FAVORITE_KEY }
     },
     ...[...languages.entries()]
       .sort(([left], [right]) => left.localeCompare(right))
@@ -161,7 +164,7 @@ export async function loadSmartPlaylistCatalog(client) {
   const [songsResult, orderResult] = await Promise.all([
     client
       .from("songs")
-      .select("id,title,artist,language,genre,youtube_video_id,status,created_at,song_tags(tags(id,name,slug))")
+      .select("id,title,artist,language,genre,youtube_video_id,status,created_at,song_tags(tag_id)")
       .eq("status", "approved"),
     client.from("song_display_order").select("song_id,position")
   ]);
@@ -183,7 +186,7 @@ export async function loadSmartPlaylistContext(client, context) {
       name,
       description: context.type === "language"
         ? "自動歌單 · 根據歌曲語言更新"
-        : "自動歌單 · 根據 My favorite 標籤更新",
+        : "自動歌單 · 根據 Favorite 標籤更新",
       context
     },
     items: smartPlaylistItems(catalog.songs, catalog.displayOrder, context),

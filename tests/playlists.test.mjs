@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import {
   isUuid,
   isSmartPlaylistContext,
+  loadPlaylistContext,
   normalizePlaylistMembership,
   playlistContextFromUrl,
   playlistNeighbors,
@@ -20,6 +21,8 @@ const PLAYLIST_ID = "123e4567-e89b-42d3-a456-426614174000";
 const SONG_A = "123e4567-e89b-42d3-a456-426614174001";
 const SONG_B = "123e4567-e89b-42d3-a456-426614174002";
 const SONG_C = "123e4567-e89b-42d3-a456-426614174003";
+// Existing production Favorite tag id, confirmed by the maintainer.
+const FAVORITE_TAG_ID = "92f53132-743b-4032-8d9a-df893f5a4f8c";
 
 test("parses only valid playlist UUID context and builds playlist song URLs", () => {
   assert.equal(playlistContextFromUrl(`https://example.test/song.html?id=${SONG_A}&playlist=${PLAYLIST_ID}`), PLAYLIST_ID);
@@ -45,9 +48,9 @@ test("parses and preserves language and favorite smart playlist URLs", () => {
 
 test("smart playlist cards include only approved, nonblank language groups and put My favorite first", () => {
   const songs = [
-    { id: SONG_A, status: "approved", language: " French ", created_at: "2024-01-01", song_tags: [{ tags: { slug: "my-favorite", name: "My favorite" } }] },
+    { id: SONG_A, status: "approved", language: " French ", created_at: "2024-01-01", song_tags: [{ tag_id: FAVORITE_TAG_ID }] },
     { id: SONG_B, status: "approved", language: "", created_at: "2024-01-02", song_tags: [] },
-    { id: SONG_C, status: "pending", language: "French", created_at: "2024-01-03", song_tags: [{ tags: { slug: "my-favorite", name: "My favorite" } }] },
+    { id: SONG_C, status: "pending", language: "French", created_at: "2024-01-03", song_tags: [{ tag_id: FAVORITE_TAG_ID }] },
     { id: PLAYLIST_ID, status: "approved", language: null, created_at: "2024-01-04", song_tags: [{ tags: { slug: "other", name: "My favorite" } }] }
   ];
   const cards = smartPlaylistCards(songs);
@@ -57,8 +60,8 @@ test("smart playlist cards include only approved, nonblank language groups and p
 test("language and My favorite smart playlists filter approved songs and retain catalog order", () => {
   const songs = [
     { id: SONG_A, status: "approved", language: "French", created_at: "2024-01-01", song_tags: [] },
-    { id: SONG_B, status: "approved", language: "French", created_at: "2024-01-02", song_tags: [{ tags: { slug: "my-favorite" } }] },
-    { id: SONG_C, status: "rejected", language: "French", created_at: "2024-01-03", song_tags: [{ tags: { slug: "my-favorite" } }] }
+    { id: SONG_B, status: "approved", language: "French", created_at: "2024-01-02", song_tags: [{ tag_id: FAVORITE_TAG_ID }] },
+    { id: SONG_C, status: "rejected", language: "French", created_at: "2024-01-03", song_tags: [{ tag_id: FAVORITE_TAG_ID }] }
   ];
   const order = [{ song_id: SONG_A, position: 2048 }, { song_id: SONG_B, position: 1024 }, { song_id: SONG_C, position: 1 }];
   const languageItems = smartPlaylistItems(songs, order, { type: "language", value: "French" });
@@ -66,6 +69,49 @@ test("language and My favorite smart playlists filter approved songs and retain 
   assert.deepEqual(languageItems.map((item) => item.song_id), [SONG_B, SONG_A]);
   assert.deepEqual(favoriteItems.map((item) => item.song_id), [SONG_B]);
   assert.deepEqual(playlistNeighbors(languageItems, SONG_A), { index: 1, total: 2, previous: languageItems[0], next: null });
+});
+
+test("Favorite uses the existing tag id, including when tag metadata is not public", () => {
+  const context = { type: "smart", value: "my-favorite" };
+  const songs = [
+    { id: SONG_A, status: "approved", song_tags: [{ tag_id: FAVORITE_TAG_ID, tags: null }] },
+    { id: SONG_B, status: "approved", song_tags: [{ tag_id: SONG_B, tags: { name: "Favorite", slug: "my-favorite" } }] },
+    { id: SONG_C, status: "pending", song_tags: [{ tag_id: FAVORITE_TAG_ID }] },
+    { id: PLAYLIST_ID, status: "rejected", song_tags: [{ tag_id: FAVORITE_TAG_ID }] }
+  ];
+  assert.deepEqual(smartPlaylistItems(songs, [], context).map((item) => item.song_id), [SONG_A]);
+  assert.equal(smartPlaylistCards(songs)[0].song_count, 1);
+});
+
+test("Favorite reload reflects tag addition/removal and approval changes without playlist writes", async () => {
+  const context = { type: "smart", value: "my-favorite" };
+  const song = { id: SONG_A, status: "approved", song_tags: [] };
+  const client = {
+    from(table) {
+      if (table === "song_display_order") return { select: () => ({ data: [], error: null }) };
+      assert.equal(table, "songs");
+      return { select(fields) {
+        assert.match(fields, /song_tags\(tag_id\)/);
+        return { eq(column, value) {
+          assert.deepEqual([column, value], ["status", "approved"]);
+          return { data: [song], error: null };
+        } };
+      } };
+    }
+  };
+  const memberIds = async () => (await loadPlaylistContext(client, context)).items.map((item) => item.song_id);
+  assert.deepEqual(await memberIds(), []);
+  song.song_tags = [{ tag_id: FAVORITE_TAG_ID }];
+  assert.deepEqual(await memberIds(), [SONG_A]);
+  song.song_tags = [];
+  assert.deepEqual(await memberIds(), []);
+  song.song_tags = [{ tag_id: FAVORITE_TAG_ID }];
+  for (const status of ["pending", "rejected"]) {
+    song.status = status;
+    assert.deepEqual(await memberIds(), []);
+  }
+  song.status = "approved";
+  assert.deepEqual(await memberIds(), [SONG_A]);
 });
 
 test("orders items by persistent position with a deterministic tie break", () => {
