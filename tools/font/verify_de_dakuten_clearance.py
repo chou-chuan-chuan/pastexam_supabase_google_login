@@ -46,6 +46,9 @@ def verify():
     assert HIRAGANA_MARK_ANCHOR_Y_OFFSETS == {'て':EXPECTED_OFFSET}
     assert offset_delta(EXPECTED_OFFSET) == EXPECTED_RENDERED_DELTA
     with TTFont(BytesIO(raw)) as old, TTFont(TTF) as new, TTFont(WOFF2) as web:
+        from verify_sokuon_position import restore_1_031_sokuon
+        restore_1_031_sokuon(new)
+        restore_1_031_sokuon(web)
         from verify_kanji_odoru_optical import extend_historical_han_oracle
         extend_historical_han_oracle(old)
         before,after = measure(old),measure(new)
@@ -93,8 +96,8 @@ def verify():
                 assert old['vmtx'].metrics[name] == new['vmtx'].metrics[name] == web['vmtx'].metrics[name]
         assert old['name'].getDebugName(5) == 'Version 1.027'
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.031'
-            assert abs(font['head'].fontRevision-1.031) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.032'
+            assert abs(font['head'].fontRevision-1.032) < 1/65536
             assert font['head'].unitsPerEm == 1024
         assert new['OS/2'].sTypoDescender < new['glyf']['uni3067'].yMin < new['glyf']['uni3067'].yMax < new['OS/2'].sTypoAscender
 

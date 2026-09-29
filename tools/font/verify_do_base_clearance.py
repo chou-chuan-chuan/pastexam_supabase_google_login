@@ -57,10 +57,13 @@ def verify():
     assert CANDIDATES == ((0.99, 0.92), (0.98, 0.92), (0.97, 0.92))
     assert HIRAGANA_MARK_ANCHOR_Y_OFFSETS == {"て": 82}
     with TTFont(BytesIO(baseline_bytes())) as old, TTFont(TTF) as new, TTFont(WOFF2) as web:
+        from verify_sokuon_position import restore_1_031_sokuon
+        restore_1_031_sokuon(new)
+        restore_1_031_sokuon(web)
         assert old["name"].getDebugName(5) == "Version 1.029"
         for font in (new, web):
-            assert font["name"].getDebugName(5) == "Version 1.031"
-            assert abs(font["head"].fontRevision - 1.031) < 1 / 65536
+            assert font["name"].getDebugName(5) == "Version 1.032"
+            assert abs(font["head"].fontRevision - 1.032) < 1 / 65536
             assert font["head"].unitsPerEm == 1024
 
         assert old.getBestCmap() == historical_cmap(new) == historical_cmap(web)

@@ -32,7 +32,7 @@ from japanese.build_kana import (
 from kana_sources.full_data import (
     KANA_STROKES, VERSION_1_025_KANA_STROKES, ACCEPTED_LARGE_KANA_STROKES,
     BALANCED_LARGE_KANA_STROKES, SMALL_HIRAGANA_BASES, SMALL_KATAKANA_BASES,
-    SMALL_HIRAGANA_OPTICAL_SHIFTS, YOON_SMALL_KANA_OFFSETS, scale,
+    SMALL_HIRAGANA_OPTICAL_SHIFTS, YOON_SMALL_KANA_OFFSETS, SOKUON_SMALL_KANA_OFFSETS, scale,
     COMPOSITES, ITERATION_STROKES, JAPANESE_MARK_STROKES,
     DAKUTEN_STROKES, HANDAKUTEN_STROKES,
 )
@@ -191,8 +191,8 @@ def verify_font_scope():
             for field in fields:
                 assert getattr(old[table],field)==getattr(new[table],field)==getattr(web[table],field),field
         for font in (new,web):
-            assert font['name'].getDebugName(5)=='Version 1.031'
-            assert abs(font['head'].fontRevision-1.031)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.032'
+            assert abs(font['head'].fontRevision-1.032)<1/65536
         for table in ('GSUB','GPOS','GDEF'):
             assert new[table].compile(new)==web[table].compile(web),(table,'TTF/WOFF2 layout parity')
         aggregate=hashlib.sha256(repr(han_hashes).encode()).hexdigest()
@@ -206,6 +206,8 @@ def verify_derivatives():
         expected=scale(KANA_STROKES[large],.72,center=(480,500),shift=(dx,-12+dy))
         if small in YOON_SMALL_KANA_OFFSETS:
             expected=translate_strokes(expected,*YOON_SMALL_KANA_OFFSETS[small])
+        if small in SOKUON_SMALL_KANA_OFFSETS:
+            expected=translate_strokes(expected,*SOKUON_SMALL_KANA_OFFSETS[small])
         assert KANA_STROKES[small]==expected,(small,'derivation')
     for small,large in SMALL_KATAKANA_BASES.items():
         assert KANA_STROKES[small]==scale(KANA_STROKES[large],.72),(small,'Katakana derivation')

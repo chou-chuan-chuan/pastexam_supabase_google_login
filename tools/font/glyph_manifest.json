@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.031"
+    "version": "1.032"
   },
   "glyphs": [
     {
@@ -589,5 +589,27 @@
     "report": "tools/font/reports/kanji-odoru-optical-size.md",
     "proof": "tools/font/proofs/quanfangwei-kanji-odoru-optical-size.png",
     "preserves": "Every existing glyph, all kana and 1.027 te/de attachment, all layout/global metrics; only U+8E0A cmap gains a source-preserving derived glyph"
+  },
+  "sokuon_positioning": {
+    "version": "1.032",
+    "reference_version": "1.031",
+    "reference_characters": "ゃゅょャュョ",
+    "final_ink_anchor": [
+      180,
+      -32
+    ],
+    "translations": {
+      "っ": [
+        -107,
+        -138
+      ],
+      "ッ": [
+        -155,
+        -88
+      ]
+    },
+    "construction": "Post-scale translation only; existing small-form geometry, pressure and 960-unit advances preserved. All other glyphs unchanged.",
+    "verifier": "verify_sokuon_position.py",
+    "report": "reports/sokuon-position.md"
   }
 }

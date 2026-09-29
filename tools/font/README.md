@@ -1,6 +1,25 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.031 — French guillemet coverage
+## Current output: Version 1.032 — Sokuon lower-left optical positioning
+
+Only `っ` and `ッ` move inside their full-width cells: `(-107,-138)` and `(-155,-88)` respectively. `SOKUON_SMALL_KANA_OFFSETS` measures each accepted small form against its script’s existing yōon anchor after construction/scaling. All six Version 1.031 yōon glyphs have final `(xMin,yMin)=(180,-32)`; the new sokuon share that anchor.
+
+The accepted sizes (401×351 / 337×370), center-line topology, pressure and 960-unit advances remain unchanged. Large `つ／ツ`, all other small kana, the global -56 bottom alignment, Han balance, Master v2, `て／で` and `と／ど` are frozen. No external outline, CSS/JS or database changes.
+
+- [Visible cells, centers, baseline and bounds](proofs/quanfangwei-sokuon-cell-position.png)
+- [Before/after at 20, 32, 64 and 192 px, all natural samples and yōon comparisons](proofs/quanfangwei-sokuon-before-after.png)
+- [Metrics and pinned baseline](reports/sokuon-position.md)
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_sokuon_position.py
+python tools/font/render_sokuon_position_proof.py
+```
+
+The dedicated verifier pins Version 1.031 at `3a093edd962410d129c9955d2b28bddb0866070c`, checks every outline point and all other glyph bytes/metrics, source preservation, layout tables, sample shaping, TTF/WOFF2 parity and deterministic rebuilding. Historical whole-font gates validate and undo only these exact two translations in memory before applying their original historical assertions. Their frozen baseline hashes and reports remain unchanged.
+
+## Retained stage: Version 1.031 — French guillemet coverage
 
 Native U+00AB `«` (`guillemotleft`) and U+00BB `»` (`guillemotright`) use two transformed components of the original ChenYuluoyan `less` / `greater`. Inspection found no source `« » ‹ ›`. No external font outline was used. A compact 327-unit advance and ink centered around y=290 fit lowercase French prose. All existing glyphs, advances, vertical metrics and layout tables remain unchanged.
 

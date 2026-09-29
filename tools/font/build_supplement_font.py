@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.031"
+VERSION = "1.032"
 BUILD_DATE = "2026-09-25"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260925"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Sokuon lower-left optical positioning（Version 1.032）：`っ` 只平移 (-107,-138)、`ッ` 只平移 (-155,-88)，沿用已審核 yōon 的 final ink anchor (180,-32)。既有尺寸、拓撲、960 advance、`つ／ツ` 與所有其他小假名不變；全域 -56 bottom alignment 不變。No external font outline was used. 見 tools/font/reports/sokuon-position.md 與 tools/font/proofs/quanfangwei-sokuon-cell-position.png。
 - French guillemet coverage（Version 1.031）：新增 U+00AB `«` / `guillemotleft`、U+00BB `»` / `guillemotright`。來源沒有 «/» 或 ‹/›，因此只使用原始 U+003C `less` 與 U+003E `greater` 各兩個 component；left matrix (0.75,0,0,0.75)、right matrix (0.453125,-0.4375,0.2109375,0.9375)、origins (-6,43)/(106,43) 與 (-30,7)/(91,7)。327-unit advance、約 32/33 sidebearings，ink 約 y=163..417、center=290，適合 Latin 小寫。No external font outline was used. 所有既有 glyphs 與 layout 不變；無 CSS／JS workaround 或文字替換。見 tools/font/reports/french-guillemets.md 與 tools/font/proofs/quanfangwei-french-guillemets.png。
 - Scoped `と／ど` size follow-up（Version 1.030）：standalone U+3068 `と` 繞原 ink 水平中心與 bottom -14 作 0.98 等比縮小；`uni3068.qfwDoBase` 再從新 `と` 作 0.92 等比縮小（有效尺寸 0.9016），使 `ど` 與不變的 dakuten 間距由 54.800 增至 78.800 units。兩者 bottom、960 advance、dakuten outline／anchor，其他假名、Han、`て／で` 與 `踊` 均不變，無 embolden。見 tools/font/reports/do-base-clearance.md 與 tools/font/proofs/quanfangwei-do-base-clearance.png。
 - Scoped ど base-size / dakuten-clearance correction（Version 1.029）：保留 standalone U+3068 `と` 的 1.028 outline／advance 原封不動，只新增無 Unicode mapping 的 `uni3068.qfwDoBase`，繞 ink 水平中心、固定 final bottom -14 作 0.94 等比縮小。U+3069 `ど` 改用該 helper + 原 `uni3099`；狹義 ccmp 只在 U+3068 緊接 U+3099 時選取同一 helper，並由 GPOS 共用與 1.028 相同的 dakuten 位置。body 最短輪廓間距 20.106 → 54.800 units，bottom、960 advance、共用 dakuten、其他假名、漢字與 `て／で` +82 correction 均不變，無 embolden。見 tools/font/reports/do-base-clearance.md 與 tools/font/proofs/quanfangwei-do-base-clearance.png。
@@ -595,7 +596,7 @@ def main() -> int:
         build_french_guillemets(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.031
+        font["head"].fontRevision = 1.032
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]
