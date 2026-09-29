@@ -53,6 +53,9 @@ def verify_sources():
         if path.endswith('japanese/user_japanese_overrides.py'):
             from verify_kanji_odoru_optical import without_odoru_source
             current = without_odoru_source(current)
+        if path.endswith('kana_sources/full_data.py'):
+            from verify_sokuon_position import without_sokuon_source
+            current = without_sokuon_source(current)
         assert current == expected, ('Frozen source/reference changed', path)
     assert HIRAGANA_HAN_BALANCE_SCALE == 0.894078195335
     assert KATAKANA_HAN_BALANCE_SCALE == 0.946843040146
@@ -99,6 +102,9 @@ def verify_translation():
     from verify_kana_kanji_scale_balance import signature
     from verify_de_dakuten_clearance import EXPECTED_RENDERED_DELTA, adjust_te_anchor
     with accepted_font() as old, TTFont(FONT) as new, TTFont(WOFF2) as web:
+        from verify_sokuon_position import restore_1_031_sokuon
+        restore_1_031_sokuon(new)
+        restore_1_031_sokuon(web)
         from verify_kanji_odoru_optical import extend_historical_han_oracle
         extend_historical_han_oracle(old)
         # Explicit 1.027 follow-up exception: adjust only the old で mark
@@ -147,8 +153,8 @@ def verify_translation():
             assert new[table].compile(new) == web[table].compile(web),table
         assert old['head'].unitsPerEm == new['head'].unitsPerEm == web['head'].unitsPerEm == 1024
         for font in (new,web):
-            assert font['name'].getDebugName(5) == 'Version 1.031'
-            assert abs(font['head'].fontRevision-1.031) < 1/65536
+            assert font['name'].getDebugName(5) == 'Version 1.032'
+            assert abs(font['head'].fontRevision-1.032) < 1/65536
         for name in MOVED_NAMES:
             g = new['glyf'][name]
             assert g.yMin > max(new['hhea'].descent,-new['OS/2'].usWinDescent),name

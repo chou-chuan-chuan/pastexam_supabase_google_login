@@ -84,6 +84,9 @@ def verify():
     assert digest(SOURCE.read_bytes()) == SOURCE_HASH
     baseline_bytes("woff2")
     with TTFont(BytesIO(baseline_bytes())) as old, TTFont(SOURCE) as source, TTFont(TTF) as new, TTFont(WOFF2) as web:
+        from verify_sokuon_position import restore_1_031_sokuon
+        restore_1_031_sokuon(new)
+        restore_1_031_sokuon(web)
         assert old["name"].getDebugName(5) == "Version 1.030"
         for font in (source, old):
             assert all(cp not in font.getBestCmap() for cp in (0xAB, 0xBB, 0x2039, 0x203A))
@@ -95,8 +98,8 @@ def verify():
             assert signature(source, name) == signature(new, name), f"Authorized source {name} modified"
         metrics = {}
         for font in (new, web):
-            assert font["name"].getDebugName(5) == "Version 1.031"
-            assert abs(font["head"].fontRevision - 1.031) < 1 / 65536
+            assert font["name"].getDebugName(5) == "Version 1.032"
+            assert abs(font["head"].fontRevision - 1.032) < 1 / 65536
             for table in font["cmap"].tables:
                 if table.isUnicode() and table.format != 14:
                     assert all(table.cmap.get(cp) == name for cp, name in GUILLEMETS.items())
@@ -158,7 +161,7 @@ def verify():
                 assert shaped_names.count("guillemotleft") == text.count("«")
                 assert shaped_names.count("guillemotright") == text.count("»")
         manifest = json.loads((ROOT / "tools/font/glyph_manifest.json").read_text(encoding="utf-8"))
-        assert manifest["derived_font"]["version"] == "1.031"
+        assert manifest["derived_font"]["version"] == "1.032"
         for name, recipe in RECIPES.items():
             entry = next(item for item in manifest["glyphs"] if item["glyph_name"] == name)
             assert entry["component_transforms"] == [list(transform) for _, transform in recipe]

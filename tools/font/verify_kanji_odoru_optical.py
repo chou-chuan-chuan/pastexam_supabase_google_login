@@ -100,6 +100,9 @@ def verify_source_scope():
         new=(ROOT/path).read_bytes().replace(b'\r\n',b'\n') if path.endswith(('.py','.json','.md','.svg','.txt','.csv')) else (ROOT/path).read_bytes()
         if path.endswith('japanese/user_japanese_overrides.py'):
             new=without_odoru_source(new)
+        if path.endswith('kana_sources/full_data.py'):
+            from verify_sokuon_position import without_sokuon_source
+            new=without_sokuon_source(new)
         assert new==old,('Frozen source changed',path)
     print(f'PASS: {len(paths)} source/reference files pinned; original font SHA256; only exact 踊 transform entry added; no external outline input')
 
@@ -121,6 +124,9 @@ def shaped_bounds(font,text,face):
 def verify():
     verify_source_scope();verify_transform_record()
     with TTFont(BytesIO(baseline_bytes())) as old,TTFont(SOURCE) as source,TTFont(TTF) as new,TTFont(WOFF2) as web:
+        from verify_sokuon_position import restore_1_031_sokuon
+        restore_1_031_sokuon(new)
+        restore_1_031_sokuon(web)
         assert old['name'].getDebugName(5)=='Version 1.027'
         assert old.getBestCmap()[0x8E0A]==source.getBestCmap()[0x8E0A]==SOURCE_NAME
         from verify_japanese_optical_alignment import drawing
@@ -142,8 +148,8 @@ def verify():
             assert min(m['ink_sidebearings'])>=28 and abs(m['center'][0]-413)<.5
             assert max(font['hhea'].descent,font['OS/2'].sTypoDescender,-font['OS/2'].usWinDescent)<m['bounds'][1]
             assert m['bounds'][3]<min(font['hhea'].ascent,font['OS/2'].sTypoAscender,font['OS/2'].usWinAscent)
-            assert font['name'].getDebugName(5)=='Version 1.031'
-            assert abs(font['head'].fontRevision-1.031)<1/65536
+            assert font['name'].getDebugName(5)=='Version 1.032'
+            assert abs(font['head'].fontRevision-1.032)<1/65536
             assert font['head'].unitsPerEm==old['head'].unitsPerEm==1024
         hashes=[]
         for name in old.getGlyphOrder():
@@ -175,9 +181,9 @@ def verify():
             new_record=new['name'].getName(record.nameID,record.platformID,record.platEncID,record.langID)
             expected=record.toUnicode()
             if record.nameID == 3:
-                parts=expected.split(';');parts[0]='1.031';parts[-1]='20260925';expected=';'.join(parts)
+                parts=expected.split(';');parts[0]='1.032';parts[-1]='20260925';expected=';'.join(parts)
             elif record.nameID == 5:
-                expected=expected.replace('1.027','1.031')
+                expected=expected.replace('1.027','1.032')
             assert new_record.toUnicode()==expected,('Name drift',record.nameID)
         gaps={}
         old_shaper=hb.Font(hb.Face(baseline_bytes()))

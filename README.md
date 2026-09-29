@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.031 — French guillemet coverage**：新增原生 `« »`，使 `et pleins d’ennuis, personne ne murmure « je t’aime »` 全句使用荃方位手寫字型。來源字型缺少 `« » ‹ ›`，因此僅由原始 `< >` 輪廓組成 compact 雙角引號；沒有使用外部字型 outline，既有 glyphs 全部不變。[16／20／32／64／192 px 校樣](tools/font/proofs/quanfangwei-french-guillemets.png)、[來源與驗證報告](tools/font/reports/french-guillemets.md)。
+目前版本 **1.032 — Sokuon lower-left optical positioning**：`っ` 平移 **(-107,-138)**、`ッ` 平移 **(-155,-88)**，使 final ink anchor 與已審核的 `ゃゅょ／ャュョ` 同為 **(180,-32)**。保留既有尺寸、拓撲、筆壓與 **960-unit advance**；`つ／ツ`、其他所有小假名及全域 bottom alignment 不變。[可見字格校樣](tools/font/proofs/quanfangwei-sokuon-cell-position.png)、[20／32／64／192 px 前後比較](tools/font/proofs/quanfangwei-sokuon-before-after.png)、[量測與驗證報告](tools/font/reports/sokuon-position.md)。
+
+保留版本 **1.031 — French guillemet coverage**：新增原生 `« »`，使 `et pleins d’ennuis, personne ne murmure « je t’aime »` 全句使用荃方位手寫字型。來源字型缺少 `« » ‹ ›`，因此僅由原始 `< >` 輪廓組成 compact 雙角引號；沒有使用外部字型 outline，既有 glyphs 全部不變。[16／20／32／64／192 px 校樣](tools/font/proofs/quanfangwei-french-guillemets.png)、[來源與驗證報告](tools/font/reports/french-guillemets.md)。
 
 保留版本 **1.030 — Subtle `と` reduction and clearer `ど` separation**：standalone `と` 繞水平中心與固定 `yMin=-14` 作 **0.98 等比縮小**；`ど` 內的無 Unicode mapping helper `uni3068.qfwDoBase` 再縮為新版 `と` 的 **0.92**，相對 1.029 原字身的有效比例為 **0.9016**。兩者皆保留 960 advance 與底線；共用 dakuten 設計、anchor 與 `(708,-160)` 位置不變。`ど` 的最短輪廓間距由 `54.800 → 78.800 units`（20 px 約 1.54 px），無 embolden。[量測與驗證報告](tools/font/reports/do-base-clearance.md)、[20／32／64／192 px CURRENT／A／B／C／FINAL 校樣](tools/font/proofs/quanfangwei-do-base-clearance.png)。
 
@@ -44,7 +46,7 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.031 支援：
+衍生版 Version 1.032 支援：
 
 - `«` U+00AB / `guillemotleft`、`»` U+00BB / `guillemotright`：只由原始 `<` / `>` 手寫 components 組成，327-unit advance，無外部字型 outline。
 

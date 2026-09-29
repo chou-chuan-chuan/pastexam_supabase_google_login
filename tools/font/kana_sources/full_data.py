@@ -225,6 +225,21 @@ for small in VERSION_1_025_YOON_OFFSETS:
     YOON_SMALL_KANA_OFFSETS[small] = (180 - glyph.xMin, 24 + 145 - glyph.yMin)
 KANA_STROKES = derive_small_kana(BALANCED_LARGE_KANA_STROKES, YOON_SMALL_KANA_OFFSETS)
 
+# BEGIN SOKUON POSITIONING 1.032
+# Translation only, after all accepted small-form construction/pressure/scale.
+# Measure each script's reviewed yoon anchor at this same build stage; the
+# unchanged -145 and -56 layers later move both anchors to (180, -32).
+SOKUON_SMALL_KANA_OFFSETS = {}
+for small, reference in (("っ", "ゃ"), ("ッ", "ャ")):
+    glyph = build_stroke_glyph(KANA_STROKES[small])
+    anchor = build_stroke_glyph(KANA_STROKES[reference])
+    glyph.recalcBounds({})
+    anchor.recalcBounds({})
+    offset = (anchor.xMin - glyph.xMin, anchor.yMin - glyph.yMin)
+    SOKUON_SMALL_KANA_OFFSETS[small] = offset
+    KANA_STROKES[small] = translate_strokes(KANA_STROKES[small], *offset)
+# END SOKUON POSITIONING 1.032
+
 
 DAKUTEN_STROKES = (
     S((30, 850), (75, 800), width=43, start=38, end=23),
