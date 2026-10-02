@@ -1,10 +1,28 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.033 — 45 quantum physics symbols
+## Current output: Version 1.034 — Math weight, operator hats and fraction axis
+
+All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.
+
+[Measurements, hashes and compatibility limits](reports/math-refinement.md), [native before/after, shaped hats and fractions](proofs/quanfangwei-math-refinement.png), [interactive calibration](quantum-calibration.html).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_math_refinement.py --write-report
+python tools/font/verify_supplement_font.py
+python analysis/audit_font_coverage.py --write
+python analysis/test_font_coverage.py
+python tools/font/render_math_refinement.py
+python tools/font/render_quantum_proof.py
+```
+
+The dedicated verifier pins 1.033, checks the exact scope of the appended hat lookup, preserves all source lookups, compares TTF/WOFF2 and requires a byte-identical rebuild. Historical checks validate this stage before restoring their original baselines in memory. MATH settings affect compatible math renderers; they cannot move a rule drawn independently by an unknown notebook generator. Stretchy operators and U+20D7 remain outside this release.
+
+## Retained stage: Version 1.033 — 45 quantum physics symbols
 
 P0/P1/P2/P3 coverage is complete in TTF and WOFF2. All 10,467 pre-existing glyph bytes and horizontal/vertical metrics, cmap identities and layout tables are frozen against the pinned 1.032 baseline. New glyphs use native contours or original pressure strokes; no external font outlines.
 
-[Version, SHA-256, design and regression report](reports/quantum-symbols.md), [45-glyph proof](proofs/quanfangwei-quantum-glyphs.png), [40 px context](proofs/quanfangwei-quantum-context-40.png), [interactive calibration](quantum-calibration.html).
+[Historical version, SHA-256, design and regression report](reports/quantum-symbols.md). The [45-glyph proof](proofs/quanfangwei-quantum-glyphs.png), [40 px context](proofs/quanfangwei-quantum-context-40.png) and [interactive calibration](quantum-calibration.html) now render current 1.034 output.
 
 ```sh
 python tools/font/build_supplement_font.py

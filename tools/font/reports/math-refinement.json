@@ -1,0 +1,373 @@
+{
+  "version": "1.034",
+  "base_commit": "ca34467431ddc05e15368c244d1128687a074605",
+  "baseline_ttf_sha256": "6677ad97fb50cf5c23747882eaee9ae147536311eaa9f1374b8deb21132090f2",
+  "hashes": {
+    "ttf": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
+    "woff2": "15a21205d545b1d4e97162eae0a48f6b9430914ba8305be4ab497f01fd9b84c9"
+  },
+  "changed_outlines": [
+    "∑",
+    "∇",
+    "∏"
+  ],
+  "preserved_glyphs": 10509,
+  "all_advances_unchanged": true,
+  "cmap_unchanged": true,
+  "coverage": 45,
+  "source_lookups_unchanged": true,
+  "hat_metrics": {
+    "x": {
+      "ink_gap": 47.71428571428578,
+      "top": 635.0952380952381,
+      "x_offset": -25,
+      "y_offset": 69,
+      "advance": 335
+    },
+    "p": {
+      "ink_gap": 47.71428571428572,
+      "top": 611.0952380952381,
+      "x_offset": -33,
+      "y_offset": 45,
+      "advance": 347
+    },
+    "r": {
+      "ink_gap": 47.71428571428572,
+      "top": 591.0952380952381,
+      "x_offset": -6,
+      "y_offset": 25,
+      "advance": 310
+    },
+    "L": {
+      "ink_gap": 47.71428571428578,
+      "top": 763.0952380952381,
+      "x_offset": -61,
+      "y_offset": 197,
+      "advance": 405
+    },
+    "B": {
+      "ink_gap": 47.71428571428578,
+      "top": 767.0952380952381,
+      "x_offset": -60,
+      "y_offset": 201,
+      "advance": 404
+    },
+    "α": {
+      "ink_gap": 47.71428571428578,
+      "top": 674.0952380952381,
+      "x_offset": -67,
+      "y_offset": 108,
+      "advance": 418
+    },
+    "β": {
+      "ink_gap": 47.71428571428578,
+      "top": 770.0952380952381,
+      "x_offset": -53,
+      "y_offset": 204,
+      "advance": 391
+    },
+    "γ": {
+      "ink_gap": 47.71428571428578,
+      "top": 649.0952380952381,
+      "x_offset": -30,
+      "y_offset": 83,
+      "advance": 344
+    },
+    "δ": {
+      "ink_gap": 47.71428571428578,
+      "top": 648.0952380952381,
+      "x_offset": -33,
+      "y_offset": 82,
+      "advance": 349
+    },
+    "ε": {
+      "ink_gap": 47.71428571428578,
+      "top": 641.0952380952381,
+      "x_offset": -27,
+      "y_offset": 75,
+      "advance": 339
+    },
+    "ζ": {
+      "ink_gap": 47.71428571428578,
+      "top": 774.0952380952381,
+      "x_offset": -25,
+      "y_offset": 208,
+      "advance": 334
+    },
+    "η": {
+      "ink_gap": 47.71428571428572,
+      "top": 611.0952380952381,
+      "x_offset": -51,
+      "y_offset": 45,
+      "advance": 386
+    },
+    "θ": {
+      "ink_gap": 47.71428571428578,
+      "top": 777.0952380952381,
+      "x_offset": -44,
+      "y_offset": 211,
+      "advance": 373
+    },
+    "ι": {
+      "ink_gap": 47.71428571428578,
+      "top": 637.0952380952381,
+      "x_offset": 5,
+      "y_offset": 71,
+      "advance": 274
+    },
+    "κ": {
+      "ink_gap": 47.71428571428578,
+      "top": 641.0952380952381,
+      "x_offset": -41,
+      "y_offset": 75,
+      "advance": 367
+    },
+    "λ": {
+      "ink_gap": 47.71428571428578,
+      "top": 690.0952380952381,
+      "x_offset": -91,
+      "y_offset": 124,
+      "advance": 466
+    },
+    "μ": {
+      "ink_gap": 47.71428571428572,
+      "top": 621.0952380952381,
+      "x_offset": -62,
+      "y_offset": 55,
+      "advance": 408
+    },
+    "ν": {
+      "ink_gap": 47.71428571428578,
+      "top": 650.0952380952381,
+      "x_offset": -49,
+      "y_offset": 84,
+      "advance": 381
+    },
+    "ξ": {
+      "ink_gap": 47.71428571428578,
+      "top": 803.0952380952381,
+      "x_offset": -30,
+      "y_offset": 237,
+      "advance": 343
+    },
+    "ο": {
+      "ink_gap": 47.71428571428572,
+      "top": 633.0952380952381,
+      "x_offset": -58,
+      "y_offset": 67,
+      "advance": 400
+    },
+    "π": {
+      "ink_gap": 47.71428571428578,
+      "top": 644.0952380952381,
+      "x_offset": -96,
+      "y_offset": 78,
+      "advance": 476
+    },
+    "ρ": {
+      "ink_gap": 47.71428571428578,
+      "top": 636.0952380952381,
+      "x_offset": -26,
+      "y_offset": 70,
+      "advance": 336
+    },
+    "σ": {
+      "ink_gap": 48.314285714285745,
+      "top": 628.0952380952381,
+      "x_offset": -64,
+      "y_offset": 62,
+      "advance": 411
+    },
+    "τ": {
+      "ink_gap": 47.71428571428578,
+      "top": 662.0952380952381,
+      "x_offset": -46,
+      "y_offset": 96,
+      "advance": 375
+    },
+    "υ": {
+      "ink_gap": 47.831932773109315,
+      "top": 648.0952380952381,
+      "x_offset": -42,
+      "y_offset": 82,
+      "advance": 368
+    },
+    "φ": {
+      "ink_gap": 47.71428571428578,
+      "top": 810.0952380952381,
+      "x_offset": -66,
+      "y_offset": 244,
+      "advance": 416
+    },
+    "χ": {
+      "ink_gap": 47.71428571428578,
+      "top": 667.0952380952381,
+      "x_offset": -43,
+      "y_offset": 101,
+      "advance": 371
+    },
+    "ψ": {
+      "ink_gap": 47.71428571428578,
+      "top": 679.0952380952381,
+      "x_offset": -60,
+      "y_offset": 113,
+      "advance": 404
+    },
+    "ω": {
+      "ink_gap": 47.71428571428572,
+      "top": 609.0952380952381,
+      "x_offset": -84,
+      "y_offset": 43,
+      "advance": 452
+    },
+    "ϵ": {
+      "ink_gap": 47.71428571428578,
+      "top": 664.0952380952381,
+      "x_offset": -46,
+      "y_offset": 98,
+      "advance": 365
+    },
+    "ϕ": {
+      "ink_gap": 47.71428571428578,
+      "top": 815.0952380952381,
+      "x_offset": -76,
+      "y_offset": 249,
+      "advance": 440
+    },
+    "ϑ": {
+      "ink_gap": 47.71428571428578,
+      "top": 777.0952380952381,
+      "x_offset": -97,
+      "y_offset": 211,
+      "advance": 455
+    },
+    "ϱ": {
+      "ink_gap": 47.71428571428578,
+      "top": 656.0952380952381,
+      "x_offset": -66,
+      "y_offset": 90,
+      "advance": 420
+    },
+    "ℋ": {
+      "ink_gap": 47.71428571428578,
+      "top": 804.0952380952381,
+      "x_offset": -210,
+      "y_offset": 238,
+      "advance": 670
+    },
+    "ℒ": {
+      "ink_gap": 40.71428571428578,
+      "top": 815.0952380952381,
+      "x_offset": -133,
+      "y_offset": 249,
+      "advance": 525
+    },
+    "ℱ": {
+      "ink_gap": 47.71428571428578,
+      "top": 797.0952380952381,
+      "x_offset": -148,
+      "y_offset": 231,
+      "advance": 580
+    },
+    "ℜ": {
+      "ink_gap": 47.71428571428578,
+      "top": 799.0952380952381,
+      "x_offset": -156,
+      "y_offset": 233,
+      "advance": 605
+    },
+    "ℑ": {
+      "ink_gap": 47.71428571428578,
+      "top": 795.0952380952381,
+      "x_offset": -84,
+      "y_offset": 229,
+      "advance": 435
+    }
+  },
+  "axis_height": 330,
+  "fraction_rule_thickness": 36,
+  "stroke_weight": {
+    "20": {
+      "reference_median_px": 1.0,
+      "glyphs": {
+        "∑": {
+          "before_px": 1.5,
+          "after_px": 1.0,
+          "reference_ratio": 1.0
+        },
+        "∇": {
+          "before_px": 1.5,
+          "after_px": 1.0,
+          "reference_ratio": 1.0
+        },
+        "∏": {
+          "before_px": 1.25,
+          "after_px": 1.0,
+          "reference_ratio": 1.0
+        }
+      }
+    },
+    "32": {
+      "reference_median_px": 1.5,
+      "glyphs": {
+        "∑": {
+          "before_px": 2.25,
+          "after_px": 1.5,
+          "reference_ratio": 1.0
+        },
+        "∇": {
+          "before_px": 2.25,
+          "after_px": 1.625,
+          "reference_ratio": 1.0833333333333333
+        },
+        "∏": {
+          "before_px": 1.75,
+          "after_px": 1.5,
+          "reference_ratio": 1.0
+        }
+      }
+    },
+    "64": {
+      "reference_median_px": 3.0,
+      "glyphs": {
+        "∑": {
+          "before_px": 4.5,
+          "after_px": 3.25,
+          "reference_ratio": 1.0833333333333333
+        },
+        "∇": {
+          "before_px": 4.5,
+          "after_px": 3.25,
+          "reference_ratio": 1.0833333333333333
+        },
+        "∏": {
+          "before_px": 3.75,
+          "after_px": 3.0,
+          "reference_ratio": 1.0
+        }
+      }
+    },
+    "96": {
+      "reference_median_px": 4.75,
+      "glyphs": {
+        "∑": {
+          "before_px": 7.0,
+          "after_px": 4.75,
+          "reference_ratio": 1.0
+        },
+        "∇": {
+          "before_px": 6.75,
+          "after_px": 4.75,
+          "reference_ratio": 1.0
+        },
+        "∏": {
+          "before_px": 5.5,
+          "after_px": 4.75,
+          "reference_ratio": 1.0
+        }
+      }
+    }
+  },
+  "ttf_woff2_parity": true,
+  "deterministic_rebuild": true
+}

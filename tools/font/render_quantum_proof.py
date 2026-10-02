@@ -39,7 +39,7 @@ def main():
     validate_coverage();OUT.mkdir(exist_ok=True)
     im=Image.new('RGB',(1400,1400),'#fffdf8');d=ImageDraw.Draw(im)
     label=ImageFont.truetype(str(FONT),24);large=ImageFont.truetype(str(FONT),126)
-    d.text((40,24),'QuanFangwei 1.033 / Quantum symbols / 45 native glyphs',font=label,fill='#223344')
+    d.text((40,24),'QuanFangwei 1.034 / Quantum symbols / 45 native glyphs',font=label,fill='#223344')
     i=0
     for group,chars in GROUPS.items():
         for c in chars:
@@ -54,7 +54,7 @@ def main():
         width=max(1200,round(max(f.getlength(s) for s in SAMPLES))+100)
         line=max(45,round(size*1.55));height=110+line*len(SAMPLES)
         im=Image.new('RGB',(width,height),'#fffdf8');d=ImageDraw.Draw(im)
-        d.text((40,20),f'QuanFangwei 1.033 / native TTF only / {size} px',font=label,fill='#345')
+        d.text((40,20),f'QuanFangwei 1.034 / native TTF only / {size} px',font=label,fill='#345')
         for i,s in enumerate(SAMPLES):
             y=100+line*i
             d.line((40,y,width-40,y),fill='#e0e6e9')

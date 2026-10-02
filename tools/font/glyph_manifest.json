@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.033"
+    "version": "1.034"
   },
   "glyphs": [
     {
@@ -1371,5 +1371,16 @@
     "construction": "Post-scale translation only; existing small-form geometry, pressure and 960-unit advances preserved. All other glyphs unchanged.",
     "verifier": "verify_sokuon_position.py",
     "report": "reports/sokuon-position.md"
+  },
+  "math_refinement": {
+    "version": "1.034",
+    "weight_inset": {
+      "∑": 10,
+      "∇": 10,
+      "∏": 5
+    },
+    "combining_hat": "U+0302 existing glyph preserved; scoped appended GPOS",
+    "math_axis": 330,
+    "fraction_rule_thickness": 36
   }
 }

@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.033"
-UNIQUE_ID = "1.033;QFW;QuanFangweiSupplementScript-Regular;20260925"
+VERSION = "1.034"
+UNIQUE_ID = "1.034;QFW;QuanFangweiSupplementScript-Regular;20260925"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -623,7 +623,7 @@ def verify() -> list[str]:
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
     derived_lookups = ttf["GPOS"].table.LookupList.Lookup
-    require(len(derived_lookups) == len(source_lookups) + 2, "Derived GPOS should append exactly two lookups")
+    require(len(derived_lookups) == len(source_lookups) + 3, "Derived GPOS should append exactly three lookups (cedilla, Japanese marks and scoped operator hats)")
     for index, source_lookup in enumerate(source_lookups):
         require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
     for glyph_name, glyph_class in source["GDEF"].table.GlyphClassDef.classDefs.items():
