@@ -1,0 +1,74 @@
+{
+  "axis": 330,
+  "rule_thickness": 36,
+  "fraction_rules": [
+    [
+      2026.5,
+      330,
+      2982.025,
+      36
+    ],
+    [
+      6357.025,
+      330,
+      7574.775,
+      36
+    ]
+  ],
+  "formula_bounds": [
+    -248.74999999999994,
+    1018.4849999999999
+  ],
+  "hat_samples": [
+    "x̂  p̂  Ĥ  L̂  ψ̂  φ̂  ρ̂",
+    "(x̂²p̂ + 2x̂p̂x̂ + p̂x̂²) / 4",
+    "â ê î ô û   â ê î ô û"
+  ],
+  "fraction_regression": [
+    {
+      "numerator": [
+        "x"
+      ],
+      "denominator": [
+        "y"
+      ],
+      "axis": 330,
+      "numerator_ink_gap": 72.0,
+      "denominator_ink_gap": 72.0
+    },
+    {
+      "numerator": [
+        "d⟨x⟩"
+      ],
+      "denominator": [
+        "dt"
+      ],
+      "axis": 330,
+      "numerator_ink_gap": 72.0,
+      "denominator_ink_gap": 72.0
+    },
+    {
+      "numerator": [
+        "dx",
+        "c"
+      ],
+      "denominator": [
+        "dt"
+      ],
+      "axis": 330,
+      "numerator_ink_gap": 72.0,
+      "denominator_ink_gap": 72.0
+    },
+    {
+      "numerator": [
+        "ψ̂"
+      ],
+      "denominator": [
+        "ρ"
+      ],
+      "axis": 330,
+      "numerator_ink_gap": 72.0,
+      "denominator_ink_gap": 72.0
+    }
+  ]
+}

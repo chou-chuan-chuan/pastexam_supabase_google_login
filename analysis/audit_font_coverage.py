@@ -35,7 +35,7 @@ def audit(path):
                         failures.append(f'U+{cp:04X}: inconsistent Unicode cmap {table.platformID}/{table.platEncID}')
                 rows.append(dict(priority=group,character=c,codepoint=f'U+{cp:04X}',unicode_name=unicodedata.name(c),glyph=actual or '',status='present' if covered else 'missing_or_invalid',requirement_evidence=EVIDENCE[group]))
         version=font['name'].getDebugName(5);revision=font['head'].fontRevision
-        if version!='Version 1.033' or abs(revision-1.033)>=1/65536:failures.append(f'Unexpected font version: {version} / {revision}')
+        if version!='Version 1.034' or abs(revision-1.034)>=1/65536:failures.append(f'Unexpected font version: {version} / {revision}')
         result=dict(font=path.name,version=version,font_revision=revision,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                     scope='45 independent P0/P1/P2/P3 codepoints; not an exhaustive lecture-folder audit',
                     total_unicode_codepoints=len(cm),expected_count=45,present_count=sum(r['status']=='present' for r in rows),

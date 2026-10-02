@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.033"
+VERSION = "1.034"
 BUILD_DATE = "2026-09-25"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260925"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Math refinement（Version 1.034）：∑／∇／∏ 只作輪廓減重（內縮 10／10／5 units），不縮小字面或字寬；U+0302 原帽號輪廓保持，新增限定 base 的 GPOS 定位；MATH AxisHeight=330 對齊等號中心，分數 rule=36。詳見 tools/font/reports/math-refinement.md。
 - Quantum symbols（Version 1.033）：P0–P3 共 45 個獨立 Unicode glyph。只新增字形，既有輪廓、字寬與排版表不變。來源為本字型原生輪廓及專案原創筆壓路徑，無外部字型。詳見 tools/font/reports/quantum-symbols.md 與 analysis/font-coverage.json。
 - Sokuon lower-left optical positioning（Version 1.032）：`っ` 只平移 (-107,-138)、`ッ` 只平移 (-155,-88)，沿用已審核 yōon 的 final ink anchor (180,-32)。既有尺寸、拓撲、960 advance、`つ／ツ` 與所有其他小假名不變；全域 -56 bottom alignment 不變。No external font outline was used. 見 tools/font/reports/sokuon-position.md 與 tools/font/proofs/quanfangwei-sokuon-cell-position.png。
 - French guillemet coverage（Version 1.031）：新增 U+00AB `«` / `guillemotleft`、U+00BB `»` / `guillemotright`。來源沒有 «/» 或 ‹/›，因此只使用原始 U+003C `less` 與 U+003E `greater` 各兩個 component；left matrix (0.75,0,0,0.75)、right matrix (0.453125,-0.4375,0.2109375,0.9375)、origins (-6,43)/(106,43) 與 (-30,7)/(91,7)。327-unit advance、約 32/33 sidebearings，ink 約 y=163..417、center=290，適合 Latin 小寫。No external font outline was used. 所有既有 glyphs 與 layout 不變；無 CSS／JS workaround 或文字替換。見 tools/font/reports/french-guillemets.md 與 tools/font/proofs/quanfangwei-french-guillemets.png。
@@ -597,9 +598,11 @@ def main() -> int:
         build_french_guillemets(font)
         from quantum_symbols import build_quantum_symbols
         build_quantum_symbols(font)
+        from math_refinement import refine_math
+        refine_math(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.033
+        font["head"].fontRevision = 1.034
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

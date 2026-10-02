@@ -199,7 +199,7 @@ def verify():
                 expected_advance = old['hmtx'][old.getBestCmap()[ord(c)]][0] if c == '　' else 960
                 assert n != '.notdef' and advance == expected_advance and (ya, x, y) == (0, 0, 0), text
         manifest = json.loads((ROOT / 'tools/font/glyph_manifest.json').read_text())
-        assert manifest['derived_font']['version'] == '1.033'
+        assert manifest['derived_font']['version'] == '1.034'
         assert manifest['sokuon_positioning']['translations'] == {c: list(v) for c, v in TRANSLATIONS.items()}
         rows = []
         for c, (dx, dy) in TRANSLATIONS.items():
