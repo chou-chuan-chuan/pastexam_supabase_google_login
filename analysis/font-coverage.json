@@ -1,0 +1,447 @@
+{
+  "font": "QuanFangweiSupplementScript-Regular.ttf",
+  "version": "Version 1.033",
+  "font_revision": 1.0330047607421875,
+  "sha256": "6677ad97fb50cf5c23747882eaee9ae147536311eaa9f1374b8deb21132090f2",
+  "scope": "45 independent P0/P1/P2/P3 codepoints; not an exhaustive lecture-folder audit",
+  "total_unicode_codepoints": 10382,
+  "expected_count": 45,
+  "present_count": 45,
+  "priorities": {
+    "P0": {
+      "expected": 5,
+      "present": 5,
+      "evidence": "existing calibration page; supplied plan"
+    },
+    "P1": {
+      "expected": 14,
+      "present": 14,
+      "evidence": "two previously visually read lectures; supplied plan"
+    },
+    "P2": {
+      "expected": 13,
+      "present": 13,
+      "evidence": "possible later-topic requirement; not page-verified"
+    },
+    "P3": {
+      "expected": 13,
+      "present": 13,
+      "evidence": "optional mathematical notation; not currently necessary"
+    }
+  },
+  "excluded": [
+    {
+      "codepoint": "U+20D7",
+      "reason": "Combining vector arrow and positioning are outside this 45-codepoint scope",
+      "present": false
+    }
+  ],
+  "glyphs": [
+    {
+      "priority": "P0",
+      "character": "ℏ",
+      "codepoint": "U+210F",
+      "unicode_name": "PLANCK CONSTANT OVER TWO PI",
+      "glyph": "uni210F.qfwMath",
+      "status": "present",
+      "requirement_evidence": "existing calibration page; supplied plan"
+    },
+    {
+      "priority": "P0",
+      "character": "∂",
+      "codepoint": "U+2202",
+      "unicode_name": "PARTIAL DIFFERENTIAL",
+      "glyph": "uni2202.qfwMath",
+      "status": "present",
+      "requirement_evidence": "existing calibration page; supplied plan"
+    },
+    {
+      "priority": "P0",
+      "character": "∝",
+      "codepoint": "U+221D",
+      "unicode_name": "PROPORTIONAL TO",
+      "glyph": "uni221D.qfwMath",
+      "status": "present",
+      "requirement_evidence": "existing calibration page; supplied plan"
+    },
+    {
+      "priority": "P0",
+      "character": "−",
+      "codepoint": "U+2212",
+      "unicode_name": "MINUS SIGN",
+      "glyph": "uni2212.qfwMath",
+      "status": "present",
+      "requirement_evidence": "existing calibration page; supplied plan"
+    },
+    {
+      "priority": "P0",
+      "character": "↔",
+      "codepoint": "U+2194",
+      "unicode_name": "LEFT RIGHT ARROW",
+      "glyph": "uni2194.qfwMath",
+      "status": "present",
+      "requirement_evidence": "existing calibration page; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "∑",
+      "codepoint": "U+2211",
+      "unicode_name": "N-ARY SUMMATION",
+      "glyph": "uni2211.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "∇",
+      "codepoint": "U+2207",
+      "unicode_name": "NABLA",
+      "glyph": "uni2207.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "⋅",
+      "codepoint": "U+22C5",
+      "unicode_name": "DOT OPERATOR",
+      "glyph": "uni22C5.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "⟨",
+      "codepoint": "U+27E8",
+      "unicode_name": "MATHEMATICAL LEFT ANGLE BRACKET",
+      "glyph": "uni27E8.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "⟩",
+      "codepoint": "U+27E9",
+      "unicode_name": "MATHEMATICAL RIGHT ANGLE BRACKET",
+      "glyph": "uni27E9.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≈",
+      "codepoint": "U+2248",
+      "unicode_name": "ALMOST EQUAL TO",
+      "glyph": "uni2248.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≃",
+      "codepoint": "U+2243",
+      "unicode_name": "ASYMPTOTICALLY EQUAL TO",
+      "glyph": "uni2243.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "∼",
+      "codepoint": "U+223C",
+      "unicode_name": "TILDE OPERATOR",
+      "glyph": "uni223C.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≤",
+      "codepoint": "U+2264",
+      "unicode_name": "LESS-THAN OR EQUAL TO",
+      "glyph": "uni2264.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≥",
+      "codepoint": "U+2265",
+      "unicode_name": "GREATER-THAN OR EQUAL TO",
+      "glyph": "uni2265.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≪",
+      "codepoint": "U+226A",
+      "unicode_name": "MUCH LESS-THAN",
+      "glyph": "uni226A.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "≫",
+      "codepoint": "U+226B",
+      "unicode_name": "MUCH GREATER-THAN",
+      "glyph": "uni226B.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "⇒",
+      "codepoint": "U+21D2",
+      "unicode_name": "RIGHTWARDS DOUBLE ARROW",
+      "glyph": "uni21D2.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P1",
+      "character": "⇔",
+      "codepoint": "U+21D4",
+      "unicode_name": "LEFT RIGHT DOUBLE ARROW",
+      "glyph": "uni21D4.qfwMath",
+      "status": "present",
+      "requirement_evidence": "two previously visually read lectures; supplied plan"
+    },
+    {
+      "priority": "P2",
+      "character": "∏",
+      "codepoint": "U+220F",
+      "unicode_name": "N-ARY PRODUCT",
+      "glyph": "uni220F.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "∓",
+      "codepoint": "U+2213",
+      "unicode_name": "MINUS-OR-PLUS SIGN",
+      "glyph": "uni2213.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "†",
+      "codepoint": "U+2020",
+      "unicode_name": "DAGGER",
+      "glyph": "uni2020.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "″",
+      "codepoint": "U+2033",
+      "unicode_name": "DOUBLE PRIME",
+      "glyph": "uni2033.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "ℓ",
+      "codepoint": "U+2113",
+      "unicode_name": "SCRIPT SMALL L",
+      "glyph": "uni2113.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "⊗",
+      "codepoint": "U+2297",
+      "unicode_name": "CIRCLED TIMES",
+      "glyph": "uni2297.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "‖",
+      "codepoint": "U+2016",
+      "unicode_name": "DOUBLE VERTICAL LINE",
+      "glyph": "uni2016.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "∬",
+      "codepoint": "U+222C",
+      "unicode_name": "DOUBLE INTEGRAL",
+      "glyph": "uni222C.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "∭",
+      "codepoint": "U+222D",
+      "unicode_name": "TRIPLE INTEGRAL",
+      "glyph": "uni222D.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "ϵ",
+      "codepoint": "U+03F5",
+      "unicode_name": "GREEK LUNATE EPSILON SYMBOL",
+      "glyph": "uni03F5.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "ϕ",
+      "codepoint": "U+03D5",
+      "unicode_name": "GREEK PHI SYMBOL",
+      "glyph": "uni03D5.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "≲",
+      "codepoint": "U+2272",
+      "unicode_name": "LESS-THAN OR EQUIVALENT TO",
+      "glyph": "uni2272.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P2",
+      "character": "≳",
+      "codepoint": "U+2273",
+      "unicode_name": "GREATER-THAN OR EQUIVALENT TO",
+      "glyph": "uni2273.qfwMath",
+      "status": "present",
+      "requirement_evidence": "possible later-topic requirement; not page-verified"
+    },
+    {
+      "priority": "P3",
+      "character": "∀",
+      "codepoint": "U+2200",
+      "unicode_name": "FOR ALL",
+      "glyph": "uni2200.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "∃",
+      "codepoint": "U+2203",
+      "unicode_name": "THERE EXISTS",
+      "glyph": "uni2203.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "∈",
+      "codepoint": "U+2208",
+      "unicode_name": "ELEMENT OF",
+      "glyph": "uni2208.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "∉",
+      "codepoint": "U+2209",
+      "unicode_name": "NOT AN ELEMENT OF",
+      "glyph": "uni2209.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℝ",
+      "codepoint": "U+211D",
+      "unicode_name": "DOUBLE-STRUCK CAPITAL R",
+      "glyph": "uni211D.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℂ",
+      "codepoint": "U+2102",
+      "unicode_name": "DOUBLE-STRUCK CAPITAL C",
+      "glyph": "uni2102.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℋ",
+      "codepoint": "U+210B",
+      "unicode_name": "SCRIPT CAPITAL H",
+      "glyph": "uni210B.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℒ",
+      "codepoint": "U+2112",
+      "unicode_name": "SCRIPT CAPITAL L",
+      "glyph": "uni2112.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℱ",
+      "codepoint": "U+2131",
+      "unicode_name": "SCRIPT CAPITAL F",
+      "glyph": "uni2131.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℜ",
+      "codepoint": "U+211C",
+      "unicode_name": "BLACK-LETTER CAPITAL R",
+      "glyph": "uni211C.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ℑ",
+      "codepoint": "U+2111",
+      "unicode_name": "BLACK-LETTER CAPITAL I",
+      "glyph": "uni2111.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ϑ",
+      "codepoint": "U+03D1",
+      "unicode_name": "GREEK THETA SYMBOL",
+      "glyph": "uni03D1.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    },
+    {
+      "priority": "P3",
+      "character": "ϱ",
+      "codepoint": "U+03F1",
+      "unicode_name": "GREEK RHO SYMBOL",
+      "glyph": "uni03F1.qfwMath",
+      "status": "present",
+      "requirement_evidence": "optional mathematical notation; not currently necessary"
+    }
+  ],
+  "failures": []
+}

@@ -25,13 +25,13 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.032");
-  // This source-only revision intentionally preserves the existing CSS URLs.
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.024/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.024/);
+  assert.equal(manifest.derived_font.version, "1.033");
+  // Version the font URLs so cached clients receive the new coverage.
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.033/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.033/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
-  assert.deepEqual(manifest.glyphs.map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
+  assert.deepEqual(manifest.glyphs.filter(item => !item.priority).map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
     { character: "«", codepoint: "U+00AB", glyph_name: "guillemotleft" },
     { character: "»", codepoint: "U+00BB", glyph_name: "guillemotright" },
     { character: "Œ", codepoint: "U+0152", glyph_name: "OE" },
@@ -57,4 +57,16 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   assert.equal(manifest.groups.hiragana.status, "verified");
   assert.equal(manifest.groups.katakana.status, "verified");
   assert.equal(manifest.groups.japanese_marks.status, "verified");
+});
+
+test("manifests exactly the 45 independently named quantum mappings", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../tools/font/glyph_manifest.json", import.meta.url), "utf8"));
+  const expected = [..."ℏ∂∝−↔∑∇⋅⟨⟩≈≃∼≤≥≪≫⇒⇔∏∓†″ℓ⊗‖∬∭ϵϕ≲≳∀∃∈∉ℝℂℋℒℱℜℑϑϱ"];
+  const math = manifest.glyphs.filter(item => item.priority);
+  assert.deepEqual(math.map(item => item.character), expected);
+  for (const item of math) {
+    const hex = item.character.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
+    assert.equal(item.codepoint, `U+${hex}`);
+    assert.equal(item.glyph_name, `uni${hex}.qfwMath`);
+  }
 });

@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.032"
+    "version": "1.033"
   },
   "glyphs": [
     {
@@ -395,6 +395,760 @@
       ],
       "optical_adjustments": "Scale source beta to 110% x / 74% y and translate +204 y; use advance 430 so the descender is shortened into the capital zone.",
       "notes": "The latest reference requests a beta-like capital sharp s. U+1E9E retains its own uni1E9E cmap mapping and a capital-height optical transform; U+03B2 remains unchanged."
+    },
+    {
+      "character": "ℏ",
+      "codepoint": "U+210F",
+      "unicode_name": "PLANCK CONSTANT OVER TWO PI",
+      "glyph_name": "uni210F.qfwMath",
+      "priority": "P0",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "h",
+          "codepoint": "U+0068"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0.12,
+          1,
+          -3,
+          0
+        ]
+      ],
+      "advance": 370,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∂",
+      "codepoint": "U+2202",
+      "unicode_name": "PARTIAL DIFFERENTIAL",
+      "glyph_name": "uni2202.qfwMath",
+      "priority": "P0",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 380,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∝",
+      "codepoint": "U+221D",
+      "unicode_name": "PROPORTIONAL TO",
+      "glyph_name": "uni221D.qfwMath",
+      "priority": "P0",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 565,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "−",
+      "codepoint": "U+2212",
+      "unicode_name": "MINUS SIGN",
+      "glyph_name": "uni2212.qfwMath",
+      "priority": "P0",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 530,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "↔",
+      "codepoint": "U+2194",
+      "unicode_name": "LEFT RIGHT ARROW",
+      "glyph_name": "uni2194.qfwMath",
+      "priority": "P0",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 680,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∑",
+      "codepoint": "U+2211",
+      "unicode_name": "N-ARY SUMMATION",
+      "glyph_name": "uni2211.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "Σ",
+          "codepoint": "U+03A3"
+        }
+      ],
+      "component_transforms": [
+        [
+          1.24,
+          0,
+          0,
+          1.12,
+          -1,
+          -35
+        ]
+      ],
+      "advance": 560,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∇",
+      "codepoint": "U+2207",
+      "unicode_name": "NABLA",
+      "glyph_name": "uni2207.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "Δ",
+          "codepoint": "U+0394"
+        }
+      ],
+      "component_transforms": [
+        [
+          1.2,
+          0,
+          0,
+          -1.3,
+          -13,
+          806
+        ]
+      ],
+      "advance": 510,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⋅",
+      "codepoint": "U+22C5",
+      "unicode_name": "DOT OPERATOR",
+      "glyph_name": "uni22C5.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "·",
+          "codepoint": "U+00B7"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          35,
+          -19
+        ]
+      ],
+      "advance": 240,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⟨",
+      "codepoint": "U+27E8",
+      "unicode_name": "MATHEMATICAL LEFT ANGLE BRACKET",
+      "glyph_name": "uni27E8.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 255,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⟩",
+      "codepoint": "U+27E9",
+      "unicode_name": "MATHEMATICAL RIGHT ANGLE BRACKET",
+      "glyph_name": "uni27E9.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 255,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≈",
+      "codepoint": "U+2248",
+      "unicode_name": "ALMOST EQUAL TO",
+      "glyph_name": "uni2248.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 530,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≃",
+      "codepoint": "U+2243",
+      "unicode_name": "ASYMPTOTICALLY EQUAL TO",
+      "glyph_name": "uni2243.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 530,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∼",
+      "codepoint": "U+223C",
+      "unicode_name": "TILDE OPERATOR",
+      "glyph_name": "uni223C.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 530,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≤",
+      "codepoint": "U+2264",
+      "unicode_name": "LESS-THAN OR EQUAL TO",
+      "glyph_name": "uni2264.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 355,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≥",
+      "codepoint": "U+2265",
+      "unicode_name": "GREATER-THAN OR EQUAL TO",
+      "glyph_name": "uni2265.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 355,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≪",
+      "codepoint": "U+226A",
+      "unicode_name": "MUCH LESS-THAN",
+      "glyph_name": "uni226A.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 535,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≫",
+      "codepoint": "U+226B",
+      "unicode_name": "MUCH GREATER-THAN",
+      "glyph_name": "uni226B.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 535,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⇒",
+      "codepoint": "U+21D2",
+      "unicode_name": "RIGHTWARDS DOUBLE ARROW",
+      "glyph_name": "uni21D2.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 680,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⇔",
+      "codepoint": "U+21D4",
+      "unicode_name": "LEFT RIGHT DOUBLE ARROW",
+      "glyph_name": "uni21D4.qfwMath",
+      "priority": "P1",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 680,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∏",
+      "codepoint": "U+220F",
+      "unicode_name": "N-ARY PRODUCT",
+      "glyph_name": "uni220F.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "Π",
+          "codepoint": "U+03A0"
+        }
+      ],
+      "component_transforms": [
+        [
+          1.18,
+          0,
+          0,
+          1.08,
+          -9,
+          -20
+        ]
+      ],
+      "advance": 580,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∓",
+      "codepoint": "U+2213",
+      "unicode_name": "MINUS-OR-PLUS SIGN",
+      "glyph_name": "uni2213.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "±",
+          "codepoint": "U+00B1"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          -1,
+          15,
+          698
+        ]
+      ],
+      "advance": 440,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "†",
+      "codepoint": "U+2020",
+      "unicode_name": "DAGGER",
+      "glyph_name": "uni2020.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 380,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "″",
+      "codepoint": "U+2033",
+      "unicode_name": "DOUBLE PRIME",
+      "glyph_name": "uni2033.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "′",
+          "codepoint": "U+2032"
+        },
+        {
+          "character": "′",
+          "codepoint": "U+2032"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          18,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          150,
+          0
+        ]
+      ],
+      "advance": 290,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℓ",
+      "codepoint": "U+2113",
+      "unicode_name": "SCRIPT SMALL L",
+      "glyph_name": "uni2113.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 345,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "⊗",
+      "codepoint": "U+2297",
+      "unicode_name": "CIRCLED TIMES",
+      "glyph_name": "uni2297.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 600,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "‖",
+      "codepoint": "U+2016",
+      "unicode_name": "DOUBLE VERTICAL LINE",
+      "glyph_name": "uni2016.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "|",
+          "codepoint": "U+007C"
+        },
+        {
+          "character": "|",
+          "codepoint": "U+007C"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          -14,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          124,
+          0
+        ]
+      ],
+      "advance": 330,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∬",
+      "codepoint": "U+222C",
+      "unicode_name": "DOUBLE INTEGRAL",
+      "glyph_name": "uni222C.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "∫",
+          "codepoint": "U+222B"
+        },
+        {
+          "character": "∫",
+          "codepoint": "U+222B"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          270,
+          0
+        ]
+      ],
+      "advance": 715,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∭",
+      "codepoint": "U+222D",
+      "unicode_name": "TRIPLE INTEGRAL",
+      "glyph_name": "uni222D.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "∫",
+          "codepoint": "U+222B"
+        },
+        {
+          "character": "∫",
+          "codepoint": "U+222B"
+        },
+        {
+          "character": "∫",
+          "codepoint": "U+222B"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          270,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          540,
+          0
+        ]
+      ],
+      "advance": 985,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ϵ",
+      "codepoint": "U+03F5",
+      "unicode_name": "GREEK LUNATE EPSILON SYMBOL",
+      "glyph_name": "uni03F5.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 365,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ϕ",
+      "codepoint": "U+03D5",
+      "unicode_name": "GREEK PHI SYMBOL",
+      "glyph_name": "uni03D5.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 440,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≲",
+      "codepoint": "U+2272",
+      "unicode_name": "LESS-THAN OR EQUIVALENT TO",
+      "glyph_name": "uni2272.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 410,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "≳",
+      "codepoint": "U+2273",
+      "unicode_name": "GREATER-THAN OR EQUIVALENT TO",
+      "glyph_name": "uni2273.qfwMath",
+      "priority": "P2",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 410,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∀",
+      "codepoint": "U+2200",
+      "unicode_name": "FOR ALL",
+      "glyph_name": "uni2200.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 490,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∃",
+      "codepoint": "U+2203",
+      "unicode_name": "THERE EXISTS",
+      "glyph_name": "uni2203.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 460,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∈",
+      "codepoint": "U+2208",
+      "unicode_name": "ELEMENT OF",
+      "glyph_name": "uni2208.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 445,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "∉",
+      "codepoint": "U+2209",
+      "unicode_name": "NOT AN ELEMENT OF",
+      "glyph_name": "uni2209.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 445,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℝ",
+      "codepoint": "U+211D",
+      "unicode_name": "DOUBLE-STRUCK CAPITAL R",
+      "glyph_name": "uni211D.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 570,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℂ",
+      "codepoint": "U+2102",
+      "unicode_name": "DOUBLE-STRUCK CAPITAL C",
+      "glyph_name": "uni2102.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [
+        {
+          "character": "C",
+          "codepoint": "U+0043"
+        }
+      ],
+      "component_transforms": [
+        [
+          1,
+          0,
+          0,
+          1,
+          10,
+          0
+        ]
+      ],
+      "advance": 500,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℋ",
+      "codepoint": "U+210B",
+      "unicode_name": "SCRIPT CAPITAL H",
+      "glyph_name": "uni210B.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 670,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℒ",
+      "codepoint": "U+2112",
+      "unicode_name": "SCRIPT CAPITAL L",
+      "glyph_name": "uni2112.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 525,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℱ",
+      "codepoint": "U+2131",
+      "unicode_name": "SCRIPT CAPITAL F",
+      "glyph_name": "uni2131.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 580,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℜ",
+      "codepoint": "U+211C",
+      "unicode_name": "BLACK-LETTER CAPITAL R",
+      "glyph_name": "uni211C.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 605,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ℑ",
+      "codepoint": "U+2111",
+      "unicode_name": "BLACK-LETTER CAPITAL I",
+      "glyph_name": "uni2111.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 435,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ϑ",
+      "codepoint": "U+03D1",
+      "unicode_name": "GREEK THETA SYMBOL",
+      "glyph_name": "uni03D1.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 455,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
+    },
+    {
+      "character": "ϱ",
+      "codepoint": "U+03F1",
+      "unicode_name": "GREEK RHO SYMBOL",
+      "glyph_name": "uni03F1.qfwMath",
+      "priority": "P3",
+      "construction_method": "native_derivatives_and_original_pressure_strokes",
+      "source_glyphs": [],
+      "component_transforms": [],
+      "advance": 420,
+      "notes": "Original paths and exact recipes: tools/font/quantum_symbols.py. Independent Unicode identity; no external outline."
     }
   ],
   "groups": {
@@ -561,8 +1315,14 @@
     "voiced_relative_scale_x": 0.92,
     "voiced_relative_scale_y": 0.92,
     "voiced_effective_scale": 0.9016,
-    "body_anchor": [800, 599],
-    "dakuten_delta": [708, -160],
+    "body_anchor": [
+      800,
+      599
+    ],
+    "dakuten_delta": [
+      708,
+      -160
+    ],
     "advance": 960,
     "old_minimum_clearance": 54.800000000000026,
     "new_minimum_clearance": 78.80000000000001,
