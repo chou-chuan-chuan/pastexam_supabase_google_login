@@ -68,6 +68,8 @@ def box(font, name):
 
 def historical_cmap(font):
     """Exclude only the verified 1.031 extension from older regression oracles."""
+    from verify_quantum_symbols import restore_1_032_for_historical_checks
+    restore_1_032_for_historical_checks(font)
     cmap = font.getBestCmap().copy()
     for cp, name in GUILLEMETS.items():
         assert cmap.pop(cp, None) == name
@@ -75,6 +77,8 @@ def historical_cmap(font):
 
 
 def historical_order(font):
+    from verify_quantum_symbols import restore_1_032_for_historical_checks
+    restore_1_032_for_historical_checks(font)
     order = font.getGlyphOrder()
     assert order[-2:] == list(GUILLEMETS.values())
     return order[:-2]
@@ -161,7 +165,7 @@ def verify():
                 assert shaped_names.count("guillemotleft") == text.count("«")
                 assert shaped_names.count("guillemotright") == text.count("»")
         manifest = json.loads((ROOT / "tools/font/glyph_manifest.json").read_text(encoding="utf-8"))
-        assert manifest["derived_font"]["version"] == "1.032"
+        assert manifest["derived_font"]["version"] == "1.033"
         for name, recipe in RECIPES.items():
             entry = next(item for item in manifest["glyphs"] if item["glyph_name"] == name)
             assert entry["component_transforms"] == [list(transform) for _, transform in recipe]

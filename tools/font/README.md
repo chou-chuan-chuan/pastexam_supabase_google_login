@@ -1,6 +1,24 @@
 # 荃方位補寫體建置工具
 
-## Current output: Version 1.032 — Sokuon lower-left optical positioning
+## Current output: Version 1.033 — 45 quantum physics symbols
+
+P0/P1/P2/P3 coverage is complete in TTF and WOFF2. All 10,467 pre-existing glyph bytes and horizontal/vertical metrics, cmap identities and layout tables are frozen against the pinned 1.032 baseline. New glyphs use native contours or original pressure strokes; no external font outlines.
+
+[Version, SHA-256, design and regression report](reports/quantum-symbols.md), [45-glyph proof](proofs/quanfangwei-quantum-glyphs.png), [40 px context](proofs/quanfangwei-quantum-context-40.png), [interactive calibration](quantum-calibration.html).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_quantum_symbols.py --write-report
+python analysis/audit_font_coverage.py --write
+python analysis/audit_font_coverage.py
+python analysis/test_font_coverage.py
+python tools/font/render_quantum_proof.py
+```
+
+The audit preserves P2/P3 as unverified lecture requirements while reporting their implemented glyph coverage. U+20D7 is excluded. Historical verifiers validate the 45-glyph extension before restoring the frozen 1.032 view in memory; their old regression oracles are retained.
+
+## Retained stage: Version 1.032 — Sokuon lower-left optical positioning
 
 Only `っ` and `ッ` move inside their full-width cells: `(-107,-138)` and `(-155,-88)` respectively. `SOKUON_SMALL_KANA_OFFSETS` measures each accepted small form against its script’s existing yōon anchor after construction/scaling. All six Version 1.031 yōon glyphs have final `(xMin,yMin)=(180,-32)`; the new sokuon share that anchor.
 

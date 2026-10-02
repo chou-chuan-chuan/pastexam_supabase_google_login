@@ -1,0 +1,615 @@
+{
+  "version": "1.033",
+  "base_commit": "f0ed23419aa47965b9f5daa72d568381d79b42b3",
+  "baseline_ttf_sha256": "d46795a76391677f12251b8031e32189cf5b914784566ebe91a1d8ebd360d091",
+  "hashes": {
+    "ttf": "6677ad97fb50cf5c23747882eaee9ae147536311eaa9f1374b8deb21132090f2",
+    "woff2": "55b932690ac8833d2933a954ea8a434664f71e5880926ee157174586283b247b"
+  },
+  "added_codepoints": 45,
+  "preserved_glyphs": 10467,
+  "existing_outline_or_metric_changes": 0,
+  "layout_tables_unchanged": true,
+  "changed_tables": [
+    "head",
+    "hhea",
+    "maxp",
+    "hmtx",
+    "cmap",
+    "loca",
+    "glyf",
+    "name",
+    "post",
+    "vhea",
+    "vmtx"
+  ],
+  "deterministic_rebuild": true,
+  "ttf_woff2_parity": true,
+  "glyphs": {
+    "U+210F": {
+      "character": "ℏ",
+      "glyph": "uni210F.qfwMath",
+      "bounds": [
+        36.0,
+        111,
+        306.44444444444446,
+        616
+      ],
+      "advance": 370,
+      "lsb": 35,
+      "rsb": 62
+    },
+    "U+2202": {
+      "character": "∂",
+      "glyph": "uni2202.qfwMath",
+      "bounds": [
+        46,
+        105,
+        318,
+        625
+      ],
+      "advance": 380,
+      "lsb": 46,
+      "rsb": 62
+    },
+    "U+221D": {
+      "character": "∝",
+      "glyph": "uni221D.qfwMath",
+      "bounds": [
+        52,
+        191,
+        517,
+        482
+      ],
+      "advance": 565,
+      "lsb": 52,
+      "rsb": 48
+    },
+    "U+2212": {
+      "character": "−",
+      "glyph": "uni2212.qfwMath",
+      "bounds": [
+        45,
+        304,
+        481,
+        352
+      ],
+      "advance": 530,
+      "lsb": 45,
+      "rsb": 49
+    },
+    "U+2194": {
+      "character": "↔",
+      "glyph": "uni2194.qfwMath",
+      "bounds": [
+        46,
+        192,
+        634,
+        472
+      ],
+      "advance": 680,
+      "lsb": 46,
+      "rsb": 46
+    },
+    "U+2211": {
+      "character": "∑",
+      "glyph": "uni2211.qfwMath",
+      "bounds": [
+        60.99951171875,
+        102.7593994140625,
+        499.9560546875,
+        639.237060546875
+      ],
+      "advance": 560,
+      "lsb": 61,
+      "rsb": 60
+    },
+    "U+2207": {
+      "character": "∇",
+      "glyph": "uni2207.qfwMath",
+      "bounds": [
+        46.58321480129076,
+        107.90655517578125,
+        457.40478515625,
+        551.202392578125
+      ],
+      "advance": 510,
+      "lsb": 45,
+      "rsb": 53
+    },
+    "U+22C5": {
+      "character": "⋅",
+      "glyph": "uni22C5.qfwMath",
+      "bounds": [
+        98,
+        300,
+        142,
+        361
+      ],
+      "advance": 240,
+      "lsb": 98,
+      "rsb": 98
+    },
+    "U+27E8": {
+      "character": "⟨",
+      "glyph": "uni27E8.qfwMath",
+      "bounds": [
+        49,
+        0,
+        217,
+        675
+      ],
+      "advance": 255,
+      "lsb": 49,
+      "rsb": 38
+    },
+    "U+27E9": {
+      "character": "⟩",
+      "glyph": "uni27E9.qfwMath",
+      "bounds": [
+        42,
+        0,
+        208,
+        675
+      ],
+      "advance": 255,
+      "lsb": 42,
+      "rsb": 47
+    },
+    "U+2248": {
+      "character": "≈",
+      "glyph": "uni2248.qfwMath",
+      "bounds": [
+        46,
+        216,
+        480,
+        449
+      ],
+      "advance": 530,
+      "lsb": 46,
+      "rsb": 50
+    },
+    "U+2243": {
+      "character": "≃",
+      "glyph": "uni2243.qfwMath",
+      "bounds": [
+        45,
+        220,
+        481,
+        457
+      ],
+      "advance": 530,
+      "lsb": 45,
+      "rsb": 49
+    },
+    "U+223C": {
+      "character": "∼",
+      "glyph": "uni223C.qfwMath",
+      "bounds": [
+        46,
+        286,
+        480,
+        379
+      ],
+      "advance": 530,
+      "lsb": 46,
+      "rsb": 50
+    },
+    "U+2264": {
+      "character": "≤",
+      "glyph": "uni2264.qfwMath",
+      "bounds": [
+        44,
+        84,
+        301,
+        573
+      ],
+      "advance": 355,
+      "lsb": 44,
+      "rsb": 54
+    },
+    "U+2265": {
+      "character": "≥",
+      "glyph": "uni2265.qfwMath",
+      "bounds": [
+        44,
+        84,
+        301,
+        573
+      ],
+      "advance": 355,
+      "lsb": 44,
+      "rsb": 54
+    },
+    "U+226A": {
+      "character": "≪",
+      "glyph": "uni226A.qfwMath",
+      "bounds": [
+        44,
+        164,
+        486,
+        501
+      ],
+      "advance": 535,
+      "lsb": 44,
+      "rsb": 49
+    },
+    "U+226B": {
+      "character": "≫",
+      "glyph": "uni226B.qfwMath",
+      "bounds": [
+        44,
+        164,
+        486,
+        501
+      ],
+      "advance": 535,
+      "lsb": 44,
+      "rsb": 49
+    },
+    "U+21D2": {
+      "character": "⇒",
+      "glyph": "uni21D2.qfwMath",
+      "bounds": [
+        45,
+        167,
+        634,
+        499
+      ],
+      "advance": 680,
+      "lsb": 45,
+      "rsb": 46
+    },
+    "U+21D4": {
+      "character": "⇔",
+      "glyph": "uni21D4.qfwMath",
+      "bounds": [
+        46,
+        167,
+        634,
+        499
+      ],
+      "advance": 680,
+      "lsb": 46,
+      "rsb": 46
+    },
+    "U+220F": {
+      "character": "∏",
+      "glyph": "uni220F.qfwMath",
+      "bounds": [
+        49.9996337890625,
+        111.7620849609375,
+        481.876953125,
+        652.8506469726562
+      ],
+      "advance": 580,
+      "lsb": 50,
+      "rsb": 98
+    },
+    "U+2213": {
+      "character": "∓",
+      "glyph": "uni2213.qfwMath",
+      "bounds": [
+        64.0,
+        126.0,
+        377.0,
+        569.0
+      ],
+      "advance": 440,
+      "lsb": 64,
+      "rsb": 63
+    },
+    "U+2020": {
+      "character": "†",
+      "glyph": "uni2020.qfwMath",
+      "bounds": [
+        48,
+        114,
+        328,
+        685
+      ],
+      "advance": 380,
+      "lsb": 48,
+      "rsb": 52
+    },
+    "U+2033": {
+      "character": "″",
+      "glyph": "uni2033.qfwMath",
+      "bounds": [
+        33.0,
+        469,
+        274,
+        625
+      ],
+      "advance": 290,
+      "lsb": 30,
+      "rsb": 16
+    },
+    "U+2113": {
+      "character": "ℓ",
+      "glyph": "uni2113.qfwMath",
+      "bounds": [
+        56,
+        101,
+        282,
+        628
+      ],
+      "advance": 345,
+      "lsb": 56,
+      "rsb": 63
+    },
+    "U+2297": {
+      "character": "⊗",
+      "glyph": "uni2297.qfwMath",
+      "bounds": [
+        48,
+        74,
+        549,
+        593
+      ],
+      "advance": 600,
+      "lsb": 48,
+      "rsb": 51
+    },
+    "U+2016": {
+      "character": "‖",
+      "glyph": "uni2016.qfwMath",
+      "bounds": [
+        56,
+        81,
+        243,
+        629
+      ],
+      "advance": 330,
+      "lsb": 56,
+      "rsb": 87
+    },
+    "U+222C": {
+      "character": "∬",
+      "glyph": "uni222C.qfwMath",
+      "bounds": [
+        43,
+        16,
+        672,
+        685
+      ],
+      "advance": 715,
+      "lsb": 43,
+      "rsb": 43
+    },
+    "U+222D": {
+      "character": "∭",
+      "glyph": "uni222D.qfwMath",
+      "bounds": [
+        43,
+        16,
+        942,
+        685
+      ],
+      "advance": 985,
+      "lsb": 43,
+      "rsb": 43
+    },
+    "U+03F5": {
+      "character": "ϵ",
+      "glyph": "uni03F5.qfwMath",
+      "bounds": [
+        46,
+        109,
+        308,
+        494
+      ],
+      "advance": 365,
+      "lsb": 46,
+      "rsb": 57
+    },
+    "U+03D5": {
+      "character": "ϕ",
+      "glyph": "uni03D5.qfwMath",
+      "bounds": [
+        47,
+        -107,
+        397,
+        645
+      ],
+      "advance": 440,
+      "lsb": 47,
+      "rsb": 43
+    },
+    "U+2272": {
+      "character": "≲",
+      "glyph": "uni2272.qfwMath",
+      "bounds": [
+        47,
+        66,
+        360,
+        581
+      ],
+      "advance": 410,
+      "lsb": 47,
+      "rsb": 50
+    },
+    "U+2273": {
+      "character": "≳",
+      "glyph": "uni2273.qfwMath",
+      "bounds": [
+        47,
+        66,
+        360,
+        581
+      ],
+      "advance": 410,
+      "lsb": 47,
+      "rsb": 50
+    },
+    "U+2200": {
+      "character": "∀",
+      "glyph": "uni2200.qfwMath",
+      "bounds": [
+        46,
+        66,
+        441,
+        624
+      ],
+      "advance": 490,
+      "lsb": 46,
+      "rsb": 49
+    },
+    "U+2203": {
+      "character": "∃",
+      "glyph": "uni2203.qfwMath",
+      "bounds": [
+        46,
+        81,
+        400,
+        618
+      ],
+      "advance": 460,
+      "lsb": 46,
+      "rsb": 60
+    },
+    "U+2208": {
+      "character": "∈",
+      "glyph": "uni2208.qfwMath",
+      "bounds": [
+        52,
+        148,
+        401,
+        555
+      ],
+      "advance": 445,
+      "lsb": 52,
+      "rsb": 44
+    },
+    "U+2209": {
+      "character": "∉",
+      "glyph": "uni2209.qfwMath",
+      "bounds": [
+        52,
+        70,
+        401,
+        652
+      ],
+      "advance": 445,
+      "lsb": 52,
+      "rsb": 44
+    },
+    "U+211D": {
+      "character": "ℝ",
+      "glyph": "uni211D.qfwMath",
+      "bounds": [
+        57,
+        92,
+        523,
+        616
+      ],
+      "advance": 570,
+      "lsb": 57,
+      "rsb": 47
+    },
+    "U+2102": {
+      "character": "ℂ",
+      "glyph": "uni2102.qfwMath",
+      "bounds": [
+        44,
+        117,
+        445,
+        522
+      ],
+      "advance": 500,
+      "lsb": 44,
+      "rsb": 55
+    },
+    "U+210B": {
+      "character": "ℋ",
+      "glyph": "uni210B.qfwMath",
+      "bounds": [
+        42,
+        93,
+        595,
+        634
+      ],
+      "advance": 670,
+      "lsb": 42,
+      "rsb": 75
+    },
+    "U+2112": {
+      "character": "ℒ",
+      "glyph": "uni2112.qfwMath",
+      "bounds": [
+        55,
+        81,
+        444,
+        652
+      ],
+      "advance": 525,
+      "lsb": 55,
+      "rsb": 81
+    },
+    "U+2131": {
+      "character": "ℱ",
+      "glyph": "uni2131.qfwMath",
+      "bounds": [
+        54,
+        68,
+        526,
+        627
+      ],
+      "advance": 580,
+      "lsb": 54,
+      "rsb": 54
+    },
+    "U+211C": {
+      "character": "ℜ",
+      "glyph": "uni211C.qfwMath",
+      "bounds": [
+        47,
+        95,
+        567,
+        629
+      ],
+      "advance": 605,
+      "lsb": 47,
+      "rsb": 38
+    },
+    "U+2111": {
+      "character": "ℑ",
+      "glyph": "uni2111.qfwMath",
+      "bounds": [
+        46,
+        46,
+        372,
+        625
+      ],
+      "advance": 435,
+      "lsb": 46,
+      "rsb": 63
+    },
+    "U+03D1": {
+      "character": "ϑ",
+      "glyph": "uni03D1.qfwMath",
+      "bounds": [
+        51,
+        120,
+        381,
+        607
+      ],
+      "advance": 455,
+      "lsb": 51,
+      "rsb": 74
+    },
+    "U+03F1": {
+      "character": "ϱ",
+      "glyph": "uni03F1.qfwMath",
+      "bounds": [
+        59,
+        -119,
+        366,
+        486
+      ],
+      "advance": 420,
+      "lsb": 59,
+      "rsb": 54
+    }
+  }
+}

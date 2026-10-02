@@ -83,6 +83,8 @@ def restore_1_031_sokuon(font):
     Historical gates retain all original assertions instead of exempting glyphs.
     Never used by production, the new verifier, or proof rendering.
     """
+    from verify_quantum_symbols import restore_1_032_for_historical_checks
+    restore_1_032_for_historical_checks(font)
     with TTFont(BytesIO(baseline_bytes())) as old:
         for c, (dx, dy) in TRANSLATIONS.items():
             verify_translation(old, font, c)
@@ -159,6 +161,9 @@ def verify():
     verify_sources()
     baseline_bytes('woff2')
     with TTFont(BytesIO(baseline_bytes()), recalcTimestamp=False) as old, TTFont(TTF, recalcTimestamp=False) as new, TTFont(WOFF2, recalcTimestamp=False) as web:
+        from verify_quantum_symbols import restore_1_032_for_historical_checks
+        restore_1_032_for_historical_checks(new)
+        restore_1_032_for_historical_checks(web)
         assert old['name'].getDebugName(5) == 'Version 1.031'
         assert old.getGlyphOrder() == new.getGlyphOrder() == web.getGlyphOrder()
         assert old.getBestCmap() == new.getBestCmap() == web.getBestCmap()
@@ -194,7 +199,7 @@ def verify():
                 expected_advance = old['hmtx'][old.getBestCmap()[ord(c)]][0] if c == '　' else 960
                 assert n != '.notdef' and advance == expected_advance and (ya, x, y) == (0, 0, 0), text
         manifest = json.loads((ROOT / 'tools/font/glyph_manifest.json').read_text())
-        assert manifest['derived_font']['version'] == '1.032'
+        assert manifest['derived_font']['version'] == '1.033'
         assert manifest['sokuon_positioning']['translations'] == {c: list(v) for c, v in TRANSLATIONS.items()}
         rows = []
         for c, (dx, dy) in TRANSLATIONS.items():

@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.032 — Sokuon lower-left optical positioning**：`っ` 平移 **(-107,-138)**、`ッ` 平移 **(-155,-88)**，使 final ink anchor 與已審核的 `ゃゅょ／ャュョ` 同為 **(180,-32)**。保留既有尺寸、拓撲、筆壓與 **960-unit advance**；`つ／ツ`、其他所有小假名及全域 bottom alignment 不變。[可見字格校樣](tools/font/proofs/quanfangwei-sokuon-cell-position.png)、[20／32／64／192 px 前後比較](tools/font/proofs/quanfangwei-sokuon-before-after.png)、[量測與驗證報告](tools/font/reports/sokuon-position.md)。
+目前版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
+
+保留版本 **1.032 — Sokuon lower-left optical positioning**：`っ` 平移 **(-107,-138)**、`ッ` 平移 **(-155,-88)**，使 final ink anchor 與已審核的 `ゃゅょ／ャュョ` 同為 **(180,-32)**。保留既有尺寸、拓撲、筆壓與 **960-unit advance**；`つ／ツ`、其他所有小假名及全域 bottom alignment 不變。[可見字格校樣](tools/font/proofs/quanfangwei-sokuon-cell-position.png)、[20／32／64／192 px 前後比較](tools/font/proofs/quanfangwei-sokuon-before-after.png)、[量測與驗證報告](tools/font/reports/sokuon-position.md)。
 
 保留版本 **1.031 — French guillemet coverage**：新增原生 `« »`，使 `et pleins d’ennuis, personne ne murmure « je t’aime »` 全句使用荃方位手寫字型。來源字型缺少 `« » ‹ ›`，因此僅由原始 `< >` 輪廓組成 compact 雙角引號；沒有使用外部字型 outline，既有 glyphs 全部不變。[16／20／32／64／192 px 校樣](tools/font/proofs/quanfangwei-french-guillemets.png)、[來源與驗證報告](tools/font/reports/french-guillemets.md)。
 
@@ -46,7 +48,7 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.032 支援：
+衍生版 Version 1.033 支援：
 
 - `«` U+00AB / `guillemotleft`、`»` U+00BB / `guillemotright`：只由原始 `<` / `>` 手寫 components 組成，327-unit advance，無外部字型 outline。
 
@@ -152,7 +154,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 的日本字形變體�
 
 `assets/style.css` 讓 WOFF2 優先、TTF 作為 fallback，本次依 scope 保留既有的 `?v=1.024` cache key，並透過 `--font-ui` 套用 header、內文、標題、卡片、表單、按鈕、placeholder、dialog、管理頁、歌曲頁與 footer。全站使用 `font-weight: 400` 與 `font-synthesis: none`；若 webfont 無法載入，才依序 fallback 到 `Noto Serif TC`、系統宋體與通用 serif。
 
-確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.024` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `Personne ne fait battre mon cœur`、Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
+確認瀏覽器沒有 fallback：以本機 server 開啟 `tools/font/browser-proof.html`，在 Network 確認 `QuanFangweiSupplementScript-Regular.woff2?v=1.033` 回覆 200，且 console 沒有 OTS／decode error；再檢查 `Personne ne fait battre mon cœur`、Latin、German、cedilla、平假名、片假名、預組合／分解濁音與日中混排皆由 `QuanFangwei Supplement Web` 覆蓋。`tools/font/japanese-song-fixture.html` 只作歌曲頁 UI 驗收，不會寫入 production data。中文字與假名的同 baseline 混排可另查看 `tools/font/proofs/quanfangwei-cjk-kana-alignment-proof.png`。
 
 ## 品牌圖像
 

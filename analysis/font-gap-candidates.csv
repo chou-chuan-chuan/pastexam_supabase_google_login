@@ -1,0 +1,46 @@
+priority,character,codepoint,unicode_name,glyph,status,requirement_evidence
+P0,ℏ,U+210F,PLANCK CONSTANT OVER TWO PI,uni210F.qfwMath,present,existing calibration page; supplied plan
+P0,∂,U+2202,PARTIAL DIFFERENTIAL,uni2202.qfwMath,present,existing calibration page; supplied plan
+P0,∝,U+221D,PROPORTIONAL TO,uni221D.qfwMath,present,existing calibration page; supplied plan
+P0,−,U+2212,MINUS SIGN,uni2212.qfwMath,present,existing calibration page; supplied plan
+P0,↔,U+2194,LEFT RIGHT ARROW,uni2194.qfwMath,present,existing calibration page; supplied plan
+P1,∑,U+2211,N-ARY SUMMATION,uni2211.qfwMath,present,two previously visually read lectures; supplied plan
+P1,∇,U+2207,NABLA,uni2207.qfwMath,present,two previously visually read lectures; supplied plan
+P1,⋅,U+22C5,DOT OPERATOR,uni22C5.qfwMath,present,two previously visually read lectures; supplied plan
+P1,⟨,U+27E8,MATHEMATICAL LEFT ANGLE BRACKET,uni27E8.qfwMath,present,two previously visually read lectures; supplied plan
+P1,⟩,U+27E9,MATHEMATICAL RIGHT ANGLE BRACKET,uni27E9.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≈,U+2248,ALMOST EQUAL TO,uni2248.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≃,U+2243,ASYMPTOTICALLY EQUAL TO,uni2243.qfwMath,present,two previously visually read lectures; supplied plan
+P1,∼,U+223C,TILDE OPERATOR,uni223C.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≤,U+2264,LESS-THAN OR EQUAL TO,uni2264.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≥,U+2265,GREATER-THAN OR EQUAL TO,uni2265.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≪,U+226A,MUCH LESS-THAN,uni226A.qfwMath,present,two previously visually read lectures; supplied plan
+P1,≫,U+226B,MUCH GREATER-THAN,uni226B.qfwMath,present,two previously visually read lectures; supplied plan
+P1,⇒,U+21D2,RIGHTWARDS DOUBLE ARROW,uni21D2.qfwMath,present,two previously visually read lectures; supplied plan
+P1,⇔,U+21D4,LEFT RIGHT DOUBLE ARROW,uni21D4.qfwMath,present,two previously visually read lectures; supplied plan
+P2,∏,U+220F,N-ARY PRODUCT,uni220F.qfwMath,present,possible later-topic requirement; not page-verified
+P2,∓,U+2213,MINUS-OR-PLUS SIGN,uni2213.qfwMath,present,possible later-topic requirement; not page-verified
+P2,†,U+2020,DAGGER,uni2020.qfwMath,present,possible later-topic requirement; not page-verified
+P2,″,U+2033,DOUBLE PRIME,uni2033.qfwMath,present,possible later-topic requirement; not page-verified
+P2,ℓ,U+2113,SCRIPT SMALL L,uni2113.qfwMath,present,possible later-topic requirement; not page-verified
+P2,⊗,U+2297,CIRCLED TIMES,uni2297.qfwMath,present,possible later-topic requirement; not page-verified
+P2,‖,U+2016,DOUBLE VERTICAL LINE,uni2016.qfwMath,present,possible later-topic requirement; not page-verified
+P2,∬,U+222C,DOUBLE INTEGRAL,uni222C.qfwMath,present,possible later-topic requirement; not page-verified
+P2,∭,U+222D,TRIPLE INTEGRAL,uni222D.qfwMath,present,possible later-topic requirement; not page-verified
+P2,ϵ,U+03F5,GREEK LUNATE EPSILON SYMBOL,uni03F5.qfwMath,present,possible later-topic requirement; not page-verified
+P2,ϕ,U+03D5,GREEK PHI SYMBOL,uni03D5.qfwMath,present,possible later-topic requirement; not page-verified
+P2,≲,U+2272,LESS-THAN OR EQUIVALENT TO,uni2272.qfwMath,present,possible later-topic requirement; not page-verified
+P2,≳,U+2273,GREATER-THAN OR EQUIVALENT TO,uni2273.qfwMath,present,possible later-topic requirement; not page-verified
+P3,∀,U+2200,FOR ALL,uni2200.qfwMath,present,optional mathematical notation; not currently necessary
+P3,∃,U+2203,THERE EXISTS,uni2203.qfwMath,present,optional mathematical notation; not currently necessary
+P3,∈,U+2208,ELEMENT OF,uni2208.qfwMath,present,optional mathematical notation; not currently necessary
+P3,∉,U+2209,NOT AN ELEMENT OF,uni2209.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℝ,U+211D,DOUBLE-STRUCK CAPITAL R,uni211D.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℂ,U+2102,DOUBLE-STRUCK CAPITAL C,uni2102.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℋ,U+210B,SCRIPT CAPITAL H,uni210B.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℒ,U+2112,SCRIPT CAPITAL L,uni2112.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℱ,U+2131,SCRIPT CAPITAL F,uni2131.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℜ,U+211C,BLACK-LETTER CAPITAL R,uni211C.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ℑ,U+2111,BLACK-LETTER CAPITAL I,uni2111.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ϑ,U+03D1,GREEK THETA SYMBOL,uni03D1.qfwMath,present,optional mathematical notation; not currently necessary
+P3,ϱ,U+03F1,GREEK RHO SYMBOL,uni03F1.qfwMath,present,optional mathematical notation; not currently necessary

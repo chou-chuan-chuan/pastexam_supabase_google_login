@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.032"
-UNIQUE_ID = "1.032;QFW;QuanFangweiSupplementScript-Regular;20260925"
+VERSION = "1.033"
+UNIQUE_ID = "1.033;QFW;QuanFangweiSupplementScript-Regular;20260925"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -618,7 +618,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 217, "Derived glyph count did not increase by exactly 217 (including two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
+    require(len(ttf_order) == len(source_order) + 262, "Derived glyph count did not increase by exactly 262 (45 quantum symbols plus two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
