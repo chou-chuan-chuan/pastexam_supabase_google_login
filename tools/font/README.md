@@ -1,5 +1,18 @@
 # 荃方位補寫體建置工具
 
+## Shared quantum-note layout
+
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+
+The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
+
+```sh
+python tools/font/verify_note_math_layout.py
+python tools/font/render_note_math_proof.py
+```
+
+[Native proof](proofs/quanfangwei-note-operators.png) · [Integration identity report](reports/note-math-layout.json). The actual six-page notes were rebuilt with the shared module: all SVG bytes, PDF drawing streams and layout records match the already-approved corrected output. No lecture PDF or full note content is needed by this reusable module or committed with it.
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.
