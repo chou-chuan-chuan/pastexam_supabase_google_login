@@ -16,7 +16,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,1850),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,2160),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -102,6 +102,16 @@ def main():
         replayRecording(layout.rule_outline(w-2*edge,size),RasterOutline(None));x,y=ox,oy
         text(x+(w-numerator[0])/2,y-axis-layout.numerator_gap(size)-numerator[2],'ℏ',size*.85)
         text(x+(w-denominator[0])/2,y-axis+3+denominator[1],'2',size*.85)
+        draw.text((30,1870),'Closer lower scripts / native ink gap / upper scripts unchanged',font=label,fill='#345')
+        for y,compact in ((1970,False),(2080,True)):
+            draw.text((30,y-35),'After' if compact else 'Before',font=label,fill='#345')
+            x=200;size=74
+            for base,lower in (('v','p'),('v','g'),('k','0'),('ω','0'),('Ψ','0')):
+                original=metrics(base,size)
+                if compact:dx,dy,_=layout.subscript_geometry(base,original,lower,metrics(lower,size*.65),size)
+                else:dx,dy=original[0]+1,size*.28
+                text(x,y,base,size);text(x+dx,y+dy,lower,size*.65)
+                x+=155
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 
