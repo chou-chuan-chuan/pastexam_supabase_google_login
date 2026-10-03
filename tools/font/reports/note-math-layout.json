@@ -13,5 +13,27 @@
     46
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "31546f3e3ecb81b08495f95a347fd518efcd918d3c3f4ad8dbee450417f25ac5"
+  "shared_module_sha256": "4f3843bbcc55608646d300d155c6c09a44b6e6c9d16665d63bb4b6dd1537d764",
+  "native_vector_accents_by_page": [
+    4,
+    0,
+    0,
+    13,
+    0,
+    0
+  ],
+  "native_radicals_by_page": [
+    4,
+    5,
+    0,
+    4,
+    14,
+    0
+  ],
+  "native_vector_clearance_font_units": 48,
+  "vector_glyph_scale": 0.85,
+  "radical_native_hook_preserved": true,
+  "radical_stem_and_roof_extended": true,
+  "notes_math_checks_passed": 31,
+  "pdf_sha256": "7274ef14c8779c86689a631f2da51c98ba8585bf6681e68ed1ab8842df2f3dea"
 }
