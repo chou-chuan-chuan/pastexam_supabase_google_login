@@ -10,6 +10,7 @@ from fontTools.pens.recordingPen import RecordingPen, replayRecording
 
 RELATION_CHARACTERS = frozenset('=＝<>＜＞~～≠≡≈≃∼≲≳≤≥≪≫∝∈∉→←↔⇒⇔')
 RELATION_SIDE_EM = .18
+BINARY_SIDE_EM = .14
 
 CONJUGATE_SCALE = 1.0
 ORDINARY_SCRIPT_SCALE = 0.65
@@ -66,6 +67,35 @@ class NoteMathLayout:
                 sides.append(max(0, gap - available))
             result.append(tuple(sides))
         return result
+
+    @staticmethod
+    def is_binary_sign(character, before, after):
+        """Classify +/− at a parsed expression boundary, not inside prose.
+
+        Callers represent a preceding compound operand by a closing parenthesis.
+        Expression starts, opening delimiters and other operators take unary signs.
+        """
+        before, after = before.rstrip(), after.lstrip()
+        return (character in '+−' and bool(before) and bool(after)
+                and before[-1] not in '([{⟨,+−±∓×÷*/:;|' + ''.join(RELATION_CHARACTERS)
+                and after[0] not in ')]}⟩,;=<>')
+
+    def binary_spacing(self, size, before='', after=''):
+        """Minimum side spacing for an already classified binary + or −.
+
+        Count existing boundary spaces toward the 0.14 math-em minimum.
+        Use the same offsets in both width measurement and drawing.
+        """
+        gap = BINARY_SIDE_EM * self.units * self.scale(size)
+        sides = []
+        for boundary in (reversed(before), iter(after)):
+            occupied = 0
+            for char in boundary:
+                if not char.isspace():
+                    break
+                occupied += self.math_advance(char, size)
+            sides.append(max(0, gap - occupied))
+        return tuple(sides)
 
     def subscript_geometry(self, base, base_metrics, lower, lower_metrics, size):
         """Bring a lower script close to the base, keeping 65% script size.

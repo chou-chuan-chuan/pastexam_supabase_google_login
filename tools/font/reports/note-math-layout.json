@@ -3,7 +3,7 @@
   "font_sha256": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
   "pdf_pages": 6,
   "equations": 208,
-  "all_content_records_unchanged": true,
+  "all_content_records_unchanged": false,
   "native_hat_uses_by_page": [
     0,
     0,
@@ -13,7 +13,7 @@
     46
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "ab4350851533b62528a484e253b6697491cf18d540e5cede2ef36be75117dbba",
+  "shared_module_sha256": "6ab1ddd8f8cdb1a32387eade3e9fb0ce951a7e065fea494692e91c54080fdf3d",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -35,7 +35,7 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "b23bc421cf0a03832c5b0610bb4afcd1b021aba48b80147109cab1500c72425e",
+  "pdf_sha256": "b327fd81d5f41a0aa881c01c069e18a37f2d32a9e40d697372c3ae5ed0eb8fd8",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -62,5 +62,21 @@
   "compact_summation_operators": 2,
   "sum_lower_gap_font_units": 36,
   "sum_upper_placement_preserved": true,
-  "integral_right_limits_preserved": true
+  "integral_right_limits_preserved": true,
+  "binary_side_spacing_math_em": 0.14,
+  "unary_signs_unpadded": true,
+  "binary_existing_spaces_count_toward_spacing": true,
+  "binary_compound_operand_boundaries_verified": true,
+  "non_green_content_and_sizes_unchanged": true,
+  "green_annotations_english": 48,
+  "green_native_math_spans": 45,
+  "annotation_layout_module_sha256": "82856c71cfc8e27fb80917f2aa9c788b0aa4891e6d79efadf2f149c57ad8cbd6",
+  "page_heights": [
+    2380,
+    2020,
+    2130,
+    2160,
+    2570,
+    1770
+  ]
 }

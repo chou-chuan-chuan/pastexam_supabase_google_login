@@ -16,7 +16,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,2460),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,2750),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -126,6 +126,20 @@ def main():
             cursor=x+lx
             for char,(left,right) in zip(condition,pads):
                 cursor+=left;cursor+=text(cursor,y+ly,char,size*ratio);cursor+=right
+        draw.text((30,2500),'Binary + and − spacing / unary negative stays compact',font=label,fill='#345')
+        size=64;y=2640
+        for start,value in ((50,'x−ωt'),(440,'x+y'),(800,'−α')):
+            x=start
+            for index,char in enumerate(value):
+                binary=layout.is_binary_sign(char,value[:index],value[index+1:])
+                left,right=layout.binary_spacing(size) if binary else (0,0)
+                x+=left
+                if char=='−':
+                    ox,oy=x,y;x+=45*layout.scale(size);y-=layout.fraction_axis(size)
+                    replayRecording(layout.rule_outline(247*layout.scale(size),size),RasterOutline(None))
+                    x,y=ox+layout.math_advance(char,size),oy
+                else:x+=text(x,y,char,size)
+                x+=right
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 

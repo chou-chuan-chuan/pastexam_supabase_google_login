@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib
 from fontTools.ttLib import TTFont
-from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM
+from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT = ROOT / 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
@@ -36,6 +36,14 @@ def verify():
                     assert all(abs(p+count*space_width-max(gap,count*space_width))<1e-9 for p in actual)
             assert all(pair == (0,0) for pair in layout.relation_spacing('x−y+x^2',size))
             assert all(abs(p-gap*.65)<1e-9 for p in layout.relation_spacing('=',size*.65)[0])
+            binary_gap=BINARY_SIDE_EM*layout.units*layout.scale(size)
+            assert layout.binary_spacing(size)==(binary_gap,binary_gap)
+            assert layout.binary_spacing(size,'x  ','  y')==(0,0)
+            for sign in ('+','−'):
+                for before,after in (('x','y'),(')','ω'),('2','\\frac{a}{b}')):
+                    assert layout.is_binary_sign(sign,before,after)
+                for before,after in (('','∞'),('(','x'),('=','α'),('→','∞'),('−','y'),('x','}')):
+                    assert not layout.is_binary_sign(sign,before,after)
             for base in ('x', 'p', 'H', 'A', 'B', 'ψ', 'φ', 'ℒ'):
                 original = metrics(base, size)
                 dx, dy, measured = layout.hat_geometry(base, original, size)
