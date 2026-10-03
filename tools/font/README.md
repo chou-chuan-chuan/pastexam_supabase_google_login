@@ -68,6 +68,24 @@ Draw the lower script at the returned offsets and use the returned enclosing met
 `summation_geometry` keeps lower summation conditions centered but lifts them to the same 36-font-unit ink gap beneath `∑`. Its operator stays at 1.35× and conditions at 0.55×. Upper summation conditions retain their established placement; integral bounds remain at the right. The six-page notes contain four `lim` operators and two sums. Their 208 formula strings and font sizes are unchanged. The shared verifier covers multiple sizes, centering, ink clearance and unchanged font hashes; the local renderer integration check covers parsing, actual drawing and enclosing bounds.
 
 
+### Binary plus/minus spacing
+
+Use `is_binary_sign` at parsed expression boundaries to distinguish addition/subtraction from unary signs, including after fractions, accents and scripted operands. `binary_spacing` supplies a minimum 0.14 math-em gap on each side of binary `+` and `−`, counting existing spaces toward that minimum. Apply its offsets in both measurement and drawing. Each nested expression classifies its own signs, so `−∞`, `e^{−αx²}` and the negative coefficient after `=` stay compact. The notes adapter emits a dedicated `binary` node before merging adjacent text; raw prose and fraction rules do not change.
+
+The PDF keeps all 208 equation strings and font sizes. Integration checks cover real glyph placement across fractions and subscripts, existing spaces, and unary signs. The proof shows both padded operators and an unchanged negative coefficient. Font binaries and glyph outlines remain unchanged.
+
+### English annotations with inline mathematics
+
+`note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
+
+All 48 green annotations are now English, with 45 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+
+```sh
+python tools/font/verify_note_annotation_layout.py
+# Optional: check all 48 annotations through the actual notes renderer.
+python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_lecture
+```
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.
