@@ -16,7 +16,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,1350),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,1630),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -80,6 +80,13 @@ def main():
         draw.line((x+off+1,y-axis,x+off+w-1,y-axis),fill='#150592',width=3)
         text(x+off+(w-numerator[0])/2,y-axis-3-numerator[2],'π',size*.85)
         text(x+off+(w-denominator[0])/2,y-axis+3+denominator[1],'α',size*.85)
+        draw.text((30,1370),'Relation spacing / =  <  >  ≈  ∼  ≪  ≫  ∝  ⇒',font=label,fill='#345')
+        x=45;y=1460;size=42
+        for value in ('x=y','x<y','x≈y','x∼y','x≫y','x⇒y'):
+            for char,(left,right) in zip(value,layout.relation_spacing(value,size)):
+                x+=left;x+=text(x,y,char,size);x+=right
+            x+=35
+        draw.text((30,1530),'Existing spaces count toward the gap; font metrics stay unchanged.',font=label,fill='#345')
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 

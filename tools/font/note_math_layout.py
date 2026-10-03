@@ -8,6 +8,9 @@ from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.recordingPen import RecordingPen, replayRecording
 
 
+RELATION_CHARACTERS = frozenset('=＝<>＜＞~～≠≡≈≃∼≲≳≤≥≪≫∝∈∉→←↔⇒⇔')
+RELATION_SIDE_EM = .18
+
 CONJUGATE_SCALE = 1.0
 ORDINARY_SCRIPT_SCALE = 0.65
 
@@ -40,6 +43,29 @@ class NoteMathLayout:
                 ascent = max(ascent, bounds[3] * self.scale(size))
                 descent = max(descent, -bounds[1] * self.scale(size))
         return advance, ascent, descent
+
+    def relation_spacing(self, text, size):
+        """Extra left/right advance per relation, in canvas units.
+
+        Apply only to math text runs, not raw accent glyphs or prose. Existing
+        adjacent spaces count toward the minimum 0.18 math-em clearance, so
+        already spaced relations are not padded twice. Font metrics are unchanged.
+        """
+        gap = RELATION_SIDE_EM * self.units * self.scale(size)
+        result = []
+        for index, character in enumerate(text):
+            if character not in RELATION_CHARACTERS:
+                result.append((0, 0))
+                continue
+            sides = []
+            for step in (-1, 1):
+                available, cursor = 0, index + step
+                while 0 <= cursor < len(text) and text[cursor].isspace():
+                    available += self.font['hmtx'][self.cmap[ord(text[cursor])]][0] * self.scale(size)
+                    cursor += step
+                sides.append(max(0, gap - available))
+            result.append(tuple(sides))
+        return result
 
     def conjugate_geometry(self, base_ascent, size):
         # * is already a small raised drawing. Render it at full math size.

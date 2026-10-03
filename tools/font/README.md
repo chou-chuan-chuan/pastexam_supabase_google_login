@@ -2,7 +2,7 @@
 
 ## Shared quantum-note layout
 
-[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, relation spacing, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
 
 The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
 
@@ -26,6 +26,12 @@ For explicit `\vec{…}` nodes, call `vector_geometry(base, base_metrics, size)`
 For `\sqrt{…}`, call `radical_geometry(radicand_metrics, size)`. Replay its canvas-coordinate outline with a filled pen (no stroke), then draw the radicand at `(x + offset, baseline)`. The native 1.034 radical contour retains its lower hook, while the middle stem extends vertically and the roof extends horizontally to enclose the content. Native vertical roof thickness is retained rather than scaling the whole glyph with the content height. Return metrics include the roof, hook and right padding. The contour split coordinates are specific to this pinned font version, not a generic OpenType radical assembly algorithm.
 
 The proof includes single-letter arrows, simple radicals and a radical over a fraction; the verifier covers script sizes, tall/wide radicands, ink bounds and unchanged font hashes. Integration additionally checks nested radicals and arrows with subscripts/exponents against the actual PDF renderer.
+
+### Relation spacing integration
+
+Call `relation_spacing(text, size)` only for equation text runs. It returns `(left, right)` advances for each character: add `left` before drawing the glyph and `right` after its original advance. Include the same advances in measurement. Relations (`= < > ≈ ∼ ≪ ≫ ∝`, inequalities, equivalence/membership signs and implication arrows) receive 0.18 math-em on each side; adjacent literal spaces count toward that minimum. This preserves authored spacing without doubling it. The clearance scales with script size.
+
+Keep raw accent glyphs on an unpadded path, especially the U+2192 used above vectors. Ordinary prose and glyph metrics are unchanged. The notes renderer verifies drawing and measurement agree, preserves all 208 formula strings and their font sizes, and keeps six sheets without overflow.
 
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
