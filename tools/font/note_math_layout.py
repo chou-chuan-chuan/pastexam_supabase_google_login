@@ -86,6 +86,47 @@ class NoteMathLayout:
                         max(ascent, lower_metrics[1] - dy),
                         max(descent, lower_metrics[2] + dy))
 
+    def limit_geometry(self, base, lower, upper, size, lower_text=None, upper_text=None):
+        """Center lim conditions below/above the complete operator word.
+
+        Plain condition runs use native vertical ink bounds for a compact gap;
+        compound conditions fall back to their measured enclosing metrics.
+        Return base X, lower X/Y, upper X/Y, and the complete measured box.
+        """
+        width = max(base[0], lower[0], upper[0])
+        scale, gap = self.scale(size), 36 * self.scale(size)
+        body_bottom = -min(self.bounds(c)[1] for c in 'lim') * scale
+        body_top = max(self.bounds(c)[3] for c in 'lim') * scale
+        def ink(text, measured):
+            bounds = [self.bounds(c) for c in text] if isinstance(text,str) else []
+            bounds = [b for b in bounds if b]
+            if bounds:
+                return max(b[3] for b in bounds)*scale*.65, -min(b[1] for b in bounds)*scale*.65
+            return measured[1], measured[2]
+        la, ld = ink(lower_text, lower)
+        ua, ud = ink(upper_text, upper)
+        ly = body_bottom + gap + la
+        uy = -body_top - gap - ud
+        return ((width-base[0])/2, (width-lower[0])/2, ly,
+                (width-upper[0])/2, uy,
+                (width + .12*size, max(base[1],ua-uy if upper_text is not None else 0),
+                 max(base[2],ld+ly if lower_text is not None else 0)))
+
+    def summation_geometry(self, base, lower, upper, size, lower_text=None):
+        """Lift the centered lower sum limit; preserve the upper limit policy."""
+        width = max(base[0], lower[0], upper[0]) + 5
+        scale = self.scale(size)
+        body_bottom = -self.bounds('∑')[1] * scale * 1.35
+        bounds = [self.bounds(c) for c in lower_text] if isinstance(lower_text,str) else []
+        bounds = [b for b in bounds if b]
+        lower_ascent = max(b[3] for b in bounds)*scale*.55 if bounds else lower[1]
+        lower_descent = -min(b[1] for b in bounds)*scale*.55 if bounds else lower[2]
+        ly = body_bottom + 36 * scale + lower_ascent
+        uy = -base[1] - 3
+        return ((width-base[0])/2, (width-lower[0])/2, ly,
+                (width-upper[0])/2, uy,
+                (width, max(base[1],upper[1]-uy), max(base[2],lower_descent+ly)))
+
     def conjugate_geometry(self, base_ascent, size):
         # * is already a small raised drawing. Render it at full math size.
         bounds = self.bounds('*')

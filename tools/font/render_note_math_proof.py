@@ -16,7 +16,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,2160),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,2460),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -34,7 +34,7 @@ def main():
             width=text(405,y,'Ψ',size)
             text(406+width,y-.51*size,'*',size*.65)
             conjugate(620,y,'Ψ',size)
-        draw.text((30,340),'Integral bounds at upper/lower right; sum policy unchanged.',font=label,fill='#345')
+        draw.text((30,340),'Integral bounds at upper/lower right; sum limits centered.',font=label,fill='#345')
         size=80;y=505;x=40
         x+=text(x,y,'= ',size)
         dx,uy,ly,bounds=layout.integral_geometry(metrics('∫',size*1.35),metrics('−∞',size*.55),metrics('∞',size*.55),size)
@@ -112,6 +112,20 @@ def main():
                 else:dx,dy=original[0]+1,size*.28
                 text(x,y,base,size);text(x+dx,y+dy,lower,size*.65)
                 x+=155
+        draw.text((30,2210),'Centered lim conditions / compact lower summation limits',font=label,fill='#345')
+        y=2360;size=64
+        for x,operator,condition in ((80,'lim','a→0'),(350,'lim','L→∞'),(650,'∑','n'),(900,'∑','n=0')):
+            ratio=.65 if operator=='lim' else .55
+            base=metrics(operator,size if operator=='lim' else size*1.35)
+            pads=layout.relation_spacing(condition,size*ratio)
+            advance=sum(layout.math_advance(c,size*ratio) for c in condition)+sum(sum(p) for p in pads)
+            lower=layout.text_metrics(condition,size*ratio,advance)
+            if operator=='lim':bx,lx,ly,_,_,_=layout.limit_geometry(base,lower,(0,0,0),size,condition,None)
+            else:bx,lx,ly,_,_,_=layout.summation_geometry(base,lower,(0,0,0),size,condition)
+            text(x+bx,y,operator,size if operator=='lim' else size*1.35)
+            cursor=x+lx
+            for char,(left,right) in zip(condition,pads):
+                cursor+=left;cursor+=text(cursor,y+ly,char,size*ratio);cursor+=right
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 

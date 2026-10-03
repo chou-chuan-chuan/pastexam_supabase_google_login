@@ -60,6 +60,14 @@ Use `subscript_geometry(base, base_metrics, lower, lower_metrics, size)` for low
 
 Draw the lower script at the returned offsets and use the returned enclosing metrics. For simultaneous upper/lower scripts, combine those metrics with the upper script's independently measured box; its position stays at `base_width + 1` and the established vertical rise. Conjugate stars and integral limits retain their separate policies. The legacy explicit `sub` node uses the same compact placement as parsed lower scripts. This changes note layout only, not font glyphs or cmap.
 
+
+### Stacked limit conditions and compact summation limits
+
+`limit_geometry` centers each condition beneath the full `lim` word, using a 36-font-unit native ink gap. The notes parser recognizes both `lim_{a→0}` and `\lim_{a→0}` as a complete operator, so the condition is no longer attached to only the final `m`. Render the word at normal equation size, conditions at 65%, and use the returned enclosing metrics. Plain conditions use native ink bounds; compound conditions use their measured boxes.
+
+`summation_geometry` keeps lower summation conditions centered but lifts them to the same 36-font-unit ink gap beneath `∑`. Its operator stays at 1.35× and conditions at 0.55×. Upper summation conditions retain their established placement; integral bounds remain at the right. The six-page notes contain four `lim` operators and two sums. Their 208 formula strings and font sizes are unchanged. The shared verifier covers multiple sizes, centering, ink clearance and unchanged font hashes; the local renderer integration check covers parsing, actual drawing and enclosing bounds.
+
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.
