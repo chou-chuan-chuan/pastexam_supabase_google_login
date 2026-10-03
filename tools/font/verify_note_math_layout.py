@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib
 from fontTools.ttLib import TTFont
-from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM, RADICAL_DIAGONAL_SLOPE, RADICAL_BOTTOM_INSET, PARENTHESIS_CHARACTERS, PARENTHESIS_SIDE_EM
+from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM, RADICAL_DIAGONAL_SLOPE, RADICAL_HOOK_LENGTH_SCALE, RADICAL_BOTTOM_INSET, PARENTHESIS_CHARACTERS, PARENTHESIS_SIDE_EM
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT = ROOT / 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
@@ -95,7 +95,7 @@ def verify():
                 commands,offset,_=layout.radical_geometry((size*2,size*height,size*.23),size)
                 offsets.append(offset)
                 entry=commands[0][1][0];valley=commands[1][1][0]
-                assert 0<valley[1]-entry[1]<=.38*size+1e-9
+                assert 0<valley[1]-entry[1]<=.38*RADICAL_HOOK_LENGTH_SCALE*size+1e-9
             assert offsets[0]<offsets[1]<offsets[2]
             for base,lower in (('v','p'),('v','g'),('k','0'),('ω','0'),('Ψ','0'),('y','j'),('φ','n'),('R','n')):
                 body,script=metrics(base,size),metrics(lower,size*.65)

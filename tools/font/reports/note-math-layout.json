@@ -13,7 +13,7 @@
     54
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "c94b95a7d457e8ef82c6eda1fce7c8d77b42313a642130e3bf62a988241f78aa",
+  "shared_module_sha256": "ac32cd9f3c4fb8145dccb9dfad1f428427378c9d70d5fa4652d134668576320f",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "b545c33fea7ceebc289302bd2158c6db31c7f6f4587688b70d42b6cc7769685e",
+  "pdf_sha256": "932a62a3837a1315a779bde24d29c9d176ef27c7b352c64543a86d870d687b37",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -82,8 +82,10 @@
   ],
   "radical_design": "reference-inspired short hook, rising diagonal, horizontal roof",
   "radical_diagonal_run_per_rise": 0.28,
-  "radical_entry_max_size_ratio": 0.38,
+  "radical_entry_max_size_ratio": 0.228,
   "radical_stroke_width_font_units": 36,
   "radical_roof_ink_gap_size_ratio": 0.05,
-  "font_radical_glyph_unchanged": true
+  "font_radical_glyph_unchanged": true,
+  "radical_hook_length_scale": 0.6,
+  "layout_positions_and_dimensions_unchanged": true
 }

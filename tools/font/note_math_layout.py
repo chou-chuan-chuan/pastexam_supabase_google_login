@@ -15,6 +15,7 @@ BINARY_SIDE_EM = .14
 PARENTHESIS_CHARACTERS = frozenset('()（）')
 PARENTHESIS_SIDE_EM = .06
 RADICAL_DIAGONAL_SLOPE = .28
+RADICAL_HOOK_LENGTH_SCALE = .60
 RADICAL_BOTTOM_INSET = .16
 
 CONJUGATE_SCALE = 1.0
@@ -245,11 +246,12 @@ class NoteMathLayout:
         bottom = descent - min(max(descent, 0), RADICAL_BOTTOM_INSET * size)
         top = -ascent - .05 * size - radius
         height = bottom - top
-        hook_height = min(.26 * height, .38 * size)
+        hook_height = RADICAL_HOOK_LENGTH_SCALE * min(.26 * height, .38 * size)
         valley_x = radius + .18 * size
         roof_x = valley_x + RADICAL_DIAGONAL_SLOPE * height
         offset = roof_x + .12 * size + radius
-        points = [(radius, bottom-hook_height), (valley_x, bottom),
+        entry_x = valley_x - RADICAL_HOOK_LENGTH_SCALE * .18 * size
+        points = [(entry_x, bottom-hook_height), (valley_x, bottom),
                   (roof_x, top), (offset+width+.07*size, top)]
         directions, normals = [], []
         for a, b in zip(points, points[1:]):
