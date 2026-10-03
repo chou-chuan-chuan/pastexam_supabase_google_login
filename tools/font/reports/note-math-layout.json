@@ -3,17 +3,17 @@
   "font_sha256": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
   "pdf_pages": 6,
   "equations": 208,
-  "all_content_records_unchanged": false,
+  "all_content_records_unchanged": true,
   "native_hat_uses_by_page": [
     0,
     0,
     0,
     4,
     1,
-    46
+    54
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "6ab1ddd8f8cdb1a32387eade3e9fb0ce951a7e065fea494692e91c54080fdf3d",
+  "shared_module_sha256": "875881fc2da194d45f503c44381c8e81bf5931f4a9a7bb0f1568e13adbd7ace5",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -23,7 +23,7 @@
     0
   ],
   "native_radicals_by_page": [
-    4,
+    5,
     5,
     0,
     4,
@@ -35,7 +35,7 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "b327fd81d5f41a0aa881c01c069e18a37f2d32a9e40d697372c3ae5ed0eb8fd8",
+  "pdf_sha256": "c039df5ad32b9701ff2ff6502ecee2d56ef17c439a3635cdb4bd1c24a4810d01",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -78,5 +78,9 @@
     2160,
     2570,
     1770
-  ]
+  ],
+  "radical_drawing_scale": 0.9,
+  "radical_top_right_gap_local_font_units": 36,
+  "radical_bottom_inset_size_ratio": 0.08,
+  "radicand_size_and_baseline_preserved": true
 }

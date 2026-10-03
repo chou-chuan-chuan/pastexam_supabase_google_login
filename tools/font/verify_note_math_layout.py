@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib
 from fontTools.ttLib import TTFont
-from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM
+from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM, RADICAL_SCALE, RADICAL_BOTTOM_INSET
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT = ROOT / 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
@@ -76,8 +76,8 @@ def verify():
                 left, top, right, bottom = pen.bounds
                 assert left >= 0 and right <= w + 1e-9 and top >= -a - 1e-9 and bottom <= d + 1e-9
                 assert w > offset + content[0] and a > content[1]
-                # The lower hook retains its original scale even for tall fractions.
-                assert commands[0][1][0] == (167*layout.scale(size), content[2])
+                # The compact lower hook is never stretched, even for tall fractions.
+                assert all(abs(actual-expected)<1e-9 for actual,expected in zip(commands[0][1][0], (167*layout.scale(size)*RADICAL_SCALE, content[2]-min(max(content[2],0),RADICAL_BOTTOM_INSET*size))))
                 assert sum(op == 'qCurveTo' for op, _ in commands) > 20
             # Tall radicands must not lengthen any part of the native lower hook.
             from fontTools.pens.recordingPen import RecordingPen
@@ -87,8 +87,8 @@ def verify():
                 for (op, points), (draw_op, drawn) in zip(native.value[:12], commands[:12]):
                     assert op == draw_op
                     for (nx,ny),(dx,dy) in zip(points,drawn):
-                        assert abs(dx-nx*layout.scale(size))<1e-9
-                        assert abs(dy-(size*.23-(ny-131)*layout.scale(size)))<1e-9
+                        assert abs(dx-nx*layout.scale(size)*RADICAL_SCALE)<1e-9
+                        assert abs(dy-(size*(.23-RADICAL_BOTTOM_INSET)-(ny-131)*layout.scale(size)*RADICAL_SCALE))<1e-9
             for base,lower in (('v','p'),('v','g'),('k','0'),('ω','0'),('Ψ','0'),('y','j'),('φ','n'),('R','n')):
                 body,script=metrics(base,size),metrics(lower,size*.65)
                 dx,dy,(w,a,d)=layout.subscript_geometry(base,body,lower,script,size)
