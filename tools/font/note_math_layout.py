@@ -4,6 +4,7 @@ Canvas coordinates have Y downward. The caller owns parsing/drawing and passes
 measured (width, ascent, descent) tuples. This does not modify font outlines.
 Defaults reproduce the approved quantum-notes renderer's 1.26 math scale.
 """
+from math import hypot
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.recordingPen import RecordingPen, replayRecording
 
@@ -13,7 +14,7 @@ RELATION_SIDE_EM = .18
 BINARY_SIDE_EM = .14
 PARENTHESIS_CHARACTERS = frozenset('()（）')
 PARENTHESIS_SIDE_EM = .06
-RADICAL_SCALE = .75
+RADICAL_DIAGONAL_SLOPE = .28
 RADICAL_BOTTOM_INSET = .16
 
 CONJUGATE_SCALE = 1.0
@@ -232,37 +233,57 @@ class NoteMathLayout:
         return dx, dy, ratio, (max(width, left + ink_width), max(ascent, -top), descent)
 
     def radical_geometry(self, radicand, size):
-        """Extend the native radical's stem and roof, retaining its hook/terminals.
+        """Reference-inspired short hook, rising diagonal and horizontal roof.
 
-        Return canvas-coordinate outline commands, radicand X offset, and bounds.
-        The split coordinates follow the 1.034 native contour: the hook below
-        y=278 and roof above y=449 translate rigidly; only the middle stem grows.
-        Roof points right of x=242 extend horizontally without scaling thickness.
-        The contour is drawn at 75% scale with tighter clearance; the full-size
-        radicand and font glyphs remain unchanged.
+        This is a renderer outline, not a replacement font glyph. Stroke width
+        follows the handwritten math scale; the radicand stays at full size.
+        The short entry is capped independently of content height, while the
+        diagonal keeps a consistent slope even around a tall fraction.
         """
         width, ascent, descent = radicand
-        scale = self.scale(size) * RADICAL_SCALE
-        offset, gap, padding = 280 * scale, 24 * scale, 24 * scale
-        hook_bottom = descent - min(max(descent, 0), RADICAL_BOTTOM_INSET * size)
-        # The outer hook reaches y=252; start stretching above its full contour.
-        # A split at y=208 incorrectly lengthened its left tail on tall roots.
-        extra = max(0, (ascent + hook_bottom + gap) / scale - (462 - 131))
-        roof_right = max(516, (offset + width + padding) / scale)
-        def point(pt):
-            x, y = pt
-            if x > 242:
-                x = 242 + (x - 242) * (roof_right - 242) / (516 - 242)
-            y += extra * max(0, min(1, (y - 278) / (449 - 278)))
-            return x * scale, hook_bottom - (y - 131) * scale
-        native = RecordingPen()
-        self.glyphs[self.cmap[ord('√')]].draw(native)
-        outline = [(op, tuple(point(p) if p is not None else None for p in pts))
-                   for op, pts in native.value]
+        radius = 18 * self.scale(size)
+        bottom = descent - min(max(descent, 0), RADICAL_BOTTOM_INSET * size)
+        top = -ascent - .05 * size - radius
+        height = bottom - top
+        hook_height = min(.26 * height, .38 * size)
+        valley_x = radius + .18 * size
+        roof_x = valley_x + RADICAL_DIAGONAL_SLOPE * height
+        offset = roof_x + .12 * size + radius
+        points = [(radius, bottom-hook_height), (valley_x, bottom),
+                  (roof_x, top), (offset+width+.07*size, top)]
+        directions, normals = [], []
+        for a, b in zip(points, points[1:]):
+            dx, dy = b[0]-a[0], b[1]-a[1]
+            length = hypot(dx, dy)
+            directions.append((dx/length, dy/length))
+            normals.append((-dy/length, dx/length))
+        def shift(p, vector, amount=radius):
+            return (p[0]+vector[0]*amount, p[1]+vector[1]*amount)
+        def corner(index, side):
+            a, b = normals[index-1], normals[index]
+            factor = side*radius/(1+a[0]*b[0]+a[1]*b[1])
+            return shift(points[index], (a[0]+b[0], a[1]+b[1]), factor)
+        # A rounded outer valley avoids the long spike of an acute miter join.
+        turn = tuple(normals[0][i]+normals[1][i] for i in (0,1))
+        turn_length = hypot(*turn)
+        valley_control = shift(points[1],turn,1.8*radius/turn_length)
+        outline = [
+            ('moveTo',(shift(points[0],normals[0]),)),
+            ('lineTo',(shift(points[1],normals[0]),)),
+            ('qCurveTo',(valley_control,shift(points[1],normals[1]))),
+            ('lineTo',(corner(2,1),)),
+            ('lineTo',(shift(points[3],normals[2]),)),
+            ('qCurveTo',(shift(points[3],directions[2],2*radius),shift(points[3],normals[2],-radius))),
+            ('lineTo',(corner(2,-1),)),
+            ('lineTo',(corner(1,-1),)),
+            ('lineTo',(shift(points[0],normals[0],-radius),)),
+            ('qCurveTo',(shift(points[0],directions[0],-2*radius),shift(points[0],normals[0]))),
+            ('closePath',()),
+        ]
         pen = BoundsPen(None)
         replayRecording(outline, pen)
         left, top, right, bottom = pen.bounds
-        return outline, offset, (max(offset + width + padding, right),
+        return outline, offset, (max(offset+width, right),
                                  max(ascent, -top), max(descent, bottom))
 
     def math_advance(self, character, size):

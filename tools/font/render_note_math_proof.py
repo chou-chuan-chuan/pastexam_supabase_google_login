@@ -58,7 +58,7 @@ def main():
             dx,dy,ratio,measured=layout.vector_geometry(base,metrics(base,size),size)
             text(x,y,base,size);text(x+dx,y+dy,'→',size*ratio)
             x+=measured[0]+55
-        draw.text((30,1030),'Native radical / hook retained, stem and roof extended',font=label,fill='#345')
+        draw.text((30,1030),'Handwritten radical / short hook, rising diagonal, level roof',font=label,fill='#345')
         class RasterOutline(BasePen):
             def _moveTo(self,p): self.points=[p]
             def _lineTo(self,p): self.points.append(p)
