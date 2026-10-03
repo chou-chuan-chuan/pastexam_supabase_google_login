@@ -13,7 +13,7 @@
     54
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "59dbcb19016e213b7f0091a35866786b9c177a2ae48ddef5d8747ae151370e9f",
+  "shared_module_sha256": "c94b95a7d457e8ef82c6eda1fce7c8d77b42313a642130e3bf62a988241f78aa",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -22,26 +22,14 @@
     0,
     0
   ],
-  "native_radicals_by_page": [
-    5,
-    5,
-    0,
-    4,
-    14,
-    0
-  ],
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
-  "radical_native_hook_preserved": true,
-  "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "619c88909530bded9e715ec12fe4e7897dfb8e9b7385a4dcc830e47d3526e0b7",
+  "pdf_sha256": "b545c33fea7ceebc289302bd2158c6db31c7f6f4587688b70d42b6cc7769685e",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
   "raw_vector_accents_excluded_from_relation_spacing": true,
-  "radical_stretch_start_font_units": 278,
-  "whole_lower_hook_preserved": true,
   "minus_ink_width_font_units": 247,
   "minus_rendered_advance_font_units": 341,
   "fraction_rule_source": "native U+2212 contour; fixed terminal shapes",
@@ -79,11 +67,23 @@
     2570,
     1770
   ],
-  "radical_drawing_scale": 0.75,
-  "radical_top_right_gap_local_font_units": 24,
   "radical_bottom_inset_size_ratio": 0.16,
   "radicand_size_and_baseline_preserved": true,
   "parenthesis_side_spacing_math_em": 0.06,
   "parenthesis_existing_spaces_count_toward_spacing": true,
-  "prose_parentheses_unpadded": true
+  "prose_parentheses_unpadded": true,
+  "handwritten_radicals_by_page": [
+    5,
+    5,
+    0,
+    4,
+    14,
+    0
+  ],
+  "radical_design": "reference-inspired short hook, rising diagonal, horizontal roof",
+  "radical_diagonal_run_per_rise": 0.28,
+  "radical_entry_max_size_ratio": 0.38,
+  "radical_stroke_width_font_units": 36,
+  "radical_roof_ink_gap_size_ratio": 0.05,
+  "font_radical_glyph_unchanged": true
 }

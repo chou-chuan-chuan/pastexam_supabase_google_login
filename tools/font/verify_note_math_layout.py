@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib
 from fontTools.ttLib import TTFont
-from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM, RADICAL_SCALE, RADICAL_BOTTOM_INSET, PARENTHESIS_CHARACTERS, PARENTHESIS_SIDE_EM
+from note_math_layout import NoteMathLayout, CONJUGATE_SCALE, ORDINARY_SCRIPT_SCALE, RELATION_CHARACTERS, RELATION_SIDE_EM, BINARY_SIDE_EM, RADICAL_DIAGONAL_SLOPE, RADICAL_BOTTOM_INSET, PARENTHESIS_CHARACTERS, PARENTHESIS_SIDE_EM
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT = ROOT / 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
@@ -81,19 +81,22 @@ def verify():
                 left, top, right, bottom = pen.bounds
                 assert left >= 0 and right <= w + 1e-9 and top >= -a - 1e-9 and bottom <= d + 1e-9
                 assert w > offset + content[0] and a > content[1]
-                # The compact lower hook is never stretched, even for tall fractions.
-                assert all(abs(actual-expected)<1e-9 for actual,expected in zip(commands[0][1][0], (167*layout.scale(size)*RADICAL_SCALE, content[2]-min(max(content[2],0),RADICAL_BOTTOM_INSET*size))))
-                assert sum(op == 'qCurveTo' for op, _ in commands) > 20
-            # Tall radicands must not lengthen any part of the native lower hook.
-            from fontTools.pens.recordingPen import RecordingPen
-            native = RecordingPen(); layout.glyphs[layout.cmap[ord('√')]].draw(native)
+                # Roof and right endpoint clear the full, unchanged content.
+                roof_inner=commands[4][1][0]
+                assert roof_inner[0]>offset+content[0] and roof_inner[1]<-content[1]
+                assert sum(op=='closePath' for op,_ in commands)==1
+                assert sum(op=='qCurveTo' for op,_ in commands)==3
+                # Both sides of the main stem rise rightward, unlike the old upright stem.
+                assert commands[3][1][0][0]>commands[2][1][-1][0]
+                assert commands[6][1][0][0]>commands[7][1][0][0]
+            # Tall roots keep a short entry while the diagonal expands with height.
+            offsets=[]
             for height in (.8, 2, 5):
-                commands, _, _ = layout.radical_geometry((size*2,size*height,size*.23),size)
-                for (op, points), (draw_op, drawn) in zip(native.value[:12], commands[:12]):
-                    assert op == draw_op
-                    for (nx,ny),(dx,dy) in zip(points,drawn):
-                        assert abs(dx-nx*layout.scale(size)*RADICAL_SCALE)<1e-9
-                        assert abs(dy-(size*(.23-RADICAL_BOTTOM_INSET)-(ny-131)*layout.scale(size)*RADICAL_SCALE))<1e-9
+                commands,offset,_=layout.radical_geometry((size*2,size*height,size*.23),size)
+                offsets.append(offset)
+                entry=commands[0][1][0];valley=commands[1][1][0]
+                assert 0<valley[1]-entry[1]<=.38*size+1e-9
+            assert offsets[0]<offsets[1]<offsets[2]
             for base,lower in (('v','p'),('v','g'),('k','0'),('ω','0'),('Ψ','0'),('y','j'),('φ','n'),('R','n')):
                 body,script=metrics(base,size),metrics(lower,size*.65)
                 dx,dy,(w,a,d)=layout.subscript_geometry(base,body,lower,script,size)
