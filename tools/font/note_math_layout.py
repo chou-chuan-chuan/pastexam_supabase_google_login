@@ -67,6 +67,25 @@ class NoteMathLayout:
             result.append(tuple(sides))
         return result
 
+    def subscript_geometry(self, base, base_metrics, lower, lower_metrics, size):
+        """Bring a lower script close to the base, keeping 65% script size.
+
+        Simple bases use their actual right ink edge and the lower script's
+        first left bearing. Compound bases use their measured advance. Keep
+        a positive 36-unit gap, including for descenders such as y/p/φ.
+        Superscripts remain on their existing independent placement path.
+        """
+        width, ascent, descent = base_metrics
+        scale = self.scale(size)
+        body = self.bounds(base) if isinstance(base, str) and len(base) == 1 else None
+        right = body[2] * scale if body else width
+        first = self.bounds(lower[0]) if isinstance(lower, str) and lower else None
+        left = first[0] * scale * ORDINARY_SCRIPT_SCALE if first else 0
+        dx, dy = right + 36 * scale - left, .14 * size
+        return dx, dy, (max(width, dx + lower_metrics[0]),
+                        max(ascent, lower_metrics[1] - dy),
+                        max(descent, lower_metrics[2] + dy))
+
     def conjugate_geometry(self, base_ascent, size):
         # * is already a small raised drawing. Render it at full math size.
         bounds = self.bounds('*')

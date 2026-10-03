@@ -13,7 +13,7 @@
     46
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "40c977c546a62c39020b09f840b499dfb91927ba2b6970ecc0d1d9608120dda3",
+  "shared_module_sha256": "4d96cc5fd94a4868b93927eb76bfc754431cb1acdbdbd2563e57a92c84699f5d",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -35,7 +35,7 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "4a7ceda6979d442d063c9a58f6be9aa18ffee3b578ab3794c547851b4e385c4c",
+  "pdf_sha256": "3ff062335a4e1460b60793a7b6f1f091c34023039d53000a5ecdf36c9ddca62c",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -50,5 +50,10 @@
   "adjusted_diagram_labels": 13,
   "reviewed_figure_groups": 27,
   "figure_label_stroke_clearance_canvas_units": 2,
-  "figure_layout_module_sha256": "fde45fb36b8790c72c20f0fd5aad5a1ce77572ec0a773a5cf1c4f73cc1059387"
+  "figure_layout_module_sha256": "fde45fb36b8790c72c20f0fd5aad5a1ce77572ec0a773a5cf1c4f73cc1059387",
+  "subscript_baseline_size_ratio": 0.14,
+  "previous_subscript_baseline_size_ratio": 0.28,
+  "subscript_ink_gap_font_units": 36,
+  "subscript_scale": 0.65,
+  "superscript_placement_preserved": true
 }

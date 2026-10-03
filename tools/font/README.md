@@ -54,6 +54,12 @@ python tools/font/verify_figure_label_clearance.py /path/to/quantum_notes/full_l
 
 [Before/after proof](proofs/note-figure-label-clearance.png) · [13-label clearance report](reports/figure-label-clearance.json).
 
+### Compact lower scripts
+
+Use `subscript_geometry(base, base_metrics, lower, lower_metrics, size)` for lower scripts at the existing 65% size. For a simple base it uses the actual right ink edge and the lower script's first left bearing, retaining a 36-font-unit horizontal gap. Compound bases fall back to their measured advance. The lower baseline is 0.14 × size below the main baseline (previously 0.28), bringing the subscript upward. Negative left bearings such as `g` are accounted for rather than blindly shifting every script left.
+
+Draw the lower script at the returned offsets and use the returned enclosing metrics. For simultaneous upper/lower scripts, combine those metrics with the upper script's independently measured box; its position stays at `base_width + 1` and the established vertical rise. Conjugate stars and integral limits retain their separate policies. The legacy explicit `sub` node uses the same compact placement as parsed lower scripts. This changes note layout only, not font glyphs or cmap.
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.

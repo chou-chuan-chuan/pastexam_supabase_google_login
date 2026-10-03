@@ -81,6 +81,16 @@ def verify():
                     for (nx,ny),(dx,dy) in zip(points,drawn):
                         assert abs(dx-nx*layout.scale(size))<1e-9
                         assert abs(dy-(size*.23-(ny-131)*layout.scale(size)))<1e-9
+            for base,lower in (('v','p'),('v','g'),('k','0'),('ω','0'),('Ψ','0'),('y','j'),('φ','n'),('R','n')):
+                body,script=metrics(base,size),metrics(lower,size*.65)
+                dx,dy,(w,a,d)=layout.subscript_geometry(base,body,lower,script,size)
+                bb,sb=layout.bounds(base),layout.bounds(lower);scale=layout.scale(size)
+                assert abs(dx+sb[0]*scale*.65-bb[2]*scale-36*scale)<1e-9
+                assert dy==.14*size
+                if lower != 'g': assert dx<body[0]+1
+                assert dx+sb[2]*scale*.65<=w+1e-9
+                assert dy-sb[1]*scale*.65<=d+1e-9
+                assert dy-sb[3]*scale*.65>=-a-1e-9
             for base in ('Ψ', 'ψ', 'φ', 'x'):
                 _, ascent, _ = metrics(base, size)
                 rise, top = layout.conjugate_geometry(ascent, size)
