@@ -5,6 +5,7 @@ measured (width, ascent, descent) tuples. This does not modify font outlines.
 Defaults reproduce the approved quantum-notes renderer's 1.26 math scale.
 """
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.recordingPen import RecordingPen, replayRecording
 
 
 CONJUGATE_SCALE = 1.0
@@ -85,6 +86,56 @@ class NoteMathLayout:
         dx, rise = offset
         scale = self.scale(size)
         return dx * scale, -rise * scale, (width, max(ascent, (mb[3] + rise) * scale), descent)
+
+    def vector_geometry(self, base, base_metrics, size):
+        """Native right-arrow accent, with unchanged outline and 48-unit gap.
+
+        This explicit renderer adapter does not add U+20D7 to the font cmap.
+        The 85% arrow matches the native thin stroke, without a fixed-pixel head.
+        """
+        width, ascent, descent = base_metrics
+        scale, ratio = self.scale(size), .85
+        arrow = self.bounds('→')
+        single = isinstance(base, str) and len(base) == 1
+        body = self.bounds(base) if single else None
+        center = (body[0] + body[2]) * scale / 2 if body else width / 2
+        ink_width = (arrow[2] - arrow[0]) * scale * ratio
+        left = max(0, min(center - ink_width / 2, width - ink_width))
+        dx = left - arrow[0] * scale * ratio
+        base_top = body[3] * scale if body else ascent
+        dy = -base_top - 48 * scale + arrow[1] * scale * ratio
+        top = dy - arrow[3] * scale * ratio
+        return dx, dy, ratio, (max(width, left + ink_width), max(ascent, -top), descent)
+
+    def radical_geometry(self, radicand, size):
+        """Extend the native radical's stem and roof, retaining its hook/terminals.
+
+        Return canvas-coordinate outline commands, radicand X offset, and bounds.
+        The split coordinates follow the 1.034 native contour: the hook below
+        y=208 and roof above y=449 translate rigidly; only the middle stem grows.
+        Roof points right of x=242 extend horizontally without scaling thickness.
+        No glyph in the font is changed and the radicand remains at full size.
+        """
+        width, ascent, descent = radicand
+        scale = self.scale(size)
+        offset, gap, padding = 280 * scale, 48 * scale, 48 * scale
+        extra = max(0, (ascent + descent + gap) / scale - (462 - 131))
+        roof_right = max(516, (offset + width + padding) / scale)
+        def point(pt):
+            x, y = pt
+            if x > 242:
+                x = 242 + (x - 242) * (roof_right - 242) / (516 - 242)
+            y += extra * max(0, min(1, (y - 208) / (449 - 208)))
+            return x * scale, descent - (y - 131) * scale
+        native = RecordingPen()
+        self.glyphs[self.cmap[ord('√')]].draw(native)
+        outline = [(op, tuple(point(p) if p is not None else None for p in pts))
+                   for op, pts in native.value]
+        pen = BoundsPen(None)
+        replayRecording(outline, pen)
+        left, top, right, bottom = pen.bounds
+        return outline, offset, (max(offset + width + padding, right),
+                                 max(ascent, -top), max(descent, bottom))
 
     def fraction_axis(self, size):
         return self.font['MATH'].table.MathConstants.AxisHeight.Value * (size * self.math_scale) / self.units

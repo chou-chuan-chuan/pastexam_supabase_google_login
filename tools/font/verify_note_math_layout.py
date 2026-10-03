@@ -38,6 +38,28 @@ def verify():
                 assert top >= -measured[1] - 1e-9
                 # Native hat is not stretched to the base's full advance.
                 assert abs((right - left) / scale - 154) < 1e-9
+            for base in ('E', 'k', 'r', 'p', 'j', 'S'):
+                original = metrics(base, size)
+                dx, dy, ratio, (w, a, d) = layout.vector_geometry(base, original, size)
+                arrow, body = layout.bounds('→'), layout.bounds(base)
+                scale = layout.scale(size)
+                left, right = dx + arrow[0]*scale*ratio, dx + arrow[2]*scale*ratio
+                top, bottom = dy - arrow[3]*scale*ratio, dy - arrow[1]*scale*ratio
+                assert left >= -1e-9 and right <= w + 1e-9 and top >= -a - 1e-9
+                assert abs(-body[3]*scale - bottom - 48*scale) < 1e-9
+                assert ratio == .85 and d == original[2]
+            for content in (metrics('x', size), metrics('π', size),
+                            (size*2, size*1.7, size*.8), (size*8, size*3, size*2)):
+                commands, offset, (w, a, d) = layout.radical_geometry(content, size)
+                from fontTools.pens.recordingPen import replayRecording
+                from fontTools.pens.boundsPen import BoundsPen
+                pen = BoundsPen(None); replayRecording(commands, pen)
+                left, top, right, bottom = pen.bounds
+                assert left >= 0 and right <= w + 1e-9 and top >= -a - 1e-9 and bottom <= d + 1e-9
+                assert w > offset + content[0] and a > content[1]
+                # The lower hook retains its original scale even for tall fractions.
+                assert commands[0][1][0] == (167*layout.scale(size), content[2])
+                assert sum(op == 'qCurveTo' for op, _ in commands) > 20
             for base in ('Ψ', 'ψ', 'φ', 'x'):
                 _, ascent, _ = metrics(base, size)
                 rise, top = layout.conjugate_geometry(ascent, size)

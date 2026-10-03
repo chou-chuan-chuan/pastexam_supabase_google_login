@@ -2,7 +2,7 @@
 
 ## Shared quantum-note layout
 
-[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
 
 The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
 
@@ -18,6 +18,14 @@ python tools/font/render_note_math_proof.py
 The prior PDF renderer drew a geometric chevron even after updating the font. Call `hat_geometry(base_text, base_metrics, size)` for an operator hat; draw the unchanged base, then the **U+0302 glyph itself** at `(x + dx, baseline + dy)`, using the same font size. Use the returned metrics for enclosing boxes. The helper uses the font's scoped GPOS operator anchors, or MATH accent centers with the same native ink-clearance policy for other bases. The hat is never stretched to the advance width. Use this same placement for inline combining sequences such as `x̂p̂` (with `math_scale=1` for prose). This narrow adapter does not implement general shaping, arbitrary script marks, or extensible wide hats.
 
 The notebook renderer now handles both explicit `\\hat{…}` nodes and inline U+0302 through this API; it no longer strokes a chevron for those hats. The font file alone cannot change a separately drawn path.
+
+### Native vector accents and radical integration
+
+For explicit `\vec{…}` nodes, call `vector_geometry(base, base_metrics, size)` and draw the native **→ U+2192** glyph at `(x + dx, baseline + dy)` at `size * ratio`. The 0.85 ratio preserves the native arrow silhouette and scales its head with script size. Clearance above actual base ink is 48 font units; measure with the returned bounds. This renderer adapter does not add the combining vector mark U+20D7 to the font.
+
+For `\sqrt{…}`, call `radical_geometry(radicand_metrics, size)`. Replay its canvas-coordinate outline with a filled pen (no stroke), then draw the radicand at `(x + offset, baseline)`. The native 1.034 radical contour retains its lower hook, while the middle stem extends vertically and the roof extends horizontally to enclose the content. Native vertical roof thickness is retained rather than scaling the whole glyph with the content height. Return metrics include the roof, hook and right padding. The contour split coordinates are specific to this pinned font version, not a generic OpenType radical assembly algorithm.
+
+The proof includes single-letter arrows, simple radicals and a radical over a fraction; the verifier covers script sizes, tall/wide radicands, ink bounds and unchanged font hashes. Integration additionally checks nested radicals and arrows with subscripts/exponents against the actual PDF renderer.
 
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
