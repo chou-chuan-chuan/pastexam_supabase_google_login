@@ -11,6 +11,8 @@ from fontTools.pens.recordingPen import RecordingPen, replayRecording
 RELATION_CHARACTERS = frozenset('=＝<>＜＞~～≠≡≈≃∼≲≳≤≥≪≫∝∈∉→←↔⇒⇔')
 RELATION_SIDE_EM = .18
 BINARY_SIDE_EM = .14
+RADICAL_SCALE = .90
+RADICAL_BOTTOM_INSET = .08
 
 CONJUGATE_SCALE = 1.0
 ORDINARY_SCRIPT_SCALE = 0.65
@@ -230,21 +232,23 @@ class NoteMathLayout:
         The split coordinates follow the 1.034 native contour: the hook below
         y=278 and roof above y=449 translate rigidly; only the middle stem grows.
         Roof points right of x=242 extend horizontally without scaling thickness.
-        No glyph in the font is changed and the radicand remains at full size.
+        The contour is drawn at 90% scale with tighter clearance; the full-size
+        radicand and font glyphs remain unchanged.
         """
         width, ascent, descent = radicand
-        scale = self.scale(size)
-        offset, gap, padding = 280 * scale, 48 * scale, 48 * scale
+        scale = self.scale(size) * RADICAL_SCALE
+        offset, gap, padding = 280 * scale, 36 * scale, 36 * scale
+        hook_bottom = descent - min(max(descent, 0), RADICAL_BOTTOM_INSET * size)
         # The outer hook reaches y=252; start stretching above its full contour.
         # A split at y=208 incorrectly lengthened its left tail on tall roots.
-        extra = max(0, (ascent + descent + gap) / scale - (462 - 131))
+        extra = max(0, (ascent + hook_bottom + gap) / scale - (462 - 131))
         roof_right = max(516, (offset + width + padding) / scale)
         def point(pt):
             x, y = pt
             if x > 242:
                 x = 242 + (x - 242) * (roof_right - 242) / (516 - 242)
             y += extra * max(0, min(1, (y - 278) / (449 - 278)))
-            return x * scale, descent - (y - 131) * scale
+            return x * scale, hook_bottom - (y - 131) * scale
         native = RecordingPen()
         self.glyphs[self.cmap[ord('√')]].draw(native)
         outline = [(op, tuple(point(p) if p is not None else None for p in pts))
