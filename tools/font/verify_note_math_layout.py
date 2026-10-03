@@ -119,6 +119,23 @@ def verify():
             minus=layout.math_advance('−',size)
             equals=layout.math_advance('=',size)
             assert abs(minus-equals)<2*layout.scale(size)
+            for condition in ('a→0','a→∞','L→∞'):
+                op,lo=metrics('lim',size),metrics(condition,size*.65)
+                bx,lx,ly,ux,uy,(w,a,d)=layout.limit_geometry(op,lo,(0,0,0),size,condition,None)
+                assert abs(bx+op[0]/2-lx-lo[0]/2)<1e-9
+                bottom=-min(layout.bounds(c)[1] for c in 'lim')*layout.scale(size)
+                top=ly-max(layout.bounds(c)[3] for c in condition)*layout.scale(size*.65)
+                assert abs(top-bottom-36*layout.scale(size))<1e-9
+                assert w>=lx+lo[0] and a>=op[1]
+            for condition in ('n','n=−∞'):
+                op,lo,hi=metrics('∑',size*1.35),metrics(condition,size*.55),metrics('∞',size*.55)
+                bx,lx,ly,ux,uy,(w,a,d)=layout.summation_geometry(op,lo,hi,size,condition)
+                assert abs(bx+op[0]/2-lx-lo[0]/2)<1e-9
+                assert uy == -op[1]-3
+                top=ly-max(layout.bounds(c)[3] for c in condition)*layout.scale(size*.55)
+                bottom=-layout.bounds('∑')[1]*layout.scale(size*1.35)
+                assert abs(top-bottom-36*layout.scale(size))<1e-9
+                assert ly<op[2]+lo[1]+3 and w>=lx+lo[0]
             axis = layout.fraction_axis(size)
             equals = layout.bounds('=')
             assert abs(axis - (equals[1] + equals[3]) / 2 * layout.scale(size)) < .05
