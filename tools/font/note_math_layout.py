@@ -138,20 +138,22 @@ class NoteMathLayout:
 
         Return canvas-coordinate outline commands, radicand X offset, and bounds.
         The split coordinates follow the 1.034 native contour: the hook below
-        y=208 and roof above y=449 translate rigidly; only the middle stem grows.
+        y=278 and roof above y=449 translate rigidly; only the middle stem grows.
         Roof points right of x=242 extend horizontally without scaling thickness.
         No glyph in the font is changed and the radicand remains at full size.
         """
         width, ascent, descent = radicand
         scale = self.scale(size)
         offset, gap, padding = 280 * scale, 48 * scale, 48 * scale
+        # The outer hook reaches y=252; start stretching above its full contour.
+        # A split at y=208 incorrectly lengthened its left tail on tall roots.
         extra = max(0, (ascent + descent + gap) / scale - (462 - 131))
         roof_right = max(516, (offset + width + padding) / scale)
         def point(pt):
             x, y = pt
             if x > 242:
                 x = 242 + (x - 242) * (roof_right - 242) / (516 - 242)
-            y += extra * max(0, min(1, (y - 208) / (449 - 208)))
+            y += extra * max(0, min(1, (y - 278) / (449 - 278)))
             return x * scale, descent - (y - 131) * scale
         native = RecordingPen()
         self.glyphs[self.cmap[ord('√')]].draw(native)
@@ -163,13 +165,48 @@ class NoteMathLayout:
         return outline, offset, (max(offset + width + padding, right),
                                  max(ascent, -top), max(descent, bottom))
 
+    def math_advance(self, character, size):
+        advance = self.font['hmtx'][self.cmap[ord(character)]][0]
+        if character == '−':
+            # Match the 247-unit native =/- ink length and +/= advance family.
+            advance -= 436 - 247
+        return advance * self.scale(size)
+
+    def rule_outline(self, width, size):
+        """Native minus stroke centered at canvas y=0, with fixed end caps.
+
+        Only the middle section changes length. Keep native thickness, subtle
+        slope and terminal shapes for both short minuses and fraction rules.
+        """
+        scale = self.scale(size)
+        native = RecordingPen()
+        self.glyphs[self.cmap[ord('−')]].draw(native)
+        target = width / scale
+        if target < 104:
+            raise ValueError('Rule too short to preserve native terminals')
+        def point(pt):
+            x, y = pt
+            if x <= 99:
+                x -= 45
+            elif x >= 431:
+                x = target - (481 - x)
+            else:
+                x = 54 + (x - 99) * (target - 104) / (431 - 99)
+            return x * scale, -(y - 328) * scale
+        return [(op, tuple(point(p) for p in pts)) for op, pts in native.value]
+
     def fraction_axis(self, size):
         return self.font['MATH'].table.MathConstants.AxisHeight.Value * (size * self.math_scale) / self.units
 
+    @staticmethod
+    def numerator_gap(size):
+        # Small optical gap; ordinary glyph metrics already reserve descender air.
+        return .06 * size
+
     def fraction_metrics(self, numerator, denominator, size):
         axis = self.fraction_axis(size)
-        return (max(numerator[0], denominator[0]) + 8,
-                axis + 3 + numerator[1] + numerator[2],
+        return (max(numerator[0], denominator[0]) + size * .20,
+                axis + self.numerator_gap(size) + numerator[1] + numerator[2],
                 max(0, 3 + denominator[1] + denominator[2] - axis))
 
     @staticmethod
