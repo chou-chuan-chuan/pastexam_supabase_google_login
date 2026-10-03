@@ -16,7 +16,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,1630),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,1850),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -77,8 +77,9 @@ def main():
         commands,off,_=layout.radical_geometry(content,size)
         replayRecording(commands,RasterOutline(None))
         axis=layout.fraction_axis(size);w=content[0]
-        draw.line((x+off+1,y-axis,x+off+w-1,y-axis),fill='#150592',width=3)
-        text(x+off+(w-numerator[0])/2,y-axis-3-numerator[2],'π',size*.85)
+        ox,oy=x,y;edge=size*.04;x+=off+edge;y-=axis
+        replayRecording(layout.rule_outline(w-2*edge,size),RasterOutline(None));x,y=ox,oy
+        text(x+off+(w-numerator[0])/2,y-axis-layout.numerator_gap(size)-numerator[2],'π',size*.85)
         text(x+off+(w-denominator[0])/2,y-axis+3+denominator[1],'α',size*.85)
         draw.text((30,1370),'Relation spacing / =  <  >  ≈  ∼  ≪  ≫  ∝  ⇒',font=label,fill='#345')
         x=45;y=1460;size=42
@@ -87,6 +88,20 @@ def main():
                 x+=left;x+=text(x,y,char,size);x+=right
             x+=35
         draw.text((30,1530),'Existing spaces count toward the gap; font metrics stay unchanged.',font=label,fill='#345')
+        draw.text((30,1600),'Short native minus / pressure-shaped fraction / closer numerator',font=label,fill='#345')
+        size=74;x=45;y=1750
+        x+=text(x,y,'=',size)+25
+        ox,oy=x,y;x+=45*layout.scale(size);y-=layout.fraction_axis(size)
+        replayRecording(layout.rule_outline(247*layout.scale(size),size),RasterOutline(None))
+        x,y=ox+layout.math_advance('−',size)+25,oy
+        text(x,y,'+',size)
+        x=350
+        numerator,denominator=metrics('ℏ',size*.85),metrics('2',size*.85)
+        w,_,_=layout.fraction_metrics(numerator,denominator,size);axis=layout.fraction_axis(size)
+        ox,oy=x,y;edge=size*.04;x+=edge;y-=axis
+        replayRecording(layout.rule_outline(w-2*edge,size),RasterOutline(None));x,y=ox,oy
+        text(x+(w-numerator[0])/2,y-axis-layout.numerator_gap(size)-numerator[2],'ℏ',size*.85)
+        text(x+(w-denominator[0])/2,y-axis+3+denominator[1],'2',size*.85)
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 

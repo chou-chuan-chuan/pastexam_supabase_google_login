@@ -33,6 +33,14 @@ Call `relation_spacing(text, size)` only for equation text runs. It returns `(le
 
 Keep raw accent glyphs on an unpadded path, especially the U+2192 used above vectors. Ordinary prose and glyph metrics are unchanged. The notes renderer verifies drawing and measurement agree, preserves all 208 formula strings and their font sizes, and keeps six sheets without overflow.
 
+### Native rules and compact radical hook
+
+In equation text, use `math_advance(character, size)` for glyph advances: U+2212 has a renderer-specific 341-unit advance and 247-unit ink length, matching the native plus/equal family. Draw its `rule_outline(247 * scale, size)` at `x + 45 * scale` and `baseline - fraction_axis(size)`. The font cmap, stored glyph outline, and font metrics remain unchanged.
+
+Fractions replay `rule_outline(width, size)` as a **filled contour**, centered on the math axis. Its native terminals, 48-unit thickness and gentle slope are retained; only the middle section changes length. `fraction_metrics` now adds a total 0.20 × size of width padding. Draw the rule inset by 0.04 × size at each end, and put the numerator baseline at `axis_y - numerator_gap(size) - numerator_descent`. The 0.06 × size numerator gap lowers the numerator slightly; the denominator retains its established 3-unit clearance.
+
+The radical's stretch begins at native y=278, above the complete lower hook (which reaches y=252). Earlier y=208 interpolation pulled the left tail upward when a root enclosed a tall fraction. Regression checks retain every lower-hook control point at its native scale over multiple radicand heights.
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.

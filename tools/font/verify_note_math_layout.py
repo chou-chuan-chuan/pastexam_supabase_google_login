@@ -71,6 +71,16 @@ def verify():
                 # The lower hook retains its original scale even for tall fractions.
                 assert commands[0][1][0] == (167*layout.scale(size), content[2])
                 assert sum(op == 'qCurveTo' for op, _ in commands) > 20
+            # Tall radicands must not lengthen any part of the native lower hook.
+            from fontTools.pens.recordingPen import RecordingPen
+            native = RecordingPen(); layout.glyphs[layout.cmap[ord('√')]].draw(native)
+            for height in (.8, 2, 5):
+                commands, _, _ = layout.radical_geometry((size*2,size*height,size*.23),size)
+                for (op, points), (draw_op, drawn) in zip(native.value[:12], commands[:12]):
+                    assert op == draw_op
+                    for (nx,ny),(dx,dy) in zip(points,drawn):
+                        assert abs(dx-nx*layout.scale(size))<1e-9
+                        assert abs(dy-(size*.23-(ny-131)*layout.scale(size)))<1e-9
             for base in ('Ψ', 'ψ', 'φ', 'x'):
                 _, ascent, _ = metrics(base, size)
                 rise, top = layout.conjugate_geometry(ascent, size)
@@ -88,13 +98,24 @@ def verify():
                     assert x > right and uy < 0 < ly
                     assert width >= x + max(lo[0], hi[0])
                     assert -ascent <= uy - hi[1] and descent >= ly + lo[2]
+            from fontTools.pens.recordingPen import replayRecording
+            from fontTools.pens.boundsPen import BoundsPen
+            for rule_width in (247*layout.scale(size),size,4*size):
+                pen=BoundsPen(None); replayRecording(layout.rule_outline(rule_width,size),pen)
+                left,top,right,bottom=pen.bounds
+                assert abs(left)<1e-9 and abs(right-rule_width)<1e-9
+                assert abs(top+bottom)<1e-9 and abs(bottom-top-48*layout.scale(size))<1e-9
+                assert layout.numerator_gap(size)>bottom
+            minus=layout.math_advance('−',size)
+            equals=layout.math_advance('=',size)
+            assert abs(minus-equals)<2*layout.scale(size)
             axis = layout.fraction_axis(size)
             equals = layout.bounds('=')
             assert abs(axis - (equals[1] + equals[3]) / 2 * layout.scale(size)) < .05
             for top, bottom in (('dx', 'dt'), ('d⟨x⟩', 'dt'), ('Ψ', 'ρ')):
                 n, d = metrics(top, size * .85), metrics(bottom, size * .85)
                 _, ascent, descent = layout.fraction_metrics(n, d, size)
-                assert -axis - 3 - n[2] - n[1] >= -ascent - 1e-9
+                assert -axis - layout.numerator_gap(size) - n[2] - n[1] >= -ascent - 1e-9
                 assert -axis + 3 + d[1] + d[2] <= descent + 1e-9
     print('PASS: full-size conjugates, right-side integral limits, fraction axis and ink bounds; TTF/WOFF2 unchanged')
 
