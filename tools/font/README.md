@@ -2,7 +2,7 @@
 
 ## Shared quantum-note layout
 
-[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
 
 The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
 
@@ -11,7 +11,13 @@ python tools/font/verify_note_math_layout.py
 python tools/font/render_note_math_proof.py
 ```
 
-[Native proof](proofs/quanfangwei-note-operators.png) · [Integration identity report](reports/note-math-layout.json). The actual six-page notes were rebuilt with the shared module: all SVG bytes, PDF drawing streams and layout records match the already-approved corrected output. No lecture PDF or full note content is needed by this reusable module or committed with it.
+[Native proof](proofs/quanfangwei-note-operators.png) · [Integration report](reports/note-math-layout.json). All 208 equation strings and six topic sheets are preserved. No lecture PDF or full note content is needed by this reusable module or committed with it.
+
+### Native hat integration
+
+The prior PDF renderer drew a geometric chevron even after updating the font. Call `hat_geometry(base_text, base_metrics, size)` for an operator hat; draw the unchanged base, then the **U+0302 glyph itself** at `(x + dx, baseline + dy)`, using the same font size. Use the returned metrics for enclosing boxes. The helper uses the font's scoped GPOS operator anchors, or MATH accent centers with the same native ink-clearance policy for other bases. The hat is never stretched to the advance width. Use this same placement for inline combining sequences such as `x̂p̂` (with `math_scale=1` for prose). This narrow adapter does not implement general shaping, arbitrary script marks, or extensible wide hats.
+
+The notebook renderer now handles both explicit `\\hat{…}` nodes and inline U+0302 through this API; it no longer strokes a chevron for those hats. The font file alone cannot change a separately drawn path.
 
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 

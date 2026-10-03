@@ -25,6 +25,19 @@ def verify():
 
         assert CONJUGATE_SCALE == 1 and ORDINARY_SCRIPT_SCALE == .65
         for size in (16, 20, 32, 64):
+            for base in ('x', 'p', 'H', 'A', 'B', 'ψ', 'φ', 'ℒ'):
+                original = metrics(base, size)
+                dx, dy, measured = layout.hat_geometry(base, original, size)
+                mark, body = layout.bounds('\u0302'), layout.bounds(base)
+                scale = layout.scale(size)
+                left, right = dx + mark[0] * scale, dx + mark[2] * scale
+                top, bottom = dy - mark[3] * scale, dy - mark[1] * scale
+                assert measured[0] == original[0] and left >= 0 and right <= original[0]
+                assert abs((left + right) / 2 - (body[0] + body[2]) / 2 * scale) < 2 * scale
+                assert 30 * scale <= -body[3] * scale - bottom <= 49 * scale
+                assert top >= -measured[1] - 1e-9
+                # Native hat is not stretched to the base's full advance.
+                assert abs((right - left) / scale - 154) < 1e-9
             for base in ('Ψ', 'ψ', 'φ', 'x'):
                 _, ascent, _ = metrics(base, size)
                 rise, top = layout.conjugate_geometry(ascent, size)

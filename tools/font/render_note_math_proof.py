@@ -14,7 +14,7 @@ def main():
     with tempfile.TemporaryDirectory() as temp:
         native=MathLayout(FONT,temp)
         layout=NoteMathLayout(native.font)
-        image=Image.new('RGB',(1200,620),'#fffdf8');draw=ImageDraw.Draw(image)
+        image=Image.new('RGB',(1200,850),'#fffdf8');draw=ImageDraw.Draw(image)
         label=ImageFont.truetype(str(FONT),25)
         def metrics(text,size):
             return layout.text_metrics(text,size,native.text(text).width*layout.scale(size))
@@ -41,6 +41,15 @@ def main():
         x+=text(x,y,' dx ',size)
         x+=conjugate(x,y,'Ψ',size)
         text(x,y,'xΨ =',size)
+        draw.text((30,610),'Native U+0302 hats / exact glyph outlines / original advances',font=label,fill='#345')
+        # Draw the isolated mark directly, without dotted-circle insertion.
+        mark=native.font.getGlyphID(native.font.getBestCmap()[0x302])
+        native.shapes['\u0302']=[(mark,0,0,0)]
+        x=45;y=755;size=74
+        for base in ('x','p','H','A','B','ψ'):
+            dx,dy,measured=layout.hat_geometry(base,metrics(base,size),size)
+            text(x,y,base,size);text(x+dx,y+dy,'\u0302',size)
+            x+=measured[0]+55
         image.save(ROOT/'tools/font/proofs/quanfangwei-note-operators.png')
     print('PASS: shared module proof rendered from current native font')
 

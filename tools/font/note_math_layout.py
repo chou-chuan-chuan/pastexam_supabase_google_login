@@ -46,6 +46,46 @@ class NoteMathLayout:
         bottom, top = bounds[1] * self.scale(size), bounds[3] * self.scale(size)
         return base_ascent + size * .06 - bottom, top
 
+    def hat_geometry(self, base, base_metrics, size):
+        """Place native U+0302 ink; return dx, dy and unchanged-advance metrics.
+
+        Use the font's scoped operator-hat lookup when available. Other bases
+        use MATH accent centers and the same 48-unit native ink clearance.
+        This is a narrow hat adapter, not a general OpenType shaping engine.
+        """
+        width, ascent, descent = base_metrics
+        mark = self.cmap[0x302]
+        mb = self.bounds('\u0302')
+        name = self.cmap.get(ord(base)) if isinstance(base, str) and len(base) == 1 else None
+        offset = None
+        if name and 'GPOS' in self.font:
+            for lookup in reversed(self.font['GPOS'].table.LookupList.Lookup):
+                if lookup.LookupType != 4:
+                    continue
+                for sub in lookup.SubTable:
+                    if sub.MarkCoverage.glyphs != [mark] or name not in sub.BaseCoverage.glyphs:
+                        continue
+                    record = sub.MarkArray.MarkRecord[0]
+                    anchor = sub.BaseArray.BaseRecord[sub.BaseCoverage.glyphs.index(name)].BaseAnchor[record.Class]
+                    if anchor is not None:
+                        offset = (anchor.XCoordinate - record.MarkAnchor.XCoordinate,
+                                  anchor.YCoordinate - record.MarkAnchor.YCoordinate)
+                        break
+                if offset is not None:
+                    break
+        if offset is None:
+            attachments = self.font['MATH'].table.MathGlyphInfo.MathTopAccentAttachment
+            centers = dict(zip(attachments.TopAccentCoverage.glyphs,
+                               (value.Value for value in attachments.TopAccentAttachment)))
+            center = centers.get(name, width / self.scale(size) / 2)
+            mark_center = centers.get(mark, (mb[0] + mb[2]) / 2)
+            top = self.bounds(base)[3] if name else ascent / self.scale(size)
+            dy = round(min(top + 48 - mb[1], self.font['OS/2'].sTypoAscender - 4 - mb[3]))
+            offset = (center - mark_center, dy)
+        dx, rise = offset
+        scale = self.scale(size)
+        return dx * scale, -rise * scale, (width, max(ascent, (mb[3] + rise) * scale), descent)
+
     def fraction_axis(self, size):
         return self.font['MATH'].table.MathConstants.AxisHeight.Value * (size * self.math_scale) / self.units
 
