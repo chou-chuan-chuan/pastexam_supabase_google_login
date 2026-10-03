@@ -11,8 +11,10 @@ from fontTools.pens.recordingPen import RecordingPen, replayRecording
 RELATION_CHARACTERS = frozenset('=＝<>＜＞~～≠≡≈≃∼≲≳≤≥≪≫∝∈∉→←↔⇒⇔')
 RELATION_SIDE_EM = .18
 BINARY_SIDE_EM = .14
-RADICAL_SCALE = .90
-RADICAL_BOTTOM_INSET = .08
+PARENTHESIS_CHARACTERS = frozenset('()（）')
+PARENTHESIS_SIDE_EM = .06
+RADICAL_SCALE = .75
+RADICAL_BOTTOM_INSET = .16
 
 CONJUGATE_SCALE = 1.0
 ORDINARY_SCRIPT_SCALE = 0.65
@@ -48,16 +50,20 @@ class NoteMathLayout:
         return advance, ascent, descent
 
     def relation_spacing(self, text, size):
-        """Extra left/right advance per relation, in canvas units.
+        """Extra left/right advance per relation or parenthesis, in canvas units.
 
         Apply only to math text runs, not raw accent glyphs or prose. Existing
-        adjacent spaces count toward the minimum 0.18 math-em clearance, so
+        adjacent spaces count toward the minimum clearance (0.18 math-em for
+        relations, 0.06 for parentheses), so
         already spaced relations are not padded twice. Font metrics are unchanged.
         """
-        gap = RELATION_SIDE_EM * self.units * self.scale(size)
         result = []
         for index, character in enumerate(text):
-            if character not in RELATION_CHARACTERS:
+            if character in PARENTHESIS_CHARACTERS:
+                gap = PARENTHESIS_SIDE_EM * self.units * self.scale(size)
+            elif character in RELATION_CHARACTERS:
+                gap = RELATION_SIDE_EM * self.units * self.scale(size)
+            else:
                 result.append((0, 0))
                 continue
             sides = []
@@ -232,12 +238,12 @@ class NoteMathLayout:
         The split coordinates follow the 1.034 native contour: the hook below
         y=278 and roof above y=449 translate rigidly; only the middle stem grows.
         Roof points right of x=242 extend horizontally without scaling thickness.
-        The contour is drawn at 90% scale with tighter clearance; the full-size
+        The contour is drawn at 75% scale with tighter clearance; the full-size
         radicand and font glyphs remain unchanged.
         """
         width, ascent, descent = radicand
         scale = self.scale(size) * RADICAL_SCALE
-        offset, gap, padding = 280 * scale, 36 * scale, 36 * scale
+        offset, gap, padding = 280 * scale, 24 * scale, 24 * scale
         hook_bottom = descent - min(max(descent, 0), RADICAL_BOTTOM_INSET * size)
         # The outer hook reaches y=252; start stretching above its full contour.
         # A split at y=208 incorrectly lengthened its left tail on tall roots.

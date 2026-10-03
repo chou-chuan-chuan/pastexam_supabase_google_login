@@ -23,7 +23,7 @@ The notebook renderer now handles both explicit `\\hat{…}` nodes and inline U+
 
 For explicit `\vec{…}` nodes, call `vector_geometry(base, base_metrics, size)` and draw the native **→ U+2192** glyph at `(x + dx, baseline + dy)` at `size * ratio`. The 0.85 ratio preserves the native arrow silhouette and scales its head with script size. Clearance above actual base ink is 48 font units; measure with the returned bounds. This renderer adapter does not add the combining vector mark U+20D7 to the font.
 
-For `\sqrt{…}`, call `radical_geometry(radicand_metrics, size)`. Replay its canvas-coordinate outline with a filled pen (no stroke), then draw the radicand at `(x + offset, baseline)`. The native 1.034 radical contour retains its lower hook, while the middle stem extends vertically and the roof extends horizontally to enclose the content. The contour uses a compact 90% drawing scale; roof thickness stays at that scale rather than growing with the content height. Return metrics include the roof, hook and right padding. The contour split coordinates are specific to this pinned font version, not a generic OpenType radical assembly algorithm.
+For `\sqrt{…}`, call `radical_geometry(radicand_metrics, size)`. Replay its canvas-coordinate outline with a filled pen (no stroke), then draw the radicand at `(x + offset, baseline)`. The native 1.034 radical contour retains its lower hook, while the middle stem extends vertically and the roof extends horizontally to enclose the content. The contour uses a compact 75% drawing scale; roof thickness stays at that scale rather than growing with the content height. Return metrics include the roof, hook and right padding. The contour split coordinates are specific to this pinned font version, not a generic OpenType radical assembly algorithm.
 
 The proof includes single-letter arrows, simple radicals and a radical over a fraction; the verifier covers script sizes, tall/wide radicands, ink bounds and unchanged font hashes. Integration additionally checks nested radicals and arrows with subscripts/exponents against the actual PDF renderer.
 
@@ -33,15 +33,17 @@ Call `relation_spacing(text, size)` only for equation text runs. It returns `(le
 
 Keep raw accent glyphs on an unpadded path, especially the U+2192 used above vectors. Ordinary prose and glyph metrics are unchanged. The notes renderer verifies drawing and measurement agree, preserves all 208 formula strings and their font sizes, and keeps six sheets without overflow.
 
+Math parentheses `(`, `)`, `（`, and `）` receive a smaller 0.06 math-em gap on each side through the same spacing API, including at text-run boundaries before/after fractions or scripts. Existing spaces count toward the minimum. Ordinary prose parentheses stay on the unpadded text path. Measurement and drawing apply identical offsets.
+
 ### Native rules and compact radical hook
 
 In equation text, use `math_advance(character, size)` for glyph advances: U+2212 has a renderer-specific 341-unit advance and 247-unit ink length, matching the native plus/equal family. Draw its `rule_outline(247 * scale, size)` at `x + 45 * scale` and `baseline - fraction_axis(size)`. The font cmap, stored glyph outline, and font metrics remain unchanged.
 
 Fractions replay `rule_outline(width, size)` as a **filled contour**, centered on the math axis. Its native terminals, 48-unit thickness and gentle slope are retained; only the middle section changes length. `fraction_metrics` now adds a total 0.20 × size of width padding. Draw the rule inset by 0.04 × size at each end, and put the numerator baseline at `axis_y - numerator_gap(size) - numerator_descent`. The 0.06 × size numerator gap lowers the numerator slightly; the denominator retains its established 3-unit clearance.
 
-The radical's stretch begins at native y=278, above the complete lower hook (which reaches y=252). Earlier y=208 interpolation pulled the left tail upward when a root enclosed a tall fraction. Regression checks retain every lower-hook control point at the same compact 90% scale over multiple radicand heights.
+The radical's stretch begins at native y=278, above the complete lower hook (which reaches y=252). Earlier y=208 interpolation pulled the left tail upward when a root enclosed a tall fraction. Regression checks retain every lower-hook control point at the same compact 75% scale over multiple radicand heights.
 
-The compact radical uses 36 local font units of top/right clearance (previously 48), and raises the hook bottom by up to 0.08 × equation size. Its radicand stays at full size and on the original baseline; the complete expression still measures the full content bounds. This applies to both display equations and inline annotation formulas. No font glyph is edited.
+The compact radical uses 24 local font units of top/right clearance, and raises the hook bottom by up to 0.16 × equation size. Its radicand stays at full size and on the original baseline; the complete expression still measures the full content bounds. This applies to both display equations and inline annotation formulas. No font glyph is edited.
 
 ### Figure label clearance
 
