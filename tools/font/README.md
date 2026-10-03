@@ -41,6 +41,19 @@ Fractions replay `rule_outline(width, size)` as a **filled contour**, centered o
 
 The radical's stretch begins at native y=278, above the complete lower hook (which reaches y=252). Earlier y=208 interpolation pulled the left tail upward when a root enclosed a tall fraction. Regression checks retain every lower-hook control point at its native scale over multiple radicand heights.
 
+### Figure label clearance
+
+[`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
+
+The integration audit checks 13 adjusted labels against the actual SVG strokes with 2 canvas units of clearance, including stroke thickness. It uses exact segment/box intersections and 64 samples per cubic curve, complemented by visual inspection of all 27 figure groups. Other text is not globally displaced.
+
+```sh
+python tools/font/render_figure_label_proof.py
+python tools/font/verify_figure_label_clearance.py /path/to/quantum_notes/full_lecture
+```
+
+[Before/after proof](proofs/note-figure-label-clearance.png) · [13-label clearance report](reports/figure-label-clearance.json).
+
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.

@@ -35,7 +35,7 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "f4aa0544b4158b48fd47a8218516f35ae8409d7dbc0eccc7a2bbac219dae3559",
+  "pdf_sha256": "4a7ceda6979d442d063c9a58f6be9aa18ffee3b578ab3794c547851b4e385c4c",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -46,5 +46,9 @@
   "minus_rendered_advance_font_units": 341,
   "fraction_rule_source": "native U+2212 contour; fixed terminal shapes",
   "fraction_total_padding_size_ratio": 0.2,
-  "numerator_gap_size_ratio": 0.06
+  "numerator_gap_size_ratio": 0.06,
+  "adjusted_diagram_labels": 13,
+  "reviewed_figure_groups": 27,
+  "figure_label_stroke_clearance_canvas_units": 2,
+  "figure_layout_module_sha256": "fde45fb36b8790c72c20f0fd5aad5a1ce77572ec0a773a5cf1c4f73cc1059387"
 }

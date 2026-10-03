@@ -1,0 +1,93 @@
+[
+  {
+    "figure": "W01",
+    "role": "wave_fixed",
+    "text": "fixed x",
+    "before_segments": 19,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "spectrum_width",
+    "text": "Δk = 2/√(2α)",
+    "before_segments": 5,
+    "after_segments": 0
+  },
+  {
+    "figure": "W04a",
+    "role": "packet_wavelength",
+    "text": "λ₀=2π/k₀",
+    "before_segments": 12,
+    "after_segments": 0
+  },
+  {
+    "figure": "W06",
+    "role": "sinc_zero",
+    "text": "2π/a",
+    "before_segments": 14,
+    "after_segments": 0
+  },
+  {
+    "figure": "W13",
+    "role": "spectrum_width",
+    "text": "Δk ∼ 1/√α",
+    "before_segments": 7,
+    "after_segments": 0
+  },
+  {
+    "figure": "W14",
+    "role": "spreading_width",
+    "text": "Δx(t)",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W14",
+    "role": "spreading_width",
+    "text": "Δx(0)",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W15",
+    "role": "beats_envelope_axis",
+    "text": "y",
+    "before_segments": 4,
+    "after_segments": 0
+  },
+  {
+    "figure": "W16",
+    "role": "spectrum_width",
+    "text": "narrow packet",
+    "before_segments": 6,
+    "after_segments": 0
+  },
+  {
+    "figure": "W21a-W21c",
+    "role": "optics_angle",
+    "text": "φ",
+    "before_segments": 1,
+    "after_segments": 0
+  },
+  {
+    "figure": "W37",
+    "role": "spreading_width",
+    "text": "Δx(t)",
+    "before_segments": 3,
+    "after_segments": 0
+  },
+  {
+    "figure": "W37",
+    "role": "spreading_width",
+    "text": "Δx(0)",
+    "before_segments": 1,
+    "after_segments": 0
+  },
+  {
+    "figure": "W48",
+    "role": "spectrum_width",
+    "text": "narrow spectrum",
+    "before_segments": 0,
+    "after_segments": 0
+  }
+]
