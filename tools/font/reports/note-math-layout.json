@@ -13,7 +13,7 @@
     46
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "4f3843bbcc55608646d300d155c6c09a44b6e6c9d16665d63bb4b6dd1537d764",
+  "shared_module_sha256": "6a023fa32d5449bb487a51883839ff21381fbe6641e8bcaf9aeac87d739edc94",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -35,5 +35,9 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "7274ef14c8779c86689a631f2da51c98ba8585bf6681e68ed1ab8842df2f3dea"
+  "pdf_sha256": "c2f05673efb3dce599d166790f0a5540d1a27197c9bd6e51fc4ba685999455bd",
+  "relation_side_spacing_math_em": 0.18,
+  "existing_spaces_count_toward_spacing": true,
+  "equation_font_sizes_unchanged": true,
+  "raw_vector_accents_excluded_from_relation_spacing": true
 }
