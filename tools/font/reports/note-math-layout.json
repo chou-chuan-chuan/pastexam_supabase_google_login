@@ -13,7 +13,7 @@
     54
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "875881fc2da194d45f503c44381c8e81bf5931f4a9a7bb0f1568e13adbd7ace5",
+  "shared_module_sha256": "59dbcb19016e213b7f0091a35866786b9c177a2ae48ddef5d8747ae151370e9f",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -35,7 +35,7 @@
   "radical_native_hook_preserved": true,
   "radical_stem_and_roof_extended": true,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "c039df5ad32b9701ff2ff6502ecee2d56ef17c439a3635cdb4bd1c24a4810d01",
+  "pdf_sha256": "619c88909530bded9e715ec12fe4e7897dfb8e9b7385a4dcc830e47d3526e0b7",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -79,8 +79,11 @@
     2570,
     1770
   ],
-  "radical_drawing_scale": 0.9,
-  "radical_top_right_gap_local_font_units": 36,
-  "radical_bottom_inset_size_ratio": 0.08,
-  "radicand_size_and_baseline_preserved": true
+  "radical_drawing_scale": 0.75,
+  "radical_top_right_gap_local_font_units": 24,
+  "radical_bottom_inset_size_ratio": 0.16,
+  "radicand_size_and_baseline_preserved": true,
+  "parenthesis_side_spacing_math_em": 0.06,
+  "parenthesis_existing_spaces_count_toward_spacing": true,
+  "prose_parentheses_unpadded": true
 }
