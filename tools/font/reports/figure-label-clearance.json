@@ -23,14 +23,21 @@
   {
     "figure": "W05",
     "role": "spectrum_definition",
-    "text": "$Δ$: full width at $1/e$ of each peak, not a standard deviation. Here $Δk=2\\sqrt{2}σ_k$.",
+    "text": "$Δx$: full $1/e$ width of $|f(x)|^2$; $Δk$: that of $|g(k)|^2$. $σ_x=\\sqrt{α}$, $σ_k=\\frac{1}{2\\sqrt{α}}$: position and wave-number standard deviations. $Δx=2\\sqrt{2}σ_x$, $Δk=2\\sqrt{2}σ_k$.",
     "before_segments": 0,
     "after_segments": 0
   },
   {
     "figure": "W05",
     "role": "spectrum_definition",
-    "text": "$Δ$: full width at $1/e$ of each peak, not a standard deviation. Here $Δk=2\\sqrt{2}σ_k$.",
+    "text": "$Δx$: full $1/e$ width of $|f(x)|^2$; $Δk$: that of $|g(k)|^2$. $σ_x=\\sqrt{α}$, $σ_k=\\frac{1}{2\\sqrt{α}}$: position and wave-number standard deviations. $Δx=2\\sqrt{2}σ_x$, $Δk=2\\sqrt{2}σ_k$.",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "spectrum_definition",
+    "text": "$Δx$: full $1/e$ width of $|f(x)|^2$; $Δk$: that of $|g(k)|^2$. $σ_x=\\sqrt{α}$, $σ_k=\\frac{1}{2\\sqrt{α}}$: position and wave-number standard deviations. $Δx=2\\sqrt{2}σ_x$, $Δk=2\\sqrt{2}σ_k$.",
     "before_segments": 0,
     "after_segments": 0
   },

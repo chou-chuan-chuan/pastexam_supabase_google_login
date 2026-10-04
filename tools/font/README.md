@@ -49,9 +49,9 @@ The short hook is additionally lifted by 0.18 × equation size along the existin
 
 [`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
 
-`gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
+`gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. It explicitly identifies σx = √α as the position standard deviation and σk = 1/(2√α) as the wave-number standard deviation, and states Δx = 2√2 σx and Δk = 2√2 σk. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
 
-The local renderer measures every formula and annotation, checks 22 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 115 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black. Its first basic-relation equation is restored to dark red (#8B1E2D), and the second to purple (#5B308B), following the requested original palette.
+The local renderer measures every formula and annotation, checks 23 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 145 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black. Its first basic-relation equation is restored to dark red (#8B1E2D), and the second to purple (#5B308B), following the requested original palette.
 
 ```sh
 python tools/font/verify_gaussian_comparison.py
@@ -92,7 +92,7 @@ The PDF keeps all 208 equation strings and font sizes. Integration checks cover 
 
 `note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
 
-All 50 annotations use English prose in deep green (`#20552F`), with 55 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+All 50 annotations use English prose in deep green (`#20552F`), with 61 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
 
 ```sh
 python tools/font/verify_note_annotation_layout.py

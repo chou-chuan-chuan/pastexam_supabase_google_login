@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "0f0924407ee954857281db5a81b8f9c55832ca830c561ec1f7a6a3d11aec9c00",
+  "pdf_sha256": "1dea66059eccec1c682930f44584d2308812857566512b65e3963afd7cc44962",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -38,7 +38,7 @@
   "adjusted_diagram_labels": 12,
   "reviewed_figure_groups": 27,
   "figure_label_stroke_clearance_canvas_units": 2,
-  "figure_layout_module_sha256": "7b2dddb2184bbda928e5464ae2ee155762217b6d69960eaee085afc6355bd377",
+  "figure_layout_module_sha256": "427663e2b5f46edd777c5cb5291c6e75155bdfec8f4340820f9eff7e3a46617a",
   "subscript_baseline_size_ratio": 0.14,
   "previous_subscript_baseline_size_ratio": 0.28,
   "subscript_ink_gap_font_units": 36,
@@ -57,7 +57,7 @@
   "binary_compound_operand_boundaries_verified": true,
   "non_green_content_and_sizes_unchanged": false,
   "green_annotations_english": 50,
-  "green_native_math_spans": 55,
+  "green_native_math_spans": 61,
   "annotation_layout_module_sha256": "cb31ac50552a2521fbb2a9970032cb41d99a0619d7d9e0fdf07d977f0d552e5a",
   "page_heights": [
     2380,
@@ -73,7 +73,7 @@
   "parenthesis_existing_spaces_count_toward_spacing": true,
   "prose_parentheses_unpadded": true,
   "handwritten_radicals_by_page": [
-    8,
+    11,
     5,
     0,
     4,
@@ -105,7 +105,7 @@
     "superseded_in_W05_by": "Paired densities with both arrows at their exact 1/e endpoints",
     "historical_before_gaussian_comparison": true
   },
-  "checked_diagram_label_rows": 22,
+  "checked_diagram_label_rows": 23,
   "gaussian_comparison": {
     "figure": "W05",
     "left": "|f(x)|² = (π/α) exp[-x²/(2α)]",
@@ -115,12 +115,16 @@
     "delta_k": "2 / sqrt(2α)",
     "width_convention": "full width at 1/e peak; Δk = 2 sqrt(2) σk",
     "annotation_position": "upper right",
-    "canvas_height": 255,
+    "canvas_height": 285,
     "original_canvas_height": 140,
     "pages_2_through_6_unchanged": true,
     "page_1_right_column_unchanged": true,
     "original_208_equations_and_sizes_preserved": true,
-    "arrow_endpoints_verified": true
+    "arrow_endpoints_verified": true,
+    "definition_frame_height": 100,
+    "sigma_x": "sqrt(α): position standard deviation",
+    "sigma_k": "1 / (2 sqrt(α)): wave-number standard deviation",
+    "delta_to_sigma": "Δx = 2 sqrt(2) σx; Δk = 2 sqrt(2) σk"
   },
   "first_sheet_color_changes": {
     "subtitle": "#000000",
@@ -132,6 +136,7 @@
   "original_equation_content_and_sizes_unchanged": true,
   "color_restoration_verification": {
     "only_two_record_ink_values_changed": true,
-    "all_formulas_sizes_positions_and_other_records_unchanged": true
+    "all_formulas_sizes_positions_and_other_records_unchanged": true,
+    "scope": "Before expanding the width definition"
   }
 }
