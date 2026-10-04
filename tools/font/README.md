@@ -49,6 +49,8 @@ The short hook is additionally lifted by 0.18 × equation size along the existin
 
 [`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
 
+`spectrum_width_arrow_y(axis_y, figure_id)` places the Fourier spectrum's W05 width arrow 25 canvas units above its axis instead of 15. Its length, head shapes and horizontal location stay fixed. Other spectrum diagrams retain their existing placement; curves, dashed centers, axes and labels are unchanged. The production SVG comparison confirms exactly five translated paths (one shaft and four arrowhead strokes), all by -10 in Y, with every other SVG element unchanged.
+
 The integration audit checks 13 adjusted labels against the actual SVG strokes with 2 canvas units of clearance, including stroke thickness. It uses exact segment/box intersections and 64 samples per cubic curve, complemented by visual inspection of all 27 figure groups. Other text is not globally displaced.
 
 ```sh

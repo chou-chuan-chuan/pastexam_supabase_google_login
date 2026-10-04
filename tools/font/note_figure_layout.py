@@ -1,4 +1,4 @@
-"""Small optical label offsets for the handwritten quantum-note diagrams.
+"""Small optical label and annotation offsets for the handwritten quantum-note diagrams.
 
 Coordinates are canvas units, Y downward. Curves and axes are not moved.
 Offsets are scoped to semantic label roles, never all text with the same word.
@@ -22,3 +22,8 @@ def label_offset(role, height):
 def reserved_figure_height(height, label_bottom):
     """Reserve the actual lowest label ink plus a small following-text gap."""
     return max(height, label_bottom + 4)
+
+
+def spectrum_width_arrow_y(axis_y, figure_id):
+    """Lift the Fourier spectrum (W05) width arrow; keep other diagrams fixed."""
+    return axis_y - (25 if figure_id == 'W05' else 15)

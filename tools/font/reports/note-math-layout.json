@@ -3,7 +3,7 @@
   "font_sha256": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
   "pdf_pages": 6,
   "equations": 208,
-  "all_content_records_unchanged": false,
+  "all_content_records_unchanged": true,
   "native_hat_uses_by_page": [
     0,
     0,
@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "37089465fc4dfc84b1a323e17d96f4818bcb1773af02ca2e635471f3763b2430",
+  "pdf_sha256": "9d73aa235e43c807a637cd385f10cb003bedd8ac1bbaa5a5b660595a64a5d588",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -38,7 +38,7 @@
   "adjusted_diagram_labels": 13,
   "reviewed_figure_groups": 27,
   "figure_label_stroke_clearance_canvas_units": 2,
-  "figure_layout_module_sha256": "fde45fb36b8790c72c20f0fd5aad5a1ce77572ec0a773a5cf1c4f73cc1059387",
+  "figure_layout_module_sha256": "bc2d43015c9ddad50a754703b988a860f680dfda691f43cb00e41c50810cc1e3",
   "subscript_baseline_size_ratio": 0.14,
   "previous_subscript_baseline_size_ratio": 0.28,
   "subscript_ink_gap_font_units": 36,
@@ -87,13 +87,20 @@
   "radical_roof_ink_gap_size_ratio": 0.05,
   "font_radical_glyph_unchanged": true,
   "radical_hook_length_scale": 0.8,
-  "layout_positions_and_dimensions_unchanged": false,
+  "layout_positions_and_dimensions_unchanged": true,
   "radical_hook_additional_raise_size_ratio": 0.18,
   "radical_roof_and_content_positions_preserved": true,
-  "complete_layout_audit_unchanged": false,
+  "complete_layout_audit_unchanged": true,
   "annotation_color": "#20552F",
   "fourier_direction_clarification_added": true,
   "forward_fourier_kernel": "exp(-ikx)",
   "forward_fourier_normalization": "1/(2*pi)",
-  "inverse_fourier_kernel": "exp(ikx)"
+  "inverse_fourier_kernel": "exp(ikx)",
+  "spectrum_width_arrow_adjustment": {
+    "figure": "W05",
+    "shift_y_canvas_units": -10,
+    "axis_clearance_canvas_units": 25,
+    "changed_svg_paths": 5,
+    "all_other_svg_elements_unchanged": true
+  }
 }
