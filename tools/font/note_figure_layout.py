@@ -32,7 +32,7 @@ def spectrum_width_arrow_y(axis_y, figure_id):
 
 def spectrum_note_frame(x, y, width):
     """Upper-right definition above the paired Gaussian diagrams."""
-    return x + .53 * width, y, .46 * width, 70
+    return x + .53 * width, y, .46 * width, 100
 
 
 def gaussian_comparison_panels(x, y, width):
@@ -45,7 +45,7 @@ def gaussian_comparison_panels(x, y, width):
     for offset,sigma in ((0,.16),(.53,.08)):
         left=x+offset*width+18
         span=.46*width-42
-        baseline=y+205
+        baseline=y+235
         peak_height=95
         center=left+span/2
         half_width=2**.5*sigma*span
