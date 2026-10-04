@@ -89,6 +89,25 @@ def verify():
                 # Both sides of the main stem rise rightward, unlike the old upright stem.
                 assert commands[3][1][0][0]>commands[2][1][-1][0]
                 assert commands[6][1][0][0]>commands[7][1][0][0]
+            # Lift only the hook; preserve the exact roof, content offset and box.
+            import note_math_layout as geometry
+            content=(size*2,size*1.7,size*.8)
+            raised,offset,box=layout.radical_geometry(content,size)
+            saved=geometry.RADICAL_HOOK_RAISE
+            try:
+                geometry.RADICAL_HOOK_RAISE=0
+                previous,old_offset,old_box=layout.radical_geometry(content,size)
+            finally:
+                geometry.RADICAL_HOOK_RAISE=saved
+            assert offset==old_offset and box==old_box
+            for index in (3,4,5,6):
+                assert raised[index][0]==previous[index][0]
+                for new_point,old_point in zip(raised[index][1],previous[index][1]):
+                    assert all(abs(x-y)<1e-9 for x,y in zip(new_point,old_point))
+            for index in (0,1,2,7,8,9):
+                for new_point,old_point in zip(raised[index][1],previous[index][1]):
+                    assert abs(new_point[1]-old_point[1]+saved*size)<1e-9
+                    assert abs(new_point[0]-old_point[0]-RADICAL_DIAGONAL_SLOPE*saved*size)<1e-9
             # Tall roots keep a short entry while the diagonal expands with height.
             offsets=[]
             for height in (.8, 2, 5):

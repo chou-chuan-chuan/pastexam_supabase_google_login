@@ -43,6 +43,8 @@ Fractions replay `rule_outline(width, size)` as a **filled contour**, centered o
 
 The radical keeps the compact bottom inset of up to 0.16 × equation size. Its roof has a 0.05 × size ink gap above the measured radicand, and its body clearance is measured from the diagonal's upper end. Regression checks cover full content bounds, short-entry height, rising diagonal geometry and a single closed contour; production checks include nested roots, fractions and annotation formulas.
 
+The short hook is additionally lifted by 0.12 × equation size along the existing diagonal (with a guard for degenerate empty content). Its entry and lower join move together, preserving the shortened entry's length, angle and stroke width. The diagonal slope, roof, radicand offset and full layout metrics remain fixed. Regression checks compare the complete roof coordinates and hook translation against the unraised design.
+
 ### Figure label clearance
 
 [`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
