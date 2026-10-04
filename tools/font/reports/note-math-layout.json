@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "d3d48a894a311bd652900a1435586a61880c4f0a7661898c5a7922cbea705636",
+  "pdf_sha256": "b77ae2618aa9beaf505454aeb12d3449716313ef1eec3cc8472db22f2968d6e5",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -186,11 +186,14 @@
     "position": "Right of the Fourier integral and blue explanatory sentence",
     "x": 405,
     "width": 315,
-    "size": 19,
+    "size": 17,
     "color": "#20552F",
     "unchanged_wording": true,
     "line_count": 4,
     "left_text_clearance_verified": true,
-    "example_title_below_note_verified": true
+    "example_title_below_note_verified": true,
+    "previous_size": 19,
+    "size_reduction_percent": 10.53,
+    "extra_following_gap_canvas_units": 4
   }
 }

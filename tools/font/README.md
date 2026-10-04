@@ -100,7 +100,7 @@ python tools/font/verify_note_annotation_layout.py
 python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_lecture
 ```
 
-The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at the original 19-unit size. Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
+The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at a smaller 17-unit size (previously 19). Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 
