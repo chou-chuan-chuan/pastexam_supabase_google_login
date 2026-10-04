@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "7e9f95bbe4516b0e9ca2c74824a7f779fe3f39bdc73aa283ea6f889d334858b9",
+  "pdf_sha256": "3a8a44a15aac9b079be9fb25e5fa040d59a4058af28952aa2c369102f376e281",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -173,10 +173,19 @@
       "padding_x": 7,
       "padding_y": 5,
       "x": 255.90234375,
-      "y": 1156.4876562500003,
+      "y": 1174.4876562500003,
       "width": 187.3593724609375,
       "height": 38.19,
-      "all_layout_records_unchanged": true
+      "all_layout_records_unchanged_when_box_added": true
+    },
+    "example_row_spacing": {
+      "extra_above": 18,
+      "extra_below": 18,
+      "preceding_gap": 24,
+      "following_extra_gap": 18,
+      "following_left_column_shift": 36,
+      "changed_records": 35,
+      "other_pages_and_right_column_unchanged": true
     }
   },
   "first_sheet_color_changes": {
@@ -205,7 +214,7 @@
     "example_title_below_note_verified": true,
     "previous_size": 19,
     "size_reduction_percent": 21.05,
-    "extra_following_gap_canvas_units": 6,
+    "extra_following_gap_canvas_units": 24,
     "vertical_alignment": "Actual final glyph-ink bottom matches the left blue sentence",
     "left_ink_bottom": 1148.444453125,
     "right_ink_bottom": 1148.444453125,
