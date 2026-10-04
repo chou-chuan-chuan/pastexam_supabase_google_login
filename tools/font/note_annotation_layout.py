@@ -6,6 +6,8 @@ baseline for each line; tall fractions increase that line's measured height.
 """
 import re
 
+ANNOTATION_COLOR = '#20552F'
+
 
 def annotation_lines(source, max_width, text_measure, math_measure, space_width):
     if source.count('$') % 2:
