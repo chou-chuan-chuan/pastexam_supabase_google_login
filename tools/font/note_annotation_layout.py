@@ -46,3 +46,16 @@ def annotation_lines(source, max_width, text_measure, math_measure, space_width)
     if line:
         lines.append((line, advance, ascent, descent))
     return lines
+
+
+def annotation_top_for_bottom(lines, size, bottom, last_ink_descent):
+    """Align final visible ink with a neighboring line in canvas coordinates.
+
+    Native descent excludes extra line-box leading, so different font sizes
+    align by their actual lower edge rather than by padded text boxes.
+    """
+    if not lines:
+        return bottom
+    height=sum(ascent+descent for _,_,ascent,descent in lines)
+    height+=.27*size*(len(lines)-1)
+    return bottom-height+lines[-1][3]-last_ink_descent

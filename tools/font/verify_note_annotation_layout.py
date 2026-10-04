@@ -30,7 +30,7 @@ if len(sys.argv)>1:
     from fontTools.pens.recordingPen import replayRecording
     tree=ast.parse((notes/'render_notes.py').read_text())
     annotations=[n for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='annotation']
-    assert len(annotations)==49
+    assert len(annotations)==50
     samples=[(ast.literal_eval(n.args[0]),next(ast.literal_eval(k.value) for k in n.keywords if k.arg=='s'),
               685-next(ast.literal_eval(k.value) for k in n.keywords if k.arg=='side_offset') if any(k.arg=='side_offset' for k in n.keywords) else 665) for n in annotations]
     figure_notes=[k.value for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='fig' for k in n.keywords if k.arg=='note']
@@ -63,5 +63,5 @@ if len(sys.argv)>1:
         for previous,current in zip(v.records,v.records[1:]):
             assert current['y']-current['asc']>previous['y']+previous['desc']
         assert block.y>max(r['y']+r['desc'] for r in v.records)
-    print('PASS: 50 English annotations (including the spectrum note); native math ink enclosed; lines separated')
+    print('PASS: 51 English note paragraphs (50 green and one blue, including the spectrum note); native math ink enclosed; lines separated')
 print('PASS: inline annotation wrapping, math spans and attached punctuation')

@@ -92,11 +92,11 @@ The PDF keeps all 208 equation strings and font sizes. Integration checks cover 
 
 `note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
 
-All 50 annotations use English prose in deep green (`#20552F`), with 61 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+All 50 green annotations use English prose in deep green (`#20552F`), with 61 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
 
 ```sh
 python tools/font/verify_note_annotation_layout.py
-# Optional: check all 50 annotations through the actual notes renderer.
+# Optional: check all 51 note paragraphs through the actual notes renderer.
 python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_lecture
 ```
 
@@ -548,3 +548,9 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 - U+5967 `奧` 是 authoritative primary reference：bounds `(122,-53,668,761)`、ink `546×814`、center `(395,354)`、advance 790、LSB／RSB 122／122；`目写影深身` 與既有 alignment sample 只作 secondary context。原始 `奥` 為 bounds `(91,-153,678,793)`、ink `587×946`、center `(384.5,320)`、advance 798。
 - Browser-native E-family QA confirmed that the source aspect ratio cannot match both reference dimensions with a uniform scale. The accepted derived copy uses `scale_x=0.921976`、`scale_y=0.855348`、`dx=+9`、`dy=+34.5` and the approved 4-unit boundary embolden. Advance is 790; final bounds are about `(122.75,-53,668,760.75)`, ink `545.25×813.75`, center `(395.375,353.875)`, and LSB／RSB 122／122.
 - 正式 WOFF2 browser proof `oku-browser-proof.html` 是視覺驗收依據；Pillow proof 僅作 rasterizer diagnostics。Measurement report：`reports/oku-optical-alignment.json`；verification：`python tools/font/verify_oku_optical_alignment.py`。
+
+### Side-note optical bottom alignment
+
+`annotation_top_for_bottom` positions a wrapped note using its final native glyph descent rather than padded line-box descent. The Fourier side note ends at the same visible lower edge as the blue sentence on its left. The renderer preserves the reserved flow height when shifting the note upward. The phase-velocity note and cosine/superposition sentence are size 15 in a right-hand column beside the boxed equation; their green and blue colors are preserved. Production checks cover all 51 note paragraphs (50 green, one blue).
+
+[Phase-velocity side notes](proofs/note-phase-velocity-side-notes.png) · [Fourier ink-bottom alignment](proofs/note-fourier-side-annotation.png).
