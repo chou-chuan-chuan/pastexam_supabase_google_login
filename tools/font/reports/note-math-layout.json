@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "7114a8e4aa7e8e44e89a6a41499d51efc87d881368e5a95ec17a618548555a11",
+  "pdf_sha256": "3e810459fd671fd4712fbf467f073488780ea363a68c7b3ed77238b0f1205f19",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -191,11 +191,25 @@
       "right_equation_x": 385,
       "right_block_width": 345,
       "moved_equations": 3,
-      "original_formula_sizes_and_colors_preserved": true,
       "horizontal_clearance": 71.33263613281252,
       "top_alignment": "Both columns begin below the example heading and spectrum formula",
       "following_figures_begin_below_both_columns": true,
-      "pages_2_through_6_and_page_1_right_column_unchanged": true
+      "pages_2_through_6_and_page_1_right_column_unchanged": true,
+      "formula_sizes_preserved_before_requested_reduction": true,
+      "green_integral_font_reductions": [
+        {
+          "formula": "\\int{−∞}{∞}dy e^{−αy^2}=\\sqrt{\\frac{π}{α}}",
+          "previous_size": 20,
+          "size": 18
+        },
+        {
+          "formula": "\\int{−∞}{∞}dy e^{−ay^2+by+c}=\\sqrt{\\frac{π}{a}}e^{\\frac{b^2}{4a}+c},    a>0,    b,c∈ℂ",
+          "previous_size": 18,
+          "size": 16
+        }
+      ],
+      "all_formula_colors_preserved": true,
+      "boxed_result_font_size": 20
     }
   },
   "first_sheet_color_changes": {
