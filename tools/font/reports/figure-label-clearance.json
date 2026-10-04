@@ -8,9 +8,72 @@
   },
   {
     "figure": "W05",
-    "role": "spectrum_width",
-    "text": "Δk = 2/√(2α)",
-    "before_segments": 5,
+    "role": "gaussian_comparison_formula",
+    "text": "|f(x)|^2=\\frac{π}{α}e^{−x^2/(2α)}",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_caption",
+    "text": "Equal peak heights (schematic)",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "spectrum_definition",
+    "text": "$Δ$: full width at $1/e$ of each peak, not a standard deviation. Here $Δk=2\\sqrt{2}σ_k$.",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "spectrum_definition",
+    "text": "$Δ$: full width at $1/e$ of each peak, not a standard deviation. Here $Δk=2\\sqrt{2}σ_k$.",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_formula",
+    "text": "|f(x)|^2",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_center",
+    "text": "0",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_formula",
+    "text": "Δx=2\\sqrt{2α}",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_formula",
+    "text": "|g(k)|^2",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_center",
+    "text": "k₀",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
+    "role": "gaussian_comparison_formula",
+    "text": "Δk=\\frac{2}{\\sqrt{2α}}",
+    "before_segments": 0,
     "after_segments": 0
   },
   {

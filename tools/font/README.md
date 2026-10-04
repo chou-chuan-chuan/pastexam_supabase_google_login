@@ -49,16 +49,24 @@ The short hook is additionally lifted by 0.18 × equation size along the existin
 
 [`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
 
-`spectrum_width_arrow_y(axis_y, figure_id)` places the Fourier spectrum's W05 width arrow 25 canvas units above its axis instead of 15. Its length, head shapes and horizontal location stay fixed. Other spectrum diagrams retain their existing placement; curves, dashed centers, axes and labels are unchanged. The production SVG comparison confirms exactly five translated paths (one shaft and four arrowhead strokes), all by -10 in Y, with every other SVG element unchanged.
+`gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
 
-The integration audit checks 13 adjusted labels against the actual SVG strokes with 2 canvas units of clearance, including stroke thickness. It uses exact segment/box intersections and 64 samples per cubic curve, complemented by visual inspection of all 27 figure groups. Other text is not globally displaced.
+The local renderer measures every formula and annotation, checks 22 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 115 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black; its first two basic-relation equations use the existing deep blue (#150592), as requested.
+
+```sh
+python tools/font/verify_gaussian_comparison.py
+```
+
+[Gaussian density comparison](proofs/note-gaussian-comparison.png).
+
+The earlier label-offset integration audit checked 13 adjusted labels against the actual SVG strokes with 2 canvas units of clearance, including stroke thickness. It uses exact segment/box intersections and 64 samples per cubic curve, complemented by visual inspection of all 27 figure groups. Other text is not globally displaced.
 
 ```sh
 python tools/font/render_figure_label_proof.py
 python tools/font/verify_figure_label_clearance.py /path/to/quantum_notes/full_lecture
 ```
 
-[Before/after proof](proofs/note-figure-label-clearance.png) · [13-label clearance report](reports/figure-label-clearance.json).
+[Before/after proof](proofs/note-figure-label-clearance.png) · [Current clearance report](reports/figure-label-clearance.json).
 
 ### Compact lower scripts
 
@@ -84,11 +92,11 @@ The PDF keeps all 208 equation strings and font sizes. Integration checks cover 
 
 `note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
 
-All 49 annotations use English prose in deep green (`#20552F`), with 52 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+All 50 annotations use English prose in deep green (`#20552F`), with 55 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
 
 ```sh
 python tools/font/verify_note_annotation_layout.py
-# Optional: check all 49 annotations through the actual notes renderer.
+# Optional: check all 50 annotations through the actual notes renderer.
 python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_lecture
 ```
 
