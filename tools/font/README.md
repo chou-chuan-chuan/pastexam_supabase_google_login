@@ -51,7 +51,7 @@ The short hook is additionally lifted by 0.18 × equation size along the existin
 
 `gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
 
-The local renderer measures every formula and annotation, checks 22 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 115 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black; its first two basic-relation equations use the existing deep blue (#150592), as requested.
+The local renderer measures every formula and annotation, checks 22 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 115 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black. Its first basic-relation equation is restored to dark red (#8B1E2D), and the second to purple (#5B308B), following the requested original palette.
 
 ```sh
 python tools/font/verify_gaussian_comparison.py

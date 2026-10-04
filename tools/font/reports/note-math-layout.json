@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "0da5650e006ab093829a55b37343f6ad8c4a36b0acf85d9243641eb34c370de4",
+  "pdf_sha256": "0f0924407ee954857281db5a81b8f9c55832ca830c561ec1f7a6a3d11aec9c00",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -124,8 +124,14 @@
   },
   "first_sheet_color_changes": {
     "subtitle": "#000000",
-    "first_two_basic_relation_equations": "#150592",
+    "first_basic_relation_equation": "#8B1E2D",
+    "second_basic_relation_equation": "#5B308B",
+    "basic_relation_original_colors_restored": true,
     "remaining_colors_unchanged": true
   },
-  "original_equation_content_and_sizes_unchanged": true
+  "original_equation_content_and_sizes_unchanged": true,
+  "color_restoration_verification": {
+    "only_two_record_ink_values_changed": true,
+    "all_formulas_sizes_positions_and_other_records_unchanged": true
+  }
 }
