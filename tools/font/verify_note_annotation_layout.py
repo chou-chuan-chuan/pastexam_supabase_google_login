@@ -36,7 +36,7 @@ if len(sys.argv)>1:
     figure_notes=[k.value for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='fig' for k in n.keywords if k.arg=='note']
     assert len(figure_notes)==1
     from note_figure_layout import spectrum_note_frame
-    samples.extend((ast.literal_eval(n),16,spectrum_note_frame(0,0,661)[2]) for n in figure_notes)
+    samples.extend((ast.literal_eval(n),v.SPECTRUM_NOTE_SIZE,spectrum_note_frame(0,0,661)[2]) for n in figure_notes)
     bounds=[]
     def capture_text(x,y,value,size=21,ink='black',font='hand',record=True,relations=False):
         pads=v.note_layout.relation_spacing(value,size) if relations else [(0,0)]*len(value)
