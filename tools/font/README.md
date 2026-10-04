@@ -11,7 +11,7 @@ python tools/font/verify_note_math_layout.py
 python tools/font/render_note_math_proof.py
 ```
 
-[Native proof](proofs/quanfangwei-note-operators.png) · [Integration report](reports/note-math-layout.json). All 208 equation strings and six topic sheets are preserved. No lecture PDF or full note content is needed by this reusable module or committed with it.
+[Native proof](proofs/quanfangwei-note-operators.png) · [Integration report](reports/note-math-layout.json). All original 208 equation strings and six topic sheets are preserved; the general Gaussian identity adds one displayed equation. No lecture PDF or full note content is needed by this reusable module or committed with it.
 
 ### Native hat integration
 
@@ -49,15 +49,15 @@ The short hook is additionally lifted by 0.18 × equation size along the existin
 
 [`note_figure_layout.py`](note_figure_layout.py) supplies small offsets for specific diagram label roles: fixed-position text below a sinusoid, spectrum/packet widths, a sinc zero, an optical angle, spreading widths, and the beat-envelope axis label. The renderer measures native label ink and reserves its actual bottom extent before placing the next paragraph. Curves, axes, label wording and font sizes are preserved.
 
-`gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. It explicitly identifies σx = √α as the position standard deviation and σk = 1/(2√α) as the wave-number standard deviation, and states Δx = 2√2 σx and Δk = 2√2 σk. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
+`gaussian_comparison_panels` lays out the Fourier example (W05) with the spatial density on the left and the spectral density on the right. Both peaks have the same schematic height; the two arrows end exactly on the curves at 1/e of the peak. The complete four-line inverse-Fourier derivation and boxed f(x) result precede this comparison. The substitution and completing-the-square steps use purple (#5B308B); the Gaussian identity and an added general form use deep green (#20552F); the boxed result retains dark red. The general identity includes linear and constant terms, with a > 0 and complex b,c, and is checked against numerical integration. The purple header gives |f(x)|² = (π/α) exp[−x²/(2α)] and, directly to its right, |g(k)|² = exp[−2α(k−k₀)²], at the same baseline and size. The captions give the analytical full widths, Δx = 2√(2α) and Δk = 2/√(2α). `spectrum_note_frame` reserves an upper-right area for the deep-green definition, distinguishing these widths from standard deviations. It explicitly identifies σx = √α as the position standard deviation and σk = 1/(2√α) as the wave-number standard deviation, and states Δx = 2√2 σx and Δk = 2√2 σk. The existing `spectrum_width_arrow_y` helper remains available to unpaired spectra.
 
-The local renderer measures every formula and annotation, checks 23 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The first sheet's left column grows by 145 canvas units; page 1's right column and pages 2–6 are unchanged. The comparison remains within the six existing page canvases. The first sheet subtitle is black. Its first basic-relation equation is restored to dark red (#8B1E2D), and the second to purple (#5B308B), following the requested original palette.
+The local renderer measures every formula and annotation, checks 24 label rows against diagram strokes, and preserves all 208 original display equations and sizes. The paired diagram reserves 285 canvas units; the added integral expands the first sheet's left column. Page 1's right-column content and pages 2–6 are unchanged. There are still six pages. The first sheet grows from 2380 to 2460 canvas units for the added general identity; its right-column content is unchanged. The first sheet subtitle is black. Its first basic-relation equation is restored to dark red (#8B1E2D), and the second to purple (#5B308B), following the requested original palette.
 
 ```sh
 python tools/font/verify_gaussian_comparison.py
 ```
 
-[Gaussian density comparison](proofs/note-gaussian-comparison.png).
+[Gaussian density comparison](proofs/note-gaussian-comparison.png) · [Derivation and general identity](proofs/note-gaussian-derivation-order.png).
 
 The earlier label-offset integration audit checked 13 adjusted labels against the actual SVG strokes with 2 canvas units of clearance, including stroke thickness. It uses exact segment/box intersections and 64 samples per cubic curve, complemented by visual inspection of all 27 figure groups. Other text is not globally displaced.
 

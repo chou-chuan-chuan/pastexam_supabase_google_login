@@ -2,7 +2,7 @@
   "font_version": "1.034",
   "font_sha256": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
   "pdf_pages": 6,
-  "equations": 208,
+  "equations": 209,
   "all_content_records_unchanged": false,
   "native_hat_uses_by_page": [
     0,
@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "1dea66059eccec1c682930f44584d2308812857566512b65e3963afd7cc44962",
+  "pdf_sha256": "52a16a6157d055158a71bf0987d0c78e06a54a3a1fc0684334a526a73935799f",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -60,7 +60,7 @@
   "green_native_math_spans": 61,
   "annotation_layout_module_sha256": "cb31ac50552a2521fbb2a9970032cb41d99a0619d7d9e0fdf07d977f0d552e5a",
   "page_heights": [
-    2380,
+    2460,
     2020,
     2130,
     2160,
@@ -73,7 +73,7 @@
   "parenthesis_existing_spaces_count_toward_spacing": true,
   "prose_parentheses_unpadded": true,
   "handwritten_radicals_by_page": [
-    11,
+    12,
     5,
     0,
     4,
@@ -105,7 +105,7 @@
     "superseded_in_W05_by": "Paired densities with both arrows at their exact 1/e endpoints",
     "historical_before_gaussian_comparison": true
   },
-  "checked_diagram_label_rows": 23,
+  "checked_diagram_label_rows": 24,
   "gaussian_comparison": {
     "figure": "W05",
     "left": "|f(x)|² = (π/α) exp[-x²/(2α)]",
@@ -124,7 +124,40 @@
     "definition_frame_height": 100,
     "sigma_x": "sqrt(α): position standard deviation",
     "sigma_k": "1 / (2 sqrt(α)): wave-number standard deviation",
-    "delta_to_sigma": "Δx = 2 sqrt(2) σx; Δk = 2 sqrt(2) σk"
+    "delta_to_sigma": "Δx = 2 sqrt(2) σx; Δk = 2 sqrt(2) σk",
+    "spectral_density_formula_shown": true,
+    "formula_placement": "Directly right of the spatial-density formula; shared baseline and 16-unit size",
+    "spectral_formula": "|g(k)|^2=e^{−2α(k−k_0)^2}",
+    "other_layout_records_unchanged_after_formula_addition": "Verified before the separately requested derivation reorder and recoloring",
+    "formula_clearance_from_other_W05_math_canvas_units": 3,
+    "derivation_before_comparison": true,
+    "derivation_equations_preserved": 4,
+    "other_figures_unchanged_after_reorder": "Verified for reorder alone; adding the general integral moves following left-column content down",
+    "reading_order": "Gaussian spectrum assumption; inverse-Fourier derivation with green Gaussian identity and general form; boxed f(x); paired density formulas and plots",
+    "first_two_derivation_lines_color": "#5B308B",
+    "derivation_color_changes": [
+      {
+        "formula": "q=k−k_0:    f=e^{ik_0x}\\int{−∞}{∞}dq e^{−αq^2+iqx}",
+        "before": "blue",
+        "after": "purple"
+      },
+      {
+        "formula": "−αq^2+iqx=−α(q−\\frac{ix}{2α})^2−\\frac{x^2}{4α}",
+        "before": "blue",
+        "after": "purple"
+      },
+      {
+        "formula": "\\int{−∞}{∞}dy e^{−αy^2}=\\sqrt{\\frac{π}{α}}",
+        "before": "purple",
+        "after": "green"
+      }
+    ],
+    "general_gaussian_integral": {
+      "formula": "\\int{−∞}{∞}dy e^{−ay^2+by+c}=\\sqrt{\\frac{π}{a}}e^{\\frac{b^2}{4a}+c},    a>0,    b,c∈ℂ",
+      "domain": "a real positive; b and c complex",
+      "color": "#20552F",
+      "numerical_complex_checks": 3
+    }
   },
   "first_sheet_color_changes": {
     "subtitle": "#000000",
@@ -138,5 +171,6 @@
     "only_two_record_ink_values_changed": true,
     "all_formulas_sizes_positions_and_other_records_unchanged": true,
     "scope": "Before expanding the width definition"
-  }
+  },
+  "original_equations_preserved": 208
 }
