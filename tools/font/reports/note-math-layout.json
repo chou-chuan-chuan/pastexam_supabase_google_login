@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "3a8a44a15aac9b079be9fb25e5fa040d59a4058af28952aa2c369102f376e281",
+  "pdf_sha256": "7114a8e4aa7e8e44e89a6a41499d51efc87d881368e5a95ec17a618548555a11",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -133,7 +133,7 @@
     "derivation_before_comparison": true,
     "derivation_equations_preserved": 4,
     "other_figures_unchanged_after_reorder": "Verified for reorder alone; adding the general integral moves following left-column content down",
-    "reading_order": "Gaussian spectrum assumption; inverse-Fourier derivation with green Gaussian identity and general form; boxed f(x); paired density formulas and plots",
+    "reading_order": "Gaussian spectrum assumption; purple inverse-Fourier derivation on the left, green integral identities and boxed f(x) on the right; paired density formulas and plots below",
     "first_two_derivation_lines_color": "#5B308B",
     "derivation_color_changes": [
       {
@@ -183,9 +183,19 @@
       "extra_below": 18,
       "preceding_gap": 24,
       "following_extra_gap": 18,
-      "following_left_column_shift": 36,
       "changed_records": 35,
-      "other_pages_and_right_column_unchanged": true
+      "other_pages_and_right_column_unchanged": true,
+      "following_left_column_shift_before_side_layout": 36
+    },
+    "derivation_side_layout": {
+      "right_equation_x": 385,
+      "right_block_width": 345,
+      "moved_equations": 3,
+      "original_formula_sizes_and_colors_preserved": true,
+      "horizontal_clearance": 71.33263613281252,
+      "top_alignment": "Both columns begin below the example heading and spectrum formula",
+      "following_figures_begin_below_both_columns": true,
+      "pages_2_through_6_and_page_1_right_column_unchanged": true
     }
   },
   "first_sheet_color_changes": {
