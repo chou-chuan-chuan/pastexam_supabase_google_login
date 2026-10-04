@@ -558,3 +558,5 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 The phase notes begin at x=165, 50 canvas units closer to the box than the preceding layout (x=215). Their combined paragraph heights and final glyph descent determine the first paragraph’s Y position, so the second paragraph ends at the red box’s outer lower edge. Both paragraphs remain size 15, deep green, with a 4.05-unit line-box gap.
 
 The Gaussian example spectrum formula, including α > 0, has a deep-purple 0.85-unit frame with 7-unit horizontal and 5-unit vertical padding. Its inline heading and all content positions are preserved.
+
+The boxed Gaussian example row has 18 additional canvas units of whitespace above and below. The preceding gap is 24 units, with an additional 18-unit gap after the row; following left-column content moves down 36 units.
