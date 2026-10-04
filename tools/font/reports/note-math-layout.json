@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "545b3d309bb2c354032620dc1b2937322bbdfc262a8149c4d1f95e836a6c677d",
+  "pdf_sha256": "0438240c32e8d17078494c74252d8be9d1bad417e0f108ab849f2cece5ce9029",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -201,8 +201,8 @@
     "ink_bottom_difference": 0.0
   },
   "phase_velocity_side_notes": {
-    "x": 215,
-    "width": 505,
+    "x": 165,
+    "width": 555,
     "size": 15,
     "wording_preserved": true,
     "position": "To the right of the boxed phase-velocity equation",
@@ -210,10 +210,13 @@
     "color": "#20552F",
     "both_paragraphs_deep_green": true,
     "interparagraph_line_box_gap": 4.0499999999999545,
-    "horizontal_shift_x": -70,
+    "horizontal_shift_x": -50,
     "box_bottom": 599.8057421875,
     "final_ink_bottom": 599.8057421875001,
-    "bottom_alignment_difference": 1.1368683772161603e-13
+    "bottom_alignment_difference": 1.1368683772161603e-13,
+    "previous_x": 215,
+    "box_right": 135.632734375,
+    "horizontal_gap": 29.367265624999987
   },
   "blue_side_note_paragraphs": 0,
   "english_note_paragraphs_total": 51

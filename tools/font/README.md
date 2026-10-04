@@ -555,4 +555,4 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 
 [Phase-velocity side notes](proofs/note-phase-velocity-side-notes.png) · [Fourier ink-bottom alignment](proofs/note-fourier-side-annotation.png).
 
-The phase notes are shifted 70 canvas units toward the box. Their combined paragraph heights and final glyph descent determine the first paragraph’s Y position, so the second paragraph ends at the red box’s outer lower edge. Both paragraphs remain size 15, deep green, with a 4.05-unit line-box gap.
+The phase notes begin at x=165, 50 canvas units closer to the box than the preceding layout (x=215). Their combined paragraph heights and final glyph descent determine the first paragraph’s Y position, so the second paragraph ends at the red box’s outer lower edge. Both paragraphs remain size 15, deep green, with a 4.05-unit line-box gap.
