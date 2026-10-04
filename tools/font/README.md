@@ -566,3 +566,9 @@ The two green Gaussian integral identities and boxed f(x) result form a right-ha
 [Gaussian derivation in two columns](proofs/note-gaussian-side-derivation.png).
 
 The two green Gaussian integral identities now use sizes 18 and 16 (previously 20 and 18), about 10% smaller. Their color and x=385 alignment are preserved; the red boxed result remains size 20.
+
+The special-case Gaussian integral identity is removed at the user’s request. The right column now contains only the general identity (size 16, deep green) and boxed f(x) result (size 20); the remaining 208 equations retain their content, sizes and colors.
+
+The deep-green Δx, Δk, σx and σk definitions above the paired Gaussian plots use size 14 (previously 16), preserving all wording and mathematical spans. The annotation verifier reads the renderer’s SPECTRUM_NOTE_SIZE.
+
+[Smaller Gaussian width definitions](proofs/note-gaussian-width-definitions.png).
