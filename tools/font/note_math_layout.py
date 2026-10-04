@@ -17,6 +17,7 @@ PARENTHESIS_SIDE_EM = .06
 RADICAL_DIAGONAL_SLOPE = .28
 RADICAL_HOOK_LENGTH_SCALE = .60
 RADICAL_BOTTOM_INSET = .16
+RADICAL_HOOK_RAISE = .12
 
 CONJUGATE_SCALE = 1.0
 ORDINARY_SCRIPT_SCALE = 0.65
@@ -251,7 +252,12 @@ class NoteMathLayout:
         roof_x = valley_x + RADICAL_DIAGONAL_SLOPE * height
         offset = roof_x + .12 * size + radius
         entry_x = valley_x - RADICAL_HOOK_LENGTH_SCALE * .18 * size
-        points = [(entry_x, bottom-hook_height), (valley_x, bottom),
+        # Lift the short hook along the existing diagonal. The roof, slope,
+        # content offset and stroke weight stay fixed; only the lower end moves.
+        lift = min(RADICAL_HOOK_RAISE*size, max(0, height-hook_height-4*radius))
+        shift_x = RADICAL_DIAGONAL_SLOPE*lift
+        points = [(entry_x+shift_x, bottom-hook_height-lift),
+                  (valley_x+shift_x, bottom-lift),
                   (roof_x, top), (offset+width+.07*size, top)]
         directions, normals = [], []
         for a, b in zip(points, points[1:]):

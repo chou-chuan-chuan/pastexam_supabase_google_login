@@ -13,7 +13,7 @@
     54
   ],
   "explicit_and_inline_hats_verified": true,
-  "shared_module_sha256": "ac32cd9f3c4fb8145dccb9dfad1f428427378c9d70d5fa4652d134668576320f",
+  "shared_module_sha256": "3865e79a023802f15f07c6720170c9fe53799d6df1e3ba9fc1b018873a31cda7",
   "native_vector_accents_by_page": [
     4,
     0,
@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "932a62a3837a1315a779bde24d29c9d176ef27c7b352c64543a86d870d687b37",
+  "pdf_sha256": "8243ffba66c407a7538a94d4110fd5f07308e261781895b481df26e3da6d74ce",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -87,5 +87,8 @@
   "radical_roof_ink_gap_size_ratio": 0.05,
   "font_radical_glyph_unchanged": true,
   "radical_hook_length_scale": 0.6,
-  "layout_positions_and_dimensions_unchanged": true
+  "layout_positions_and_dimensions_unchanged": true,
+  "radical_hook_additional_raise_size_ratio": 0.12,
+  "radical_roof_and_content_positions_preserved": true,
+  "complete_layout_audit_unchanged": true
 }
