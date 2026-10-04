@@ -31,7 +31,8 @@ if len(sys.argv)>1:
     tree=ast.parse((notes/'render_notes.py').read_text())
     annotations=[n for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='annotation']
     assert len(annotations)==49
-    samples=[(ast.literal_eval(n.args[0]),next(ast.literal_eval(k.value) for k in n.keywords if k.arg=='s'),665) for n in annotations]
+    samples=[(ast.literal_eval(n.args[0]),next(ast.literal_eval(k.value) for k in n.keywords if k.arg=='s'),
+              685-next(ast.literal_eval(k.value) for k in n.keywords if k.arg=='side_offset') if any(k.arg=='side_offset' for k in n.keywords) else 665) for n in annotations]
     figure_notes=[k.value for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='fig' for k in n.keywords if k.arg=='note']
     assert len(figure_notes)==1
     from note_figure_layout import spectrum_note_frame
