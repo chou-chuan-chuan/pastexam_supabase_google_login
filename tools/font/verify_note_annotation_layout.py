@@ -63,5 +63,5 @@ if len(sys.argv)>1:
         for previous,current in zip(v.records,v.records[1:]):
             assert current['y']-current['asc']>previous['y']+previous['desc']
         assert block.y>max(r['y']+r['desc'] for r in v.records)
-    print('PASS: 51 English note paragraphs (50 green and one blue, including the spectrum note); native math ink enclosed; lines separated')
+    print('PASS: 51 English note paragraphs (all deep green, including the spectrum note); native math ink enclosed; lines separated')
 print('PASS: inline annotation wrapping, math spans and attached punctuation')

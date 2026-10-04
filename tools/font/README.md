@@ -92,7 +92,7 @@ The PDF keeps all 208 equation strings and font sizes. Integration checks cover 
 
 `note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
 
-All 50 green annotations use English prose in deep green (`#20552F`), with 61 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+All 51 green annotations use English prose in deep green (`#20552F`), with 61 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
 
 ```sh
 python tools/font/verify_note_annotation_layout.py
@@ -551,6 +551,8 @@ OFL 的 Reserved Font Name 不可用於修改版主要 Family／Full／PostScrip
 
 ### Side-note optical bottom alignment
 
-`annotation_top_for_bottom` positions a wrapped note using its final native glyph descent rather than padded line-box descent. The Fourier side note ends at the same visible lower edge as the blue sentence on its left. The renderer preserves the reserved flow height when shifting the note upward. The phase-velocity note and cosine/superposition sentence are size 15 in a right-hand column beside the boxed equation; their green and blue colors are preserved. Production checks cover all 51 note paragraphs (50 green, one blue).
+`annotation_top_for_bottom` positions a wrapped note using its final native glyph descent rather than padded line-box descent. The Fourier side note ends at the same visible lower edge as the blue sentence on its left. The renderer preserves the reserved flow height when shifting the note upward. The phase-velocity note and cosine/superposition sentence are size 15 in a right-hand column beside the boxed equation; both paragraphs use deep green (#20552F) with a compact 4.05-unit line-box gap. Production checks cover all 51 note paragraphs (all deep green).
 
 [Phase-velocity side notes](proofs/note-phase-velocity-side-notes.png) · [Fourier ink-bottom alignment](proofs/note-fourier-side-annotation.png).
+
+The phase notes are shifted 70 canvas units toward the box. Their combined paragraph heights and final glyph descent determine the first paragraph’s Y position, so the second paragraph ends at the red box’s outer lower edge. Both paragraphs remain size 15, deep green, with a 4.05-unit line-box gap.
