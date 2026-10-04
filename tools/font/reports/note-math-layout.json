@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "0438240c32e8d17078494c74252d8be9d1bad417e0f108ab849f2cece5ce9029",
+  "pdf_sha256": "7e9f95bbe4516b0e9ca2c74824a7f779fe3f39bdc73aa283ea6f889d334858b9",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -166,6 +166,17 @@
       "all_209_equations_sizes_colors_preserved": true,
       "formula_gap_canvas_units": 18,
       "shared_baseline_verified": true
+    },
+    "example_formula_box": {
+      "color": "#5B308B",
+      "stroke_width": 0.85,
+      "padding_x": 7,
+      "padding_y": 5,
+      "x": 255.90234375,
+      "y": 1156.4876562500003,
+      "width": 187.3593724609375,
+      "height": 38.19,
+      "all_layout_records_unchanged": true
     }
   },
   "first_sheet_color_changes": {
