@@ -15,6 +15,13 @@
   },
   {
     "figure": "W05",
+    "role": "gaussian_comparison_formula",
+    "text": "|g(k)|^2=e^{−2α(k−k_0)^2}",
+    "before_segments": 0,
+    "after_segments": 0
+  },
+  {
+    "figure": "W05",
     "role": "gaussian_comparison_caption",
     "text": "Equal peak heights (schematic)",
     "before_segments": 0,
