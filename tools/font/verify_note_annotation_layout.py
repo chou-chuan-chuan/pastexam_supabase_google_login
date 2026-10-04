@@ -30,7 +30,7 @@ if len(sys.argv)>1:
     from fontTools.pens.recordingPen import replayRecording
     tree=ast.parse((notes/'render_notes.py').read_text())
     annotations=[n for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='annotation']
-    assert len(annotations)==48
+    assert len(annotations)==49
     bounds=[]
     def capture_text(x,y,value,size=21,ink='black',font='hand',record=True,relations=False):
         pads=v.note_layout.relation_spacing(value,size) if relations else [(0,0)]*len(value)
@@ -58,5 +58,5 @@ if len(sys.argv)>1:
         for previous,current in zip(v.records,v.records[1:]):
             assert current['y']-current['asc']>previous['y']+previous['desc']
         assert block.y>max(r['y']+r['desc'] for r in v.records)
-    print('PASS: 48 English annotations; native math ink enclosed; lines separated')
+    print('PASS: 49 English annotations; native math ink enclosed; lines separated')
 print('PASS: inline annotation wrapping, math spans and attached punctuation')

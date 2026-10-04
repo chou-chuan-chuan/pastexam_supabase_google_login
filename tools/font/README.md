@@ -82,13 +82,15 @@ The PDF keeps all 208 equation strings and font sizes. Integration checks cover 
 
 `note_annotation_layout.py` wraps prose with `$math$` spans using renderer-supplied native measurements. Math spans are indivisible; punctuation remains attached, each line uses a shared baseline, and tall fractions reserve their actual ascent/descent. The local notes adapter draws prose with the handwriting font and parses each math span through the existing math renderer, including hats, fractions and scripts.
 
-All 48 green annotations are now English, with 45 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
+All 49 annotations use English prose in deep green (`#20552F`), with 52 native math spans. All non-green text, 208 display equations and their sizes are preserved. The fifth sheet grows from 2530 to 2570 canvas units to retain footer clearance; there are still six sheets. The bilingual audit stays with the local lecture project at `analysis/english-annotations.json`.
 
 ```sh
 python tools/font/verify_note_annotation_layout.py
-# Optional: check all 48 annotations through the actual notes renderer.
+# Optional: check all 49 annotations through the actual notes renderer.
 python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_lecture
 ```
+
+The Fourier section includes a new clarification: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
 ## Current output: Version 1.034 — Math weight, operator hats and fraction axis
 

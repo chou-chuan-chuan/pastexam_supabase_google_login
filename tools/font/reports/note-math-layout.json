@@ -3,7 +3,7 @@
   "font_sha256": "e902a5e108c8da8e0ea75939148c5f55df01d5399487d760fd94bd8d0647656c",
   "pdf_pages": 6,
   "equations": 208,
-  "all_content_records_unchanged": true,
+  "all_content_records_unchanged": false,
   "native_hat_uses_by_page": [
     0,
     0,
@@ -25,7 +25,7 @@
   "native_vector_clearance_font_units": 48,
   "vector_glyph_scale": 0.85,
   "notes_math_checks_passed": 31,
-  "pdf_sha256": "32e4dfa88ceee9707618291bb27b2c966607f88c5c14ff2dbb018ee0c292e1ad",
+  "pdf_sha256": "37089465fc4dfc84b1a323e17d96f4818bcb1773af02ca2e635471f3763b2430",
   "relation_side_spacing_math_em": 0.18,
   "existing_spaces_count_toward_spacing": true,
   "equation_font_sizes_unchanged": true,
@@ -56,9 +56,9 @@
   "binary_existing_spaces_count_toward_spacing": true,
   "binary_compound_operand_boundaries_verified": true,
   "non_green_content_and_sizes_unchanged": true,
-  "green_annotations_english": 48,
-  "green_native_math_spans": 45,
-  "annotation_layout_module_sha256": "82856c71cfc8e27fb80917f2aa9c788b0aa4891e6d79efadf2f149c57ad8cbd6",
+  "green_annotations_english": 49,
+  "green_native_math_spans": 52,
+  "annotation_layout_module_sha256": "cb31ac50552a2521fbb2a9970032cb41d99a0619d7d9e0fdf07d977f0d552e5a",
   "page_heights": [
     2380,
     2020,
@@ -87,8 +87,13 @@
   "radical_roof_ink_gap_size_ratio": 0.05,
   "font_radical_glyph_unchanged": true,
   "radical_hook_length_scale": 0.8,
-  "layout_positions_and_dimensions_unchanged": true,
+  "layout_positions_and_dimensions_unchanged": false,
   "radical_hook_additional_raise_size_ratio": 0.18,
   "radical_roof_and_content_positions_preserved": true,
-  "complete_layout_audit_unchanged": true
+  "complete_layout_audit_unchanged": false,
+  "annotation_color": "#20552F",
+  "fourier_direction_clarification_added": true,
+  "forward_fourier_kernel": "exp(-ikx)",
+  "forward_fourier_normalization": "1/(2*pi)",
+  "inverse_fourier_kernel": "exp(ikx)"
 }
