@@ -564,3 +564,5 @@ The boxed Gaussian example row has 18 additional canvas units of whitespace abov
 The two green Gaussian integral identities and boxed f(x) result form a right-hand column at x=385 alongside the purple two-line derivation. Both columns begin below the example row; all formula sizes and colors are retained. Following plots start below the taller column.
 
 [Gaussian derivation in two columns](proofs/note-gaussian-side-derivation.png).
+
+The two green Gaussian integral identities now use sizes 18 and 16 (previously 20 and 18), about 10% smaller. Their color and x=385 alignment are preserved; the red boxed result remains size 20.
