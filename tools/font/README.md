@@ -560,3 +560,7 @@ The phase notes begin at x=165, 50 canvas units closer to the box than the prece
 The Gaussian example spectrum formula, including α > 0, has a deep-purple 0.85-unit frame with 7-unit horizontal and 5-unit vertical padding. Its inline heading and all content positions are preserved.
 
 The boxed Gaussian example row has 18 additional canvas units of whitespace above and below. The preceding gap is 24 units, with an additional 18-unit gap after the row; following left-column content moves down 36 units.
+
+The two green Gaussian integral identities and boxed f(x) result form a right-hand column at x=385 alongside the purple two-line derivation. Both columns begin below the example row; all formula sizes and colors are retained. Following plots start below the taller column.
+
+[Gaussian derivation in two columns](proofs/note-gaussian-side-derivation.png).
