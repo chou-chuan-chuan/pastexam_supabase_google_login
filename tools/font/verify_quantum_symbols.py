@@ -115,7 +115,7 @@ def restore_1_032_for_historical_checks(font):
     and their proofs never pass through this function. This is not an exemption:
     every original glyph byte/metric and layout table must match pinned 1.032.
     """
-    if font['name'].getDebugName(5) == 'Version 1.034':
+    if font['name'].getDebugName(5) in ('Version 1.034', 'Version 1.035'):
         from verify_math_refinement import restore_1_033_for_historical_checks
         restore_1_033_for_historical_checks(font)
     if font['name'].getDebugName(5) != 'Version 1.033':
@@ -161,7 +161,7 @@ def verify(rebuild=False):
 
 def main():
     with TTFont(TTF) as font:
-        if font['name'].getDebugName(5)=='Version 1.034':
+        if font['name'].getDebugName(5) in ('Version 1.034', 'Version 1.035'):
             from verify_math_refinement import main as current_main
             return current_main()
     p=argparse.ArgumentParser();p.add_argument('--skip-rebuild',action='store_true');p.add_argument('--write-report',action='store_true');args=p.parse_args()

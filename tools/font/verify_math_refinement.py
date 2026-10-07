@@ -29,6 +29,8 @@ def baseline():
 
 
 def check(old,new):
+    from verify_small_katakana_vowel_position import restore_1_034_for_historical_checks
+    restore_1_034_for_historical_checks(new)
     assert old.getGlyphOrder()==new.getGlyphOrder()
     assert old.getBestCmap()==new.getBestCmap()
     cm=old.getBestCmap();allowed={cm[ord(c)] for c in CHANGED};changed=set()
@@ -98,6 +100,8 @@ def check(old,new):
 
 
 def restore_1_033_for_historical_checks(font):
+    from verify_small_katakana_vowel_position import restore_1_034_for_historical_checks
+    restore_1_034_for_historical_checks(font)
     if font['name'].getDebugName(5)!='Version 1.034':return
     with baseline() as old:
         check(old,font)

@@ -8,7 +8,8 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-09-25
-- 版本：Version 1.034
+- 版本：Version 1.035
+- Small Katakana vowel lower-left positioning（Version 1.035）：`ァィゥェォ` 只平移，final ink anchor 與 `ャュョッ` 同為 (180,-32)。既有尺寸、拓撲、筆壓與 960-unit advances 不變；其他 glyph、global kana alignment 與 layout tables 完全保留。No external font outline was used. 見 tools/font/reports/small-katakana-vowel-position.md。
 - Math refinement（Version 1.034）：∑／∇／∏ 只作輪廓減重（內縮 10／10／5 units），不縮小字面或字寬；U+0302 原帽號輪廓保持，新增限定 base 的 GPOS 定位；MATH AxisHeight=330 對齊等號中心，分數 rule=36。詳見 tools/font/reports/math-refinement.md。
 - Quantum symbols（Version 1.033）：P0–P3 共 45 個獨立 Unicode glyph。只新增字形，既有輪廓、字寬與排版表不變。來源為本字型原生輪廓及專案原創筆壓路徑，無外部字型。詳見 tools/font/reports/quantum-symbols.md 與 analysis/font-coverage.json。
 - Sokuon lower-left optical positioning（Version 1.032）：`っ` 只平移 (-107,-138)、`ッ` 只平移 (-155,-88)，沿用已審核 yōon 的 final ink anchor (180,-32)。既有尺寸、拓撲、960 advance、`つ／ツ` 與所有其他小假名不變；全域 -56 bottom alignment 不變。No external font outline was used. 見 tools/font/reports/sokuon-position.md 與 tools/font/proofs/quanfangwei-sokuon-cell-position.png。

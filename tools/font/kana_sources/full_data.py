@@ -240,6 +240,21 @@ for small, reference in (("っ", "ゃ"), ("ッ", "ャ")):
     KANA_STROKES[small] = translate_strokes(KANA_STROKES[small], *offset)
 # END SOKUON POSITIONING 1.032
 
+# BEGIN SMALL KATAKANA VOWEL POSITIONING 1.035
+# Post-scale/pressure translation only. Measure each accepted small vowel
+# against the unchanged Katakana yoon anchor at the same construction stage.
+# The later -145 and -56 global layers put every final anchor at (180, -32).
+SMALL_KATAKANA_VOWEL_OFFSETS = {}
+for small in "ァィゥェォ":
+    glyph = build_stroke_glyph(KANA_STROKES[small])
+    anchor = build_stroke_glyph(KANA_STROKES["ャ"])
+    glyph.recalcBounds({})
+    anchor.recalcBounds({})
+    offset = (anchor.xMin - glyph.xMin, anchor.yMin - glyph.yMin)
+    SMALL_KATAKANA_VOWEL_OFFSETS[small] = offset
+    KANA_STROKES[small] = translate_strokes(KANA_STROKES[small], *offset)
+# END SMALL KATAKANA VOWEL POSITIONING 1.035
+
 
 DAKUTEN_STROKES = (
     S((30, 850), (75, 800), width=43, start=38, end=23),

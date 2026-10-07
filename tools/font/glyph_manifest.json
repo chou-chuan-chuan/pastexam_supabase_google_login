@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.034"
+    "version": "1.035"
   },
   "glyphs": [
     {
@@ -1382,5 +1382,41 @@
     "combining_hat": "U+0302 existing glyph preserved; scoped appended GPOS",
     "math_axis": 330,
     "fraction_rule_thickness": 36
+  },
+  "small_katakana_vowel_positioning": {
+    "version": "1.035",
+    "description": "Small Katakana vowel lower-left positioning",
+    "base_main": "c92e280b97b32c71ea17c0d974254761adc9a8ab",
+    "reference_version": "1.034",
+    "reference_characters": "ャュョッ",
+    "final_ink_anchor": [
+      180,
+      -32
+    ],
+    "translations": {
+      "ァ": [
+        -98,
+        -81
+      ],
+      "ィ": [
+        -158,
+        -79
+      ],
+      "ゥ": [
+        -136,
+        -55
+      ],
+      "ェ": [
+        -108,
+        -107
+      ],
+      "ォ": [
+        -116,
+        -55
+      ]
+    },
+    "construction": "Post-scale/pressure translation only, before unchanged global Japanese bottom alignment; size, topology, weight and 960-unit advances preserved. All other glyphs unchanged.",
+    "verifier": "verify_small_katakana_vowel_position.py",
+    "report": "reports/small-katakana-vowel-position.md"
   }
 }

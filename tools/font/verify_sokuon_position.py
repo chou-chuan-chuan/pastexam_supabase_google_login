@@ -97,6 +97,8 @@ def restore_1_031_sokuon(font):
 
 
 def without_sokuon_source(raw):
+    from verify_small_katakana_vowel_position import without_small_vowel_source
+    raw = without_small_vowel_source(raw)
     start = b'# BEGIN SOKUON POSITIONING 1.032\n'
     end = b'# END SOKUON POSITIONING 1.032\n\n'
     assert raw.count(start) == raw.count(end) == 1
@@ -116,12 +118,22 @@ def verify_sources():
     assert current.YOON_SMALL_KANA_OFFSETS == previous['YOON_SMALL_KANA_OFFSETS']
     assert not set(current.SOKUON_SMALL_KANA_OFFSETS) & set(current.YOON_SMALL_KANA_OFFSETS)
     assert current.KANA_STROKES.keys() == previous['KANA_STROKES'].keys()
+    from verify_small_katakana_vowel_position import TRANSLATIONS as VOWEL_DELTAS
+    from japanese.stroke_engine import translate_strokes
     for c, strokes in previous['KANA_STROKES'].items():
         final = current.KANA_STROKES[c]
+        # Restore only the independently checked new source translation.
+        if c in VOWEL_DELTAS:
+            assert current.SMALL_KATAKANA_VOWEL_OFFSETS[c] == VOWEL_DELTAS[c]
+            dx, dy = VOWEL_DELTAS[c]
+            final = translate_strokes(final, -dx, -dy)
         if c not in TRANSLATIONS:
-            assert final == strokes, (c, 'source changed')
-            continue
-        dx, dy = TRANSLATIONS[c]
+            if c not in VOWEL_DELTAS:
+                assert final == strokes, (c, 'source changed')
+                continue
+            dx, dy = (0, 0)
+        else:
+            dx, dy = TRANSLATIONS[c]
         assert len(final) == len(strokes)
         for a, b in zip(strokes, final):
             assert (a.width, a.start_width, a.end_width, a.cap) == (b.width, b.start_width, b.end_width, b.cap)
@@ -199,7 +211,7 @@ def verify():
                 expected_advance = old['hmtx'][old.getBestCmap()[ord(c)]][0] if c == '　' else 960
                 assert n != '.notdef' and advance == expected_advance and (ya, x, y) == (0, 0, 0), text
         manifest = json.loads((ROOT / 'tools/font/glyph_manifest.json').read_text())
-        assert manifest['derived_font']['version'] == '1.034'
+        assert manifest['derived_font']['version'] == '1.035'
         assert manifest['sokuon_positioning']['translations'] == {c: list(v) for c, v in TRANSLATIONS.items()}
         rows = []
         for c, (dx, dy) in TRANSLATIONS.items():
