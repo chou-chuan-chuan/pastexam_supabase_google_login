@@ -32,7 +32,7 @@ from japanese.build_kana import (
 from kana_sources.full_data import (
     KANA_STROKES, VERSION_1_025_KANA_STROKES, ACCEPTED_LARGE_KANA_STROKES,
     BALANCED_LARGE_KANA_STROKES, SMALL_HIRAGANA_BASES, SMALL_KATAKANA_BASES,
-    SMALL_HIRAGANA_OPTICAL_SHIFTS, YOON_SMALL_KANA_OFFSETS, SOKUON_SMALL_KANA_OFFSETS, scale,
+    SMALL_HIRAGANA_OPTICAL_SHIFTS, YOON_SMALL_KANA_OFFSETS, SOKUON_SMALL_KANA_OFFSETS, SMALL_KATAKANA_VOWEL_OFFSETS, scale,
     COMPOSITES, ITERATION_STROKES, JAPANESE_MARK_STROKES,
     DAKUTEN_STROKES, HANDAKUTEN_STROKES,
 )
@@ -210,7 +210,10 @@ def verify_derivatives():
             expected=translate_strokes(expected,*SOKUON_SMALL_KANA_OFFSETS[small])
         assert KANA_STROKES[small]==expected,(small,'derivation')
     for small,large in SMALL_KATAKANA_BASES.items():
-        assert KANA_STROKES[small]==scale(KANA_STROKES[large],.72),(small,'Katakana derivation')
+        expected = scale(KANA_STROKES[large], .72)
+        if small in SMALL_KATAKANA_VOWEL_OFFSETS:
+            expected = translate_strokes(expected, *SMALL_KATAKANA_VOWEL_OFFSETS[small])
+        assert KANA_STROKES[small] == expected, (small, 'Katakana derivation')
     from verify_supplement_font import mark_to_base_anchors, outlines_intersect
     with TTFont(TTF) as font:
         for c in 'ゃゅょャュョ':

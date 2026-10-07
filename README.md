@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
+目前版本 **1.035 — Small Katakana vowel lower-left positioning**：只平移 `ァィゥェォ` 至 final ink anchor **(180,-32)**，與未改動的 `ャュョッ` 同一定位系統。保留既有尺寸、拓撲、筆壓與 **960-unit advances**；所有其他 glyph／全域假名 metrics 不變。[可見字格校樣](tools/font/proofs/quanfangwei-small-katakana-vowels-cell.png)、[20／32／64／192 px 前後比較](tools/font/proofs/quanfangwei-small-katakana-vowels-before-after.png)、[量測與驗證報告](tools/font/reports/small-katakana-vowel-position.md)。1.034 數學減重／帽號／分數軸修正完整保留。
+
+保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 
 保留版本 **1.032 — Sokuon lower-left optical positioning**：`っ` 平移 **(-107,-138)**、`ッ` 平移 **(-155,-88)**，使 final ink anchor 與已審核的 `ゃゅょ／ャュョ` 同為 **(180,-32)**。保留既有尺寸、拓撲、筆壓與 **960-unit advance**；`つ／ツ`、其他所有小假名及全域 bottom alignment 不變。[可見字格校樣](tools/font/proofs/quanfangwei-sokuon-cell-position.png)、[20／32／64／192 px 前後比較](tools/font/proofs/quanfangwei-sokuon-before-after.png)、[量測與驗證報告](tools/font/reports/sokuon-position.md)。
 

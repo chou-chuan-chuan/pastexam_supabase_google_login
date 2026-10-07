@@ -2,7 +2,7 @@
 
 ## Shared quantum-note layout
 
-[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, relation spacing, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font remains **1.034**, with unchanged TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, relation spacing, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font is **1.035**; the note renderer itself does not change TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
 
 The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
 
@@ -102,7 +102,24 @@ python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_l
 
 The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at a smaller 15-unit size (previously 19). Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
-## Current output: Version 1.034 — Math weight, operator hats and fraction axis
+## Current output: Version 1.035 — Small Katakana vowel lower-left positioning
+
+Only `ァィゥェォ` move: `(-98,-81)`, `(-158,-79)`, `(-136,-55)`, `(-108,-107)`, `(-116,-55)`. The separate `SMALL_KATAKANA_VOWEL_OFFSETS` layer measures each accepted small form against unchanged `ャ` after scale/pressure construction, before the existing global Japanese alignment. All five final anchors are `(180,-32)`, matching `ャュョッ`.
+
+Dimensions, contour topology, pressure and 960-unit advances are identical to 1.034. All other glyph bytes and metrics are preserved, including large bases, every Hiragana, other small Katakana, dakuten/handakuten and math glyphs. No external outline or CSS/JS workaround; the existing font URL cache token alone advances to 1.035.
+
+[Metric and regression report](reports/small-katakana-vowel-position.md) · [visible cells](proofs/quanfangwei-small-katakana-vowels-cell.png) · [before/after at 20, 32, 64 and 192 px](proofs/quanfangwei-small-katakana-vowels-before-after.png).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_supplement_font.py
+python tools/font/verify_small_katakana_vowel_position.py
+python tools/font/render_small_katakana_vowel_position_proof.py
+```
+
+The dedicated verifier pins the merged 1.034 baseline, checks every contour point and every unrelated glyph, shapes all 33 required special-sound examples and family comparisons, and repeats the build to require byte-identical TTF/WOFF2 output. Historical regression gates validate and undo only this exact delta in memory before running their existing assertions.
+
+## Retained stage: Version 1.034 — Math weight, operator hats and fraction axis
 
 All 45 P0–P3 symbols remain covered. The enlarged native derivatives `∑ ∇ ∏` now match the native thin stroke weight; only these three outlines/left bearings change from 1.033. The remaining 10,509 glyphs, every advance, and all Unicode mappings are unchanged. The existing U+0302 hat gains scoped positioning over 38 operator bases. A new OpenType MATH table aligns fraction rules with the native equals sign at y=330.
 

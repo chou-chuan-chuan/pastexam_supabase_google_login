@@ -14,9 +14,12 @@ HASHES = {
 
 
 def verify():
+    from verify_small_katakana_vowel_position import baseline_bytes, restore_1_034_for_historical_checks
     for extension, digest in HASHES.items():
-        assert hashlib.sha256(FONT.with_suffix('.' + extension).read_bytes()).hexdigest() == digest
-    with TTFont(FONT) as font:
+        assert hashlib.sha256(baseline_bytes(extension)).hexdigest() == digest
+    with TTFont(FONT, recalcTimestamp=False) as font:
+        # Validate the entire current font before recovering the pinned math stage.
+        restore_1_034_for_historical_checks(font)
         layout = NoteMathLayout(font)
 
         def metrics(text, size):
