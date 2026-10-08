@@ -1,8 +1,8 @@
 {
   "font": "QuanFangweiSupplementScript-Regular.ttf",
-  "version": "Version 1.035",
-  "font_revision": 1.035003662109375,
-  "sha256": "30ca99dfa4e828c8088afb7487404c00d3e4c7f56bcd14389d7064a61e6c4ccc",
+  "version": "Version 1.036",
+  "font_revision": 1.0359954833984375,
+  "sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "scope": "45 independent P0/P1/P2/P3 codepoints; not an exhaustive lecture-folder audit",
   "total_unicode_codepoints": 10382,
   "expected_count": 45,

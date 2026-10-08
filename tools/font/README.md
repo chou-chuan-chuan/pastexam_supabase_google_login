@@ -2,7 +2,7 @@
 
 ## Shared quantum-note layout
 
-[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, relation spacing, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font is **1.035**; the note renderer itself does not change TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
+[`note_math_layout.py`](note_math_layout.py) contains the geometry used by the reconstructed quantum notes: native U+0302 hats, vector accents, extensible radicals, relation spacing, full-size complex-conjugate stars, right-side integral/contour-integral bounds, native fraction axis, and ink-aware measurement. This is a renderer change; the latest font is **1.036**; the note renderer itself does not change TTF/WOFF2 bytes. Ordinary superscripts remain 65% in the notes, and sum limits remain stacked.
 
 The notes renderer imports a byte-identical local copy of this module. It passes measured `(width, ascent, descent)` tuples to `integral_geometry` only for `∫`/`∮`, draws the operator at 1.35× and limits at 0.55×, and uses the returned offsets in downward-positive canvas coordinates. For a conjugate, draw `*` at full math size at `base_width + 1` and `baseline - rise`, where `rise` comes from `conjugate_geometry(base_ascent, size)`. Keep ordinary exponents on their existing script path. Fractions use `fraction_axis` and `fraction_metrics` together so their enclosing boxes match the shifted line.
 
@@ -102,7 +102,23 @@ python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_l
 
 The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at a smaller 15-unit size (previously 19). Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
-## Current output: Version 1.035 — Small Katakana vowel lower-left positioning
+## Current output: Version 1.036 — Kana junctions and handakuten spacing
+
+The protruding stroke ends at the `マ` crossing and `ス` branch junction are clipped inside unchanged supporting ink. Both bases retain their original bounds, contours, pressure and advances; `ズ` inherits the corrected `ス` body. Every outline edge outside the two measured junction patches remains identical.
+
+All ten `ぱぴぷぺぽ／パピプペポ` handakuten attachments move right 16 and up 24 font units. The two ring outlines are unchanged; only their precomposed component offsets and native GPOS mark anchors move. Forced decomposed HarfBuzz shaping matches those offsets. All other 10,499 glyphs, all horizontal/vertical metrics, dakuten attachment and standalone spacing marks remain unchanged.
+
+[Measurements and regression report](reports/kana-refinements.md) · [junction comparison](proofs/quanfangwei-katakana-junctions.png) · [handakuten comparison](proofs/quanfangwei-handakuten-spacing.png). Both proofs include actual 20, 32, 64 and 192 px rendering.
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_kana_refinements.py
+python tools/font/render_kana_refinements_proof.py
+```
+
+The verifier pins the 1.035 font hashes, checks local edge and area differences, freezes unrelated glyph/table bytes, measures all ten clearances, checks native shaping and TTF/WOFF2 parity, and requires a byte-identical rebuild. Historical regression gates validate and undo this exact delta in memory before checking earlier stages.
+
+## Retained stage: Version 1.035 — Small Katakana vowel lower-left positioning
 
 Only `ァィゥェォ` move: `(-98,-81)`, `(-158,-79)`, `(-136,-55)`, `(-108,-107)`, `(-116,-55)`. The separate `SMALL_KATAKANA_VOWEL_OFFSETS` layer measures each accepted small form against unchanged `ャ` after scale/pressure construction, before the existing global Japanese alignment. All five final anchors are `(180,-32)`, matching `ャュョッ`.
 

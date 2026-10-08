@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.035"
+    "version": "1.036"
   },
   "glyphs": [
     {
@@ -1418,5 +1418,30 @@
     "construction": "Post-scale/pressure translation only, before unchanged global Japanese bottom alignment; size, topology, weight and 960-unit advances preserved. All other glyphs unchanged.",
     "verifier": "verify_small_katakana_vowel_position.py",
     "report": "reports/small-katakana-vowel-position.md"
+  },
+  "katakana_junction_refinement": {
+    "version": "1.036",
+    "changed_bases": "マス",
+    "inherited_composite": "ズ",
+    "description": "Trim protruding approach terminal in マ and branch start in ス; preserve all edges outside local junction regions, original bounds, pressure and 960 advances.",
+    "report": "reports/kana-refinements.md",
+    "verifier": "verify_kana_refinements.py"
+  },
+  "handakuten_spacing": {
+    "version": "1.036",
+    "characters": "ぱぴぷぺぽパピプペポ",
+    "translation": [
+      16,
+      24
+    ],
+    "old_mark_anchor": [
+      92,
+      759
+    ],
+    "new_mark_anchor": [
+      76,
+      735
+    ],
+    "description": "Translate precomposed ring components and inverse-translate the two native GPOS mark anchors. Keep ring outlines, base anchors, dakuten, spacing handakuten and all advances unchanged."
   }
 }
