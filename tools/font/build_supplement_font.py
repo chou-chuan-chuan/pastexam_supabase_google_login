@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.035"
+VERSION = "1.036"
 BUILD_DATE = "2026-09-25"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20260925"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Kana junction / handakuten refinement（Version 1.036）：`マ` 交會處左下尾端及 `ス` 分岔處凸點局部收整；`ズ` 繼承修正後字身。`ぱぴぷぺぽ／パピプペポ` 圈圈只平移 (+16,+24)，輪廓、大小、筆壓與字寬不變，預組合與分解 GPOS 定位一致；濁點及五個小母音定位保持不變。見 tools/font/reports/kana-refinements.md。
 - Small Katakana vowel lower-left positioning（Version 1.035）：`ァィゥェォ` 只平移，final ink anchor 與 `ャュョッ` 同為 (180,-32)。既有尺寸、拓撲、筆壓與 960-unit advances 不變；其他 glyph、global kana alignment 與 layout tables 完全保留。No external font outline was used. 見 tools/font/reports/small-katakana-vowel-position.md。
 - Math refinement（Version 1.034）：∑／∇／∏ 只作輪廓減重（內縮 10／10／5 units），不縮小字面或字寬；U+0302 原帽號輪廓保持，新增限定 base 的 GPOS 定位；MATH AxisHeight=330 對齊等號中心，分數 rule=36。詳見 tools/font/reports/math-refinement.md。
 - Quantum symbols（Version 1.033）：P0–P3 共 45 個獨立 Unicode glyph。只新增字形，既有輪廓、字寬與排版表不變。來源為本字型原生輪廓及專案原創筆壓路徑，無外部字型。詳見 tools/font/reports/quantum-symbols.md 與 analysis/font-coverage.json。
@@ -601,9 +602,13 @@ def main() -> int:
         build_quantum_symbols(font)
         from math_refinement import refine_math
         refine_math(font)
+        from katakana_junction_refinement import refine_katakana_junctions
+        from handakuten_spacing import refine_handakuten_spacing
+        refine_katakana_junctions(font)
+        refine_handakuten_spacing(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.035
+        font["head"].fontRevision = 1.036
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

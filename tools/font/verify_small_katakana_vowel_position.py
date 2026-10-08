@@ -113,6 +113,8 @@ def verify_translation(old, new, c):
 
 
 def check_font(old, new):
+    from verify_kana_refinements import restore_1_035_for_historical_checks
+    restore_1_035_for_historical_checks(new)
     assert old['name'].getDebugName(5) == 'Version 1.034'
     assert new['name'].getDebugName(5) == 'Version 1.035'
     assert abs(new['head'].fontRevision - 1.035) < 1 / 65536
@@ -148,6 +150,8 @@ def check_font(old, new):
 
 def restore_1_034_for_historical_checks(font):
     """Validate all 1.035 changes, then undo only those changes in memory."""
+    from verify_kana_refinements import restore_1_035_for_historical_checks
+    restore_1_035_for_historical_checks(font)
     if font['name'].getDebugName(5) != 'Version 1.035':
         return
     with TTFont(BytesIO(baseline_bytes()), recalcTimestamp=False) as old:
@@ -181,7 +185,7 @@ def verify():
                 expected = old['hmtx'][old.getBestCmap()[ord(c)]][0] if c == '　' else 960
                 assert name != '.notdef' and advance == expected and (ya, x, y) == (0, 0, 0), text
         manifest = json.loads((ROOT / 'tools/font/glyph_manifest.json').read_text())
-        assert manifest['derived_font']['version'] == '1.035'
+        assert manifest['derived_font']['version'] == '1.036'
         layer = manifest['small_katakana_vowel_positioning']
         assert layer['translations'] == {c: list(v) for c, v in TRANSLATIONS.items()}
         assert layer['final_ink_anchor'] == [180, -32]

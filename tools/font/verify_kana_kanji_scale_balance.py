@@ -70,6 +70,9 @@ def assert_built(font, character, strokes, shift=KANA_VERTICAL_SHIFT_1_026, *, f
     expected = build_stroke_glyph(translate_strokes(strokes, dy=shift))
     if final:
         apply_bottom_alignment(expected)
+    if final and character in 'マス' and font['name'].getDebugName(5) == 'Version 1.036':
+        from katakana_junction_refinement import refined_junction_glyph
+        expected = refined_junction_glyph(character)
     assert expected.compile(font['glyf']) == font['glyf'][name].compile(font['glyf']), (character, 'unexpected outline')
 
 
@@ -235,6 +238,9 @@ def verify_derivatives():
         for c,(base,kind) in composites.items():
             mark=mark_name_for(base,kind);b=DO_BASE_GLYPH if c=='ど' else glyph_name(base)
             anchor=base_anchor(font,glyph_name(base));delta=(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1])
+            if kind == 'handakuten' and font['name'].getDebugName(5) == 'Version 1.036':
+                from handakuten_spacing import HANDAKUTEN_OFFSET
+                delta = tuple(a+b for a,b in zip(delta, HANDAKUTEN_OFFSET))
             parts=[p.getComponentInfo() for p in font['glyf'][glyph_name(c)].components]
             assert parts==[(b,(1,0,0,1,0,0)),(mark,(1,0,0,1,*delta))],(c,'composite')
             bp,mp,_=mark_to_base_anchors(font,mark,b)
@@ -255,7 +261,11 @@ def verify_derivatives():
             expected_base=DO_BASE_GLYPH if c=='ど' else glyph_name(base)
             assert names==[expected_base,mark_name_for(base,kind)],(c,'decomposed glyphs',names)
             p=buf.glyph_positions;anchor=base_anchor(font,glyph_name(base))
-            assert (p[0].x_advance+p[1].x_offset,p[1].y_offset)==(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1]),(c,'shaping')
+            delta=(anchor[0]-DAKUTEN_ANCHOR[0],anchor[1]-DAKUTEN_ANCHOR[1])
+            if kind == 'handakuten' and font['name'].getDebugName(5) == 'Version 1.036':
+                from handakuten_spacing import HANDAKUTEN_OFFSET
+                delta = tuple(a+b for a,b in zip(delta, HANDAKUTEN_OFFSET))
+            assert (p[0].x_advance+p[1].x_offset,p[1].y_offset)==delta,(c,'shaping')
             assert sum(q.x_advance for q in p)==960,c
     hbfont=hb.Font(hb.Face(TTF.read_bytes()));hbfont.scale=(1024,1024)
     with TTFont(TTF) as font:

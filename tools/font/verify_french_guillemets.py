@@ -165,7 +165,7 @@ def verify():
                 assert shaped_names.count("guillemotleft") == text.count("«")
                 assert shaped_names.count("guillemotright") == text.count("»")
         manifest = json.loads((ROOT / "tools/font/glyph_manifest.json").read_text(encoding="utf-8"))
-        assert manifest["derived_font"]["version"] == "1.035"
+        assert manifest["derived_font"]["version"] == "1.036"
         for name, recipe in RECIPES.items():
             entry = next(item for item in manifest["glyphs"] if item["glyph_name"] == name)
             assert entry["component_transforms"] == [list(transform) for _, transform in recipe]
