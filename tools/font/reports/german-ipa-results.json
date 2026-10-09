@@ -1,0 +1,98 @@
+{
+  "baseline_commit": "def988885120a7921c940073ee1bd2454ecdeb92",
+  "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
+  "formats": {
+    ".ttf": {
+      "sha256": "f25c4f93ca52e6e5786bcb5f5794642b3e2e987f9bdea5f60b626c4e9707ad38",
+      "unicode_cmap_tables": [
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          4,
+          12
+        ],
+        [
+          3,
+          1,
+          4
+        ],
+        [
+          3,
+          10,
+          12
+        ]
+      ],
+      "basic_additions": 19,
+      "base_mark_pairs": 76,
+      "preserved_glyphs": 10512,
+      "contexts": [
+        "n̩",
+        "l̩",
+        "m̩",
+        "i̯",
+        "ɐ̯",
+        "aɪ̯",
+        "ˈʃpʁaːxə",
+        "ˈmʏtɐ",
+        "øːl",
+        "ˈbɪtə",
+        "ˈzɔmɐ",
+        "ʔaɪ̯",
+        "ŋ",
+        "gɡ",
+        ":ː",
+        "中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç"
+      ]
+    },
+    ".woff2": {
+      "sha256": "0038bb791de591c31d6ab2b953507546dcf139f243131a65150cab6b24d1e547",
+      "unicode_cmap_tables": [
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          4,
+          12
+        ],
+        [
+          3,
+          1,
+          4
+        ],
+        [
+          3,
+          10,
+          12
+        ]
+      ],
+      "basic_additions": 19,
+      "base_mark_pairs": 76,
+      "preserved_glyphs": 10512,
+      "contexts": [
+        "n̩",
+        "l̩",
+        "m̩",
+        "i̯",
+        "ɐ̯",
+        "aɪ̯",
+        "ˈʃpʁaːxə",
+        "ˈmʏtɐ",
+        "øːl",
+        "ˈbɪtə",
+        "ˈzɔmɐ",
+        "ʔaɪ̯",
+        "ŋ",
+        "gɡ",
+        ":ː",
+        "中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç"
+      ]
+    }
+  }
+}

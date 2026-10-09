@@ -19,7 +19,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.036 — Kana junctions and handakuten spacing**：修整 `マ`、`ス` 接點凸出的筆端（`ズ` 同步繼承）；`ぱぴぷぺぽ／パピプペポ` 的半濁音圈圈統一向右 16、向上 24 font units。圈圈形狀、字身大小、筆重與 960-unit advances 不變，預組字及分解組字位置一致。[接點校樣](tools/font/proofs/quanfangwei-katakana-junctions.png)、[半濁音校樣](tools/font/proofs/quanfangwei-handakuten-spacing.png)、[量測與驗證報告](tools/font/reports/kana-refinements.md)。1.035 小片假名定位及既有數學修正完整保留。
+目前版本 **1.037 — Basic German IPA**：補齊 `ɛ ɪ ɔ ʊ ʏ ø ə ɐ ɡ ʃ ʒ ŋ ʁ ʔ ˈ ˌ ː` 及 U+032F／U+0329，組合符號零 advance 並以 GPOS 貼附。沿用原字型輪廓與自製手寫筆畫；保留全部 1.036 既有 glyph、metrics、cmap 和 layout lookup。普通 `g` 本來就是單層手寫字，IPA `ɡ` 有獨立碼位／glyph；長音 `ː` 使用雙三角形，與冒號不同。[QA 報告](tools/font/reports/german-ipa.md)、[瀏覽器樣張](tools/font/german-ipa-proof.html)。進階 IPA 與連結弧未在本版補齊。
 
 保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 

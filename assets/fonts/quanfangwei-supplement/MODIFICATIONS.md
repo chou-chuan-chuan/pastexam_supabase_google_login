@@ -7,8 +7,9 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-09-25
-- 版本：Version 1.036
+- 修改日期：2026-10-09
+- 版本：Version 1.037
+- German IPA（Version 1.037）：新增 19 個基礎碼位；原字輪廓及自製手寫筆畫，無外部 fallback。U+0329／U+032F 為零 advance，新增 GPOS mark-to-base。既有字形、字距、cmap 與 layout lookup 保留。範圍及 QA 見 tools/font/reports/german-ipa.md。
 - Kana junction / handakuten refinement（Version 1.036）：`マ` 交會處左下尾端及 `ス` 分岔處凸點局部收整；`ズ` 繼承修正後字身。`ぱぴぷぺぽ／パピプペポ` 圈圈只平移 (+16,+24)，輪廓、大小、筆壓與字寬不變，預組合與分解 GPOS 定位一致；濁點及五個小母音定位保持不變。見 tools/font/reports/kana-refinements.md。
 - Small Katakana vowel lower-left positioning（Version 1.035）：`ァィゥェォ` 只平移，final ink anchor 與 `ャュョッ` 同為 (180,-32)。既有尺寸、拓撲、筆壓與 960-unit advances 不變；其他 glyph、global kana alignment 與 layout tables 完全保留。No external font outline was used. 見 tools/font/reports/small-katakana-vowel-position.md。
 - Math refinement（Version 1.034）：∑／∇／∏ 只作輪廓減重（內縮 10／10／5 units），不縮小字面或字寬；U+0302 原帽號輪廓保持，新增限定 base 的 GPOS 定位；MATH AxisHeight=330 對齊等號中心，分數 rule=36。詳見 tools/font/reports/math-refinement.md。
