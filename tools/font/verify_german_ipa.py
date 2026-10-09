@@ -164,7 +164,7 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'turned_a_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
+                                     'turned_vowels_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))

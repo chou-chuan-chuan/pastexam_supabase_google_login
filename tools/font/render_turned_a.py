@@ -15,7 +15,7 @@ def main():
     new=(ROOT/REL).read_bytes()
     im=Image.new('RGB',(1250,700),'#fffdf8');d=ImageDraw.Draw(im)
     label=ImageFont.truetype(BytesIO(new),30)
-    for y,title,data in [(10,'1.041 - before',old),(350,'1.042 - turned a',new)]:
+    for y,title,data in [(10,'1.041 - before',old),(350,'1.042 - native schwa / turned a',new)]:
         d.text((30,y),title,font=label,fill='#52636d')
         d.text((30,y+30),'e    ə    ɐ    a',font=ImageFont.truetype(BytesIO(data),210),fill='#182b35')
         d.text((30,y+225),'ˈmʏtɐ    ˈzɔmɐ    ˈbɛsɐ',font=ImageFont.truetype(BytesIO(data),92),fill='#182b35')

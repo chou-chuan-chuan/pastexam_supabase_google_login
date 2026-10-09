@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "ea086a2e4625e8a66b7cf16e17b4d8c2b7b07841d6914b7816b0e17c5fd9a426",
+      "sha256": "ae9acf29c9eb12890883f12b728b6940b5c4fc03cbadb455224a2e2f6beb291f",
       "unicode_cmap_tables": [
         [
           0,
@@ -69,25 +69,38 @@
           "advance": 290
         }
       },
-      "turned_a_revision": {
+      "turned_vowels_revision": {
         "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
         "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
         "changed_glyphs": [
+          "uni0259.qfwIPA",
           "uni0250.qfwIPA"
         ],
-        "preserved_glyphs": 10530,
-        "bounds": [
-          35,
-          110,
-          255,
-          410
-        ],
-        "advance": 290,
+        "preserved_glyphs": 10529,
+        "bounds": {
+          "ə": [
+            35,
+            110,
+            270,
+            405
+          ],
+          "ɐ": [
+            35,
+            110,
+            255,
+            410
+          ]
+        },
+        "advances": {
+          "ə": 305,
+          "ɐ": 290
+        },
+        "schwa_uses_rotated_native_e": true,
         "metrics_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "b2b18d11791be42cb155b4e281d80e7f1cdd8f302c3dbfcfe60bfac16c9a48e0",
+      "sha256": "44481a9e592d4ea360294bd847adb1b2a9b060fa00ca00c2249ffacfd05c5481",
       "unicode_cmap_tables": [
         [
           0,
@@ -153,20 +166,33 @@
           "advance": 290
         }
       },
-      "turned_a_revision": {
+      "turned_vowels_revision": {
         "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
         "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
         "changed_glyphs": [
+          "uni0259.qfwIPA",
           "uni0250.qfwIPA"
         ],
-        "preserved_glyphs": 10530,
-        "bounds": [
-          35,
-          110,
-          255,
-          410
-        ],
-        "advance": 290,
+        "preserved_glyphs": 10529,
+        "bounds": {
+          "ə": [
+            35,
+            110,
+            270,
+            405
+          ],
+          "ɐ": [
+            35,
+            110,
+            255,
+            410
+          ]
+        },
+        "advances": {
+          "ə": 305,
+          "ɐ": 290
+        },
+        "schwa_uses_rotated_native_e": true,
         "metrics_and_layout_preserved": true
       }
     }
