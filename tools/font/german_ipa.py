@@ -1,4 +1,4 @@
-"""Basic German IPA, v1.037. Only source-native outlines and original strokes.
+"""Basic German IPA, v1.038. Only source-native outlines and original strokes.
 
 The source's Latin x-height is roughly y=110..435 at 1024 UPM. New strokes
 use its thin, gently varying pressure; no outlines from an external IPA font.
@@ -70,6 +70,38 @@ def weight(glyph, radius):
     edge.stroke(2*radius,pathops.LineCap.ROUND_CAP,pathops.LineJoin.ROUND_JOIN,4)
     edge.convertConicsToQuads(.1)
     return path_to_glyph(pathops.op(path,edge,pathops.PathOp.UNION))
+
+
+# Preview A selected after maintainer review. Native g/f/n bodies and heavy
+# punctuation remain reference strokes; optical outsets target thinner forms.
+WEIGHT_RADII = {'ɛ':2.5, 'ɪ':3, 'ɔ':1.5, 'ʊ':3, 'ʏ':3, 'ø':2,
+                'ə':3.5, 'ɐ':3.5, 'ʒ':3, 'ʁ':2, 'ʔ':1.5,
+                '\u032f':2, '\u0329':2}
+SLANTS = {'ɛ':.02, 'ɪ':.04, 'ʊ':.04, 'ʏ':.04, 'ə':.07, 'ɐ':.07, 'ʒ':.05}
+
+
+def refine_weight(glyph, char, glyf):
+    """Slightly thicken/shear while retaining the approved ink box and counters."""
+    if char not in WEIGHT_RADII:
+        return glyph
+    glyph.recalcBounds(glyf)
+    x0, y0, x1, y1 = glyph.xMin, glyph.yMin, glyph.xMax, glyph.yMax
+    contours = glyph.numberOfContours
+    glyph = weight(glyph, WEIGHT_RADII[char])
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(1, 0, SLANTS.get(char, 0), 1, 0, 0)), glyf)
+    glyph = pen.glyph()
+    glyph.recalcBounds(glyf)
+    sx = (x1-x0)/(glyph.xMax-glyph.xMin)
+    sy = (y1-y0)/(glyph.yMax-glyph.yMin)
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(sx, 0, 0, sy,
+               x0-sx*glyph.xMin, y0-sy*glyph.yMin)), glyf)
+    glyph = pen.glyph()
+    glyph.recalcBounds(glyf)
+    assert (glyph.xMin,glyph.yMin,glyph.xMax,glyph.yMax) == (x0,y0,x1,y1)
+    assert glyph.numberOfContours == contours, (char, 'counter/contour changed')
+    return glyph
 
 
 def source_question_body(font):
@@ -172,6 +204,7 @@ def build_german_ipa(font):
     font.setGlyphOrder(order + [name(c) for c in BASIC_IPA])
     for c in BASIC_IPA:
         glyph, advance = additions[c]
+        glyph = refine_weight(glyph, c, font['glyf'])
         glyph.recalcBounds(font['glyf'])
         font['glyf'][name(c)] = glyph
         font['hmtx'][name(c)] = (advance, glyph.xMin)

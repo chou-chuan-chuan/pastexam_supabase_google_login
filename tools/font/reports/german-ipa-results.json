@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04",
+      "sha256": "90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339",
       "unicode_cmap_tables": [
         [
           0,
@@ -66,10 +66,17 @@
           ],
           "advance": 290
         }
+      },
+      "weight_revision": {
+        "previous_commit": "7e8cb8730b4ca0d514aaba6a86fd97f912156921",
+        "previous_sha256": "a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04",
+        "changed_outlines": 13,
+        "preserved_outlines": 10518,
+        "all_ink_bounds_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "2694df8d71d8d20d363c175f245aa7c8d96545558cf8e74bd5f7328aace8509d",
+      "sha256": "dd753bcbe6b870f59f4dd9cf10f4697e52dfed158e150ea74def4e2aec775d49",
       "unicode_cmap_tables": [
         [
           0,
@@ -132,6 +139,13 @@
           ],
           "advance": 290
         }
+      },
+      "weight_revision": {
+        "previous_commit": "7e8cb8730b4ca0d514aaba6a86fd97f912156921",
+        "previous_sha256": "a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04",
+        "changed_outlines": 13,
+        "preserved_outlines": 10518,
+        "all_ink_bounds_and_layout_preserved": true
       }
     }
   }
