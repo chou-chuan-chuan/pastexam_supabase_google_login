@@ -103,6 +103,12 @@ def verify(font, old):
         assert b[0]<b[2] and b[1]<b[3]
         assert font['hhea'].descent<=b[1]<b[3]<=font['hhea'].ascent,(c,b)
         assert font['hmtx'][g][0] == 0 if c in MARKS else font['hmtx'][g][0]>0
+    for c,reference in [('ə','e'),('ɐ','a')]:
+        b=bounds(font,name(c)); ref=bounds(old,old.getBestCmap()[ord(reference)])
+        assert .88 <= (b[3]-b[1])/(ref[3]-ref[1]) <= .96, (c,'oversized bowl')
+        assert b[1]==110 and font['hmtx'][name(c)][0]<=310, (c,'optical size/spacing')
+    for c,count in {'ʊ':1,'ʃ':1,'ŋ':1,'ʁ':2,'ʔ':1,'ː':2}.items():
+        assert font['glyf'][name(c)].numberOfContours==count, (c,'disconnected stroke or lost counter')
     for c in BASES:
         for mark in MARKS:
             text=c+mark; s=shape(font,text)
@@ -124,7 +130,8 @@ def verify(font, old):
     assert bounds(font,font.getBestCmap()[ord(':')])!=bounds(font,name('ː'))
     return {'unicode_cmap_tables':[(t.platformID,t.platEncID,t.format) for t in tables],
             'basic_additions':19, 'base_mark_pairs':len(BASES)*len(MARKS),
-            'preserved_glyphs':len(old.getGlyphOrder()),'contexts':CONTEXTS}
+            'preserved_glyphs':len(old.getGlyphOrder()),'contexts':CONTEXTS,
+            'compact_vowels':{c:{'bounds':bounds(font,name(c)),'advance':font['hmtx'][name(c)][0]} for c in 'əɐ'}}
 
 
 def main():

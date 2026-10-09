@@ -6,7 +6,7 @@ The scope is 19 codepoints, not the complete IPA inventory.
 """
 from fontTools.misc.transform import Transform
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
-from fontTools.pens.recordingPen import DecomposingRecordingPen
+from fontTools.pens.recordingPen import DecomposingRecordingPen, RecordingPen, replayRecording
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib.tables import otTables
@@ -51,13 +51,93 @@ def stroke(points, width=34):
     return Stroke(tuple(points), width=width, start_width=width*.95, end_width=width*.80)
 
 
+def outline_path(font, char, transform=Transform()):
+    path = pathops.Path()
+    font.getGlyphSet()[font.getBestCmap()[ord(char)]].draw(TransformPen(path.getPen(), transform))
+    return path
+
+
+def rectangle(x0,y0,x1,y1):
+    path=pathops.Path(); pen=path.getPen()
+    pen.moveTo((x0,y0));pen.lineTo((x1,y0));pen.lineTo((x1,y1));pen.lineTo((x0,y1));pen.closePath()
+    return path
+
+
+def weight(glyph, radius):
+    """Restore weight lost when reducing capitals; preserve native irregularity."""
+    path=pathops.Path();glyph.draw(path.getPen(),None)
+    edge=pathops.Path();glyph.draw(edge.getPen(),None)
+    edge.stroke(2*radius,pathops.LineCap.ROUND_CAP,pathops.LineJoin.ROUND_JOIN,4)
+    edge.convertConicsToQuads(.1)
+    return path_to_glyph(pathops.op(path,edge,pathops.PathOp.UNION))
+
+
+def source_question_body(font):
+    recording=RecordingPen();font.getGlyphSet()[font.getBestCmap()[ord('?')]].draw(recording)
+    contour=[]
+    for op in recording.value:
+        contour.append(op)
+        if op[0]=='closePath':break
+    pen=TTGlyphPen(None);replayRecording(contour,pen);glyph=pen.glyph()
+    # Keep the original upper hook and terminal shape. Extend only its stem.
+    for i,(x,y) in enumerate(glyph.coordinates):
+        if y<390:glyph.coordinates[i]=(x,round(110+(y-288)*280/102))
+    return glyph
+
+
+def source_native_additions(font):
+    cmap=font.getBestCmap();out={}
+    # The handwritten open c is reflected and lightly sheared, not regularized.
+    out['ɔ']=(transformed(font,'c',Transform(-.92,0,.18,1.10,328, -25)),390)
+    # Keep original capital-R contour topology and compensate its reflected lean.
+    r=transformed(font,'R',Transform())
+    for i,(x,y) in enumerate(r.coordinates):
+        if x>310:r.coordinates[i]=(round(310+(x-310)*.50),y)
+    pen=TTGlyphPen(None)
+    r.draw(TransformPen(pen,Transform(.72,0,-.21,-.711,125,507)),font['glyf'])
+    out['ʁ']=(weight(pen.glyph(),3),425)
+    # Native n joined to the native g descender, with a shared 115..165 overlap.
+    body=outline_path(font,'n')
+    tail=outline_path(font,'g',Transform(1,0,0,1,77,0))
+    tail=pathops.op(tail,rectangle(-100,-300,450,165),pathops.PathOp.INTERSECTION)
+    out['ŋ']=(path_to_glyph(pathops.op(body,tail,pathops.PathOp.UNION)),390)
+    # Native f's upper hook and stem, with its crossbar removed. The lower hook
+    # is the source j body cropped below y=180, shifted into the same stem.
+    f=outline_path(font,'f',Transform(1,0,0,1,-90,-40))
+    cut=rectangle(-100,270,117,405)
+    f=pathops.op(f,cut,pathops.PathOp.DIFFERENCE)
+    f=pathops.op(f,rectangle(169,290,400,405),pathops.PathOp.DIFFERENCE)
+    j=outline_path(font,'j',Transform(1,0,0,1,-10,-140))
+    j=pathops.op(j,rectangle(-100,-250,400,40),pathops.PathOp.INTERSECTION)
+    out['ʃ']=(path_to_glyph(pathops.op(f,j,pathops.PathOp.UNION)),300)
+    out['ʔ']=(source_question_body(font),312)
+    # The source U supplies the asymmetry and pressure; short native quote
+    # strokes rotated horizontally close in the horseshoe's top terminals.
+    u=outline_path(font,'U',Transform(.88,0,0,.67,0,44))
+    for x,y in [(30,375),(220,392)]:
+        cap=outline_path(font,"'",Transform(0,.60,-.80,0,x+526.4,y-20))
+        u=pathops.op(u,cap,pathops.PathOp.UNION)
+    out['ʊ']=(weight(path_to_glyph(u),2),380)
+    # Actual source punctuation, not generic geometric strokes.
+    out['ˈ']=(transformed(font,"'",Transform(1,0,0,1.25,40,-207)),180)
+    out['ˌ']=(transformed(font,"'",Transform(1,0,0,1.25,40,-723)),180)
+    out['\u0329']=(transformed(font,"'",Transform(.56,0,0,.80,-32.5,-526.4)),0)
+    out['\u032f']=(transformed(font,'\u0306',Transform(1,0,0,-1,145,453)),0)
+    pen=TTGlyphPen(None)
+    transformed(font,'▼',Transform(.31,0,0,.31,33,266)).draw(pen,font['glyf'])
+    transformed(font,'▲',Transform(.31,0,0,.31,33,62)).draw(pen,font['glyf'])
+    out['ː']=(pen.glyph(),210)
+    return out
+
+
 def build_german_ipa(font):
     cmap = font.getBestCmap()
     if any(ord(c) in cmap for c in BASIC_IPA):
         raise ValueError('IPA source mapping already exists; review before replacing it')
     additions = {}
     for c, source, turned in [('ɛ','ε',False), ('ɪ','I',False), ('ʏ','Y',False)]:
-        additions[c] = fit(font, source, rotation=turned)
+        glyph,advance=fit(font, source, rotation=turned)
+        additions[c]=(weight(glyph,{'ɛ':3,'ɪ':6,'ʏ':8}[c]),advance)
     # Ordinary g is already single-storey in this handwriting. Keep that
     # legitimate shape, but install a separate IPA glyph and Unicode mapping.
     additions['ɡ'] = (transformed(font, 'g', Transform()), font['hmtx'][cmap[ord('g')]][0])
@@ -68,35 +148,26 @@ def build_german_ipa(font):
     additions['ø'] = (path_to_glyph(pathops.op(source_o, slash, pathops.PathOp.UNION)),
                       font['hmtx'][cmap[ord('o')]][0])
     originals = {
-        # Distinctive IPA structures need authored strokes: rotating the source's
-        # single-storey a resembles turned alpha, and rotating cursive e obscures
-        # the schwa crossbar. Inverted small-cap R reflects vertically, not 180°.
-        'ɔ': (340, [([(62,407),(150,427),(235,405),(281,330),(267,226),(214,144),(141,121),(63,140)],36)]),
-        'ə': (340, [([(58,388),(115,427),(217,418),(272,348),(275,254),(249,163),(179,124),(101,143),(61,203),(54,271),(272,277)],34)]),
-        'ɐ': (350, [([(65,426),(60,321),(61,204),(97,131),(189,117),(267,154)],34),
-                    ([(61,289),(137,312),(237,332),(276,378),(247,425),(171,437),(99,408),(64,350)],34)]),
-        'ʁ': (365, [([(62,430),(59,269),(57,117),(162,116),(269,140),(290,198),(249,251),(158,271),(60,269)],34),
-                    ([(170,270),(237,349),(298,432)],34)]),
-        'ʊ': (380, [([(42,421),(105,417),(98,347),(78,242),(108,144),(183,119),(263,153),(295,245),(278,344),(268,416),(331,424)],32)]),
-        'ʃ': (280, [([(253,585),(210,619),(154,576),(139,448),(122,269),(106,78),(83,-68),(35,-104),(4,-77)],34)]),
-        'ʒ': (335, [([(62,424),(151,432),(261,425),(183,340),(139,300),(236,301),(282,245),(272,148),(216,88),(126,86),(62,121)],34)]),
-        'ŋ': (375, [([(68,406),(66,292),(54,135),(112,272),(194,372),(257,358),(280,272),(283,117),(277,-34),(244,-116),(180,-129)],34)]),
-        'ʔ': (310, [([(52,492),(69,558),(140,589),(221,573),(250,521),(229,454),(167,405),(148,332),(146,119)],34)]),
-        'ˈ': (180, [([(109,615),(86,447)],30)]),
-        'ˌ': (180, [([(109,105),(86,-63)],30)]),
-        '\u0329': (0, [([(3,-12),(-3,-103)],26)]),
-        '\u032f': (0, [([(-83,-79),(-54,-32),(0,-14),(51,-33),(82,-80)],26)]),
+        # Keep essential schwa / turned-a / ezh structures, but use the source's
+        # irregular turns, rightward lean and 40..48-unit handwritten pressure.
+        'ə': (355, [([(75,396),(129,431),(222,413),(274,347),(280,250),(249,163),(175,120),(101,145),(58,211),(58,267),(276,287)],44)]),
+        'ɐ': (360, [([(88,428),(70,318),(60,205),(100,130),(190,120),(274,165)],44),
+                    ([(70,286),(141,317),(244,333),(282,379),(250,422),(176,438),(104,410),(71,350)],42)]),
+        'ʒ': (350, [([(66,414),(154,432),(271,444),(191,348),(137,284),(232,286),(282,220),(264,99),(218,18),(130,-6),(58,33)],44)]),
     }
     for c, (advance, strokes) in originals.items():
         additions[c] = (build_stroke_glyph(tuple(stroke(p,w) for p,w in strokes)), advance)
-    # Two opposed triangular wedges, deliberately distinguishable from colon.
-    pen = TTGlyphPen(None)
-    for points in [[(53,430),(156,431),(104,301)], [(55,111),(154,110),(105,239)]]:
-        pen.moveTo(points[0])
-        for p in points[1:]:
-            pen.lineTo(p)
-        pen.closePath()
-    additions['ː'] = (pen.glyph(), 210)
+    additions.update(source_native_additions(font))
+    # Maintainer optical correction: these closed bowls looked too large beside
+    # native e/o. Uniform 84% scaling retains the hand-drawn pressure, with the
+    # lower ink edge at y=110 and 35-unit side bearings instead of excess space.
+    for c in 'əɐ':
+        glyph,_ = additions[c]
+        glyph.recalcBounds(font['glyf'])
+        x0,y0,x1 = glyph.xMin,glyph.yMin,glyph.xMax
+        pen=TTGlyphPen(None)
+        glyph.draw(TransformPen(pen,Transform(.84,0,0,.84,35-.84*x0,110-.84*y0)),font['glyf'])
+        additions[c]=(pen.glyph(),round((x1-x0)*.84)+70)
     order = font.getGlyphOrder()
     font.setGlyphOrder(order + [name(c) for c in BASIC_IPA])
     for c in BASIC_IPA:
@@ -105,7 +176,12 @@ def build_german_ipa(font):
         font['glyf'][name(c)] = glyph
         font['hmtx'][name(c)] = (advance, glyph.xMin)
         if 'vmtx' in font:
-            font['vmtx'][name(c)] = font['vmtx'][cmap[ord('a')]]
+            source = cmap[ord('g' if c == 'ɡ' else 'a')]
+            vadvance, top_bearing = font['vmtx'][source]
+            # Share the source's vertical origin (819), not its raw bearing:
+            # a tall esh must not enlarge the global vertical extent.
+            origin = bounds(font, source)[3] + top_bearing
+            font['vmtx'][name(c)] = (vadvance, origin - glyph.yMax)
         for table in font['cmap'].tables:
             if table.isUnicode() and table.format != 14:
                 table.cmap[ord(c)] = name(c)

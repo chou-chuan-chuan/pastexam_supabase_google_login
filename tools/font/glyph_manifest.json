@@ -1242,7 +1242,8 @@
       "combining_marks": [
         "U+032F",
         "U+0329"
-      ]
+      ],
+      "style": "16 source-outline-based glyphs; schwa/turned-a/ezh authored with native-like pressure. See reports/german-ipa.md and proofs/quanfangwei-german-ipa-style.png"
     }
   },
   "hiragana_master_v2": {
