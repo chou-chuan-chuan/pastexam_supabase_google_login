@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.036"
-UNIQUE_ID = "1.036;QFW;QuanFangweiSupplementScript-Regular;20260925"
+VERSION = "1.037"
+UNIQUE_ID = "1.037;QFW;QuanFangweiSupplementScript-Regular;20261009"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -618,12 +618,12 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 262, "Derived glyph count did not increase by exactly 262 (45 quantum symbols plus two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
+    require(len(ttf_order) == len(source_order) + 281, "Derived glyph count did not increase by exactly 281 (19 basic IPA plus 45 quantum symbols plus two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
     derived_lookups = ttf["GPOS"].table.LookupList.Lookup
-    require(len(derived_lookups) == len(source_lookups) + 3, "Derived GPOS should append exactly three lookups (cedilla, Japanese marks and scoped operator hats)")
+    require(len(derived_lookups) == len(source_lookups) + 4, "Derived GPOS should append exactly four lookups (cedilla, Japanese marks, scoped operator hats and basic IPA marks)")
     for index, source_lookup in enumerate(source_lookups):
         require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
     for glyph_name, glyph_class in source["GDEF"].table.GlyphClassDef.classDefs.items():

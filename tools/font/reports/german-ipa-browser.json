@@ -1,0 +1,83 @@
+{
+  "browser": "154.0.8037.98",
+  "sampleNodes": 29,
+  "allSampleFontsCustom": true,
+  "families": [
+    "QuanFangwei Supplement Script"
+  ],
+  "widths": [
+    {
+      "font": "QFW",
+      "base": "n",
+      "marked": "n̩",
+      "advance": 23.4375
+    },
+    {
+      "font": "QFW",
+      "base": "l",
+      "marked": "l̩",
+      "advance": 10.0625
+    },
+    {
+      "font": "QFW",
+      "base": "m",
+      "marked": "m̩",
+      "advance": 31
+    },
+    {
+      "font": "QFW",
+      "base": "i",
+      "marked": "i̯",
+      "advance": 12.875
+    },
+    {
+      "font": "QFW",
+      "base": "ɐ",
+      "marked": "ɐ̯",
+      "advance": 18.125
+    },
+    {
+      "font": "QFW",
+      "base": "aɪ",
+      "marked": "aɪ̯",
+      "advance": 44.5625
+    },
+    {
+      "font": "QFWTTF",
+      "base": "n",
+      "marked": "n̩",
+      "advance": 23.4375
+    },
+    {
+      "font": "QFWTTF",
+      "base": "l",
+      "marked": "l̩",
+      "advance": 10.0625
+    },
+    {
+      "font": "QFWTTF",
+      "base": "m",
+      "marked": "m̩",
+      "advance": 31
+    },
+    {
+      "font": "QFWTTF",
+      "base": "i",
+      "marked": "i̯",
+      "advance": 12.875
+    },
+    {
+      "font": "QFWTTF",
+      "base": "ɐ",
+      "marked": "ɐ̯",
+      "advance": 18.125
+    },
+    {
+      "font": "QFWTTF",
+      "base": "aɪ",
+      "marked": "aɪ̯",
+      "advance": 44.5625
+    }
+  ],
+  "errors": []
+}

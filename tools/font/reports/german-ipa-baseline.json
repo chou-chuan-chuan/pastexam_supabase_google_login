@@ -1,0 +1,944 @@
+{
+  "font": "QuanFangwei Supplement Script",
+  "version": "1.036",
+  "filename": "QuanFangweiSupplementScript-Regular.ttf",
+  "sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
+  "scope": "本次已下載並用於筆記的 TTF；不是宣稱已重新檢查 GitHub 最新版本。檢查字元映射覆蓋，不等於排版與字形品質認證。",
+  "core_missing_count": 19,
+  "rows": [
+    {
+      "group": "基礎：母音",
+      "character": "a",
+      "display": "a",
+      "unicode": "U+0061",
+      "name": "LATIN SMALL LETTER A",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "e",
+      "display": "e",
+      "unicode": "U+0065",
+      "name": "LATIN SMALL LETTER E",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "i",
+      "display": "i",
+      "unicode": "U+0069",
+      "name": "LATIN SMALL LETTER I",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "o",
+      "display": "o",
+      "unicode": "U+006F",
+      "name": "LATIN SMALL LETTER O",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "u",
+      "display": "u",
+      "unicode": "U+0075",
+      "name": "LATIN SMALL LETTER U",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "y",
+      "display": "y",
+      "unicode": "U+0079",
+      "name": "LATIN SMALL LETTER Y",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ɛ",
+      "display": "ɛ",
+      "unicode": "U+025B",
+      "name": "LATIN SMALL LETTER OPEN E",
+      "present": false,
+      "used_in_notes": true,
+      "use": "hätte／Bäche 的母音"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ɪ",
+      "display": "ɪ",
+      "unicode": "U+026A",
+      "name": "LATIN LETTER SMALL CAPITAL I",
+      "present": false,
+      "used_in_notes": false,
+      "use": "ich／bitte 的短母音"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ɔ",
+      "display": "ɔ",
+      "unicode": "U+0254",
+      "name": "LATIN SMALL LETTER OPEN O",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Sommer／Post 的母音"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ʊ",
+      "display": "ʊ",
+      "unicode": "U+028A",
+      "name": "LATIN SMALL LETTER UPSILON",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Mutter／Kurs 的短母音"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ʏ",
+      "display": "ʏ",
+      "unicode": "U+028F",
+      "name": "LATIN LETTER SMALL CAPITAL Y",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Mütter／füllen 的短母音"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ø",
+      "display": "ø",
+      "unicode": "U+00F8",
+      "name": "LATIN SMALL LETTER O WITH STROKE",
+      "present": false,
+      "used_in_notes": false,
+      "use": "Öl 的 øː、Ökonom 的 ø"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "œ",
+      "display": "œ",
+      "unicode": "U+0153",
+      "name": "LATIN SMALL LIGATURE OE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ə",
+      "display": "ə",
+      "unicode": "U+0259",
+      "name": "LATIN SMALL LETTER SCHWA",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Name／Sprache 的非重讀 e"
+    },
+    {
+      "group": "基礎：母音",
+      "character": "ɐ",
+      "display": "ɐ",
+      "unicode": "U+0250",
+      "name": "LATIN SMALL LETTER TURNED A",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Mutter 的 -er、Uhr 的母音化 r"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "p",
+      "display": "p",
+      "unicode": "U+0070",
+      "name": "LATIN SMALL LETTER P",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "b",
+      "display": "b",
+      "unicode": "U+0062",
+      "name": "LATIN SMALL LETTER B",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "t",
+      "display": "t",
+      "unicode": "U+0074",
+      "name": "LATIN SMALL LETTER T",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "d",
+      "display": "d",
+      "unicode": "U+0064",
+      "name": "LATIN SMALL LETTER D",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "k",
+      "display": "k",
+      "unicode": "U+006B",
+      "name": "LATIN SMALL LETTER K",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ɡ",
+      "display": "ɡ",
+      "unicode": "U+0261",
+      "name": "LATIN SMALL LETTER SCRIPT G",
+      "present": false,
+      "used_in_notes": false,
+      "use": "IPA 專用單層 g；普通 g 另有支援"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "g",
+      "display": "g",
+      "unicode": "U+0067",
+      "name": "LATIN SMALL LETTER G",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "f",
+      "display": "f",
+      "unicode": "U+0066",
+      "name": "LATIN SMALL LETTER F",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "v",
+      "display": "v",
+      "unicode": "U+0076",
+      "name": "LATIN SMALL LETTER V",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "s",
+      "display": "s",
+      "unicode": "U+0073",
+      "name": "LATIN SMALL LETTER S",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "z",
+      "display": "z",
+      "unicode": "U+007A",
+      "name": "LATIN SMALL LETTER Z",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "h",
+      "display": "h",
+      "unicode": "U+0068",
+      "name": "LATIN SMALL LETTER H",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ç",
+      "display": "ç",
+      "unicode": "U+00E7",
+      "name": "LATIN SMALL LETTER C WITH CEDILLA",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "x",
+      "display": "x",
+      "unicode": "U+0078",
+      "name": "LATIN SMALL LETTER X",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ʃ",
+      "display": "ʃ",
+      "unicode": "U+0283",
+      "name": "LATIN SMALL LETTER ESH",
+      "present": false,
+      "used_in_notes": true,
+      "use": "Sprache／Stadt／Schal 的音"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ʒ",
+      "display": "ʒ",
+      "unicode": "U+0292",
+      "name": "LATIN SMALL LETTER EZH",
+      "present": false,
+      "used_in_notes": false,
+      "use": "Genie／Journal 的音，也用於 dʒ"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "m",
+      "display": "m",
+      "unicode": "U+006D",
+      "name": "LATIN SMALL LETTER M",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "n",
+      "display": "n",
+      "unicode": "U+006E",
+      "name": "LATIN SMALL LETTER N",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ŋ",
+      "display": "ŋ",
+      "unicode": "U+014B",
+      "name": "LATIN SMALL LETTER ENG",
+      "present": false,
+      "used_in_notes": false,
+      "use": "lang／singen 的 ng 音"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "l",
+      "display": "l",
+      "unicode": "U+006C",
+      "name": "LATIN SMALL LETTER L",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "j",
+      "display": "j",
+      "unicode": "U+006A",
+      "name": "LATIN SMALL LETTER J",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "r",
+      "display": "r",
+      "unicode": "U+0072",
+      "name": "LATIN SMALL LETTER R",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ʁ",
+      "display": "ʁ",
+      "unicode": "U+0281",
+      "name": "LATIN LETTER SMALL CAPITAL INVERTED R",
+      "present": false,
+      "used_in_notes": true,
+      "use": "常見的小舌 R 表示"
+    },
+    {
+      "group": "基礎：子音",
+      "character": "ʔ",
+      "display": "ʔ",
+      "unicode": "U+0294",
+      "name": "LATIN LETTER GLOTTAL STOP",
+      "present": false,
+      "used_in_notes": false,
+      "use": "喉塞音，較細的德語轉寫可能標出"
+    },
+    {
+      "group": "基礎：重音、長音、音節標記",
+      "character": "ˈ",
+      "display": "ˈ",
+      "unicode": "U+02C8",
+      "name": "MODIFIER LETTER VERTICAL LINE",
+      "present": false,
+      "used_in_notes": true,
+      "use": "主重音"
+    },
+    {
+      "group": "基礎：重音、長音、音節標記",
+      "character": "ˌ",
+      "display": "ˌ",
+      "unicode": "U+02CC",
+      "name": "MODIFIER LETTER LOW VERTICAL LINE",
+      "present": false,
+      "used_in_notes": true,
+      "use": "次重音"
+    },
+    {
+      "group": "基礎：重音、長音、音節標記",
+      "character": "ː",
+      "display": "ː",
+      "unicode": "U+02D0",
+      "name": "MODIFIER LETTER TRIANGULAR COLON",
+      "present": false,
+      "used_in_notes": true,
+      "use": "長音，不是一般冒號 :"
+    },
+    {
+      "group": "基礎：重音、長音、音節標記",
+      "character": "̯",
+      "display": "◌̯",
+      "unicode": "U+032F",
+      "name": "COMBINING INVERTED BREVE BELOW",
+      "present": false,
+      "used_in_notes": true,
+      "use": "非音節性：i̯、ɐ̯、aɪ̯ 等"
+    },
+    {
+      "group": "基礎：重音、長音、音節標記",
+      "character": "̩",
+      "display": "◌̩",
+      "unicode": "U+0329",
+      "name": "COMBINING VERTICAL LINE BELOW",
+      "present": false,
+      "used_in_notes": false,
+      "use": "成音節子音：n̩、l̩、m̩ 等"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ʀ",
+      "display": "ʀ",
+      "unicode": "U+0280",
+      "name": "LATIN LETTER SMALL CAPITAL R",
+      "present": false,
+      "used_in_notes": false,
+      "use": "小舌顫音 R"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ɾ",
+      "display": "ɾ",
+      "unicode": "U+027E",
+      "name": "LATIN SMALL LETTER R WITH FISHHOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": "閃音 R"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "χ",
+      "display": "χ",
+      "unicode": "U+03C7",
+      "name": "GREEK SMALL LETTER CHI",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ʰ",
+      "display": "ʰ",
+      "unicode": "U+02B0",
+      "name": "MODIFIER LETTER SMALL H",
+      "present": false,
+      "used_in_notes": false,
+      "use": "送氣標記，如 pʰ"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ɱ",
+      "display": "ɱ",
+      "unicode": "U+0271",
+      "name": "LATIN SMALL LETTER M WITH HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ɣ",
+      "display": "ɣ",
+      "unicode": "U+0263",
+      "name": "LATIN SMALL LETTER GAMMA",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ʝ",
+      "display": "ʝ",
+      "unicode": "U+029D",
+      "name": "LATIN SMALL LETTER J WITH CROSSED-TAIL",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ɦ",
+      "display": "ɦ",
+      "unicode": "U+0266",
+      "name": "LATIN SMALL LETTER H WITH HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ʋ",
+      "display": "ʋ",
+      "unicode": "U+028B",
+      "name": "LATIN SMALL LETTER V WITH HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ɹ",
+      "display": "ɹ",
+      "unicode": "U+0279",
+      "name": "LATIN SMALL LETTER TURNED R",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̥",
+      "display": "◌̥",
+      "unicode": "U+0325",
+      "name": "COMBINING RING BELOW",
+      "present": false,
+      "used_in_notes": false,
+      "use": "下方清化圈"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̊",
+      "display": "◌̊",
+      "unicode": "U+030A",
+      "name": "COMBINING RING ABOVE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̬",
+      "display": "◌̬",
+      "unicode": "U+032C",
+      "name": "COMBINING CARON BELOW",
+      "present": false,
+      "used_in_notes": false,
+      "use": "濁化標記"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̚",
+      "display": "◌̚",
+      "unicode": "U+031A",
+      "name": "COMBINING LEFT ANGLE ABOVE",
+      "present": false,
+      "used_in_notes": false,
+      "use": "無可聞釋放標記"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̰",
+      "display": "◌̰",
+      "unicode": "U+0330",
+      "name": "COMBINING TILDE BELOW",
+      "present": false,
+      "used_in_notes": false,
+      "use": "嘎裂聲標記"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "ˑ",
+      "display": "ˑ",
+      "unicode": "U+02D1",
+      "name": "MODIFIER LETTER HALF TRIANGULAR COLON",
+      "present": false,
+      "used_in_notes": false,
+      "use": "半長音"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "͡",
+      "display": "◌͡",
+      "unicode": "U+0361",
+      "name": "COMBINING DOUBLE INVERTED BREVE",
+      "present": false,
+      "used_in_notes": false,
+      "use": "上連結弧：t͡s、p͡f、t͡ʃ"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "͜",
+      "display": "◌͜",
+      "unicode": "U+035C",
+      "name": "COMBINING DOUBLE BREVE BELOW",
+      "present": false,
+      "used_in_notes": false,
+      "use": "下連結弧：t͜s（替代上連結形式）"
+    },
+    {
+      "group": "擴充：R 變體、細式音標及附加標記",
+      "character": "̍",
+      "display": "◌̍",
+      "unicode": "U+030D",
+      "name": "COMBINING VERTICAL LINE ABOVE",
+      "present": true,
+      "used_in_notes": false,
+      "use": "上方成音節標記，如 ŋ̍"
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɑ",
+      "display": "ɑ",
+      "unicode": "U+0251",
+      "name": "LATIN SMALL LETTER ALPHA",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "æ",
+      "display": "æ",
+      "unicode": "U+00E6",
+      "name": "LATIN SMALL LETTER AE",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ʌ",
+      "display": "ʌ",
+      "unicode": "U+028C",
+      "name": "LATIN SMALL LETTER TURNED V",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ð",
+      "display": "ð",
+      "unicode": "U+00F0",
+      "name": "LATIN SMALL LETTER ETH",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "θ",
+      "display": "θ",
+      "unicode": "U+03B8",
+      "name": "GREEK SMALL LETTER THETA",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɒ",
+      "display": "ɒ",
+      "unicode": "U+0252",
+      "name": "LATIN SMALL LETTER TURNED ALPHA",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɜ",
+      "display": "ɜ",
+      "unicode": "U+025C",
+      "name": "LATIN SMALL LETTER REVERSED OPEN E",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɚ",
+      "display": "ɚ",
+      "unicode": "U+025A",
+      "name": "LATIN SMALL LETTER SCHWA WITH HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɝ",
+      "display": "ɝ",
+      "unicode": "U+025D",
+      "name": "LATIN SMALL LETTER REVERSED OPEN E WITH HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ɲ",
+      "display": "ɲ",
+      "unicode": "U+0272",
+      "name": "LATIN SMALL LETTER N WITH LEFT HOOK",
+      "present": false,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "ã",
+      "display": "ã",
+      "unicode": "U+00E3",
+      "name": "LATIN SMALL LETTER A WITH TILDE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "õ",
+      "display": "õ",
+      "unicode": "U+00F5",
+      "name": "LATIN SMALL LETTER O WITH TILDE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "̃",
+      "display": "◌̃",
+      "unicode": "U+0303",
+      "name": "COMBINING TILDE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "擴充：外來語原音（含英語音標）",
+      "character": "̆",
+      "display": "◌̆",
+      "unicode": "U+0306",
+      "name": "COMBINING BREVE",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "ä",
+      "display": "ä",
+      "unicode": "U+00E4",
+      "name": "LATIN SMALL LETTER A WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "ö",
+      "display": "ö",
+      "unicode": "U+00F6",
+      "name": "LATIN SMALL LETTER O WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "ü",
+      "display": "ü",
+      "unicode": "U+00FC",
+      "name": "LATIN SMALL LETTER U WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "Ä",
+      "display": "Ä",
+      "unicode": "U+00C4",
+      "name": "LATIN CAPITAL LETTER A WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "Ö",
+      "display": "Ö",
+      "unicode": "U+00D6",
+      "name": "LATIN CAPITAL LETTER O WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "Ü",
+      "display": "Ü",
+      "unicode": "U+00DC",
+      "name": "LATIN CAPITAL LETTER U WITH DIAERESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "ß",
+      "display": "ß",
+      "unicode": "U+00DF",
+      "name": "LATIN SMALL LETTER SHARP S",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "ẞ",
+      "display": "ẞ",
+      "unicode": "U+1E9E",
+      "name": "LATIN CAPITAL LETTER SHARP S",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "[",
+      "display": "[",
+      "unicode": "U+005B",
+      "name": "LEFT SQUARE BRACKET",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "]",
+      "display": "]",
+      "unicode": "U+005D",
+      "name": "RIGHT SQUARE BRACKET",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "/",
+      "display": "/",
+      "unicode": "U+002F",
+      "name": "SOLIDUS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": ".",
+      "display": ".",
+      "unicode": "U+002E",
+      "name": "FULL STOP",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": ":",
+      "display": ":",
+      "unicode": "U+003A",
+      "name": "COLON",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "(",
+      "display": "(",
+      "unicode": "U+0028",
+      "name": "LEFT PARENTHESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": ")",
+      "display": ")",
+      "unicode": "U+0029",
+      "name": "RIGHT PARENTHESIS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    },
+    {
+      "group": "德文正字法與一般分隔符號",
+      "character": "-",
+      "display": "-",
+      "unicode": "U+002D",
+      "name": "HYPHEN-MINUS",
+      "present": true,
+      "used_in_notes": false,
+      "use": ""
+    }
+  ],
+  "sources": [
+    "https://www.duden.de/hilfe/aussprache",
+    "https://www.internationalphoneticassociation.org/content/full-ipa-chart"
+  ]
+}
