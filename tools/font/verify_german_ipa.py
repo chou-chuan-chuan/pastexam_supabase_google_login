@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify both release formats, actual shaping and 1.036 preservation except documented U/u diaeresis placement.
+"""Verify both release formats, actual shaping and 1.036 preservation except documented U/u diaeresis placement and upper quote refinement.
 
 Requires the pinned baseline commit (CI checks out full history). --baseline
 allows an already verified local TTF; its SHA is always checked.
@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REL = 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
 BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
-from verify_umlaut_clearance import PREVIOUS_COMMIT, PREVIOUS_SHA, original_umlaut_layout, verify_revision
+from verify_umlaut_clearance import original_umlaut_layout
+from verify_german_quotes import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_quote_shape, verify_revision
 CONTEXTS = ['n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
@@ -47,15 +48,19 @@ def shape(font, text, features=None):
 
 
 def preservation(old, new):
+    verify_quote_shape(new)
     new = original_umlaut_layout(new)
     assert new.getGlyphOrder()[:len(old.getGlyphOrder())] == old.getGlyphOrder()
     assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in BASIC_IPA}
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
     assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in BASIC_IPA}
     for g in old.getGlyphOrder():
-        assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
-        assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
-        if 'vmtx' in old:
+        if g not in ('quotedblleft','quotedblright'):
+            assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
+            assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
+        else:
+            assert old['hmtx'][g][0] == new['hmtx'][g][0], ('advance',g)
+        if 'vmtx' in old and g != 'quotedblright':
             assert old['vmtx'][g] == new['vmtx'][g], ('vertical metrics',g)
     # Remove only the explicitly added lookup/classes and demand byte-identical
     # original layout, including script/language activation and feature order.
@@ -97,8 +102,8 @@ def verify(font, old):
         for c in BASIC_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.040)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.040'
+    assert abs(font['head'].fontRevision-1.041)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.041'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in BASIC_IPA:
@@ -133,7 +138,7 @@ def verify(font, old):
     assert bounds(font,font.getBestCmap()[ord(':')])!=bounds(font,name('ː'))
     return {'unicode_cmap_tables':[(t.platformID,t.platEncID,t.format) for t in tables],
             'basic_additions':19, 'base_mark_pairs':len(BASES)*len(MARKS),
-            'preserved_glyphs':len(old.getGlyphOrder())-2,'repositioned_umlaut_glyphs':2,'contexts':CONTEXTS,
+            'preserved_glyphs':len(old.getGlyphOrder())-4,'repositioned_umlaut_glyphs':2,'refined_quote_glyphs':2,'contexts':CONTEXTS,
             'compact_vowels':{c:{'bounds':bounds(font,name(c)),'advance':font['hmtx'][name(c)][0]} for c in 'əɐ'}}
 
 
@@ -158,11 +163,11 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'umlaut_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
+                                     'quote_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
-    print('PASS: 19 IPA additions, cmap 4/12, HarfBuzz attachments, baseline preservation with scoped U/u diaeresis adjustment')
+    print('PASS: 19 IPA additions, cmap 4/12, HarfBuzz attachments, baseline preservation with scoped U/u diaeresis and upper quote adjustments')
 
 
 if __name__=='__main__':

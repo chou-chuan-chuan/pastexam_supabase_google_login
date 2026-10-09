@@ -23,7 +23,7 @@ UPM=1024。其他 Ä／Ö／ä／ö 的間距原為 41／39／49／40 units，�
 - 網站 128 項測試。版本、TTF／WOFF2、五個 HTML 的 CSS 快取版本與樣張引用統一為 1.040。
 - [瀏覽器報告](umlaut-browser.json)：全部六個樣字節點使用自訂 QFW，兩格式 NFC／NFD 與 base 的 advances 相等。包含 16／24／32 px、真實單字與其他重音。
 - [對照 PNG](../proofs/quanfangwei-umlaut-clearance.png)、[瀏覽器 HTML](../umlaut-clearance-proof.html)、[PDF](../proofs/quanfangwei-umlaut-clearance.pdf)。PDF 字型子集嵌入，Ü／ü 文字可抽取，逐頁渲染確認沒有裁切。既有 IPA 瀏覽器／兩頁 PDF 也重跑。
-- CI 執行網站、原 verifier、IPA／雙點 verifier，並要求 TTF／WOFF2 及 MODIFICATIONS 完全可重建。SHA 與比對結果記錄於 [german-ipa-results.json](german-ipa-results.json) 的 `umlaut_revision`。
+- CI 執行網站、原 verifier、IPA／雙點 verifier，並要求 TTF／WOFF2 及 MODIFICATIONS 完全可重建。SHA 與比對結果記錄於 [1.040 歷史結果](https://github.com/chou-chuan-chuan/pastexam_supabase_google_login/blob/915e061f81e2d2a9032aaac0c820824ab623b037/tools/font/reports/german-ipa-results.json) 的 `umlaut_revision`。
 
 ## 重現
 

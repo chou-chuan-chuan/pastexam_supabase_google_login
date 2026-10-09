@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
+      "sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
       "unicode_cmap_tables": [
         [
           0,
@@ -28,7 +28,9 @@
       ],
       "basic_additions": 19,
       "base_mark_pairs": 76,
-      "preserved_glyphs": 10510,
+      "preserved_glyphs": 10508,
+      "repositioned_umlaut_glyphs": 2,
+      "refined_quote_glyphs": 2,
       "contexts": [
         "n̩",
         "l̩",
@@ -67,25 +69,37 @@
           "advance": 290
         }
       },
-      "umlaut_revision": {
-        "previous_commit": "83d20f266e231f89c5de3269f27dd8173624158a",
-        "previous_sha256": "46d5ad8aa4ec713fb3c56aaf2e20417fa4c506e65e5cd10369bb59d8f53c2de2",
-        "changed_composites": [
-          "Udieresis",
-          "udieresis"
+      "quote_revision": {
+        "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
+        "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
+        "changed_glyphs": [
+          "quotedblleft",
+          "quotedblright"
         ],
         "preserved_glyphs": 10529,
-        "clearance_units": {
-          "Ü": 42,
-          "ü": 45
+        "after_bounds": {
+          "quotedblleft": [
+            44,
+            542,
+            150,
+            671
+          ],
+          "quotedblright": [
+            49,
+            542,
+            155,
+            671
+          ]
         },
-        "dot_shift_y": 30,
-        "other_accents_and_ipa_preserved": true
-      },
-      "repositioned_umlaut_glyphs": 2
+        "advances": [
+          196,
+          209
+        ],
+        "low_quote_and_layout_preserved": true
+      }
     },
     ".woff2": {
-      "sha256": "425b374bae60afb2c7dd6e57ed705c9582e94808e6859a447b0b65aabe8b5815",
+      "sha256": "f41680bb0fd147d954cfa4117b260c838404c2d13164fb8e6d4b2f39b5cf568d",
       "unicode_cmap_tables": [
         [
           0,
@@ -110,7 +124,9 @@
       ],
       "basic_additions": 19,
       "base_mark_pairs": 76,
-      "preserved_glyphs": 10510,
+      "preserved_glyphs": 10508,
+      "repositioned_umlaut_glyphs": 2,
+      "refined_quote_glyphs": 2,
       "contexts": [
         "n̩",
         "l̩",
@@ -149,22 +165,34 @@
           "advance": 290
         }
       },
-      "umlaut_revision": {
-        "previous_commit": "83d20f266e231f89c5de3269f27dd8173624158a",
-        "previous_sha256": "46d5ad8aa4ec713fb3c56aaf2e20417fa4c506e65e5cd10369bb59d8f53c2de2",
-        "changed_composites": [
-          "Udieresis",
-          "udieresis"
+      "quote_revision": {
+        "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
+        "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
+        "changed_glyphs": [
+          "quotedblleft",
+          "quotedblright"
         ],
         "preserved_glyphs": 10529,
-        "clearance_units": {
-          "Ü": 42,
-          "ü": 45
+        "after_bounds": {
+          "quotedblleft": [
+            44,
+            542,
+            150,
+            671
+          ],
+          "quotedblright": [
+            49,
+            542,
+            155,
+            671
+          ]
         },
-        "dot_shift_y": 30,
-        "other_accents_and_ipa_preserved": true
-      },
-      "repositioned_umlaut_glyphs": 2
+        "advances": [
+          196,
+          209
+        ],
+        "low_quote_and_layout_preserved": true
+      }
     }
   }
 }
