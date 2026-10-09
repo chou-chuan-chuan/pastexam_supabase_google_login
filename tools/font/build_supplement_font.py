@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.038"
+VERSION = "1.039"
 BUILD_DATE = "2026-10-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20261009"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- IPA length（Version 1.039）：依維護者要求，長音符號 ː 以原中心等比例縮至 80%；保留 210-unit advance、雙三角形結構及其他字形。
 - IPA weight（Version 1.038）：採用維護者審閱的 A 方案，13 個偏細 IPA glyph 略加粗，7 個微調傾斜；保留 1.037 的全部 ink bounds、字距、組合定位及既有非 IPA 字形。詳見 tools/font/reports/german-ipa.md。
 - German IPA（Version 1.037）：新增 19 個基礎碼位；原字輪廓及自製手寫筆畫，無外部 fallback。U+0329／U+032F 為零 advance，新增 GPOS mark-to-base。既有字形、字距、cmap 與 layout lookup 保留。範圍及 QA 見 tools/font/reports/german-ipa.md。
 - Kana junction / handakuten refinement（Version 1.036）：`マ` 交會處左下尾端及 `ス` 分岔處凸點局部收整；`ズ` 繼承修正後字身。`ぱぴぷぺぽ／パピプペポ` 圈圈只平移 (+16,+24)，輪廓、大小、筆壓與字寬不變，預組合與分解 GPOS 定位一致；濁點及五個小母音定位保持不變。見 tools/font/reports/kana-refinements.md。
@@ -612,7 +613,7 @@ def main() -> int:
         build_german_ipa(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.038
+        font["head"].fontRevision = 1.039
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

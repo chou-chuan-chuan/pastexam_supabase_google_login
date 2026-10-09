@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339",
+      "sha256": "f6f093b8bb5693665bda8e4de98348dcb1618e6c11baece97cf270ceca7496f4",
       "unicode_cmap_tables": [
         [
           0,
@@ -67,16 +67,29 @@
           "advance": 290
         }
       },
-      "weight_revision": {
-        "previous_commit": "7e8cb8730b4ca0d514aaba6a86fd97f912156921",
-        "previous_sha256": "a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04",
-        "changed_outlines": 13,
-        "preserved_outlines": 10518,
-        "all_ink_bounds_and_layout_preserved": true
+      "length_revision": {
+        "previous_commit": "67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57",
+        "previous_sha256": "90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339",
+        "changed_outlines": 1,
+        "preserved_outlines": 10530,
+        "length_before": [
+          53,
+          110,
+          157,
+          437
+        ],
+        "length_after": [
+          63,
+          143,
+          147,
+          404
+        ],
+        "advance": 210,
+        "layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "dd753bcbe6b870f59f4dd9cf10f4697e52dfed158e150ea74def4e2aec775d49",
+      "sha256": "cf7a3025c4eae602bb00defc99045d83a59b571b95ec417aa824fdb7899859b0",
       "unicode_cmap_tables": [
         [
           0,
@@ -140,12 +153,25 @@
           "advance": 290
         }
       },
-      "weight_revision": {
-        "previous_commit": "7e8cb8730b4ca0d514aaba6a86fd97f912156921",
-        "previous_sha256": "a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04",
-        "changed_outlines": 13,
-        "preserved_outlines": 10518,
-        "all_ink_bounds_and_layout_preserved": true
+      "length_revision": {
+        "previous_commit": "67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57",
+        "previous_sha256": "90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339",
+        "changed_outlines": 1,
+        "preserved_outlines": 10530,
+        "length_before": [
+          53,
+          110,
+          157,
+          437
+        ],
+        "length_after": [
+          63,
+          143,
+          147,
+          404
+        ],
+        "advance": 210,
+        "layout_preserved": true
       }
     }
   }

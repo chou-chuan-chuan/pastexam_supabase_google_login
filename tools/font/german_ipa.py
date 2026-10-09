@@ -1,4 +1,4 @@
-"""Basic German IPA, v1.038. Only source-native outlines and original strokes.
+"""Basic German IPA, v1.039. Only source-native outlines and original strokes.
 
 The source's Latin x-height is roughly y=110..435 at 1024 UPM. New strokes
 use its thin, gently varying pressure; no outlines from an external IPA font.
@@ -158,6 +158,14 @@ def source_native_additions(font):
     pen=TTGlyphPen(None)
     transformed(font,'▼',Transform(.31,0,0,.31,33,266)).draw(pen,font['glyf'])
     transformed(font,'▲',Transform(.31,0,0,.31,33,62)).draw(pen,font['glyf'])
+    glyph = pen.glyph()
+    glyph.recalcBounds(font['glyf'])
+    # Shrink the whole double-triangle mark to 80% around its ink center.
+    # Keep its advance so existing IPA lines do not reflow.
+    cx = (glyph.xMin + glyph.xMax) / 2
+    cy = (glyph.yMin + glyph.yMax) / 2
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(.8, 0, 0, .8, .2*cx, .2*cy)), font['glyf'])
     out['ː']=(pen.glyph(),210)
     return out
 

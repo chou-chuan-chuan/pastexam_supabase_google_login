@@ -1,14 +1,22 @@
-# 荃方位補寫體 1.038 — IPA 筆重微調
+# 荃方位補寫體 1.039 — 縮小 IPA 長音符號
 
 檢查日期：2026-10-09（Asia/Taipei）。本次範圍只有指定的 19 個基礎缺碼位；不代表所有德語方言、細式轉寫、外來語、歌唱或完整 IPA 均已覆蓋。
 
-## 1.038 筆重修訂
+## 1.039 長音符號修訂
+
+依維護者要求，僅將 `ː` 的完整雙三角形輪廓以原 ink 中心等比例縮至 80%，三角形及上下間距一起縮小；advance 仍為 210 units，其他 10,530 個 glyph 輪廓與字距完全不變。字形仍與普通冒號 `:` 不同。
+
+直接基底為已合併的 1.038 commit `67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57`，TTF SHA-256 `90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339`。Verifier 除保留最初 1.036 回歸外，也對 1.038 比較：只允許長音符號輪廓及其 side bearing／top bearing 改變；確保 80% 大小、中心不變（整數座標容差 1 unit）、兩個輪廓、水平／垂直 advance 及垂直原點不變。cmap、hhea／vhea、GPOS／GDEF／GSUB／MATH 完全一致，全部轉寫情境的 shaping 位置一致。
+
+[同字級對照](../proofs/quanfangwei-german-ipa-style.png) 現在比較原 Latin、1.038 與 1.039；另有[長音符號局部對照](../proofs/quanfangwei-ipa-length.png)。瀏覽器與 PDF 樣張也已更新。本版沒有增加 IPA 覆蓋範圍。
+
+## 1.038 筆重修訂（歷史）
 
 維護者認為整組筆重偏細，並要求調整筆壓與傾斜。審閱 A／B 兩個預覽後採用較輕微的 A：13 個偏細 glyph 沿輪廓增加 1.5–3.5 units，再微調其中 7 個的傾斜；最後回到 1.037 的相同 ink bounds，保留已接受的 ə／ɐ 大小。保留原輪廓的粗細起伏，並非重新模擬書寫筆壓，也沒有替換成外部 IPA 字型。
 
 本次直接基底為已合併的 1.037 commit `7e8cb8730b4ca0d514aaba6a86fd97f912156921`，TTF SHA-256 `a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04`。13 個修改字形為 ɛ、ɪ、ɔ、ʊ、ʏ、ø、ə、ɐ、ʒ、ʁ、ʔ、U+032F、U+0329；其餘 10,518 glyph 輪廓完全保留。全部 glyph 順序、cmap、hmtx／vmtx、hhea／vhea、GPOS／GDEF／GSUB／MATH 與 1.037 byte-identical；13 個字形的 bounds 與輪廓數不變。測試同時維持下述 1.036 完整回歸檢查。
 
-[同字級對照](../proofs/quanfangwei-german-ipa-style.png) 現在比較原 Latin、1.037 與 1.038 A；正式輸出的全部輪廓已另與審閱的 A 預覽逐一比對一致。瀏覽器與兩頁 PDF 樣張重新產生；混排樣張的中日文行縮至 32 px，避免長行超出頁邊。
+1.038 當時的同字級對照比較原 Latin、1.037 與 1.038 A；正式輸出的全部輪廓已另與審閱的 A 預覽逐一比對一致。瀏覽器與兩頁 PDF 樣張重新產生；混排樣張的中日文行縮至 32 px，避免長行超出頁邊。
 
 ## 來源、基底與授權
 
@@ -26,7 +34,7 @@
 | 子音 | ɡ U+0261、ʃ U+0283、ʒ U+0292、ŋ U+014B、ʁ U+0281、ʔ U+0294 |
 | 標記 | ˈ U+02C8、ˌ U+02CC、ː U+02D0、U+032F、U+0329 |
 
-- 依維護者要求，把第一版偏均勻、偏直、縮字後偏細的 IPA 再調得更接近辰宇落雁體。目前[風格對照](../proofs/quanfangwei-german-ipa-style.png) 已更新為 1.037／1.038 同字級比較；16 個新增 glyph 使用原字輪廓或片段作主要來源，僅 ə、ɐ、ʒ 保留原創中心線結構。
+- 依維護者要求，把第一版偏均勻、偏直、縮字後偏細的 IPA 再調得更接近辰宇落雁體。[風格對照](../proofs/quanfangwei-german-ipa-style.png) 隨目前版本更新；16 個新增 glyph 使用原字輪廓或片段作主要來源，僅 ə、ɐ、ʒ 保留原創中心線結構。
 - ɛ、ɪ、ʏ 從既有 ε、I、Y 輪廓按 Latin x-height 衍生，分別補回 3／6／8 units 的邊界筆重，以免縮小後比原 Latin 過細。ɔ 反射原 c 並補償傾斜；ʊ 使用原 U 與旋轉的單引號作兩端橫筆；ʁ 上下反射原 R，局部收短長出筆並補償傾斜，保持倒置 small-cap R 的底部字腔。
 - ŋ 由原 n 與 g 的下伸尾巴聯集；ʃ 沿用 f 的上勾與直筆、去除橫畫，接上原 j 的下勾；ʔ 保留問號主輪廓並延伸其下段，移除點。其接合輪廓數有自動檢查，避免浮點、斷筆或字腔消失。
 - ø 沿用原 o 並加入手寫斜線，以輪廓聯集避免交叉處白洞。ɡ 為原單層 g 的獨立 glyph 副本；普通 g 保持不變。兩者外觀相同是既有單層手寫風格所致，Unicode / glyph ID 並未混用。
@@ -64,4 +72,4 @@ npm test
 
 瀏覽器 proof 另需 Playwright + Chromium（或 `CHROME_BIN` 指向已安裝的 Chrome），執行 `node tools/font/render_german_ipa_browser.cjs`。此工具只使用獨立 headless profile，驗證 sample 使用的實際字型，並輸出 PNG、PDF 與 JSON。PDF 的時間 metadata 不作 byte-reproducibility 要求；TTF／WOFF2 必須完全可重建。
 
-版本 1.038 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.038`，使既有瀏覽器快取更新。五個正式 HTML 入口也對 style.css 加上相同版本參數，避免快取的舊 CSS 繼續引用舊字型 URL。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。
+版本 1.039 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.039`，使既有瀏覽器快取更新。五個正式 HTML 入口也對 style.css 加上相同版本參數，避免快取的舊 CSS 繼續引用舊字型 URL。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。
