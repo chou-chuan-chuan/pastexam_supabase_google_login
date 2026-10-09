@@ -22,7 +22,8 @@ REL = 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.t
 BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
 from verify_umlaut_clearance import original_umlaut_layout
-from verify_german_quotes import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_quote_shape, verify_revision
+from verify_german_quotes import verify_quote_shape
+from verify_turned_a import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_revision
 CONTEXTS = ['n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
@@ -102,8 +103,8 @@ def verify(font, old):
         for c in BASIC_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.041)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.041'
+    assert abs(font['head'].fontRevision-1.042)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.042'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in BASIC_IPA:
@@ -163,7 +164,7 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'quote_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
+                                     'turned_a_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))

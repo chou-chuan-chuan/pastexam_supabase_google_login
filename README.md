@@ -19,7 +19,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.041 — 成對引號筆觸一致**：保留低引號 `„`，以同一組原輪廓建構兩個上引號 `“`／`”`，使德文 `„…“` 與英文 `“…”` 配對的大小、筆重與筆形一致；保留低／高位置及字距。Ü／ü 雙點與全部 IPA 維持 1.040。[對照樣張](tools/font/proofs/quanfangwei-german-quotes.png)、[QA 報告](tools/font/reports/german-quotes.md)。
+目前版本 **1.042 — ɐ 辨識度修訂**：以較圓的上方字腔、左上短尾與下方開口弧線，降低 `ɐ` 與 `e` 的混淆；保留既有大小、筆壓參數、字距及組合定位。[對照樣張](tools/font/proofs/quanfangwei-turned-a.png)、[QA 報告](tools/font/reports/turned-a.md)。
 
 保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 
