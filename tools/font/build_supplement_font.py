@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.040"
+VERSION = "1.041"
 BUILD_DATE = "2026-10-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20261009"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- German quote（Version 1.041）：以未修改的低引號 „ 原輪廓旋轉 180 度建構上引號 “，匹配原大小與筆觸；保留低／高位置、196-unit advance、文字碼位與其他字形。
 - Umlaut clearance（Version 1.040）：Ü／ü 雙點上移 30 units，間距由 12／15 增至 42／45；保留點形與字距，限定 GPOS 子表讓分解寫法同步，其他重音標記不變。
 - IPA length（Version 1.039）：依維護者要求，長音符號 ː 以原中心縮至寬 48%、高 65%；保留 210-unit advance、雙三角形結構及其他字形。
 - IPA weight（Version 1.038）：採用維護者審閱的 A 方案，13 個偏細 IPA glyph 略加粗，7 個微調傾斜；保留 1.037 的全部 ink bounds、字距、組合定位及既有非 IPA 字形。詳見 tools/font/reports/german-ipa.md。
@@ -614,9 +615,11 @@ def main() -> int:
         build_german_ipa(font)
         from umlaut_clearance import refine_umlaut_clearance
         refine_umlaut_clearance(font)
+        from german_quotes import refine_german_quotes
+        refine_german_quotes(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.040
+        font["head"].fontRevision = 1.041
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]

@@ -19,7 +19,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.040 — Ü／ü 雙點間距**：雙點上移 30 units，與字身間距分別由 12／15 增至 42／45，保留點形與字距。預組合及分解寫法一致；其他重音與全部 IPA（包含 1.039 的瘦長音符號）維持。[對照樣張](tools/font/proofs/quanfangwei-umlaut-clearance.png)、[QA 報告](tools/font/reports/umlaut-clearance.md)。既有 19 個基礎 IPA 的覆蓋與 GPOS 定位不變；進階 IPA 與連結弧未在本版補齊。
+目前版本 **1.041 — 德文引號筆觸一致**：保留左側低引號 `„`，以其原輪廓旋轉 180 度製作右側上引號 `“`，縮小並匹配筆重與筆形；保留低／高位置及字距。文字碼位不替換，Ü／ü 雙點與全部 IPA 維持 1.040。[對照樣張](tools/font/proofs/quanfangwei-german-quotes.png)、[QA 報告](tools/font/reports/german-quotes.md)。
 
 保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 

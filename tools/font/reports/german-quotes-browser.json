@@ -1,0 +1,23 @@
+{
+  "browser": "154.0.8037.98",
+  "sampleNodes": 6,
+  "allSampleFontsCustom": true,
+  "widths": [
+    {
+      "text": "„Hallo“",
+      "woff2": 116.4375,
+      "ttf": 116.4375
+    },
+    {
+      "text": "„Come and rock me Amadeus“",
+      "woff2": 546.0625,
+      "ttf": 546.0625
+    },
+    {
+      "text": "Ü Ü ü ü",
+      "woff2": 131,
+      "ttf": 131
+    }
+  ],
+  "errors": []
+}
