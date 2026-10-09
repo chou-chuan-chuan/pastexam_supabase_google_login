@@ -453,7 +453,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 
 ### German support（Version 1.005）
 
-- 原始字型已包含 `Adieresis`／`Odieresis`／`Udieresis`／`adieresis`／`odieresis`／`udieresis` 與 zero-advance `uni0308`，本版不重畫、不覆蓋。原始 mark anchor `<145 477>` 及 A/O/U/a/o/u base anchors `<272 622>`／`<235 564>`／`<174 565>`／`<172 464>`／`<153 420>`／`<180 415>` 均保留，所以 composed 與 decomposed Umlaut 使用同一筆畫與定位。
+- 原始字型已包含 `Adieresis`／`Odieresis`／`Udieresis`／`adieresis`／`odieresis`／`udieresis` 與 zero-advance `uni0308`，本版不重畫、不覆蓋。1.040 起 Ü／ü 雙點上移 30 units，對應 U/u 的 diaeresis anchor 為 `<174 595>`／`<180 445>`，其他重音標記不動。下列為歷史基準：原始 mark anchor `<145 477>` 及 A/O/U/a/o/u base anchors `<272 622>`／`<235 564>`／`<174 565>`／`<172 464>`／`<153 420>`／`<180 415>` 均保留，所以 composed 與 decomposed Umlaut 使用同一筆畫與定位。
 - `dieresis`：U+00A8 spacing DIAERESIS。identity-reference 原始 `uni0308` 的兩個手寫點，advance 300、左右約 60 units；U+0308 自身仍為 advance 0。點不是幾何圓，也沒有取自其他字型。
 - `germandbls`：U+00DF ß。依最新提供的手寫字母表參考，採用官方原字型 U+03B2 `beta` 的單一連續輪廓與原生比例；仍建立獨立 `germandbls` glyph 和 U+00DF cmap，不是把文字 code point 改成 U+03B2。
 - `uni1E9E`：U+1E9E ẞ。使用同一 `beta` 輪廓語言，水平 110%、垂直 74%、上移 204 units，使 descender 收入 capital zone；advance 430，保留獨立 `uni1E9E` glyph 與 U+1E9E cmap。

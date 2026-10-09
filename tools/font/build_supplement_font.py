@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.039"
+VERSION = "1.040"
 BUILD_DATE = "2026-10-09"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20261009"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -74,8 +74,8 @@ C_CEDILLA_BASE_ANCHOR = (221, 91)
 C_LOWER_CEDILLA_BASE_ANCHOR = (176, 101)
 
 # The source font already supplies U+0308 and the six precomposed Umlauts.
-# These are the source GPOS anchors/component transforms that must remain
-# unchanged.  U+00A8 reuses the same two handwritten dots as a spacing mark.
+# Version 1.040 adds a scoped U/u diaeresis clearance correction.
+# U+00A8 reuses the same two handwritten dots as a spacing mark.
 DIAERESIS_ADVANCE = 300
 OE_OVERLAP_RATIO = 0.10
 
@@ -500,6 +500,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Umlaut clearance（Version 1.040）：Ü／ü 雙點上移 30 units，間距由 12／15 增至 42／45；保留點形與字距，限定 GPOS 子表讓分解寫法同步，其他重音標記不變。
 - IPA length（Version 1.039）：依維護者要求，長音符號 ː 以原中心縮至寬 48%、高 65%；保留 210-unit advance、雙三角形結構及其他字形。
 - IPA weight（Version 1.038）：採用維護者審閱的 A 方案，13 個偏細 IPA glyph 略加粗，7 個微調傾斜；保留 1.037 的全部 ink bounds、字距、組合定位及既有非 IPA 字形。詳見 tools/font/reports/german-ipa.md。
 - German IPA（Version 1.037）：新增 19 個基礎碼位；原字輪廓及自製手寫筆畫，無外部 fallback。U+0329／U+032F 為零 advance，新增 GPOS mark-to-base。既有字形、字距、cmap 與 layout lookup 保留。範圍及 QA 見 tools/font/reports/german-ipa.md。
@@ -542,10 +543,10 @@ def write_modifications() -> None:
 - 補寫字元：U+00AB `guillemotleft`（`«`）、U+00BB `guillemotright`（`»`）、U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
 - U+0152 `OE`（`Œ`）：Version 1.021 新增的法文大寫連字，只以原字型大寫 `O` 與 `E` identity components 建構；`E` 依來源 bounds 向左重疊約 10% `O` ink width，維持來源 cap-height、baseline、stroke weight 與手寫節奏。用途包含 `Œuvre`／`ŒUVRE`，不再依賴瀏覽器 fallback
 - U+0153 `oe`（`œ`）：Version 1.021 新增的法文小寫連字，只以原字型小寫 `o` 與 `e` identity components 建構；`e` 依來源 bounds 向左重疊約 10% `o` ink width，縮短一般 `o`→`e` 間距並保留兩個手寫 form 的可讀性。用途包含 `cœur`、`sœur`、`œuvre`、`bœuf`、`vœu`；未使用外部 outline、CSS fallback 或 JavaScript 文字替換
-- German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，其 cmap、輪廓、components、metrics、GDEF 與 GPOS 錨點均原封不動保留
+- German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，保留其 cmap、原輪廓與 GDEF；1.040 僅調整 Ü／ü 雙點位置與對應分解定位
 - U+00A8 `dieresis`：以 identity component 共享原字型 U+0308 `uni0308` 的兩個手寫點，advance 300、左右各約 60 units；不是外部字型或幾何圓
-- U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 565>、a <172 464>、o <153 420>、u <180 415>
-- Ä Ö Ü／ä ö ü：保留原字型既有 composite glyph；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+88、+27/-13、+8/-57、+35/-62
+- U+0308 `uni0308`：沿用原始 zero advance、GDEF mark class 與既有 MarkBasePos。mark anchor <145 477>；base anchors A <272 622>、O <235 564>、U <174 595>、a <172 464>、o <153 420>、u <180 445>（1.040 的 U/u 僅針對雙點）
+- Ä Ö Ü／ä ö ü：保留原字型既有 composite 結構，1.040 僅平移 Ü／ü 的雙點；各自由原始 A/O/U/a/o/u 加上 `uni0308` 組成，component transforms 分別為 +127/+145、+90/+87、+29/+118、+27/-13、+8/-57、+35/-32
 - U+00DF `germandbls`：依使用者提供的字母表參考，直接沿用原字型 U+03B2 `beta` 的單一連續手寫輪廓與原生比例；維持獨立 glyph name／Unicode mapping，advance 391
 - U+1E9E `uni1E9E`：使用同一原字型 `beta` 輪廓語言，水平 110%、垂直 74%、上移 204 units，使 descender 收入 capital zone，形成較寬的 beta-like 大寫版本，advance 430
 - ß／ẞ 的 beta-like 方向是依最新視覺參考採用；沒有將 U+00DF／U+1E9E cmap 指向 Greek beta，也沒有修改 U+03B2。未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓
@@ -611,9 +612,11 @@ def main() -> int:
         refine_handakuten_spacing(font)
         from german_ipa import build_german_ipa
         build_german_ipa(font)
+        from umlaut_clearance import refine_umlaut_clearance
+        refine_umlaut_clearance(font)
         set_name_records(font)
         remove_truetype_hinting(font)
-        font["head"].fontRevision = 1.039
+        font["head"].fontRevision = 1.040
         font["head"].modified = BUILD_TIMESTAMP
         if "DSIG" in font:
             del font["DSIG"]
