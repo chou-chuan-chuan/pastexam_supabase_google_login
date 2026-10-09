@@ -15,9 +15,9 @@ def main():
     new=(ROOT/REL).read_bytes()
     im=Image.new('RGB',(1250,730),'#fffdf8');d=ImageDraw.Draw(im)
     label=ImageFont.truetype(BytesIO(new),30)
-    for y,title,data in [(15,'1.040 - before',old),(370,'1.041 - smaller upper quote, matching strokes',new)]:
+    for y,title,data in [(15,'1.040 - before',old),(370,'1.041 - matched German and English pairs',new)]:
         d.text((30,y),title,font=label,fill='#52636d')
-        d.text((30,y+35),'„Aa“    „ü“    “Aa”',font=ImageFont.truetype(BytesIO(data),140),fill='#182b35')
+        d.text((30,y+35),'„Aa“    “Aa”    „ü“',font=ImageFont.truetype(BytesIO(data),140),fill='#182b35')
         d.text((30,y+225),'„Come and rock me Amadeus“',font=ImageFont.truetype(BytesIO(data),65),fill='#182b35')
     im.save(ROOT/'tools/font/proofs/quanfangwei-german-quotes.png')
 

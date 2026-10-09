@@ -1,4 +1,4 @@
-"""Check the single quote revision against released 1.040."""
+"""Check the paired upper-quote revision against released 1.040."""
 from fontTools.pens.recordingPen import RecordingPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.misc.transform import Transform
@@ -20,6 +20,14 @@ def verify_quote_shape(font):
     assert font['hmtx']['quotedblleft']==(196,44)
     assert font.getBestCmap()[0x201C]=='quotedblleft'
     assert font.getBestCmap()[0x201E]=='quotedblbase'
+    right=glyf['quotedblright'];right.recalcBounds(glyf)
+    assert (right.xMin,right.yMin,right.xMax,right.yMax)==(49,542,155,671)
+    assert right.numberOfContours==2 and font['hmtx']['quotedblright']==(209,49)
+    expected=RecordingPen();actual=RecordingPen()
+    low.draw(TransformPen(expected,Transform(1,0,0,1,-4,589)),glyf)
+    right.draw(actual,glyf)
+    assert actual.value==expected.value, 'English closing quote must use identical low-quote strokes'
+    assert font.getBestCmap()[0x201D]=='quotedblright'
 
 
 def verify_revision(previous,current,shape):
@@ -29,14 +37,17 @@ def verify_revision(previous,current,shape):
     for g in previous.getGlyphOrder():
         if previous['glyf'][g].compile(previous['glyf'])!=current['glyf'][g].compile(current['glyf']):changed.append(g)
         assert previous['hmtx'][g][0]==current['hmtx'][g][0]
-        if g!='quotedblleft':assert previous['hmtx'][g]==current['hmtx'][g]
-    assert changed==['quotedblleft'],changed
-    for tag in ['cmap','vmtx','hhea','vhea','GPOS','GDEF','GSUB','MATH']:
+        if g not in ('quotedblleft','quotedblright'):assert previous['hmtx'][g]==current['hmtx'][g]
+        if g!='quotedblright':assert previous['vmtx'][g]==current['vmtx'][g]
+    assert changed==['quotedblleft','quotedblright'],changed
+    old_v=previous['vmtx']['quotedblright'];new_v=current['vmtx']['quotedblright']
+    assert old_v[0]==new_v[0] and old_v[1]-new_v[1]==5
+    for tag in ['cmap','hhea','vhea','GPOS','GDEF','GSUB','MATH']:
         assert previous[tag].compile(previous)==current[tag].compile(current),tag
     for text in ['„Come and rock me Amadeus“','„Hallo“','„ü“','“Hello”','«Bonjour»',
                  'Ü Ü ü ü ÄÖäö','aː øː n̩ l̩ m̩ i̯ ɐ̯ aɪ̯','中文 あいう マスズ ぱぴぷぺぽ']:
         assert shape(previous,text)==shape(current,text),('layout changed',text)
     return {'previous_commit':PREVIOUS_COMMIT,'previous_sha256':PREVIOUS_SHA,
-            'changed_glyph':'quotedblleft','preserved_glyphs':len(current.getGlyphOrder())-1,
-            'before_bounds':[19,488,175,671],'after_bounds':[44,542,150,671],
-            'advance':196,'low_quote_and_layout_preserved':True}
+            'changed_glyphs':['quotedblleft','quotedblright'],'preserved_glyphs':len(current.getGlyphOrder())-2,
+            'after_bounds':{'quotedblleft':[44,542,150,671],'quotedblright':[49,542,155,671]},
+            'advances':[196,209],'low_quote_and_layout_preserved':True}

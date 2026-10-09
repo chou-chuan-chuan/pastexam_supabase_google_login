@@ -55,12 +55,12 @@ def preservation(old, new):
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
     assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in BASIC_IPA}
     for g in old.getGlyphOrder():
-        if g != 'quotedblleft':
+        if g not in ('quotedblleft','quotedblright'):
             assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
             assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
         else:
             assert old['hmtx'][g][0] == new['hmtx'][g][0], ('advance',g)
-        if 'vmtx' in old:
+        if 'vmtx' in old and g != 'quotedblright':
             assert old['vmtx'][g] == new['vmtx'][g], ('vertical metrics',g)
     # Remove only the explicitly added lookup/classes and demand byte-identical
     # original layout, including script/language activation and feature order.
@@ -138,7 +138,7 @@ def verify(font, old):
     assert bounds(font,font.getBestCmap()[ord(':')])!=bounds(font,name('ː'))
     return {'unicode_cmap_tables':[(t.platformID,t.platEncID,t.format) for t in tables],
             'basic_additions':19, 'base_mark_pairs':len(BASES)*len(MARKS),
-            'preserved_glyphs':len(old.getGlyphOrder())-3,'repositioned_umlaut_glyphs':2,'refined_quote_glyphs':1,'contexts':CONTEXTS,
+            'preserved_glyphs':len(old.getGlyphOrder())-4,'repositioned_umlaut_glyphs':2,'refined_quote_glyphs':2,'contexts':CONTEXTS,
             'compact_vowels':{c:{'bounds':bounds(font,name(c)),'advance':font['hmtx'][name(c)][0]} for c in 'əɐ'}}
 
 

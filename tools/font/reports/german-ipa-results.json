@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "ee22554c7bf9c909c90085647cbdd87d76a29a3896595dacb761332d07caf16a",
+      "sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
       "unicode_cmap_tables": [
         [
           0,
@@ -28,9 +28,9 @@
       ],
       "basic_additions": 19,
       "base_mark_pairs": 76,
-      "preserved_glyphs": 10509,
+      "preserved_glyphs": 10508,
       "repositioned_umlaut_glyphs": 2,
-      "refined_quote_glyphs": 1,
+      "refined_quote_glyphs": 2,
       "contexts": [
         "n̩",
         "l̩",
@@ -72,26 +72,34 @@
       "quote_revision": {
         "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
         "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
-        "changed_glyph": "quotedblleft",
-        "preserved_glyphs": 10530,
-        "before_bounds": [
-          19,
-          488,
-          175,
-          671
+        "changed_glyphs": [
+          "quotedblleft",
+          "quotedblright"
         ],
-        "after_bounds": [
-          44,
-          542,
-          150,
-          671
+        "preserved_glyphs": 10529,
+        "after_bounds": {
+          "quotedblleft": [
+            44,
+            542,
+            150,
+            671
+          ],
+          "quotedblright": [
+            49,
+            542,
+            155,
+            671
+          ]
+        },
+        "advances": [
+          196,
+          209
         ],
-        "advance": 196,
         "low_quote_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "e27405a89d0cbe4cbd7c0a18f9893bda6e87fc441b85846e0636aa27ea53bd9b",
+      "sha256": "f41680bb0fd147d954cfa4117b260c838404c2d13164fb8e6d4b2f39b5cf568d",
       "unicode_cmap_tables": [
         [
           0,
@@ -116,9 +124,9 @@
       ],
       "basic_additions": 19,
       "base_mark_pairs": 76,
-      "preserved_glyphs": 10509,
+      "preserved_glyphs": 10508,
       "repositioned_umlaut_glyphs": 2,
-      "refined_quote_glyphs": 1,
+      "refined_quote_glyphs": 2,
       "contexts": [
         "n̩",
         "l̩",
@@ -160,21 +168,29 @@
       "quote_revision": {
         "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
         "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
-        "changed_glyph": "quotedblleft",
-        "preserved_glyphs": 10530,
-        "before_bounds": [
-          19,
-          488,
-          175,
-          671
+        "changed_glyphs": [
+          "quotedblleft",
+          "quotedblright"
         ],
-        "after_bounds": [
-          44,
-          542,
-          150,
-          671
+        "preserved_glyphs": 10529,
+        "after_bounds": {
+          "quotedblleft": [
+            44,
+            542,
+            150,
+            671
+          ],
+          "quotedblright": [
+            49,
+            542,
+            155,
+            671
+          ]
+        },
+        "advances": [
+          196,
+          209
         ],
-        "advance": 196,
         "low_quote_and_layout_preserved": true
       }
     }
