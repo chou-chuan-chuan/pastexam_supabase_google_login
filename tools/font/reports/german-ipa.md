@@ -52,4 +52,4 @@ npm test
 
 瀏覽器 proof 另需 Playwright + Chromium（或 `CHROME_BIN` 指向已安裝的 Chrome），執行 `node tools/font/render_german_ipa_browser.cjs`。此工具只使用獨立 headless profile，驗證 sample 使用的實際字型，並輸出 PNG、PDF 與 JSON。PDF 的時間 metadata 不作 byte-reproducibility 要求；TTF／WOFF2 必須完全可重建。
 
-版本 1.037 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.037`，使既有瀏覽器快取更新。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。
+版本 1.037 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.037`，使既有瀏覽器快取更新。五個正式 HTML 入口也對 style.css 加上相同版本參數，避免快取的舊 CSS 繼續引用舊字型 URL。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。

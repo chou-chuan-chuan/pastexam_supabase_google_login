@@ -77,6 +77,10 @@ test("ships exactly the requested basic German IPA scope with versioned proof re
   const proof = await readFile(new URL("../tools/font/german-ipa-proof.html", import.meta.url), "utf8");
   assert.deepEqual([...manifest.groups.german_ipa.characters], [..."ɛɪɔʊʏøəɐɡʃʒŋʁʔˈˌː̯̩"]);
   assert.deepEqual(manifest.groups.german_ipa.combining_marks, ["U+032F", "U+0329"]);
+  for (const page of ["index", "admin", "playlist", "playlists", "song"]) {
+    const html = await readFile(new URL(`../${page}.html`, import.meta.url), "utf8");
+    assert.ok(html.includes(`./assets/style.css?v=${manifest.derived_font.version}`));
+  }
   for (const extension of ["ttf", "woff2"]) {
     assert.ok(proof.includes(`QuanFangweiSupplementScript-Regular.${extension}?v=${manifest.derived_font.version}`));
   }
