@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
+      "sha256": "50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360",
       "unicode_cmap_tables": [
         [
           0,
@@ -69,37 +69,39 @@
           "advance": 290
         }
       },
-      "quote_revision": {
-        "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
-        "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
+      "turned_vowels_revision": {
+        "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
+        "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
         "changed_glyphs": [
-          "quotedblleft",
-          "quotedblright"
+          "uni0259.qfwIPA",
+          "uni0250.qfwIPA"
         ],
         "preserved_glyphs": 10529,
-        "after_bounds": {
-          "quotedblleft": [
-            44,
-            542,
-            150,
-            671
+        "bounds": {
+          "ə": [
+            35,
+            110,
+            270,
+            405
           ],
-          "quotedblright": [
-            49,
-            542,
-            155,
-            671
+          "ɐ": [
+            35,
+            110,
+            255,
+            410
           ]
         },
-        "advances": [
-          196,
-          209
-        ],
-        "low_quote_and_layout_preserved": true
+        "advances": {
+          "ə": 305,
+          "ɐ": 290
+        },
+        "schwa_extra_clockwise_degrees": 12,
+        "schwa_uses_rotated_native_e": true,
+        "metrics_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "f41680bb0fd147d954cfa4117b260c838404c2d13164fb8e6d4b2f39b5cf568d",
+      "sha256": "9b1e67e157cb5f20ea754ae2fcc2c38db6e5e3dd4197b247bb41bbb4129fb3d1",
       "unicode_cmap_tables": [
         [
           0,
@@ -165,33 +167,35 @@
           "advance": 290
         }
       },
-      "quote_revision": {
-        "previous_commit": "915e061f81e2d2a9032aaac0c820824ab623b037",
-        "previous_sha256": "e9215fa2d8a347fa6a0dae36b0b9ac92156ecda324fb4e64ca7f9f26013628fb",
+      "turned_vowels_revision": {
+        "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
+        "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
         "changed_glyphs": [
-          "quotedblleft",
-          "quotedblright"
+          "uni0259.qfwIPA",
+          "uni0250.qfwIPA"
         ],
         "preserved_glyphs": 10529,
-        "after_bounds": {
-          "quotedblleft": [
-            44,
-            542,
-            150,
-            671
+        "bounds": {
+          "ə": [
+            35,
+            110,
+            270,
+            405
           ],
-          "quotedblright": [
-            49,
-            542,
-            155,
-            671
+          "ɐ": [
+            35,
+            110,
+            255,
+            410
           ]
         },
-        "advances": [
-          196,
-          209
-        ],
-        "low_quote_and_layout_preserved": true
+        "advances": {
+          "ə": 305,
+          "ɐ": 290
+        },
+        "schwa_extra_clockwise_degrees": 12,
+        "schwa_uses_rotated_native_e": true,
+        "metrics_and_layout_preserved": true
       }
     }
   }

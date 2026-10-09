@@ -1,9 +1,10 @@
-"""Basic German IPA, v1.039. Only source-native outlines and original strokes.
+"""Basic German IPA, v1.042. Only source-native outlines and original strokes.
 
 The source's Latin x-height is roughly y=110..435 at 1024 UPM. New strokes
 use its thin, gently varying pressure; no outlines from an external IPA font.
 The scope is 19 codepoints, not the complete IPA inventory.
 """
+import math
 from fontTools.misc.transform import Transform
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
 from fontTools.pens.recordingPen import DecomposingRecordingPen, RecordingPen, replayRecording
@@ -75,9 +76,9 @@ def weight(glyph, radius):
 # Preview A selected after maintainer review. Native g/f/n bodies and heavy
 # punctuation remain reference strokes; optical outsets target thinner forms.
 WEIGHT_RADII = {'ɛ':2.5, 'ɪ':3, 'ɔ':1.5, 'ʊ':3, 'ʏ':3, 'ø':2,
-                'ə':3.5, 'ɐ':3.5, 'ʒ':3, 'ʁ':2, 'ʔ':1.5,
+                'ɐ':3.5, 'ʒ':3, 'ʁ':2, 'ʔ':1.5,
                 '\u032f':2, '\u0329':2}
-SLANTS = {'ɛ':.02, 'ɪ':.04, 'ʊ':.04, 'ʏ':.04, 'ə':.07, 'ɐ':.07, 'ʒ':.05}
+SLANTS = {'ɛ':.02, 'ɪ':.04, 'ʊ':.04, 'ʏ':.04, 'ɐ':.07, 'ʒ':.05}
 
 
 def refine_weight(glyph, char, glyf):
@@ -188,26 +189,36 @@ def build_german_ipa(font):
     additions['ø'] = (path_to_glyph(pathops.op(source_o, slash, pathops.PathOp.UNION)),
                       font['hmtx'][cmap[ord('o')]][0])
     originals = {
-        # Keep essential schwa / turned-a / ezh structures, but use the source's
+        # Keep essential turned-a / ezh structures, but use the source's
         # irregular turns, rightward lean and 40..48-unit handwritten pressure.
-        'ə': (355, [([(75,396),(129,431),(222,413),(274,347),(280,250),(249,163),(175,120),(101,145),(58,211),(58,267),(276,287)],44)]),
-        'ɐ': (360, [([(88,428),(70,318),(60,205),(100,130),(190,120),(274,165)],44),
-                    ([(70,286),(141,317),(244,333),(282,379),(250,422),(176,438),(104,410),(71,350)],42)]),
+        'ɐ': (290, [([(34,436),(82,435),(83,351),(77,250),(86,171),(139,125),(222,132),(270,177)],44),
+                    ([(83,353),(123,422),(206,434),(267,401),(276,352),(236,297),(168,280),(111,296),(83,353)],42)]),
         'ʒ': (350, [([(66,414),(154,432),(271,444),(191,348),(137,284),(232,286),(282,220),(264,99),(218,18),(130,-6),(58,33)],44)]),
     }
     for c, (advance, strokes) in originals.items():
         additions[c] = (build_stroke_glyph(tuple(stroke(p,w) for p,w in strokes)), advance)
     additions.update(source_native_additions(font))
-    # Maintainer optical correction: these closed bowls looked too large beside
-    # native e/o. Uniform 84% scaling retains the hand-drawn pressure, with the
-    # lower ink edge at y=110 and 35-unit side bearings instead of excess space.
-    for c in 'əɐ':
-        glyph,_ = additions[c]
-        glyph.recalcBounds(font['glyf'])
-        x0,y0,x1 = glyph.xMin,glyph.yMin,glyph.xMax
-        pen=TTGlyphPen(None)
-        glyph.draw(TransformPen(pen,Transform(.84,0,0,.84,35-.84*x0,110-.84*y0)),font['glyf'])
-        additions[c]=(pen.glyph(),round((x1-x0)*.84)+70)
+    # Native e turned 180 degrees, then 12 degrees clockwise in glyph space.
+    # Fit the existing compact ink box; retain native pressure without outsets.
+    angle = math.radians(168)
+    glyph = transformed(font, 'e', Transform(math.cos(angle), math.sin(angle),
+                        -math.sin(angle), math.cos(angle), 0, 0))
+    glyph.recalcBounds(font['glyf'])
+    sx, sy = 235/(glyph.xMax-glyph.xMin), 295/(glyph.yMax-glyph.yMin)
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(sx, 0, 0, sy,
+               35-sx*glyph.xMin, 110-sy*glyph.yMin)), font['glyf'])
+    additions['ə'] = (pen.glyph(), 305)
+    # 1.042: round upper bowl and projecting left terminal distinguish turned a
+    # from native e. Preserve the approved 220 x 300 ink box and 290 advance.
+    glyph, advance = additions['ɐ']
+    glyph.recalcBounds(font['glyf'])
+    sx = 220 / (glyph.xMax - glyph.xMin)
+    sy = 300 / (glyph.yMax - glyph.yMin)
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(sx, 0, 0, sy,
+               35-sx*glyph.xMin, 110-sy*glyph.yMin)), font['glyf'])
+    additions['ɐ'] = (pen.glyph(), advance)
     order = font.getGlyphOrder()
     font.setGlyphOrder(order + [name(c) for c in BASIC_IPA])
     for c in BASIC_IPA:

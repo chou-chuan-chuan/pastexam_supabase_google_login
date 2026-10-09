@@ -26,7 +26,7 @@ U+201D 的 ink 頂部比原來高 5 units，因此 top bearing 減 5，保持同
 - [對照 PNG](../proofs/quanfangwei-german-quotes.png)、[HTML](../german-quotes-proof.html)、[PDF](../proofs/quanfangwei-german-quotes.pdf)。引號及 IPA PDF 重新渲染檢視，文字可抽取、QFW 子集嵌入。
 - 版本、metadata、manifest、網站 CSS／字型快取引用統一 1.041。Ü／ü 間距與 IPA 瘦長音符號保留；無登入、資料庫或文字正規化改動。
 
-SHA 與比對證據：[german-ipa-results.json](german-ipa-results.json) 的 `quote_revision`。
+SHA 與比對證據：[1.041 的 german-ipa-results.json](https://github.com/chou-chuan-chuan/pastexam_supabase_google_login/blob/2e246a77524dacdfc338e337959f86b3976a8d0b/tools/font/reports/german-ipa-results.json) 的 `quote_revision`。
 
 ## 重現
 

@@ -8,7 +8,8 @@
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：2026-10-09
-- 版本：Version 1.041
+- 版本：Version 1.042
+- Turned vowels（Version 1.042）：ə 由原生 e 旋轉 180 度後再順時針轉 12 度，並配合原尺寸製成，保留原筆觸；重畫 ɐ 的上方圓字腔與左上短尾，降低與 e 的混淆；保留 220×300-unit ink bounds、290-unit advance、原筆壓參數與組合定位。
 - German quote（Version 1.041）：以未修改的低引號 „ 原輪廓建構兩個上引號 “／”，分別旋轉 180 度與平移，使德文與英文配對的大小、筆觸一致；保留低／高位置、196／209-unit advance 與文字碼位。
 - Umlaut clearance（Version 1.040）：Ü／ü 雙點上移 30 units，間距由 12／15 增至 42／45；保留點形與字距，限定 GPOS 子表讓分解寫法同步，其他重音標記不變。
 - IPA length（Version 1.039）：依維護者要求，長音符號 ː 以原中心縮至寬 48%、高 65%；保留 210-unit advance、雙三角形結構及其他字形。
