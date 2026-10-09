@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "f6f093b8bb5693665bda8e4de98348dcb1618e6c11baece97cf270ceca7496f4",
+      "sha256": "46d5ad8aa4ec713fb3c56aaf2e20417fa4c506e65e5cd10369bb59d8f53c2de2",
       "unicode_cmap_tables": [
         [
           0,
@@ -79,17 +79,17 @@
           437
         ],
         "length_after": [
-          63,
-          143,
-          147,
-          404
+          80,
+          167,
+          130,
+          380
         ],
         "advance": 210,
         "layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "cf7a3025c4eae602bb00defc99045d83a59b571b95ec417aa824fdb7899859b0",
+      "sha256": "9de1ad3f4e2cafcf8850791eedc9be7abb6f1f2600e927d567c5d695bd87c396",
       "unicode_cmap_tables": [
         [
           0,
@@ -165,10 +165,10 @@
           437
         ],
         "length_after": [
-          63,
-          143,
-          147,
-          404
+          80,
+          167,
+          130,
+          380
         ],
         "advance": 210,
         "layout_preserved": true

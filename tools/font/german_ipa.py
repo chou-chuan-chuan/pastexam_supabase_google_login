@@ -160,12 +160,12 @@ def source_native_additions(font):
     transformed(font,'▲',Transform(.31,0,0,.31,33,62)).draw(pen,font['glyf'])
     glyph = pen.glyph()
     glyph.recalcBounds(font['glyf'])
-    # Shrink the whole double-triangle mark to 80% around its ink center.
+    # Reduce height to 65% and width to 48% around the ink center.
     # Keep its advance so existing IPA lines do not reflow.
     cx = (glyph.xMin + glyph.xMax) / 2
     cy = (glyph.yMin + glyph.yMax) / 2
     pen = TTGlyphPen(None)
-    glyph.draw(TransformPen(pen, Transform(.8, 0, 0, .8, .2*cx, .2*cy)), font['glyf'])
+    glyph.draw(TransformPen(pen, Transform(.48, 0, 0, .65, .52*cx, .35*cy)), font['glyf'])
     out['ː']=(pen.glyph(),210)
     return out
 

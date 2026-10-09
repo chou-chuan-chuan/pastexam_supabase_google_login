@@ -4,9 +4,9 @@
 
 ## 1.039 長音符號修訂
 
-依維護者要求，僅將 `ː` 的完整雙三角形輪廓以原 ink 中心等比例縮至 80%，三角形及上下間距一起縮小；advance 仍為 210 units，其他 10,530 個 glyph 輪廓與字距完全不變。字形仍與普通冒號 `:` 不同。
+依維護者要求，僅將 `ː` 的完整雙三角形輪廓以原 ink 中心縮至寬 48%、高 65%，三角形及上下間距一起縮小；advance 仍為 210 units，其他 10,530 個 glyph 輪廓與字距完全不變。字形仍與普通冒號 `:` 不同。
 
-直接基底為已合併的 1.038 commit `67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57`，TTF SHA-256 `90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339`。Verifier 除保留最初 1.036 回歸外，也對 1.038 比較：只允許長音符號輪廓及其 side bearing／top bearing 改變；確保 80% 大小、中心不變（整數座標容差 1 unit）、兩個輪廓、水平／垂直 advance 及垂直原點不變。cmap、hhea／vhea、GPOS／GDEF／GSUB／MATH 完全一致，全部轉寫情境的 shaping 位置一致。
+直接基底為已合併的 1.038 commit `67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57`，TTF SHA-256 `90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339`。Verifier 除保留最初 1.036 回歸外，也對 1.038 比較：只允許長音符號輪廓及其 side bearing／top bearing 改變；確保寬 48%／高 65% 大小、中心不變（整數座標容差 1 unit）、兩個輪廓、水平／垂直 advance 及垂直原點不變。cmap、hhea／vhea、GPOS／GDEF／GSUB／MATH 完全一致，全部轉寫情境的 shaping 位置一致。
 
 [同字級對照](../proofs/quanfangwei-german-ipa-style.png) 現在比較原 Latin、1.038 與 1.039；另有[長音符號局部對照](../proofs/quanfangwei-ipa-length.png)。瀏覽器與 PDF 樣張也已更新。本版沒有增加 IPA 覆蓋範圍。
 

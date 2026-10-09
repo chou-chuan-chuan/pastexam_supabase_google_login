@@ -18,7 +18,7 @@ def main():
     image = Image.new('RGB',(1100,640),'#fffdf8')
     draw = ImageDraw.Draw(image)
     label = ImageFont.truetype(BytesIO(new),30)
-    for y,title,data in [(24,'1.038 - before',old),(328,'1.039 - length mark at 80%',new)]:
+    for y,title,data in [(24,'1.038 - before',old),(328,'1.039 - smaller, slimmer triangles',new)]:
         draw.text((40,y),title,font=label,fill='#52636d')
         draw.text((40,y+50),'aː   iː   uː   øː   :  ː',font=ImageFont.truetype(BytesIO(data),132),fill='#182b35')
         draw.text((40,y+205),'ˈʃpʁaːxə    øːl    ˈmuːtɐ',font=ImageFont.truetype(BytesIO(data),48),fill='#182b35')

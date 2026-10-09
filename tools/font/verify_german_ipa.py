@@ -104,7 +104,7 @@ def length_revision(previous, current):
     for axis in (0,1):
         old_size = before[axis+2]-before[axis]
         new_size = after[axis+2]-after[axis]
-        assert abs(new_size - .8*old_size) <= 1, ('80% size',axis)
+        assert abs(new_size - (.48,.65)[axis]*old_size) <= 1, ('slender size',axis)
         assert abs(after[axis]+after[axis+2]-before[axis]-before[axis+2]) <= 1, ('center',axis)
     assert current['glyf'][target].numberOfContours == 2
     assert current['hmtx'][target] == (210,after[0])
