@@ -21,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REL = 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
 BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
+PREVIOUS_COMMIT = '7e8cb8730b4ca0d514aaba6a86fd97f912156921'
+PREVIOUS_SHA = 'a480615b68e8a8d773497e9c75b320e395753290b1fb80b23582ba7d50559e04'
 CONTEXTS = ['n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
@@ -86,6 +88,26 @@ def preservation(old, new):
         assert shape(old,text)==shape(new,text), ('existing shaping',text)
 
 
+def weight_revision(previous, current):
+    # A cosmetic revision must not silently alter layout or accepted size.
+    expected = {name(c) for c in 'ɛɪɔʊʏøəɐʒʁʔ\u032f\u0329'}
+    assert previous.getGlyphOrder() == current.getGlyphOrder()
+    changed = set()
+    for g in previous.getGlyphOrder():
+        if previous['glyf'][g].compile(previous['glyf']) != current['glyf'][g].compile(current['glyf']):
+            changed.add(g)
+            assert bounds(previous,g) == bounds(current,g), (g,'approved size changed')
+            assert previous['glyf'][g].numberOfContours == current['glyf'][g].numberOfContours
+    assert changed == expected, ('unexpected outline changes', changed ^ expected)
+    for tag in ['cmap','hmtx','vmtx','hhea','vhea','GPOS','GDEF','GSUB','MATH']:
+        assert previous[tag].compile(previous) == current[tag].compile(current), tag
+    for text in CONTEXTS:
+        assert shape(previous,text) == shape(current,text), ('layout regression',text)
+    return {'previous_commit':PREVIOUS_COMMIT,'previous_sha256':PREVIOUS_SHA,
+            'changed_outlines':13,'preserved_outlines':len(current.getGlyphOrder())-13,
+            'all_ink_bounds_and_layout_preserved':True}
+
+
 def verify(font, old):
     preservation(old,font)
     tables = [t for t in font['cmap'].tables if t.isUnicode() and t.format in (4,12)]
@@ -94,8 +116,8 @@ def verify(font, old):
         for c in BASIC_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.037)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.037'
+    assert abs(font['head'].fontRevision-1.038)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.038'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in BASIC_IPA:
@@ -148,11 +170,14 @@ def main():
         assert present==row['present'], ('supplied audit mismatch',row['unicode'])
     core={int(row['unicode'][2:],16) for row in audit['rows'] if row['group'].startswith('基礎') and not row['present']}
     assert len(core)==19 and core=={ord(c) for c in BASIC_IPA}
+    previous_raw=subprocess.check_output(['git','show',f'{PREVIOUS_COMMIT}:{REL}'],cwd=ROOT)
+    assert hashlib.sha256(previous_raw).hexdigest()==PREVIOUS_SHA
     result={'baseline_commit':BASE_COMMIT,'baseline_sha256':BASE_SHA,'formats':{}}
     for extension in ['.ttf','.woff2']:
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-                                     **verify(TTFont(path),TTFont(BytesIO(raw)))}
+                                     **verify(TTFont(path),TTFont(BytesIO(raw))),
+                                     'weight_revision':weight_revision(TTFont(BytesIO(previous_raw)),TTFont(path))}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
