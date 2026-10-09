@@ -19,7 +19,7 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.039 — 縮小 IPA 長音符號**：`ː` 以原中心縮至寬 48%、高 65%，維持字距；其餘字形保留 1.038 的筆重、傾斜與組合定位。涵蓋 `ɛ ɪ ɔ ʊ ʏ ø ə ɐ ɡ ʃ ʒ ŋ ʁ ʔ ˈ ˌ ː` 及 U+032F／U+0329，組合符號零 advance 並以 GPOS 貼附。依維護者要求，16 個新增 glyph 以原字輪廓為主要來源，並修整筆重與收筆；[風格對照](tools/font/proofs/quanfangwei-german-ipa-style.png)。保留全部 1.036 既有 glyph、metrics、cmap 和 layout lookup。普通 `g` 本來就是單層手寫字，IPA `ɡ` 有獨立碼位／glyph；長音 `ː` 使用雙三角形，與冒號不同。[QA 報告](tools/font/reports/german-ipa.md)、[瀏覽器樣張](tools/font/german-ipa-proof.html)。進階 IPA 與連結弧未在本版補齊。
+目前版本 **1.040 — Ü／ü 雙點間距**：雙點上移 30 units，與字身間距分別由 12／15 增至 42／45，保留點形與字距。預組合及分解寫法一致；其他重音與全部 IPA（包含 1.039 的瘦長音符號）維持。[對照樣張](tools/font/proofs/quanfangwei-umlaut-clearance.png)、[QA 報告](tools/font/reports/umlaut-clearance.md)。既有 19 個基礎 IPA 的覆蓋與 GPOS 定位不變；進階 IPA 與連結弧未在本版補齊。
 
 保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 
@@ -130,7 +130,7 @@ python tools/font/verify_japanese_weight.py
 
 目前驗證環境沒有 FontForge，實際建置使用 fontTools 的 TrueType pen、composite glyph、OpenType layout builder 與 WOFF2 writer，不需 FontForge GUI。建置會核對官方來源 SHA-256、參考圖與 Unicode 身分，失敗時回傳非零狀態；verifier 會檢查兩種格式、cmap、輪廓／component、原始 cmap 與 glyph 順序、name table、OFL metadata、metrics、bounds、advance、GDEF mark class、GPOS anchors，以及補寫字形的 side bearings、光學中心近似值、點距、component identity、碰撞與 clipping；也會確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走分解序列，驗證 mark 最終 origin 為 `+126 x / 0 y`。官方字型的 TrueType hint program 超過 FreeType/Pillow function-definition 限制，因此衍生版移除 hint bytecode，但保留輪廓、cmap、glyph 順序與 metrics。
 
-German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，衍生版完整保留；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
+German coverage（Version 1.005）：`Ä Ö Ü`、`ä ö ü`、`ß ẞ`、U+00A8 DIAERESIS 與 U+0308 COMBINING DIAERESIS。官方原字型原本已有六個 Umlaut composite、`uni0308` 與對應 GPOS anchors，當時衍生版完整保留，1.040 後僅調整 Ü／ü 雙點的垂直間距；本版新增 spacing `dieresis`。依最新提供的字母表參考，ß 與 ẞ 改採原字型 U+03B2 `beta` 的連續手寫輪廓語言：小寫保留原生比例，大寫縮短 descender 並調至 capital zone。兩個德文字元仍有獨立 cmap，U+03B2 沒有被修改，也沒有使用外部字型輪廓。預組合與分解 Umlaut 均由字型原生支援，不使用全域 NFC normalization。
 
 ### Japanese Phase 1 Support（current font Version 1.026）
 

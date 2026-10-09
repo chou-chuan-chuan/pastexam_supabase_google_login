@@ -1,6 +1,10 @@
-# 荃方位補寫體 1.039 — 縮小 IPA 長音符號
+# 荃方位補寫體 — 德文 IPA QA（現行 1.040）
 
 檢查日期：2026-10-09（Asia/Taipei）。本次範圍只有指定的 19 個基礎缺碼位；不代表所有德語方言、細式轉寫、外來語、歌唱或完整 IPA 均已覆蓋。
+
+## 1.040 相容性備註
+
+本版 IPA 全部字形、metrics 與定位維持 1.039；唯一例外修訂是一般德文字母 Ü／ü 雙點上移，見 [雙點間距 QA](umlaut-clearance.md)。下述「全部基底保留」是 1.037–1.039 的歷史結果；現行 verifier 先嚴格驗證並還原這兩個指定 composite 位移與限定 GPOS 子表，再比對最初 1.036 基準。最新 results JSON 另保存對 1.039 的逐字驗證結果。
 
 ## 1.039 長音符號修訂
 
@@ -72,4 +76,4 @@ npm test
 
 瀏覽器 proof 另需 Playwright + Chromium（或 `CHROME_BIN` 指向已安裝的 Chrome），執行 `node tools/font/render_german_ipa_browser.cjs`。此工具只使用獨立 headless profile，驗證 sample 使用的實際字型，並輸出 PNG、PDF 與 JSON。PDF 的時間 metadata 不作 byte-reproducibility 要求；TTF／WOFF2 必須完全可重建。
 
-版本 1.039 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.039`，使既有瀏覽器快取更新。五個正式 HTML 入口也對 style.css 加上相同版本參數，避免快取的舊 CSS 繼續引用舊字型 URL。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。
+版本 1.040 同步更新 name table、head.fontRevision、manifest、建置時間／unique ID、README、MODIFICATIONS、verifier 與 CSS 兩個字型 URL 的 `?v=1.040`，使既有瀏覽器快取更新。五個正式 HTML 入口也對 style.css 加上相同版本參數，避免快取的舊 CSS 繼續引用舊字型 URL。網站 Family 名稱與檔名不變；未涉及 SQL、資料庫或登入流程。

@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.039"
-UNIQUE_ID = "1.039;QFW;QuanFangweiSupplementScript-Regular;20261009"
+VERSION = "1.040"
+UNIQUE_ID = "1.040;QFW;QuanFangweiSupplementScript-Regular;20261009"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -48,10 +48,10 @@ DIAERESIS_MARK_ANCHOR = (145, 477)
 UMLAUT_DATA = {
     0x00C4: (0x0041, "Adieresis", "A", (127, 145), (272, 622)),
     0x00D6: (0x004F, "Odieresis", "O", (90, 87), (235, 564)),
-    0x00DC: (0x0055, "Udieresis", "U", (29, 88), (174, 565)),
+    0x00DC: (0x0055, "Udieresis", "U", (29, 118), (174, 595)),
     0x00E4: (0x0061, "adieresis", "a", (27, -13), (172, 464)),
     0x00F6: (0x006F, "odieresis", "o", (8, -57), (153, 420)),
-    0x00FC: (0x0075, "udieresis", "u", (35, -62), (180, 415)),
+    0x00FC: (0x0075, "udieresis", "u", (35, -32), (180, 445)),
 }
 HIRAGANA_REQUIRED = set(range(0x3041, 0x3097)) | {0x3099, 0x309A, 0x309B, 0x309C, 0x309D, 0x309E}
 KATAKANA_REQUIRED = set(range(0x30A1, 0x30FB)) | {0x30FB, 0x30FC, 0x30FD, 0x30FE}
@@ -446,9 +446,8 @@ def verify() -> list[str]:
                 require(sum(position[1] for position in hb_positions) == KANA_ADVANCE,
                         f"Decomposed Japanese advance differs from precomposed: {hb_positions}")
 
-    # All six source Umlaut composites and their original base outlines remain
-    # byte-for-byte/drawing-equivalent. Existing source GPOS anchors must make
-    # the decomposed form land at the same component transform.
+    # Source base/mark outlines remain identical; U/u dots are raised 30 units.
+    # Decomposed positioning must agree with each composed transform.
     for precomposed, (base_cp, glyph_name, base_name, delta, base_anchor) in UMLAUT_DATA.items():
         require(drawing(source, base_name) == drawing(ttf, base_name), f"Original {base_name} outline changed")
         require(drawing(source, "uni0308") == drawing(ttf, "uni0308"), "Original uni0308 outline changed")
@@ -622,7 +621,9 @@ def verify() -> list[str]:
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
-    derived_lookups = ttf["GPOS"].table.LookupList.Lookup
+    from verify_umlaut_clearance import original_umlaut_layout
+    restored = original_umlaut_layout(ttf)
+    derived_lookups = restored["GPOS"].table.LookupList.Lookup
     require(len(derived_lookups) == len(source_lookups) + 4, "Derived GPOS should append exactly four lookups (cedilla, Japanese marks, scoped operator hats and basic IPA marks)")
     for index, source_lookup in enumerate(source_lookups):
         require(getXML(source_lookup.toXML, source) == getXML(derived_lookups[index].toXML, ttf), f"Original GPOS lookup {index} changed")
@@ -688,8 +689,8 @@ def main() -> int:
     print("PASS: cedilla and complete German cmap coverage map correctly in TTF and WOFF2")
     print("PASS: uni0327 has zero advance, shared cedilla outline, GDEF mark class, and GPOS C/c anchors")
     print("PASS: HarfBuzz shapes forced C/c + U+0327 at the matching +126/0 and +81/+10 mark origins")
-    print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the source composed-glyph positions")
-    print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and preserved source GPOS")
+    print("PASS: HarfBuzz shapes A/O/U/a/o/u + U+0308 at the composed-glyph positions including raised U/u dots")
+    print("PASS: U+00A8 shares uni0308 outlines; U+0308 has zero advance and scoped U/u diaeresis GPOS")
     print("PASS: germandbls/uni1E9E use continuous beta-like source outlines with distinct German cmaps")
     print("PASS: U+0152 OE and U+0153 oe are real TTF/WOFF2 glyphs derived only from unchanged source O/E/o/e")
     print("PASS: complete Phase 1 Hiragana, Katakana, Japanese punctuation, and iteration marks are mapped")

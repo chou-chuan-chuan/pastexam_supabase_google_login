@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.039"
+    "version": "1.040"
   },
   "glyphs": [
     {
@@ -285,7 +285,7 @@
       "codepoint": "U+00DC",
       "unicode_name": "LATIN CAPITAL LETTER U WITH DIAERESIS",
       "glyph_name": "Udieresis",
-      "construction_method": "preserve_source_composite",
+      "construction_method": "source_composite_with_diaeresis_raised_30_units",
       "source_glyphs": [
         {
           "character": "U",
@@ -299,7 +299,7 @@
         }
       ],
       "optical_adjustments": "Preserve source component delta +29 x / +88 y and base anchor <174 565>.",
-      "notes": "Original U outline and advance remain unchanged; decomposed U+U+0308 matches through source GPOS."
+      "notes": "Version 1.040 raises only the diaeresis component by 30 units; native outlines and advance remain unchanged. Scoped GPOS matches the decomposed form without shifting other accents."
     },
     {
       "character": "ä",
@@ -348,7 +348,7 @@
       "codepoint": "U+00FC",
       "unicode_name": "LATIN SMALL LETTER U WITH DIAERESIS",
       "glyph_name": "udieresis",
-      "construction_method": "preserve_source_composite",
+      "construction_method": "source_composite_with_diaeresis_raised_30_units",
       "source_glyphs": [
         {
           "character": "u",
@@ -362,7 +362,7 @@
         }
       ],
       "optical_adjustments": "Preserve source component delta +35 x / -62 y and base anchor <180 415>.",
-      "notes": "Lowercase height is tuned independently in the source; decomposed u+U+0308 matches through source GPOS."
+      "notes": "Version 1.040 raises only the diaeresis component by 30 units; native outlines and advance remain unchanged. Scoped GPOS matches the decomposed form without shifting other accents."
     },
     {
       "character": "ß",

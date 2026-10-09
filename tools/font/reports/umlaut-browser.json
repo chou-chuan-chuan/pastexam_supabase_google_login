@@ -1,0 +1,56 @@
+{
+  "browser": "154.0.8037.98",
+  "sampleNodes": 6,
+  "allSampleFontsCustom": true,
+  "widths": [
+    {
+      "font": "QFW",
+      "base": "Ü",
+      "marked": "Ü",
+      "advance": 24.25
+    },
+    {
+      "font": "QFW",
+      "base": "ü",
+      "marked": "ü",
+      "advance": 22.5
+    },
+    {
+      "font": "QFW",
+      "base": "U",
+      "marked": "Ü",
+      "advance": 24.25
+    },
+    {
+      "font": "QFW",
+      "base": "u",
+      "marked": "ü",
+      "advance": 22.5
+    },
+    {
+      "font": "QFWTTF",
+      "base": "Ü",
+      "marked": "Ü",
+      "advance": 24.25
+    },
+    {
+      "font": "QFWTTF",
+      "base": "ü",
+      "marked": "ü",
+      "advance": 22.5
+    },
+    {
+      "font": "QFWTTF",
+      "base": "U",
+      "marked": "Ü",
+      "advance": 24.25
+    },
+    {
+      "font": "QFWTTF",
+      "base": "u",
+      "marked": "ü",
+      "advance": 22.5
+    }
+  ],
+  "errors": []
+}

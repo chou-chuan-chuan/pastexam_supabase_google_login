@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify both release formats, actual shaping and complete 1.036 preservation.
+"""Verify both release formats, actual shaping and 1.036 preservation except documented U/u diaeresis placement.
 
 Requires the pinned baseline commit (CI checks out full history). --baseline
 allows an already verified local TTF; its SHA is always checked.
@@ -21,8 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REL = 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
 BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
-PREVIOUS_COMMIT = '67dbcd6ebb14ce2c3aa69610dc86c9f09ba71b57'
-PREVIOUS_SHA = '90c121d22a3a80282496ff11c13e1e13f9469dc7686e4259bdbbc5ff0ef1b339'
+from verify_umlaut_clearance import PREVIOUS_COMMIT, PREVIOUS_SHA, original_umlaut_layout, verify_revision
 CONTEXTS = ['n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
@@ -48,6 +47,7 @@ def shape(font, text, features=None):
 
 
 def preservation(old, new):
+    new = original_umlaut_layout(new)
     assert new.getGlyphOrder()[:len(old.getGlyphOrder())] == old.getGlyphOrder()
     assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in BASIC_IPA}
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
@@ -88,37 +88,6 @@ def preservation(old, new):
         assert shape(old,text)==shape(new,text), ('existing shaping',text)
 
 
-def length_revision(previous, current):
-    target = name('ː')
-    assert previous.getGlyphOrder() == current.getGlyphOrder()
-    changed = set()
-    for g in previous.getGlyphOrder():
-        if previous['glyf'][g].compile(previous['glyf']) != current['glyf'][g].compile(current['glyf']):
-            changed.add(g)
-        assert previous['hmtx'][g][0] == current['hmtx'][g][0], (g,'advance changed')
-        if g != target:
-            assert previous['hmtx'][g] == current['hmtx'][g]
-            assert previous['vmtx'][g] == current['vmtx'][g]
-    assert changed == {target}, ('unexpected outline changes', changed)
-    before, after = bounds(previous,target), bounds(current,target)
-    for axis in (0,1):
-        old_size = before[axis+2]-before[axis]
-        new_size = after[axis+2]-after[axis]
-        assert abs(new_size - (.48,.65)[axis]*old_size) <= 1, ('slender size',axis)
-        assert abs(after[axis]+after[axis+2]-before[axis]-before[axis+2]) <= 1, ('center',axis)
-    assert current['glyf'][target].numberOfContours == 2
-    assert current['hmtx'][target] == (210,after[0])
-    assert previous['vmtx'][target][0] == current['vmtx'][target][0]
-    assert before[3]+previous['vmtx'][target][1] == after[3]+current['vmtx'][target][1]
-    for tag in ['cmap','hhea','vhea','GPOS','GDEF','GSUB','MATH']:
-        assert previous[tag].compile(previous) == current[tag].compile(current), tag
-    for text in CONTEXTS:
-        assert shape(previous,text) == shape(current,text), ('layout regression',text)
-    return {'previous_commit':PREVIOUS_COMMIT,'previous_sha256':PREVIOUS_SHA,
-            'changed_outlines':1,'preserved_outlines':len(current.getGlyphOrder())-1,
-            'length_before':before,'length_after':after,'advance':210,
-            'layout_preserved':True}
-
 
 def verify(font, old):
     preservation(old,font)
@@ -128,8 +97,8 @@ def verify(font, old):
         for c in BASIC_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.039)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.039'
+    assert abs(font['head'].fontRevision-1.040)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.040'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in BASIC_IPA:
@@ -164,7 +133,7 @@ def verify(font, old):
     assert bounds(font,font.getBestCmap()[ord(':')])!=bounds(font,name('ː'))
     return {'unicode_cmap_tables':[(t.platformID,t.platEncID,t.format) for t in tables],
             'basic_additions':19, 'base_mark_pairs':len(BASES)*len(MARKS),
-            'preserved_glyphs':len(old.getGlyphOrder()),'contexts':CONTEXTS,
+            'preserved_glyphs':len(old.getGlyphOrder())-2,'repositioned_umlaut_glyphs':2,'contexts':CONTEXTS,
             'compact_vowels':{c:{'bounds':bounds(font,name(c)),'advance':font['hmtx'][name(c)][0]} for c in 'əɐ'}}
 
 
@@ -189,11 +158,11 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'length_revision':length_revision(TTFont(BytesIO(previous_raw)),TTFont(path))}
+                                     'umlaut_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
-    print('PASS: 19 IPA additions, cmap 4/12, HarfBuzz attachments, complete baseline preservation')
+    print('PASS: 19 IPA additions, cmap 4/12, HarfBuzz attachments, baseline preservation with scoped U/u diaeresis adjustment')
 
 
 if __name__=='__main__':
