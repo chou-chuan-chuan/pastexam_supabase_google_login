@@ -4,6 +4,7 @@ The source's Latin x-height is roughly y=110..435 at 1024 UPM. New strokes
 use its thin, gently varying pressure; no outlines from an external IPA font.
 The scope is 19 codepoints, not the complete IPA inventory.
 """
+import math
 from fontTools.misc.transform import Transform
 from fontTools.otlLib.builder import buildAnchor, buildMarkBasePosSubtable
 from fontTools.pens.recordingPen import DecomposingRecordingPen, RecordingPen, replayRecording
@@ -197,12 +198,17 @@ def build_german_ipa(font):
     for c, (advance, strokes) in originals.items():
         additions[c] = (build_stroke_glyph(tuple(stroke(p,w) for p,w in strokes)), advance)
     additions.update(source_native_additions(font))
-    # 1.042: derive schwa directly from native e rotated 180 degrees. Fit the
-    # existing compact ink box; retain native pressure, without added outsets.
-    x0, y0, x1, y1 = bounds(font, cmap[ord('e')])
-    sx, sy = 235 / (x1-x0), 295 / (y1-y0)
-    additions['ə'] = (transformed(font, 'e', Transform(-sx, 0, 0, -sy,
-                       35+sx*x1, 110+sy*y1)), 305)
+    # Native e turned 180 degrees, then 12 degrees clockwise in glyph space.
+    # Fit the existing compact ink box; retain native pressure without outsets.
+    angle = math.radians(168)
+    glyph = transformed(font, 'e', Transform(math.cos(angle), math.sin(angle),
+                        -math.sin(angle), math.cos(angle), 0, 0))
+    glyph.recalcBounds(font['glyf'])
+    sx, sy = 235/(glyph.xMax-glyph.xMin), 295/(glyph.yMax-glyph.yMin)
+    pen = TTGlyphPen(None)
+    glyph.draw(TransformPen(pen, Transform(sx, 0, 0, sy,
+               35-sx*glyph.xMin, 110-sy*glyph.yMin)), font['glyf'])
+    additions['ə'] = (pen.glyph(), 305)
     # 1.042: round upper bowl and projecting left terminal distinguish turned a
     # from native e. Preserve the approved 220 x 300 ink box and 290 advance.
     glyph, advance = additions['ɐ']

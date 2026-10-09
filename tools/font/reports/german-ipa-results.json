@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "ae9acf29c9eb12890883f12b728b6940b5c4fc03cbadb455224a2e2f6beb291f",
+      "sha256": "50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360",
       "unicode_cmap_tables": [
         [
           0,
@@ -95,12 +95,13 @@
           "ə": 305,
           "ɐ": 290
         },
+        "schwa_extra_clockwise_degrees": 12,
         "schwa_uses_rotated_native_e": true,
         "metrics_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "44481a9e592d4ea360294bd847adb1b2a9b060fa00ca00c2249ffacfd05c5481",
+      "sha256": "9b1e67e157cb5f20ea754ae2fcc2c38db6e5e3dd4197b247bb41bbb4129fb3d1",
       "unicode_cmap_tables": [
         [
           0,
@@ -192,6 +193,7 @@
           "ə": 305,
           "ɐ": 290
         },
+        "schwa_extra_clockwise_degrees": 12,
         "schwa_uses_rotated_native_e": true,
         "metrics_and_layout_preserved": true
       }

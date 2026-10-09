@@ -1,6 +1,9 @@
 """Pin 1.041 and verify that only the schwa and turned-a outlines change."""
 from german_ipa import name, bounds, transformed
 from fontTools.misc.transform import Transform
+from fontTools.pens.transformPen import TransformPen
+from fontTools.pens.ttGlyphPen import TTGlyphPen
+import math
 
 PREVIOUS_COMMIT='2e246a77524dacdfc338e337959f86b3976a8d0b'
 PREVIOUS_SHA='799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1'
@@ -13,9 +16,14 @@ def verify_revision(previous, current, shape):
     assert changed==[name('ə'),name('ɐ')],changed
     assert bounds(current,name('ə'))==bounds(previous,name('ə'))==(35,110,270,405)
     assert current['hmtx'][name('ə')]==(305,35)
-    x0,y0,x1,y1=bounds(current,current.getBestCmap()[ord('e')])
-    sx,sy=235/(x1-x0),295/(y1-y0)
-    expected=transformed(current,'e',Transform(-sx,0,0,-sy,35+sx*x1,110+sy*y1))
+    # Independently reconstruct the requested native-e rotation and box fit.
+    angle=math.radians(168)
+    rotated=transformed(current,'e',Transform(math.cos(angle),math.sin(angle),-math.sin(angle),math.cos(angle),0,0))
+    rotated.recalcBounds(current['glyf'])
+    sx,sy=235/(rotated.xMax-rotated.xMin),295/(rotated.yMax-rotated.yMin)
+    pen=TTGlyphPen(None)
+    rotated.draw(TransformPen(pen,Transform(sx,0,0,sy,35-sx*rotated.xMin,110-sy*rotated.yMin)),current['glyf'])
+    expected=pen.glyph()
     assert expected.compile(current['glyf'])==current['glyf'][name('ə')].compile(current['glyf']), 'Schwa must be the rotated native e'
     assert current['glyf'][name('ə')].numberOfContours==2
     for tag in ['cmap','hmtx','vmtx','hhea','vhea','GPOS','GDEF','GSUB','MATH']:
@@ -30,4 +38,4 @@ def verify_revision(previous, current, shape):
     return {'previous_commit':PREVIOUS_COMMIT,'previous_sha256':PREVIOUS_SHA,
             'changed_glyphs':changed,'preserved_glyphs':len(current.getGlyphOrder())-2,
             'bounds':{'ə':[35,110,270,405],'ɐ':[35,110,255,410]},
-            'advances':{'ə':305,'ɐ':290},'schwa_uses_rotated_native_e':True,'metrics_and_layout_preserved':True}
+            'advances':{'ə':305,'ɐ':290},'schwa_extra_clockwise_degrees':12,'schwa_uses_rotated_native_e':True,'metrics_and_layout_preserved':True}
