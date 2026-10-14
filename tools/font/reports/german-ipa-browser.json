@@ -1,11 +1,23 @@
 {
-  "browser": "154.0.8037.98",
-  "sampleNodes": 29,
+  "browser": "155.0.8059.79",
+  "sampleNodes": 30,
   "allSampleFontsCustom": true,
   "families": [
     "QuanFangwei Supplement Script"
   ],
   "widths": [
+    {
+      "font": "QFW",
+      "base": "ɥ",
+      "marked": "ɥ̯",
+      "advance": 19.125
+    },
+    {
+      "font": "QFW",
+      "base": "ɥ",
+      "marked": "ɥ̩",
+      "advance": 19.125
+    },
     {
       "font": "QFW",
       "base": "n",
@@ -41,6 +53,18 @@
       "base": "aɪ",
       "marked": "aɪ̯",
       "advance": 44.5625
+    },
+    {
+      "font": "QFWTTF",
+      "base": "ɥ",
+      "marked": "ɥ̯",
+      "advance": 19.125
+    },
+    {
+      "font": "QFWTTF",
+      "base": "ɥ",
+      "marked": "ɥ̩",
+      "advance": 19.125
     },
     {
       "font": "QFWTTF",

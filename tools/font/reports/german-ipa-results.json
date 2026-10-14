@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360",
+      "sha256": "f823a1985a8c73f07773e860d4894483c15dce65872cf8d7d4c35f94dabd2141",
       "unicode_cmap_tables": [
         [
           0,
@@ -27,11 +27,17 @@
         ]
       ],
       "basic_additions": 19,
-      "base_mark_pairs": 76,
+      "extended_additions": 1,
+      "base_mark_pairs": 78,
       "preserved_glyphs": 10508,
       "repositioned_umlaut_glyphs": 2,
       "refined_quote_glyphs": 2,
       "contexts": [
+        "[ɥ]",
+        "ɥi",
+        "ɥɛ",
+        "ɥ̯",
+        "ɥ̩",
         "n̩",
         "l̩",
         "m̩",
@@ -69,39 +75,26 @@
           "advance": 290
         }
       },
-      "turned_vowels_revision": {
-        "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
-        "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
-        "changed_glyphs": [
-          "uni0259.qfwIPA",
-          "uni0250.qfwIPA"
+      "turned_h_revision": {
+        "previous_commit": "9b896f7a5475e05ab81f8163222968e67224d85c",
+        "previous_sha256": "50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360",
+        "added_glyphs": [
+          "uni0265.qfwIPA"
         ],
-        "preserved_glyphs": 10529,
-        "bounds": {
-          "ə": [
-            35,
-            110,
-            270,
-            405
-          ],
-          "ɐ": [
-            35,
-            110,
-            255,
-            410
-          ]
-        },
-        "advances": {
-          "ə": 305,
-          "ɐ": 290
-        },
-        "schwa_extra_clockwise_degrees": 12,
-        "schwa_uses_rotated_native_e": true,
-        "metrics_and_layout_preserved": true
+        "preserved_glyphs": 10531,
+        "bounds": [
+          19,
+          -70,
+          284,
+          435
+        ],
+        "advance": 306,
+        "source": "native h rotated 180 degrees",
+        "all_existing_outlines_metrics_and_layout_preserved": true
       }
     },
     ".woff2": {
-      "sha256": "9b1e67e157cb5f20ea754ae2fcc2c38db6e5e3dd4197b247bb41bbb4129fb3d1",
+      "sha256": "4b3343d770f7c09854ce6768714bf09a395100430fba561b8673d9dc14177dad",
       "unicode_cmap_tables": [
         [
           0,
@@ -125,11 +118,17 @@
         ]
       ],
       "basic_additions": 19,
-      "base_mark_pairs": 76,
+      "extended_additions": 1,
+      "base_mark_pairs": 78,
       "preserved_glyphs": 10508,
       "repositioned_umlaut_glyphs": 2,
       "refined_quote_glyphs": 2,
       "contexts": [
+        "[ɥ]",
+        "ɥi",
+        "ɥɛ",
+        "ɥ̯",
+        "ɥ̩",
         "n̩",
         "l̩",
         "m̩",
@@ -167,35 +166,22 @@
           "advance": 290
         }
       },
-      "turned_vowels_revision": {
-        "previous_commit": "2e246a77524dacdfc338e337959f86b3976a8d0b",
-        "previous_sha256": "799787cc846495ad6bc63d9129cc9685f46135db772f19c621fc61ea0d03fab1",
-        "changed_glyphs": [
-          "uni0259.qfwIPA",
-          "uni0250.qfwIPA"
+      "turned_h_revision": {
+        "previous_commit": "9b896f7a5475e05ab81f8163222968e67224d85c",
+        "previous_sha256": "50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360",
+        "added_glyphs": [
+          "uni0265.qfwIPA"
         ],
-        "preserved_glyphs": 10529,
-        "bounds": {
-          "ə": [
-            35,
-            110,
-            270,
-            405
-          ],
-          "ɐ": [
-            35,
-            110,
-            255,
-            410
-          ]
-        },
-        "advances": {
-          "ə": 305,
-          "ɐ": 290
-        },
-        "schwa_extra_clockwise_degrees": 12,
-        "schwa_uses_rotated_native_e": true,
-        "metrics_and_layout_preserved": true
+        "preserved_glyphs": 10531,
+        "bounds": [
+          19,
+          -70,
+          284,
+          435
+        ],
+        "advance": 306,
+        "source": "native h rotated 180 degrees",
+        "all_existing_outlines_metrics_and_layout_preserved": true
       }
     }
   }

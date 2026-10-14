@@ -17,7 +17,7 @@
 - [前後對照 PNG](../proofs/quanfangwei-turned-a.png)、[HTML](../turned-a-proof.html)、[PDF](../proofs/quanfangwei-turned-a.pdf)。另重新輸出完整 IPA 樣張。PDF 共三頁逐頁渲染檢視，QFW 子集嵌入、Unicode 文字可抽取。
 - 正式 TTF／WOFF2 與 MODIFICATIONS 必須可完全重建，CI 同樣檢查。版本 metadata、manifest、CSS 與網站引用快取版本統一為 1.042。
 
-最新 SHA 及逐字形結果：[german-ipa-results.json](german-ipa-results.json) 的 `turned_vowels_revision`。
+最新 SHA 及逐字形結果：[1.042 的 german-ipa-results.json](https://github.com/chou-chuan-chuan/pastexam_supabase_google_login/blob/9b896f7a5475e05ab81f8163222968e67224d85c/tools/font/reports/german-ipa-results.json) 的 `turned_vowels_revision`。
 
 ## 重現
 
