@@ -15,7 +15,7 @@ import subprocess
 
 from fontTools.ttLib import TTFont
 import uharfbuzz as hb
-from german_ipa import BASIC_IPA, BASES, MARKS, MARK_GAP, bounds, name
+from german_ipa import BASIC_IPA, ALL_IPA, EXTENDED_IPA, BASES, MARKS, MARK_GAP, bounds, name
 
 ROOT = Path(__file__).resolve().parents[2]
 REL = 'assets/fonts/quanfangwei-supplement/QuanFangweiSupplementScript-Regular.ttf'
@@ -23,8 +23,8 @@ BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
 from verify_umlaut_clearance import original_umlaut_layout
 from verify_german_quotes import verify_quote_shape
-from verify_turned_a import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_revision
-CONTEXTS = ['n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
+from verify_turned_h import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_revision
+CONTEXTS = ['[ɥ]','ɥi','ɥɛ','ɥ̯','ɥ̩','n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
 
@@ -52,9 +52,9 @@ def preservation(old, new):
     verify_quote_shape(new)
     new = original_umlaut_layout(new)
     assert new.getGlyphOrder()[:len(old.getGlyphOrder())] == old.getGlyphOrder()
-    assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in BASIC_IPA}
+    assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in ALL_IPA}
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
-    assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in BASIC_IPA}
+    assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in ALL_IPA}
     for g in old.getGlyphOrder():
         if g not in ('quotedblleft','quotedblright'):
             assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
@@ -77,7 +77,7 @@ def preservation(old, new):
             rec.Feature.LookupCount -= 1
     assert gpos.compile(new) == old['GPOS'].compile(old), 'Existing GPOS changed'
     gdef = copy.deepcopy(new['GDEF'])
-    for c in BASIC_IPA:
+    for c in ALL_IPA:
         del gdef.table.GlyphClassDef.classDefs[name(c)]
     assert gdef.compile(new) == old['GDEF'].compile(old), 'Existing GDEF changed'
     for tag in ['GSUB','MATH','kern']:
@@ -100,14 +100,14 @@ def verify(font, old):
     tables = [t for t in font['cmap'].tables if t.isUnicode() and t.format in (4,12)]
     assert {t.format for t in tables} == {4,12}
     for t in tables:
-        for c in BASIC_IPA:
+        for c in ALL_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.042)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.042'
+    assert abs(font['head'].fontRevision-1.043)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.043'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
-    for c in BASIC_IPA:
+    for c in ALL_IPA:
         g=name(c);b=bounds(font,g)
         assert b[0]<b[2] and b[1]<b[3]
         assert font['hhea'].descent<=b[1]<b[3]<=font['hhea'].ascent,(c,b)
@@ -138,7 +138,7 @@ def verify(font, old):
     assert font.getBestCmap()[ord(':')]!=font.getBestCmap()[ord('ː')]
     assert bounds(font,font.getBestCmap()[ord(':')])!=bounds(font,name('ː'))
     return {'unicode_cmap_tables':[(t.platformID,t.platEncID,t.format) for t in tables],
-            'basic_additions':19, 'base_mark_pairs':len(BASES)*len(MARKS),
+            'basic_additions':19, 'extended_additions':len(EXTENDED_IPA), 'base_mark_pairs':len(BASES)*len(MARKS),
             'preserved_glyphs':len(old.getGlyphOrder())-4,'repositioned_umlaut_glyphs':2,'refined_quote_glyphs':2,'contexts':CONTEXTS,
             'compact_vowels':{c:{'bounds':bounds(font,name(c)),'advance':font['hmtx'][name(c)][0]} for c in 'əɐ'}}
 
@@ -164,11 +164,11 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'turned_vowels_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
+                                     'turned_h_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
-    print('PASS: 19 IPA additions, cmap 4/12, HarfBuzz attachments, baseline preservation with scoped U/u diaeresis and upper quote adjustments')
+    print('PASS: 19 basic IPA additions plus turned h, cmap 4/12, HarfBuzz attachments, baseline preservation with scoped U/u diaeresis and upper quote adjustments')
 
 
 if __name__=='__main__':

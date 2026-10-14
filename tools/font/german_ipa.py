@@ -1,8 +1,8 @@
-"""Basic German IPA, v1.042. Only source-native outlines and original strokes.
+"""Basic German IPA, v1.043. Only source-native outlines and original strokes.
 
 The source's Latin x-height is roughly y=110..435 at 1024 UPM. New strokes
 use its thin, gently varying pressure; no outlines from an external IPA font.
-The scope is 19 codepoints, not the complete IPA inventory.
+The scope is 19 basic codepoints plus the requested turned h; not all IPA.
 """
 import math
 from fontTools.misc.transform import Transform
@@ -15,9 +15,11 @@ from japanese.stroke_engine import Stroke, build_stroke_glyph, glyph_path, path_
 import pathops
 
 BASIC_IPA = 'ɛɪɔʊʏøəɐɡʃʒŋʁʔˈˌː\u032f\u0329'
+EXTENDED_IPA = 'ɥ'
+ALL_IPA = BASIC_IPA + EXTENDED_IPA
 MARKS = '\u032f\u0329'
 MARK_GAP = 45
-BASES = 'aeiouyœɛɪɔʊʏøəɐɡʃʒŋʁʔpbtdkfvszhçxmnjlr'
+BASES = 'aeiouyœɛɪɔʊʏøəɐɡʃʒŋʁʔpbtdkfvszhçxmnjlrɥ'
 
 
 def name(c):
@@ -151,6 +153,10 @@ def source_native_additions(font):
         cap=outline_path(font,"'",Transform(0,.60,-.80,0,x+526.4,y-20))
         u=pathops.op(u,cap,pathops.PathOp.UNION)
     out['ʊ']=(weight(path_to_glyph(u),2),380)
+    # U+0265: rotate native h 180 degrees without changing stroke weight.
+    # Native x-height top 435, descender -70, and the original 306 advance.
+    out['ɥ'] = (transformed(font, 'h', Transform(-1, 0, 0, -1, 303, 546)),
+                font['hmtx'][cmap[ord('h')]][0])
     # Actual source punctuation, not generic geometric strokes.
     out['ˈ']=(transformed(font,"'",Transform(1,0,0,1.25,40,-207)),180)
     out['ˌ']=(transformed(font,"'",Transform(1,0,0,1.25,40,-723)),180)
@@ -173,7 +179,7 @@ def source_native_additions(font):
 
 def build_german_ipa(font):
     cmap = font.getBestCmap()
-    if any(ord(c) in cmap for c in BASIC_IPA):
+    if any(ord(c) in cmap for c in ALL_IPA):
         raise ValueError('IPA source mapping already exists; review before replacing it')
     additions = {}
     for c, source, turned in [('ɛ','ε',False), ('ɪ','I',False), ('ʏ','Y',False)]:
@@ -220,8 +226,8 @@ def build_german_ipa(font):
                35-sx*glyph.xMin, 110-sy*glyph.yMin)), font['glyf'])
     additions['ɐ'] = (pen.glyph(), advance)
     order = font.getGlyphOrder()
-    font.setGlyphOrder(order + [name(c) for c in BASIC_IPA])
-    for c in BASIC_IPA:
+    font.setGlyphOrder(order + [name(c) for c in ALL_IPA])
+    for c in ALL_IPA:
         glyph, advance = additions[c]
         glyph = refine_weight(glyph, c, font['glyf'])
         glyph.recalcBounds(font['glyf'])
@@ -264,5 +270,5 @@ def add_mark_positioning(font):
         feature.LookupListIndex.append(index)
         feature.LookupCount = len(feature.LookupListIndex)
     classes = font['GDEF'].table.GlyphClassDef.classDefs
-    for c in BASIC_IPA:
+    for c in ALL_IPA:
         classes[name(c)] = 3 if c in MARKS else 1

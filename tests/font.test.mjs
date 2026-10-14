@@ -25,10 +25,10 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.042");
+  assert.equal(manifest.derived_font.version, "1.043");
   // Version the font URLs so cached clients receive the new coverage.
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.042/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.042/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.043/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.043/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.filter(item => !item.priority).map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
@@ -76,6 +76,7 @@ test("ships exactly the requested basic German IPA scope with versioned proof re
   const manifest = JSON.parse(await readFile(new URL("../tools/font/glyph_manifest.json", import.meta.url), "utf8"));
   const proof = await readFile(new URL("../tools/font/german-ipa-proof.html", import.meta.url), "utf8");
   assert.deepEqual([...manifest.groups.german_ipa.characters], [..."ɛɪɔʊʏøəɐɡʃʒŋʁʔˈˌː̯̩"]);
+  assert.equal(manifest.groups.ipa_extensions.characters, "ɥ");
   assert.deepEqual(manifest.groups.german_ipa.combining_marks, ["U+032F", "U+0329"]);
   for (const page of ["index", "admin", "playlist", "playlists", "song"]) {
     const html = await readFile(new URL(`../${page}.html`, import.meta.url), "utf8");

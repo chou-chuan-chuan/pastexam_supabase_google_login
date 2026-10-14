@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.042"
+    "version": "1.043"
   },
   "glyphs": [
     {
@@ -1244,6 +1244,12 @@
         "U+0329"
       ],
       "style": "16 source-outline-based glyphs; schwa/turned-a/ezh authored with native-like pressure. See reports/german-ipa.md and proofs/quanfangwei-german-ipa-style.png"
+    },
+    "ipa_extensions": {
+      "characters": "ɥ",
+      "scope": "U+0265 only; other extensions deferred",
+      "source": "native h rotated 180 degrees; see german_ipa.py",
+      "status": "verified"
     }
   },
   "hiragana_master_v2": {
