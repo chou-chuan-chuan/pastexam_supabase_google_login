@@ -7,8 +7,9 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-10-15
-- 版本：Version 1.043
+- 修改日期：2026-11-02
+- 版本：Version 1.044
+- Inverted exclamation（Version 1.044）：新增 ¡ U+00A1，將原生 ! 旋轉 180 度製成；保留原始輪廓、402-unit ink height、215-unit advance 與點到主筆的 120-unit 間距，其他字形不變。
 - Turned h（Version 1.043）：新增 ɥ U+0265，直接旋轉原生 h 180 度，保留筆觸與 306-unit advance；接入既有零 advance 組合符號定位，其他字形不變。
 - Turned vowels（Version 1.042）：ə 由原生 e 旋轉 180 度後再順時針轉 12 度，並配合原尺寸製成，保留原筆觸；重畫 ɐ 的上方圓字腔與左上短尾，降低與 e 的混淆；保留 220×300-unit ink bounds、290-unit advance、原筆壓參數與組合定位。
 - German quote（Version 1.041）：以未修改的低引號 „ 原輪廓建構兩個上引號 “／”，分別旋轉 180 度與平移，使德文與英文配對的大小、筆觸一致；保留低／高位置、196／209-unit advance 與文字碼位。
@@ -52,7 +53,7 @@
 - Japanese special glyphs：Version 1.014 的 U+61D0 `懐` 結合原生 `懷` 上／左結構與等比例縮放定位的原生 `衣` 下部；U+3005 `々` 使用 project-local center-lines 並將右側缺口連成連續筆勢；U+5915 `夕` 完全不改。U+6C17 `気` 與 U+4ED8 `付` 仍只建立保留原來源輪廓的垂直 optical transform copy。Version 1.015 另為 U+604B `恋`、U+54C0 `哀`、U+5967 `奧`、U+512A `優`、U+5BC4 `寄` 建立保留 source drawing 的縮放／置中 derived copy；Version 1.016 以同機制將 U+5909 `変` 等比縮至 0.80、dx +19.25、dy +35，再對 derived outline 套用 8-unit boundary embolden 補償縮小後筆重。Version 1.018 為 U+5BB9 `容` 建立不縮放的 source-preserving copy，只平移 +19.45 x / +35 y；Version 1.020 為 U+5965 `奥` 建立 non-uniform source-preserving optical copy，以 0.921976 x / 0.855348 y 配合 +9 x / +34.5 y 與 4-unit boundary embolden 匹配 `奧`，advance 設為 790
 - Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、vertical typesetting、ruby typography、完整 Ainu extensions、historical kana、half-width katakana 或所有標點變體；一般現代日文歌曲的假名部分應完整顯示
 - Future Phase 2：依本機 TXT／LRC／JSON 歌詞的缺字頻率補足實際漢字，並個別審查 Japanese regional glyph variants；不抓取網路歌詞
-- 補寫字元：U+00AB `guillemotleft`（`«`）、U+00BB `guillemotright`（`»`）、U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
+- 補寫字元：U+00A1 `exclamdown`（`¡`）、U+00AB `guillemotleft`（`«`）、U+00BB `guillemotright`（`»`）、U+00BF `questiondown`、U+00C7 `Ccedilla`、U+00E7 `ccedilla`、U+0327 `uni0327`、U+00A8 `dieresis`、U+00DF `germandbls`、U+1E9E `uni1E9E`、U+0152 `OE`（`Œ`）、U+0153 `oe`（`œ`）
 - U+0152 `OE`（`Œ`）：Version 1.021 新增的法文大寫連字，只以原字型大寫 `O` 與 `E` identity components 建構；`E` 依來源 bounds 向左重疊約 10% `O` ink width，維持來源 cap-height、baseline、stroke weight 與手寫節奏。用途包含 `Œuvre`／`ŒUVRE`，不再依賴瀏覽器 fallback
 - U+0153 `oe`（`œ`）：Version 1.021 新增的法文小寫連字，只以原字型小寫 `o` 與 `e` identity components 建構；`e` 依來源 bounds 向左重疊約 10% `o` ink width，縮短一般 `o`→`e` 間距並保留兩個手寫 form 的可讀性。用途包含 `cœur`、`sœur`、`œuvre`、`bœuf`、`vœu`；未使用外部 outline、CSS fallback 或 JavaScript 文字替換
 - German coverage：Ä Ö Ü／ä ö ü／ß ẞ，並同時支援 U+0308 `uni0308` 的分解表示；原始字型已存在六個 Umlaut 與 U+0308，保留其 cmap、原輪廓與 GDEF；1.040 僅調整 Ü／ü 雙點位置與對應分解定位
@@ -64,6 +65,7 @@
 - ß／ẞ 的 beta-like 方向是依最新視覺參考採用；沒有將 U+00DF／U+1E9E cmap 指向 Greek beta，也沒有修改 U+03B2。未使用 Arial、Times、Noto、Google Fonts 或任何其他外部字型輪廓
 - U+00BF 第一版建構：將原始 U+003F `question` 機械式旋轉 180°
 - U+00BF 光學修正：旋轉後整體平移 +3 x／-12 y font units，圓點再下移 8 units，使句首高度、左右留白及點與主筆間距更自然；不修改來源 glyph
+- U+00A1 建構：將原始 U+0021 `exclam` 繞 advance 與 ink 中心旋轉 180°；transform `(-1,0,0,-1,215,658)`，不縮放、不改點、不修改來源 glyph
 - U+00C7 建構：保留原始 U+0043 `C`，與新增的 U+00B8 `cedilla` 組成 composite glyph
 - U+00E7 建構：保留原始 U+0063 `c`，與同一 U+00B8 `cedilla` 組成 composite glyph；cedilla transform 為 +81 x／+10 y，advance 與 side bearings 保持原始 c
 - U+0327 建構：以 identity component 共享 U+00B8 `cedilla` 的同一精修輪廓來源；advance width 為 0，不作 spacing character

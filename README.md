@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.043 — 補齊 ɥ**：新增 `ɥ`（U+0265，倒置 h），直接旋轉字型原有 `h` 製成，保留手寫筆觸與字距；支援既有組合符號定位，其餘字形保留。[樣張](tools/font/proofs/quanfangwei-turned-h.png)、[QA 報告](tools/font/reports/turned-h.md)。
+目前版本 **1.044 — 補齊倒驚嘆號**：新增 `¡`（U+00A1，INVERTED EXCLAMATION MARK），將字型原有 `!` 旋轉 180° 製成，保留手寫輪廓、字高、字距及點與主筆間距；其餘字形與排版表保留。[樣張](tools/font/proofs/quanfangwei-exclamdown.png)、[QA 報告](tools/font/reports/exclamdown.md)。
+
+保留版本 **1.043 — 補齊 ɥ**：新增 `ɥ`（U+0265，倒置 h），直接旋轉字型原有 `h` 製成，保留手寫筆觸與字距；支援既有組合符號定位，其餘字形保留。[樣張](tools/font/proofs/quanfangwei-turned-h.png)、[QA 報告](tools/font/reports/turned-h.md)。
 
 保留版本 **1.033 — 量子物理數學符號**：P0–P3 全部 **45 個碼位**原生支援；10,467 個既有 glyph 的輪廓 bytes、字寬與垂直 metrics 完全不變。新增 cmap／coverage 稽核、原生字型校準頁與完整回歸比對。[45 字校準圖](tools/font/proofs/quanfangwei-quantum-glyphs.png)、[公式混排](tools/font/proofs/quanfangwei-quantum-context-40.png)、[版本／雜湊／驗證報告](tools/font/reports/quantum-symbols.md)。
 
@@ -50,8 +52,9 @@ Version 1.025 的[主要 41 字手寫稿](tools/font/references/hiragana-maintai
 - `assets/fonts/chenyuluoyan/ChenYuluoyan-2.0-Thin.ttf`
 - `assets/fonts/chenyuluoyan/license.txt`
 
-衍生版 Version 1.033 支援：
+衍生版目前支援：
 
+- `¡` U+00A1 / `exclamdown`：以原始 U+0021 `exclam` 繞 advance 與 ink 中心旋轉 180°；不縮放或修改控制點，保留 215-unit advance、402-unit ink height 與 120-unit 點距。
 - `«` U+00AB / `guillemotleft`、`»` U+00BB / `guillemotright`：只由原始 `<` / `>` 手寫 components 組成，327-unit advance，無外部字型 outline。
 
 - `¿` U+00BF INVERTED QUESTION MARK：以原始 U+003F `question` 旋轉 180°，再做 +3 x／-12 y 的位置修正及 8 units 的點距微調；來源問號輪廓與 advance 未改。

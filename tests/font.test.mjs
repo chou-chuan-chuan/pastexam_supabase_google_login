@@ -25,10 +25,10 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.043");
+  assert.equal(manifest.derived_font.version, "1.044");
   // Version the font URLs so cached clients receive the new coverage.
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.043/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.043/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.044/);
+  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.044/);
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.filter(item => !item.priority).map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [
@@ -36,6 +36,7 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
     { character: "»", codepoint: "U+00BB", glyph_name: "guillemotright" },
     { character: "Œ", codepoint: "U+0152", glyph_name: "OE" },
     { character: "œ", codepoint: "U+0153", glyph_name: "oe" },
+    { character: "¡", codepoint: "U+00A1", glyph_name: "exclamdown" },
     { character: "¿", codepoint: "U+00BF", glyph_name: "questiondown" },
     { character: "Ç", codepoint: "U+00C7", glyph_name: "Ccedilla" },
     { character: "ç", codepoint: "U+00E7", glyph_name: "ccedilla" },

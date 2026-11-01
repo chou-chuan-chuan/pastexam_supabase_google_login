@@ -4,7 +4,7 @@
     "family_en": "QuanFangwei Supplement Script",
     "subfamily": "Regular",
     "postscript_name": "QuanFangweiSupplementScript-Regular",
-    "version": "1.043"
+    "version": "1.044"
   },
   "glyphs": [
     {
@@ -117,6 +117,29 @@
       ],
       "optical_adjustments": "Keep both source components at native scale and baseline. Position e so its left ink overlaps the right edge of o by 10% of the measured o ink width; derive advance from final xMax plus the source e right side bearing.",
       "notes": "Version 1.021 derivative addition for native French words such as cœur. No external font outline is loaded or copied, and the original o/e glyphs remain unchanged."
+    },
+    {
+      "character": "¡",
+      "codepoint": "U+00A1",
+      "unicode_name": "INVERTED EXCLAMATION MARK",
+      "glyph_name": "exclamdown",
+      "construction_method": "rotate_existing_exclamation_mark_180_degrees",
+      "source_glyphs": [
+        {
+          "character": "!",
+          "codepoint": "U+0021",
+          "glyph_name": "exclam"
+        }
+      ],
+      "component_transform": [
+        -1,
+        0,
+        0,
+        -1,
+        215,
+        658
+      ],
+      "notes": "Version 1.044 addition. Rotate the original handwritten exclamation mark 180 degrees around the advance and ink centers without scaling or point edits. Preserve its 215-unit advance, 402-unit ink height, and 120-unit dot-to-stroke gap."
     },
     {
       "character": "¿",

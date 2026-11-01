@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.043"
-UNIQUE_ID = "1.043;QFW;QuanFangweiSupplementScript-Regular;20261015"
+VERSION = "1.044"
+UNIQUE_ID = "1.044;QFW;QuanFangweiSupplementScript-Regular;20261102"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -214,6 +214,7 @@ def verify() -> list[str]:
     ttf_cmap = ttf.getBestCmap()
     woff2_cmap = woff2.getBestCmap()
     required = {
+        0x00A1: "exclamdown",
         0x00A8: "dieresis",
         0x00BF: "questiondown",
         0x00C4: "Adieresis",
@@ -490,12 +491,36 @@ def verify() -> list[str]:
         require(drawing(ttf, "uni1E9E") != drawing(ttf, beta_name), "uni1E9E must retain its capital optical transform")
         require(drawing(source, beta_name) == drawing(ttf, beta_name), "Original Greek beta changed")
 
+    source_exclam = source_cmap.get(0x0021)
     source_question = source_cmap.get(0x003F)
     source_c = source_cmap.get(0x0043)
     source_lower_c = source_cmap.get(0x0063)
+    require(source_exclam is not None and drawing(source, source_exclam) == drawing(ttf, source_exclam), "Original exclamation outline changed")
     require(source_question is not None and drawing(source, source_question) == drawing(ttf, source_question), "Original question outline changed")
     require(source_c is not None and drawing(source, source_c) == drawing(ttf, source_c), "Original C outline changed")
     require(source_lower_c is not None and drawing(source, source_lower_c) == drawing(ttf, source_lower_c), "Original c outline changed")
+    if source_exclam:
+        source_exclam_bounds = bounds(source, source_exclam)
+        inverted_exclam_bounds = bounds(ttf, "exclamdown")
+        exclam_advance = source["hmtx"].metrics[source_exclam][0]
+        inverted_exclam_advance, inverted_exclam_lsb = ttf["hmtx"].metrics["exclamdown"]
+        inverted_exclam_rsb = inverted_exclam_advance - inverted_exclam_bounds[2]
+        expected_pen = RecordingPen()
+        transform = (-1, 0, 0, -1, exclam_advance, source_exclam_bounds[1] + source_exclam_bounds[3])
+        source.getGlyphSet()[source_exclam].draw(TransformPen(expected_pen, transform))
+        require(drawing(ttf, "exclamdown") == expected_pen.value, "exclamdown is not an exact 180-degree rotation of exclam")
+        require(inverted_exclam_advance == exclam_advance, "exclamdown advance differs from exclam")
+        require(inverted_exclam_lsb >= 0 and inverted_exclam_rsb >= 0, f"exclamdown has a negative side bearing: lsb={inverted_exclam_lsb}, rsb={inverted_exclam_rsb}")
+        require(abs(inverted_exclam_lsb - inverted_exclam_rsb) <= 4, f"exclamdown side bearings are unbalanced: lsb={inverted_exclam_lsb}, rsb={inverted_exclam_rsb}")
+        require((inverted_exclam_bounds[2] - inverted_exclam_bounds[0], inverted_exclam_bounds[3] - inverted_exclam_bounds[1]) == (source_exclam_bounds[2] - source_exclam_bounds[0], source_exclam_bounds[3] - source_exclam_bounds[1]), "exclamdown changed the source ink dimensions")
+        require(ttf["hhea"].descent < inverted_exclam_bounds[1] < inverted_exclam_bounds[3] < ttf["hhea"].ascent, f"exclamdown is clipped by vertical metrics: {inverted_exclam_bounds}")
+        exclam_contours = sorted(contour_bounds(ttf, "exclamdown"), key=lambda item: (item[2] - item[0]) * (item[3] - item[1]), reverse=True)
+        require(len(exclam_contours) == 2, f"exclamdown should retain two source contours, found {len(exclam_contours)}")
+        if len(exclam_contours) == 2:
+            main, dot = exclam_contours
+            dot_gap = dot[1] - main[3]
+            require(80 <= dot_gap <= 160, f"exclamdown dot-to-stroke gap is unreasonable: {dot_gap}")
+            require(dot[1] > main[3], "exclamdown dot collides with the main stroke")
     if source_question:
         source_question_bounds = bounds(source, source_question)
         inverted_bounds = bounds(ttf, "questiondown")
@@ -603,7 +628,7 @@ def verify() -> list[str]:
         require(ttf_cmap.get(codepoint) == glyph_name, f"Original cmap mapping changed at U+{codepoint:04X}")
     require(ttf_cmap == woff2_cmap, "WOFF2 decoded cmap differs from TTF cmap")
     compared_glyphs = (
-        "questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327",
+        "exclamdown", "questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327",
         "dieresis", "uni0308", "Adieresis", "Odieresis", "Udieresis",
         "adieresis", "odieresis", "udieresis", "germandbls", "OE", "oe", "uni1E9E", "guillemotleft", "guillemotright",
     )
@@ -617,7 +642,7 @@ def verify() -> list[str]:
     source_order = source.getGlyphOrder()
     ttf_order = ttf.getGlyphOrder()
     require(ttf_order[: len(source_order)] == source_order, "Original glyph order or glyph set was altered")
-    require(len(ttf_order) == len(source_order) + 282, "Derived glyph count did not increase by exactly 282 (turned h plus 19 basic IPA plus 45 quantum symbols plus two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
+    require(len(ttf_order) == len(source_order) + 283, "Derived glyph count did not increase by exactly 283 (inverted exclamation plus turned h, 19 basic IPA, 45 quantum symbols, two French guillemets, two script-sized mark variants, the scoped 踊 copy, and the unmapped ど base helper)")
     require(ttf_order == woff2.getGlyphOrder(), "WOFF2 glyph order differs from TTF")
 
     source_lookups = source["GPOS"].table.LookupList.Lookup
@@ -686,6 +711,7 @@ def main() -> int:
         print(f"Verification failed with {len(errors)} error(s).", file=sys.stderr)
         return 1
     print("PASS: TTF and WOFF2 open successfully")
+    print("PASS: U+00A1 exclamdown is the exact rotated source exclamation with preserved dimensions and spacing")
     print("PASS: cedilla and complete German cmap coverage map correctly in TTF and WOFF2")
     print("PASS: uni0327 has zero advance, shared cedilla outline, GDEF mark class, and GPOS C/c anchors")
     print("PASS: HarfBuzz shapes forced C/c + U+0327 at the matching +126/0 and +81/+10 mark origins")

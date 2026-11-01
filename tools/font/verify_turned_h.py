@@ -1,4 +1,4 @@
-"""Check the single turned-h addition against the released 1.042 font."""
+"""Check the turned-h addition against 1.042, allowing named later glyphs."""
 import copy
 from fontTools.misc.transform import Transform
 from german_ipa import bounds, name, transformed
@@ -7,10 +7,11 @@ PREVIOUS_COMMIT='9b896f7a5475e05ab81f8163222968e67224d85c'
 PREVIOUS_SHA='50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360'
 
 
-def verify_revision(previous,current,shape):
+def verify_revision(previous,current,shape,later_mappings=None):
+    later_mappings = later_mappings or {}
     added=name('ɥ')
     assert 0x0265 not in previous.getBestCmap()
-    assert current.getGlyphOrder()==previous.getGlyphOrder()+[added]
+    assert current.getGlyphOrder()==previous.getGlyphOrder()+[added]+list(later_mappings.values())
     for g in previous.getGlyphOrder():
         assert previous['glyf'][g].compile(previous['glyf'])==current['glyf'][g].compile(current['glyf']),g
         assert previous['hmtx'][g]==current['hmtx'][g],g
@@ -18,7 +19,9 @@ def verify_revision(previous,current,shape):
     for old,new in zip(previous['cmap'].tables,current['cmap'].tables):
         assert (old.platformID,old.platEncID,old.format)==(new.platformID,new.platEncID,new.format)
         expected=dict(old.cmap)
-        if new.isUnicode() and new.format!=14:expected[0x0265]=added
+        if new.isUnicode() and new.format!=14:
+            expected[0x0265]=added
+            expected.update(later_mappings)
         assert new.cmap==expected
     assert len(previous['cmap'].tables)==len(current['cmap'].tables)
     expected=transformed(current,'h',Transform(-1,0,0,-1,303,546))

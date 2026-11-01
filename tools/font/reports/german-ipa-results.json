@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "f823a1985a8c73f07773e860d4894483c15dce65872cf8d7d4c35f94dabd2141",
+      "sha256": "5e169fca032f5232204572c18fe0378c3c179fb04a516e8d189de94e7dbe899d",
       "unicode_cmap_tables": [
         [
           0,
@@ -33,6 +33,7 @@
       "repositioned_umlaut_glyphs": 2,
       "refined_quote_glyphs": 2,
       "contexts": [
+        "¡Hola!",
         "[ɥ]",
         "ɥi",
         "ɥɛ",
@@ -94,7 +95,7 @@
       }
     },
     ".woff2": {
-      "sha256": "4b3343d770f7c09854ce6768714bf09a395100430fba561b8673d9dc14177dad",
+      "sha256": "06d842237db255af66d0f1f6dacc56c429fbc282518c5e41e18803732c3beb79",
       "unicode_cmap_tables": [
         [
           0,
@@ -124,6 +125,7 @@
       "repositioned_umlaut_glyphs": 2,
       "refined_quote_glyphs": 2,
       "contexts": [
+        "¡Hola!",
         "[ɥ]",
         "ɥi",
         "ɥɛ",

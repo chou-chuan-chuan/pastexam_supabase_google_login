@@ -24,6 +24,7 @@ jobs:
       - run: npm test
       - run: python tools/font/verify_supplement_font.py
       - run: python tools/font/verify_german_ipa.py
+      - run: python tools/font/verify_exclamdown.py
       - name: Verify reproducible release artifacts
         run: |
           python tools/font/build_supplement_font.py

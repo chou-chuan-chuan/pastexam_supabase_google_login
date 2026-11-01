@@ -392,6 +392,8 @@ python tools/font/verify_oku_optical_alignment.py
 - `references/U+3068-U+308A-maintainer-handwritten.png`：Version 1.024 維護者 `と／り` 權威 reference sheet；使用相同 center-line → renderer 流程。
 - `build_supplement_font.py`：建立 TTF、WOFF2、OFL 與修改紀錄。
 - `verify_supplement_font.py`：驗證 cmap、glyph、metadata、授權與來源保存。
+- `verify_exclamdown.py`：以固定 1.043 發行字型逐字驗證 1.044 的單一 `¡` 新增與完整回歸保存。
+- `render_exclamdown.py`／`exclamdown-proof.html`：產生 `¡` 的靜態與瀏覽器校樣。
 - `render_proof.py`：以輸出 TTF 產生 glyph analysis、16／24／32／48／72 px 輔助線 proof 與自然文字 proof。
 - `render_oe_proof.py`：確認 U+0152／U+0153 cmap 後，以目前輸出 TTF 產生 `Œ`／`œ`、法文單字、production phrase，以及 `O E`／`OE`／`Œ` 和 `o e`／`oe`／`œ` 多尺寸 proof。
 - `render_ki_proof.py`：將 `origin/main` 舊版與 Version 1.021 新版 `き`／`ぎ` 並列，並輸出 24／32／48／72 px 的 `きき`、`ぎき`、`ぎん`、`きれい`、`好き`、`大きい`。
@@ -459,7 +461,7 @@ Known limitations：Phase 1 不保證所有 Jōyō Kanji 日本字形變體、ve
 - `uni1E9E`：U+1E9E ẞ。使用同一 `beta` 輪廓語言，水平 110%、垂直 74%、上移 204 units，使 descender 收入 capital zone；advance 430，保留獨立 `uni1E9E` glyph 與 U+1E9E cmap。
 - U+03B2 原始 glyph、cmap 與 metrics 完全不變；ß／ẞ 的輪廓只來自 repository 內官方辰宇落雁體，未使用 Arial、Times、Noto、Google Fonts 或任何外部字型輪廓。
 
-`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¿` 的 advance、side bearings、bounds center、點與主筆間距和 clipping，以及 `Ç`／`Ç`、`ç`／`ç` 的原始 base identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走大小寫分解序列，確認 mark origins 與預組合 components 完全相同。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
+`verify_supplement_font.py` 除了既有格式、cmap、名稱、授權及來源保存檢查，也量化檢查 `¡`／`¿` 的 advance、side bearings、bounds、點與主筆間距和 clipping，以及 `Ç`／`Ç`、`ç`／`ç` 的原始 base identity component、共用 cedilla 輪廓、zero advance、GDEF class、GPOS anchors、光學中心、碰撞、descender 與 advance。驗證也確認原始 GPOS lookups 未被覆蓋，並以 uharfbuzz 強制走大小寫分解序列，確認 mark origins 與預組合 components 完全相同。這些檢查不能替代美學判斷；筆勢、字面平衡與小尺寸辨識度仍須查看：
 
 - `proofs/quanfangwei-glyph-analysis.png` 與對應 JSON 度量紀錄
 - `proofs/quanfangwei-optical-proof.png`（含 baseline、ascender、descender、advance box）

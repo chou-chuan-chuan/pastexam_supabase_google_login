@@ -24,7 +24,7 @@ BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
 from verify_umlaut_clearance import original_umlaut_layout
 from verify_german_quotes import verify_quote_shape
 from verify_turned_h import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_revision
-CONTEXTS = ['[ɥ]','ɥi','ɥɛ','ɥ̯','ɥ̩','n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
+CONTEXTS = ['¡Hola!','[ɥ]','ɥi','ɥɛ','ɥ̯','ɥ̩','n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
 
 
@@ -52,9 +52,9 @@ def preservation(old, new):
     verify_quote_shape(new)
     new = original_umlaut_layout(new)
     assert new.getGlyphOrder()[:len(old.getGlyphOrder())] == old.getGlyphOrder()
-    assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in ALL_IPA}
+    assert set(new.getGlyphOrder())-set(old.getGlyphOrder()) == {name(c) for c in ALL_IPA} | {'exclamdown'}
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
-    assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in ALL_IPA}
+    assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in ALL_IPA} | {0x00A1}
     for g in old.getGlyphOrder():
         if g not in ('quotedblleft','quotedblright'):
             assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
@@ -103,8 +103,8 @@ def verify(font, old):
         for c in ALL_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.043)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.043'
+    assert abs(font['head'].fontRevision-1.044)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.044'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in ALL_IPA:
@@ -164,7 +164,7 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'turned_h_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape)}
+                                     'turned_h_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape,{0x00A1:'exclamdown'})}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))
