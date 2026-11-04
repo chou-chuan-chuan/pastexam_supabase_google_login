@@ -60,7 +60,8 @@ def verify(previous: TTFont, current: TTFont) -> None:
     assert current.getBestCmap()[0x00A1] == "exclamdown"
 
     for glyph_name in old_order:
-        assert previous["glyf"][glyph_name].compile(previous["glyf"]) == current["glyf"][glyph_name].compile(current["glyf"]), glyph_name
+        if glyph_name not in {"uni30F2", "uni30FA"}:
+            assert previous["glyf"][glyph_name].compile(previous["glyf"]) == current["glyf"][glyph_name].compile(current["glyf"]), glyph_name
         assert previous["hmtx"][glyph_name] == current["hmtx"][glyph_name], glyph_name
         if "vmtx" in previous:
             assert previous["vmtx"][glyph_name] == current["vmtx"][glyph_name], glyph_name
@@ -115,7 +116,7 @@ def main() -> None:
     assert hashlib.sha256(raw).hexdigest() == PREVIOUS_SHA256
     for extension in (".ttf", ".woff2"):
         verify(TTFont(BytesIO(raw)), TTFont((ROOT / REL).with_suffix(extension)))
-    print("PASS: U+00A1 is an exact rotated source exclamation; every 1.043 glyph, metric, cmap entry, and layout table is preserved")
+    print("PASS: U+00A1 remains an exact rotated source exclamation; the independently verified 1.045 ヲ/ヺ change is the only later outline exception")
 
 
 if __name__ == "__main__":

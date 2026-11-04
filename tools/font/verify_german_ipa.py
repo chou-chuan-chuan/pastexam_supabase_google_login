@@ -56,8 +56,10 @@ def preservation(old, new):
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
     assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in ALL_IPA} | {0x00A1}
     for g in old.getGlyphOrder():
-        if g not in ('quotedblleft','quotedblright'):
+        if g not in ('quotedblleft','quotedblright','uni30F2','uni30FA'):
             assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
+            assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
+        elif g in ('uni30F2','uni30FA'):
             assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
         else:
             assert old['hmtx'][g][0] == new['hmtx'][g][0], ('advance',g)
@@ -103,8 +105,8 @@ def verify(font, old):
         for c in ALL_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.044)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.044'
+    assert abs(font['head'].fontRevision-1.045)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.045'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in ALL_IPA:
@@ -164,7 +166,10 @@ def main():
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                                      **verify(TTFont(path),TTFont(BytesIO(raw))),
-                                     'turned_h_revision':verify_revision(TTFont(BytesIO(previous_raw)),TTFont(path),shape,{0x00A1:'exclamdown'})}
+                                     'turned_h_revision':verify_revision(
+                                         TTFont(BytesIO(previous_raw)), TTFont(path), shape,
+                                         {0x00A1: 'exclamdown'}, {'uni30F2', 'uni30FA'}
+                                     )}
     if args.output:
         args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result,ensure_ascii=False,indent=2))

@@ -7,13 +7,15 @@ PREVIOUS_COMMIT='9b896f7a5475e05ab81f8163222968e67224d85c'
 PREVIOUS_SHA='50cfc3581585766c5d74fd41a251131893e2c47746f1c200090a182263b72360'
 
 
-def verify_revision(previous,current,shape,later_mappings=None):
+def verify_revision(previous,current,shape,later_mappings=None,later_changes=None):
     later_mappings = later_mappings or {}
+    later_changes = later_changes or set()
     added=name('ɥ')
     assert 0x0265 not in previous.getBestCmap()
     assert current.getGlyphOrder()==previous.getGlyphOrder()+[added]+list(later_mappings.values())
     for g in previous.getGlyphOrder():
-        assert previous['glyf'][g].compile(previous['glyf'])==current['glyf'][g].compile(current['glyf']),g
+        if g not in later_changes:
+            assert previous['glyf'][g].compile(previous['glyf'])==current['glyf'][g].compile(current['glyf']),g
         assert previous['hmtx'][g]==current['hmtx'][g],g
         assert previous['vmtx'][g]==current['vmtx'][g],g
     for old,new in zip(previous['cmap'].tables,current['cmap'].tables):

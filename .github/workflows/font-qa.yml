@@ -23,6 +23,7 @@ jobs:
       - run: pip install -r tools/font/requirements.txt
       - run: npm test
       - run: python tools/font/verify_supplement_font.py
+      - run: python tools/font/verify_katakana_wo_junction.py
       - run: python tools/font/verify_german_ipa.py
       - run: python tools/font/verify_exclamdown.py
       - name: Verify reproducible release artifacts

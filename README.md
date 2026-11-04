@@ -19,7 +19,9 @@ PDF 列印會從閱讀器已取得的原始 PDF bytes 建立暫時 Blob URL，�
 
 ## 荃方位補寫體
 
-目前版本 **1.044 — 補齊倒驚嘆號**：新增 `¡`（U+00A1，INVERTED EXCLAMATION MARK），將字型原有 `!` 旋轉 180° 製成，保留手寫輪廓、字高、字距及點與主筆間距；其餘字形與排版表保留。[樣張](tools/font/proofs/quanfangwei-exclamdown.png)、[QA 報告](tools/font/reports/exclamdown.md)。
+目前版本 **1.045 — 片假名「ヲ」右上接筆修正**：將 `ヲ`（U+30F2）的右側主筆延伸到第一條橫筆右端，形成自然、連續的右上接點，避免在小尺寸看成 `ラ`；下方橫筆、主筆後半曲線與 960-unit advance 保留。[樣張](tools/font/proofs/quanfangwei-katakana-wo-junction.png)、[QA 報告](tools/font/reports/katakana-wo-junction.md)。
+
+保留版本 **1.044 — 補齊倒驚嘆號**：新增 `¡`（U+00A1，INVERTED EXCLAMATION MARK），將字型原有 `!` 旋轉 180° 製成，保留手寫輪廓、字高、字距及點與主筆間距；其餘字形與排版表保留。[樣張](tools/font/proofs/quanfangwei-exclamdown.png)、[QA 報告](tools/font/reports/exclamdown.md)。
 
 保留版本 **1.043 — 補齊 ɥ**：新增 `ɥ`（U+0265，倒置 h），直接旋轉字型原有 `h` 製成，保留手寫筆觸與字距；支援既有組合符號定位，其餘字形保留。[樣張](tools/font/proofs/quanfangwei-turned-h.png)、[QA 報告](tools/font/reports/turned-h.md)。
 

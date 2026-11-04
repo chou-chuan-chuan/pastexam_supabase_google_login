@@ -102,7 +102,21 @@ python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_l
 
 The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at a smaller 15-unit size (previously 19). Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
-## Current output: Version 1.036 — Kana junctions and handakuten spacing
+## Current output: Version 1.045 — Katakana `ヲ` upper-right junction
+
+U+30F2 `ヲ` now extends its descending main stroke to the upper horizontal's right end. The final outline is one connected ink body at 16, 24, 32, 64 and 192 px, so it no longer reads as `ラ` with a detached extra bar. The lower horizontal, 960-unit advance, left/right bounds, cmap and layout tables are retained. U+30FA `ヺ` keeps the same composite recipe and automatically inherits the repaired base.
+
+[Before/after and small-size proof](proofs/quanfangwei-katakana-wo-junction.png) · [measurements and regression report](reports/katakana-wo-junction.md).
+
+```sh
+python tools/font/build_supplement_font.py
+python tools/font/verify_katakana_wo_junction.py
+python tools/font/render_katakana_wo_junction.py
+```
+
+The dedicated verifier pins the released 1.044 TTF/WOFF2 hashes, requires `uni30F2` to be the only changed glyph bytes, freezes every metric/mapping/layout table, checks the unchanged `ヺ` composite and raster-tests the connected ink at five actual sizes.
+
+## Retained stage: Version 1.036 — Kana junctions and handakuten spacing
 
 The protruding stroke ends at the `マ` crossing and `ス` branch junction are clipped inside unchanged supporting ink. Both bases retain their original bounds, contours, pressure and advances; `ズ` inherits the corrected `ス` body. Every outline edge outside the two measured junction patches remains identical.
 
