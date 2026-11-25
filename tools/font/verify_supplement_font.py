@@ -38,8 +38,8 @@ FAMILY_ZH = "荃方位補寫體"
 FULL_EN = "QuanFangwei Supplement Script Regular"
 FULL_ZH = "荃方位補寫體 Regular"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.046"
-UNIQUE_ID = "1.046;QFW;QuanFangweiSupplementScript-Regular;20261125"
+VERSION = "1.047"
+UNIQUE_ID = "1.047;QFW;QuanFangweiSupplementScript-Regular;20261125"
 SOURCE_SHA256 = "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
 CEDILLA_MARK_ANCHOR = (95, 91)
 C_CEDILLA_BASE_ANCHOR = (221, 91)
@@ -627,10 +627,28 @@ def verify() -> list[str]:
             continue
         require(ttf_cmap.get(codepoint) == glyph_name, f"Original cmap mapping changed at U+{codepoint:04X}")
     require(ttf_cmap == woff2_cmap, "WOFF2 decoded cmap differs from TTF cmap")
+    paren_advance = ttf["hmtx"].metrics[ttf_cmap[0xFF08]][0]
+    for codepoint in (0xFF3B, 0xFF3D):
+        name = ttf_cmap[codepoint]
+        before = bounds(source, name)
+        after = bounds(ttf, name)
+        advance, lsb = ttf["hmtx"].metrics[name]
+        height_ratio = (after[3] - after[1]) / (before[3] - before[1])
+        require(0.81 <= height_ratio <= 0.83, f"U+{codepoint:04X} was not scaled to 82%")
+        require(advance == paren_advance and lsb >= 160 and advance - after[2] >= 160,
+                f"U+{codepoint:04X} is missing its side clearances")
+        require(abs((after[1] + after[3]) / 2 - 345) <= 8,
+                f"U+{codepoint:04X} is not vertically centered")
+    for codepoint in (0x005B, 0x005D, 0xFF08, 0xFF09):
+        name = ttf_cmap[codepoint]
+        require(bounds(ttf, name) == bounds(source, name)
+                and ttf["hmtx"].metrics[name] == source["hmtx"].metrics[name],
+                f"Unrelated bracket U+{codepoint:04X} changed")
     compared_glyphs = (
         "exclamdown", "questiondown", "cedilla", "Ccedilla", "ccedilla", "uni0327",
         "dieresis", "uni0308", "Adieresis", "Odieresis", "Udieresis",
         "adieresis", "odieresis", "udieresis", "germandbls", "OE", "oe", "uni1E9E", "guillemotleft", "guillemotright",
+        ttf_cmap[0xFF3B], ttf_cmap[0xFF3D],
     )
     for glyph_name in compared_glyphs:
         require(bounds(ttf, glyph_name) == bounds(woff2, glyph_name), f"WOFF2 bounds differ from TTF for {glyph_name}")

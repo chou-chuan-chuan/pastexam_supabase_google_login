@@ -60,7 +60,7 @@ SUBFAMILY = "Regular"
 FULL_EN = f"{FAMILY_EN} {SUBFAMILY}"
 FULL_ZH = f"{FAMILY_ZH} {SUBFAMILY}"
 POSTSCRIPT_NAME = "QuanFangweiSupplementScript-Regular"
-VERSION = "1.046"
+VERSION = "1.047"
 BUILD_DATE = "2026-11-25"
 UNIQUE_ID = f"{VERSION};QFW;{POSTSCRIPT_NAME};20261125"
 MAC_EPOCH = datetime(1904, 1, 1, tzinfo=timezone.utc)
@@ -119,6 +119,25 @@ def transformed_simple_glyph(font: TTFont, source_name: str, transform: Transfor
     pen = TTGlyphPen(None)
     source.draw(TransformPen(pen, transform))
     return pen.glyph()
+
+
+def refine_fullwidth_square_brackets(font: TTFont) -> None:
+    """Lighten the native square brackets and give them a parenthesis-width cell."""
+    cmap = font.getBestCmap()
+    advance = font["hmtx"].metrics[cmap[0xFF08]][0]
+    scale = 0.82
+    dy = round(0.055 * font["head"].unitsPerEm)
+    for codepoint in (0xFF3B, 0xFF3D):
+        name = cmap[codepoint]
+        old_advance, _ = font["hmtx"].metrics[name]
+        old_top = font["glyf"][name].yMax
+        dx = (advance - old_advance * scale) / 2
+        glyph = transformed_simple_glyph(font, name, Transform(scale, 0, 0, scale, dx, dy))
+        glyph.recalcBounds(font["glyf"])
+        install_glyph(font, name, glyph, advance, glyph.xMin, name)
+        if "vmtx" in font:
+            v_advance, top_bearing = font["vmtx"].metrics[name]
+            font["vmtx"].metrics[name] = (v_advance, top_bearing + old_top - glyph.yMax)
 
 
 def transformed_contours(font: TTFont, source_name: str, contour_indices: set[int], transform: Transform):
@@ -520,6 +539,7 @@ def write_modifications() -> None:
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
 - 修改日期：{BUILD_DATE}
 - 版本：Version {VERSION}
+- Fullwidth square brackets（Version 1.047）：將 U+FF3B／U+FF3D 原輪廓縮至 82%，微抬並置入與全形小括號同寬的字格；兩側保留空間。ASCII 中括號和全形小括號不變。
 - 憂 stray control（Version 1.046）：移除 U+6182 輪廓中伸出字格的單一貝茲控制點，消除多餘斜線；保留其餘輪廓座標、字距與垂直原點。
 - Katakana Wo junction（Version 1.045）：修正 ヲ U+30F2 的右側主筆起點，使第一條橫筆在右上角自然接合；保留下方橫筆、原主筆後半曲線、960-unit advance 與其他字形。
 - Inverted exclamation（Version 1.044）：新增 ¡ U+00A1，將原生 ! 旋轉 180 度製成；保留原始輪廓、402-unit ink height、215-unit advance 與點到主筆的 120-unit 間距，其他字形不變。
@@ -648,6 +668,7 @@ def main() -> int:
         build_exclamdown(font)
         from han_you_refinement import refine_han_you
         refine_han_you(font)
+        refine_fullwidth_square_brackets(font)
         set_name_records(font)
         remove_truetype_hinting(font)
         font["head"].fontRevision = float(VERSION)
