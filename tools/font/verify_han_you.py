@@ -16,6 +16,11 @@ BASE_SHA = {
     ".ttf": "be9bd8ca13d5ca580b6310a1523c4f966a0c0824c9bc59cf146508c022bbe15c",
     ".woff2": "9edbef4df2ca1138ed0c7a8728de8fbd8a6b35bddfb18d8644b3535a7b5c85ed",
 }
+RELEASE_COMMIT = "2497554961f6b16435f948ec11b2fad032b69a9c"
+RELEASE_SHA = {
+    ".ttf": "2846cd0b77e9f8e87a317b49f76175d9e795c61adfb2364831971f0be886fe2c",
+    ".woff2": "06a5516b1449945fe997ed97f82e0faf8895f5ccd9285bcbe25c0b86e7e02808",
+}
 TARGET = "uni6182"
 HEADER_EXTREMA = {"hhea": {"minRightSideBearing": -273},
                   "vhea": {"minTopSideBearing": -112}}
@@ -29,9 +34,17 @@ def released_bytes(extension):
     return data
 
 
+def release_1046(extension):
+    data = subprocess.check_output(
+        ["git", "show", f"{RELEASE_COMMIT}:{REL}{extension}"], cwd=ROOT
+    )
+    assert hashlib.sha256(data).hexdigest() == RELEASE_SHA[extension]
+    return data
+
+
 def verify(extension):
     old = TTFont(BytesIO(released_bytes(extension)), recalcBBoxes=False)
-    new = TTFont(ROOT / (REL + extension), recalcBBoxes=False)
+    new = TTFont(BytesIO(release_1046(extension)), recalcBBoxes=False)
     order = old.getGlyphOrder()
     assert new.getGlyphOrder() == order
     assert new.getBestCmap()[0x6182] == TARGET

@@ -25,10 +25,10 @@ test("loads the versioned supplemental webfont first and manifests French, Germa
   ]);
   const manifest = JSON.parse(manifestText);
   assert.match(css, /font-family:\s*"QuanFangwei Supplement Web"/);
-  assert.equal(manifest.derived_font.version, "1.046");
+  assert.equal(manifest.derived_font.version, "1.047");
   // Version the font URLs so cached clients receive the new coverage.
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.woff2\?v=1\.046/);
-  assert.match(css, /QuanFangweiSupplementScript-Regular\.ttf\?v=1\.046/);
+  assert.ok(css.includes(`QuanFangweiSupplementScript-Regular.woff2?v=${manifest.derived_font.version}`));
+  assert.ok(css.includes(`QuanFangweiSupplementScript-Regular.ttf?v=${manifest.derived_font.version}`));
   assert.ok(css.indexOf("QuanFangweiSupplementScript-Regular.woff2") < css.indexOf("QuanFangweiSupplementScript-Regular.ttf"));
   assert.doesNotMatch(css, /font-family:\s*"ChenYuluoyan Web"/);
   assert.deepEqual(manifest.glyphs.filter(item => !item.priority).map(({ character, codepoint, glyph_name }) => ({ character, codepoint, glyph_name })), [

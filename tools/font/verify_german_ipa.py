@@ -170,10 +170,11 @@ def main():
     previous_raw=subprocess.check_output(['git','show',f'{PREVIOUS_COMMIT}:{REL}'],cwd=ROOT)
     assert hashlib.sha256(previous_raw).hexdigest()==PREVIOUS_SHA
     result={'baseline_commit':BASE_COMMIT,'baseline_sha256':BASE_SHA,'formats':{}}
+    from verify_han_you import release_1046
     for extension in ['.ttf','.woff2']:
-        path=(ROOT/REL).with_suffix(extension)
-        result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-                                     **verify(TTFont(path, recalcBBoxes=False),
+        released=release_1046(extension)
+        result['formats'][extension]={'sha256':hashlib.sha256(released).hexdigest(),
+                                     **verify(TTFont(BytesIO(released), recalcBBoxes=False),
                                               TTFont(BytesIO(raw), recalcBBoxes=False)),
                                      'turned_h_revision':verify_revision(
                                          TTFont(BytesIO(previous_raw)), TTFont(BytesIO(release_1045(extension))), shape,
