@@ -26,6 +26,7 @@ jobs:
       - run: python tools/font/verify_katakana_wo_junction.py
       - run: python tools/font/verify_german_ipa.py
       - run: python tools/font/verify_exclamdown.py
+      - run: python tools/font/verify_han_you.py
       - name: Verify reproducible release artifacts
         run: |
           python tools/font/build_supplement_font.py

@@ -3,7 +3,7 @@
   "baseline_sha256": "77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103",
   "formats": {
     ".ttf": {
-      "sha256": "5e169fca032f5232204572c18fe0378c3c179fb04a516e8d189de94e7dbe899d",
+      "sha256": "2846cd0b77e9f8e87a317b49f76175d9e795c61adfb2364831971f0be886fe2c",
       "unicode_cmap_tables": [
         [
           0,
@@ -95,7 +95,7 @@
       }
     },
     ".woff2": {
-      "sha256": "06d842237db255af66d0f1f6dacc56c429fbc282518c5e41e18803732c3beb79",
+      "sha256": "06a5516b1449945fe997ed97f82e0faf8895f5ccd9285bcbe25c0b86e7e02808",
       "unicode_cmap_tables": [
         [
           0,

@@ -7,8 +7,9 @@
 - 原始授權：SIL Open Font License 1.1
 - Reserved Font Name：原字型保留名稱「辰宇落雁」與「Chenyuluoyan」未用作衍生 Family Name
 - 修改者：`pastexam_supabase_google_login` 專案維護者（衍生版維護者，不是原字型作者）
-- 修改日期：2026-11-05
-- 版本：Version 1.045
+- 修改日期：2026-11-25
+- 版本：Version 1.046
+- 憂 stray control（Version 1.046）：移除 U+6182 輪廓中伸出字格的單一貝茲控制點，消除多餘斜線；保留其餘輪廓座標、字距與垂直原點。
 - Katakana Wo junction（Version 1.045）：修正 ヲ U+30F2 的右側主筆起點，使第一條橫筆在右上角自然接合；保留下方橫筆、原主筆後半曲線、960-unit advance 與其他字形。
 - Inverted exclamation（Version 1.044）：新增 ¡ U+00A1，將原生 ! 旋轉 180 度製成；保留原始輪廓、402-unit ink height、215-unit advance 與點到主筆的 120-unit 間距，其他字形不變。
 - Turned h（Version 1.043）：新增 ɥ U+0265，直接旋轉原生 h 180 度，保留筆觸與 306-unit advance；接入既有零 advance 組合符號定位，其他字形不變。

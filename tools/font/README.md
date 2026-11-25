@@ -102,7 +102,11 @@ python tools/font/verify_note_annotation_layout.py /path/to/quantum_notes/full_l
 
 The Fourier clarification is placed to the right of the integral and its blue explanatory sentence, using a 315-unit column at a smaller 15-unit size (previously 19). Its real wrapped height is reserved before the Gaussian example begins; the prose and math remain unchanged. The clarification states: with the negative-exponent forward convention, `g(k)` is the Fourier transform of `f(x)` with the lecture's `1/(2π)` normalization; the displayed positive-exponent integral reconstructs `f(x)` as the inverse transform. `ANNOTATION_COLOR` in the shared annotation module controls both annotation prose and math; ordinary blue explanations retain their color.
 
-## Current output: Version 1.045 — Katakana `ヲ` upper-right junction
+## Current output: Version 1.046 — Han `憂` stray outline point
+
+The U+6182 outline loses one stray quadratic control point. All other outline points, horizontal and vertical advances, and the vertical origin stay fixed. See the [before/after proof](proofs/quanfangwei-han-you.png) and [verification notes](reports/han-you.md).
+
+## Retained stage: Version 1.045 — Katakana `ヲ` upper-right junction
 
 U+30F2 `ヲ` now extends its descending main stroke to the upper horizontal's right end. The final outline is one connected ink body at 16, 24, 32, 64 and 192 px, so it no longer reads as `ラ` with a detached extra bar. The lower horizontal, 960-unit advance, left/right bounds, cmap and layout tables are retained. U+30FA `ヺ` keeps the same composite recipe and automatically inherits the repaired base.
 
