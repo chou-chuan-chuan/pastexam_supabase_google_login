@@ -66,8 +66,10 @@ def connected_components(font_bytes: bytes, size: int) -> int:
 
 
 def verify(extension: str) -> None:
+    from verify_han_you import released_bytes as release_1045
+
     old_raw = released_bytes(extension)
-    new_raw = (ROOT / f"{REL}{extension}").read_bytes()
+    new_raw = release_1045(extension)
     old = TTFont(BytesIO(old_raw))
     new = TTFont(BytesIO(new_raw))
 

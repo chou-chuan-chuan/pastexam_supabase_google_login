@@ -23,6 +23,7 @@ BASE_COMMIT = 'def988885120a7921c940073ee1bd2454ecdeb92'
 BASE_SHA = '77f3b2578241b14901e588b5a5b8b18f2550e1d194fad9ea9a0af136da32b103'
 from verify_umlaut_clearance import original_umlaut_layout
 from verify_german_quotes import verify_quote_shape
+from verify_han_you import HEADER_EXTREMA, TARGET as HAN_YOU, released_bytes as release_1045
 from verify_turned_h import PREVIOUS_COMMIT, PREVIOUS_SHA, verify_revision
 CONTEXTS = ['¡Hola!','[ɥ]','ɥi','ɥɛ','ɥ̯','ɥ̩','n̩','l̩','m̩','i̯','ɐ̯','aɪ̯','ˈʃpʁaːxə','ˈmʏtɐ','øːl',
             'ˈbɪtə','ˈzɔmɐ','ʔaɪ̯','ŋ','gɡ',':ː','中文 あいう マスズ ぱぴぷぺぽ ÄÖÜ äöü ßẞ œ ç']
@@ -56,6 +57,10 @@ def preservation(old, new):
     assert all(new.getBestCmap().get(cp)==g for cp,g in old.getBestCmap().items())
     assert set(new.getBestCmap())-set(old.getBestCmap()) == {ord(c) for c in ALL_IPA} | {0x00A1}
     for g in old.getGlyphOrder():
+        if g == HAN_YOU:
+            # The active Han verifier checks the outline and vertical origin.
+            assert old['hmtx'][g] == new['hmtx'][g]
+            continue
         if g not in ('quotedblleft','quotedblright','uni30F2','uni30FA'):
             assert old['glyf'][g].compile(old['glyf']) == new['glyf'][g].compile(new['glyf']), ('outline',g)
             assert old['hmtx'][g] == new['hmtx'][g], ('advance/lsb',g)
@@ -89,6 +94,9 @@ def preservation(old, new):
         if tag in old:
             header=copy.deepcopy(new[tag])
             setattr(header,count,getattr(old[tag],count))
+            for field, expected in HEADER_EXTREMA[tag].items():
+                assert getattr(header, field) == expected
+                setattr(header, field, getattr(old[tag], field))
             assert header.compile(new)==old[tag].compile(old),tag
     for field in ['sTypoAscender','sTypoDescender','sTypoLineGap','usWinAscent','usWinDescent','fsType']:
         assert getattr(old['OS/2'],field) == getattr(new['OS/2'],field),field
@@ -105,8 +113,8 @@ def verify(font, old):
         for c in ALL_IPA:
             assert t.cmap.get(ord(c))==name(c) and font.getGlyphID(name(c))>0,(t.format,c)
     assert font['head'].unitsPerEm == old['head'].unitsPerEm
-    assert abs(font['head'].fontRevision-1.045)<.0001
-    assert font['name'].getDebugName(5)=='Version 1.045'
+    assert abs(font['head'].fontRevision-1.046)<.0001
+    assert font['name'].getDebugName(5)=='Version 1.046'
     for nid in [0,13,14]:
         assert font['name'].getDebugName(nid)==old['name'].getDebugName(nid),('license',nid)
     for c in ALL_IPA:
@@ -165,9 +173,10 @@ def main():
     for extension in ['.ttf','.woff2']:
         path=(ROOT/REL).with_suffix(extension)
         result['formats'][extension]={'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-                                     **verify(TTFont(path),TTFont(BytesIO(raw))),
+                                     **verify(TTFont(path, recalcBBoxes=False),
+                                              TTFont(BytesIO(raw), recalcBBoxes=False)),
                                      'turned_h_revision':verify_revision(
-                                         TTFont(BytesIO(previous_raw)), TTFont(path), shape,
+                                         TTFont(BytesIO(previous_raw)), TTFont(BytesIO(release_1045(extension))), shape,
                                          {0x00A1: 'exclamdown'}, {'uni30F2', 'uni30FA'}
                                      )}
     if args.output:

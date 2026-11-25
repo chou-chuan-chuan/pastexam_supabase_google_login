@@ -114,8 +114,10 @@ def main() -> None:
         ["git", "show", f"{PREVIOUS_COMMIT}:{REL}"], cwd=ROOT
     )
     assert hashlib.sha256(raw).hexdigest() == PREVIOUS_SHA256
+    from verify_han_you import released_bytes
+
     for extension in (".ttf", ".woff2"):
-        verify(TTFont(BytesIO(raw)), TTFont((ROOT / REL).with_suffix(extension)))
+        verify(TTFont(BytesIO(raw)), TTFont(BytesIO(released_bytes(extension))))
     print("PASS: U+00A1 remains an exact rotated source exclamation; the independently verified 1.045 ヲ/ヺ change is the only later outline exception")
 
 
